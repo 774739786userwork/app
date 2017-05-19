@@ -20,8 +20,8 @@ const WINDOW_HEIGHT = Dimensions.get('window').height;
 const HomeItem = [
   { name: '我的销售情况', type: '', classType: null, icon: 'e6bb', iconColor: '#f72e64', iconSize: 20 },
   { name: '日结单', type: '', classType: null, icon: 'e6ad', iconColor: '#18c5c1', iconSize: 24 },
-  { name: '产品分析', type: '', classType: null, icon: 'e742', iconColor: '#f8ae0f', iconSize: 24 },
-  { name: '欠收款', type: '', classType: null, icon: 'e6bc', iconColor: '#3abaf9', iconSize: 24 },
+  { name: '产品分析', type: '', classType: null, icon: 'e742', iconColor: '#f8ae0f', iconSize: 26 },
+  { name: '欠收款', type: '', classType: null, icon: 'e6bc', iconColor: '#3abaf9', iconSize: 20 },
 ];
 
 //添加样式表，采用外联样式
