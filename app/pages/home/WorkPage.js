@@ -16,22 +16,20 @@ import HomeBar from '../../components/HomeBar'
 import Iconfont from '../../reactgo/Iconfont';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
-const loading = require('../../imgs/loading.gif')
 
 const HomeItem = [
-  { name: '开提货单', type: null, typeName: '', image: require('../../imgs/home/add_tihuo_order.png') },
+  { name: '提货单', type: null, typeName: '', image: require('../../imgs/home/tihuo_order.png') },
   { name: '送货单', type: null, typeName: '', image: require('../../imgs/home/songhuo_order.png') },
   { name: '订货单', type: null, typeName: '', image: require('../../imgs/home/dinghuo_order.png') },
-  { name: '开销货单', type: null, typeName: '', image: require('../../imgs/home/add_xiaohuo_order.png') },
-  { name: '退货处理单', type: null, typeName: '', image: require('../../imgs/home/tuihuochuli_order.png') },
+  { name: '车余货单', type: null, typeName: '', image: require('../../imgs/home/yuhuo_order.png') },
   { name: '退货单', type: null, typeName: '', image: require('../../imgs/home/tuihuo_order.png') },
-  { name: '开余货单', type: null, typeName: '', image: require('../../imgs/home/add_yuhuo_order.png') },
-  { name: '卸货单', type: null, typeName: '', image: require('../../imgs/home/xiehuo_order.png') },
+  { name: '开提货单', type: null, typeName: '', image: require('../../imgs/home/add_tihuo_order.png') },
+  { name: '开送货单', type: null, typeName: '', image: require('../../imgs/home/add_songhuo_order.png') },
+  { name: '开退货单', type: null, typeName: '', image: require('../../imgs/home/add_tuihuo_order.png') },
 ];
 
 const styles = {
   wrapper: {
-    backgroundColor:'red'
   },
 
   slide: {
@@ -53,7 +51,7 @@ const styles = {
     right: 0,
     top: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0,0,0,.5)'
+    backgroundColor: 'rgba(0,0,0,0)'
   },
 
   loadingImage: {
@@ -83,11 +81,9 @@ const styles = {
 
 const Slide = props => {
   return (<View style={styles.slide}>
-    <Image onLoad={props.loadHandle.bind(null, props.i)} style={styles.image} source={{ uri: props.uri }} />
+    <Image onLoad={props.loadHandle.bind(null, props.i)} style={styles.image} source={require('../../imgs/ic_default.png')} />
     {
-      !props.loaded && <View style={styles.loadingView}>
-        <Image style={styles.loadingImage} source={loading} />
-      </View>
+      !props.loaded && <View style={styles.loadingView} />
     }
   </View>)
 }
@@ -102,10 +98,8 @@ class WorkPage extends React.Component {
 
     this.state = {
       imgList: [
-        'https://gitlab.pro/yuji/demo/uploads/d6133098b53fe1a5f3c5c00cf3c2d670/DVrj5Hz.jpg_1',
-        'https://gitlab.pro/yuji/demo/uploads/2d5122a2504e5cbdf01f4fcf85f2594b/Mwb8VWH.jpg',
-        'https://gitlab.pro/yuji/demo/uploads/4421f77012d43a0b4e7cfbe1144aac7c/XFVzKhq.jpg',
-        'https://gitlab.pro/yuji/demo/uploads/576ef91941b0bda5761dde6914dae9f0/kD3eeHe.jpg'
+        '',
+        '',
       ],
       loadQueue: [0, 0, 0, 0]
     }
@@ -134,7 +128,7 @@ class WorkPage extends React.Component {
     return (
       <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
         <HomeBar title='多邦建筑装饰材料' navigator={this.props.navigator} rightView={() => (<Iconfont icon='e6a8' iconSize={24} label={'扫'} labelColor={'#0081d4'} />)} />
-        <Swiper loadMinimal loadMinimalSize={1} style={styles.wrapper} height={134} loop={false}>
+        <Swiper loadMinimal loadMinimalSize={1} style={styles.wrapper} height={134} loop={true} showsButtons={true} autoplay={true}>
           {
             this.state.imgList.map((item, i) => <Slide
               loadHandle={this.loadHandle}
@@ -144,7 +138,7 @@ class WorkPage extends React.Component {
               key={i} />)
           }
         </Swiper>
-        <View style={{height:12,backgroundColor:'#f2f2f2'}}/>
+        <View style={{ height: 12, backgroundColor: '#f2f2f2' }} />
         <GridView
           style={styles.gridview}
           items={Array.from(HomeItem)}
