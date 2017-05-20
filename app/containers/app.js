@@ -4,7 +4,12 @@ import SplashPage from '../pages/SplashPage';
 //工作台
 import WorkContainer from '../containers/WorkContainer';
 //提货单查询
-import SelectLadingbillsContainer from './work/SelectLadingbillsContainer'
+import SelectLadingbillsContainer from './work/SelectLadingbillsContainer';
+import PurchaseOrderInfoContainer from './work/PurchaseOrderInfoContainer';
+//送货单查询
+import SelectDeliveryOrderContainer from './work/SelectDeliveryOrderContainer'
+import DeliveryOrderDetailContainer from './work/DeliveryOrderDetailContainer'
+
 //销售管理
 import SelasContainer from './SelasContainer';
 //客户管理
@@ -53,7 +58,17 @@ const App = StackNavigator(
     },
     SelectLadingbills: {
       screen: SelectLadingbillsContainer
-    }
+    },
+    PurchaseOrderInfo: {
+      screen: PurchaseOrderInfoContainer
+    },
+    SelectDeliveryOrder: {
+      screen: SelectDeliveryOrderContainer
+    },
+    DeliveryOrderDetail: {
+      screen: DeliveryOrderDetailContainer
+    },
+    
   },
   {
     headerMode: 'screen',

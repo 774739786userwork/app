@@ -78,3 +78,37 @@ export function purchaseOrderInfo(start = 0, rows = 10) {
     }
 
 }
+/**
+ * 送货单查询 详情
+ */
+export function deliveryOrderDetail(delivery_id, car_id) {
+
+    return {
+        type: types.DeliveryOrderDetailing_ACTION,
+        api: types.DeliveryOrderDetail_API,
+        param: { delivery_id, car_id }
+    };
+
+}
+/**
+ * 送货单查询 列表
+ */
+export function selectDeliveryOrder(begin_date, end_date, start = 0, rows = 10) {
+    const user_id = LoginInfo.getUserInfo().user_id;
+    let page = 1;
+    if (start) {
+        page = start / rows + 1;
+        return {
+            type: types.SelectDeliveryOrdering_More_ACTION,
+            api: types.SelectDeliveryOrder_API,
+            param: { user_id, begin_date, end_date, page, rows }
+        };
+    } else {
+        return {
+            type: types.SelectDeliveryOrdering_ACTION,
+            api: types.SelectDeliveryOrder_API,
+            param: { user_id, begin_date, end_date, page, rows }
+        };
+    }
+
+}

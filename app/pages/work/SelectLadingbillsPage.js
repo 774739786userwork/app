@@ -27,7 +27,7 @@ class SelectLadingbillsPage extends React.Component {
     constructor(props) {
         super(props);
         this._selectLadingbillsByDate = this._selectLadingbillsByDate.bind(this);
-        this.onEndReached =this.onEndReached.bind(this)
+        this.onEndReached = this.onEndReached.bind(this)
         this._renderItem = this._renderItem.bind(this);
         this.state = {
             startDate: DateUtils.getYearMonthDay(),
@@ -90,14 +90,12 @@ class SelectLadingbillsPage extends React.Component {
                         <Text style={{ color: '#f80000' }}>{item.create_user_name}</Text>
                     </View>
                 </View>
+                <View style={{ height: StyleSheet.hairlineWidth, marginTop: 12, flex: 1, backgroundColor: '#c4c4c4' }} />
             </View>);
-    }
-    _separator = () => {
-        return <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#c4c4c4' }} />;
     }
     //加载更多
     onEndReached() {
-        const { action,selectLadingbills } = this.props;
+        const { action, selectLadingbills } = this.props;
         const { startDate, endDate } = this.state;
         const start = selectLadingbills.listData._cachedRowCount;
         InteractionManager.runAfterInteractions(() => {

@@ -10,9 +10,9 @@ import {
     TouchableHighlight,
     InteractionManager,
 } from 'react-native';
-import { Iconfont } from 'react-native-go';
+import { Iconfont, LoadingView } from 'react-native-go';
 import LoadingListView from '../../components/LoadingListView'
-
+const ic_peisong = require('../../imgs/ic_paisong.png');
 
 class PurchaseOrderDetailPage extends React.Component {
     constructor(props) {
@@ -37,30 +37,39 @@ class PurchaseOrderDetailPage extends React.Component {
                             iconSize={16}
                         />
                     </View>
-                    <Text style={{ color: '#118cd7' }}>{item.loadingdate}</Text>
+                    <Text style={{ color: '#118cd7' }}>{item.purchase_date}</Text>
                 </View>
-                <View style={{ height: 34, paddingLeft: 12, marginBottom: 8, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={{ color: '#333', fontSize: 16 }}>提货单编号：</Text>
-                    <Text style={{ color: '#333', fontSize: 16 }}>{item.serial_number}</Text>
+                <View style={{ height: 34, paddingLeft: 12, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={{ color: '#666', }}>订单编号：</Text>
+                    <Text style={{ color: '#666', }}>{item.serial_number}</Text>
+                </View>
+                <View style={{ height: 30, paddingLeft: 12, paddingRight: 12, flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={{ flex: 2, color: '#333', textAlign: 'left', fontSize: 16 }}>{item.customer_name}</Text>
+                    <Text style={{ flex: 1, color: '#999', textAlign: 'right' }}>{item.customer_phone}</Text>
                 </View>
                 <View style={{ flex: 1, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={{ color: '#666' }}>{item.goodsStr}</Text>
+                    <Text style={{ color: '#999' }}>{item.goodsStr}</Text>
                 </View>
                 <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{ flex: 1, flexDirection: 'row' }}>
-                        <Text style={{ color: '#f80000' }}>{'车次：'}</Text>
-                        <Text style={{ color: '#f80000' }}>{'第' + item.loadingcount + '车'}</Text>
-                    </View>
-                    <View style={{ flex: 1, flexDirection: 'row' }}>
-                        <Text style={{ color: '#f80000' }}>{'开单人：'}</Text>
-                        <Text style={{ color: '#f80000' }}>{item.create_user_name}</Text>
-                    </View>
+                    <Text style={{ color: '#999' }}>{item.customer_address}</Text>
                 </View>
+                <Image source={ic_peisong} style={{ justifyContent: 'center',paddingBottom:8, alignItems: 'center', position: 'absolute', width: 24, height: 54, top: 0, right: 14, }}>
+                    <Text style={{ fontSize: 12, color: '#fff', backgroundColor: '#fe6732' }}>{this.charatState(item.purchase_status)}</Text>
+                </Image>
+                <View style={{ height: StyleSheet.hairlineWidth, marginTop: 12, flex: 1, backgroundColor: '#c4c4c4' }} />
             </View>);
     }
-    _separator = () => {
-        return <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#c4c4c4' }} />;
+    charatState(state) {
+        let target = new String();
+        let lenght = state.length;
+        for (i = 0; i < lenght; i++) {
+            target = target.concat(state.charAt(i))
+            if (i != lenght - 1)
+                target = target.concat('\n');
+        }
+        return target;
     }
+
     //加载更多
     onEndReached() {
         const { action, purchaseOrderDetail } = this.props;

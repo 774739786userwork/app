@@ -20,8 +20,8 @@ const WINDOW_WIDTH = Dimensions.get('window').width;
 
 const HomeItem = [
   { name: '提货单', typeName: 'SelectLadingbills', image: require('../../imgs/home/tihuo_order.png') },
-  { name: '送货单', typeName: 'SelectLadingbills', image: require('../../imgs/home/songhuo_order.png') },
-  { name: '订货单', typeName: 'SelectLadingbills', image: require('../../imgs/home/dinghuo_order.png') },
+  { name: '送货单', typeName: 'SelectDeliveryOrder', image: require('../../imgs/home/songhuo_order.png') },
+  { name: '订货单', typeName: 'PurchaseOrderInfo', image: require('../../imgs/home/dinghuo_order.png') },
   { name: '车余货单', typeName: 'SelectLadingbills', image: require('../../imgs/home/yuhuo_order.png') },
   { name: '退货单', typeName: 'SelectLadingbills', image: require('../../imgs/home/tuihuo_order.png') },
   { name: '开提货单', typeName: 'SelectLadingbills', image: require('../../imgs/home/add_tihuo_order.png') },
