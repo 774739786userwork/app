@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import HomeBar from '../../components/HomeBar'
-import Iconfont from '../../reactgo/Iconfont';
+import { Iconfont } from 'react-native-go';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 const WINDOW_HEIGHT = Dimensions.get('window').height;

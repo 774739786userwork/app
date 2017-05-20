@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Iconfont from '../reactgo/Iconfont';
+import { Iconfont } from 'react-native-go';
 
 import WorkPage from '../pages/home/WorkPage';
 

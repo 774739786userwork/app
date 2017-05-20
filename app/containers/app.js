@@ -37,7 +37,7 @@ const TabContainer = TabNavigator(
 const App = StackNavigator(
   {
     Splash: { screen: SplashPage },
-    Login:{screen:LoginContainer},
+    Login: { screen: LoginContainer },
     Home: {
       screen: TabContainer,
       navigationOptions: {

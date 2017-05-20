@@ -11,7 +11,7 @@ import {
     Dimensions,
     InteractionManager
 } from 'react-native';
-import Iconfont from '../reactgo/Iconfont';
+import { Iconfont, Toast, Spinner, LoginInfo } from 'react-native-go';
 import dismissKeyboard from 'dismissKeyboard';
 import NavigationUtil from '../utils/NavigationUtil';
 
@@ -35,10 +35,23 @@ class LoginPage extends React.Component {
         this.onForgetPwd = this.onForgetPwd.bind(this);
         this.onIpSetting = this.onIpSetting.bind(this);
     }
+    //NavigationUtil.reset(this.props.navigation, 'Home');
+    componentWillReceiveProps(nextProps) {
+        const { login } = nextProps;
 
+        if (login.errMsg) {
+            Toast.show(login.errMsg);
+        } else if (login.data) {
+            let data = login.data;
+            LoginInfo.setUserInfo(data);
+            InteractionManager.runAfterInteractions(() => {
+                NavigationUtil.reset(this.props.navigation, 'Home');
+            });
+        }
+    }
 
     render() {
-
+        const { action, login } = this.props;
         return (<Image style={styles.container} source={require('../imgs/bj.png')}>
             <View style={{ flex: 1, flexDirection: 'row' }}>
                 <View style={{ flex: 1 }} />
@@ -100,8 +113,14 @@ class LoginPage extends React.Component {
                     <View style={{ elevation: 4, backgroundColor: '#ffffff', borderRadius: 24 }}>
                         <TouchableHighlight onPress={
                             () => {
-                                NavigationUtil.reset(this.props.navigation, 'Home');
+                                if (!userInfo.user_name) {
+                                    Toast.show('请输入账号！'); return;
+                                }
+                                if (!userInfo.user_password) {
+                                    Toast.show('请输入密码！'); return;
+                                }
                                 dismissKeyboard();
+                                action.loginingActon(userInfo.user_name, userInfo.user_password);
                             }
                         }
                             underlayColor={'#ffffff'}
@@ -117,6 +136,8 @@ class LoginPage extends React.Component {
                     </TouchableHighlight >
                 </View>
             </View>
+            <View><Spinner visible={login.loading} text={'登录中,请稍后...'} /></View>
+
         </Image >);
     }
     onIpSetting() {

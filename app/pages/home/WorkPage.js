@@ -13,7 +13,7 @@ import Swiper from 'react-native-swiper'
 
 import GridView from '../../components/GridView';
 import HomeBar from '../../components/HomeBar'
-import Iconfont from '../../reactgo/Iconfont';
+import { Iconfont } from 'react-native-go';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 

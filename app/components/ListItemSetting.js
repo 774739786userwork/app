@@ -19,7 +19,7 @@ import {
   View
 } from 'react-native';
 
-import Iconfont from '../reactgo/Iconfont';
+import { Iconfont } from 'react-native-go';
 
 class ListItemSetting extends Component {
 

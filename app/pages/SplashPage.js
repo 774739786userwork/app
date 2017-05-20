@@ -1,6 +1,16 @@
 
 import React from 'react';
-import { Dimensions, Image } from 'react-native';
+
+import {
+  Dimensions,
+  Image
+} from 'react-native';
+
+import {
+  FetchManger,
+  LoginInfo
+} from 'react-native-go'
+
 import NavigationUtil from '../utils/NavigationUtil';
 
 const maxHeight = Dimensions.get('window').height;
@@ -14,9 +24,19 @@ class SplashPage extends React.Component {
 
   componentDidMount() {
     const { navigate } = this.props.navigation;
+    let baseUrl = "http://112.74.47.41:1009/csbboss/";
+    FetchManger.initConfig({ baseUrl, expiry: 1 });
+    LoginInfo.loadUserInfo();
+    
     this.timer = setTimeout(() => {
-      NavigationUtil.reset(this.props.navigation, 'Login');
+      if (LoginInfo.getUserInfo() && LoginInfo.getUserInfo().user_id) {
+        NavigationUtil.reset(this.props.navigation, 'Home');
+      } else {
+        NavigationUtil.reset(this.props.navigation, 'Login');
+      }
     }, 1000);
+
+
   }
 
   componentWillUnmount() {

@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import category from './category';
+import login from './loginReducer';
 
 
 const rootReducer = combineReducers({
-  category
+  login
 });
 
 export default rootReducer;

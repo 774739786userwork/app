@@ -18,7 +18,7 @@ import {
 import ListItemSetting from '../../components/ListItemSetting';
 
 import HomeBar from '../../components/HomeBar'
-import Iconfont from '../../reactgo/Iconfont';
+import { Iconfont } from 'react-native-go';
 
 var WINDOW_WIDTH = Dimensions.get('window').width;
 

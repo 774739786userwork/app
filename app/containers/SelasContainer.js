@@ -2,9 +2,10 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Iconfont from '../reactgo/Iconfont';
+import { Iconfont } from 'react-native-go';
 
 import SelasPage from '../pages/home/SelasPage';
+
 
 class SelasContainer extends React.Component {
   static navigationOptions = {
