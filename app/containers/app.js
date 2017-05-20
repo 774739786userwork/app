@@ -1,12 +1,19 @@
 import { StackNavigator, TabNavigator } from 'react-navigation';
 
 import SplashPage from '../pages/SplashPage';
-
+//工作台
 import WorkContainer from '../containers/WorkContainer';
-import SelasContainer from '../containers/SelasContainer';
-import CustContainer from '../containers/CustContainer';
-import SettingContainer from '../containers/SettingContainer';
+//提货单查询
+import SelectLadingbillsContainer from './work/SelectLadingbillsContainer'
+//销售管理
+import SelasContainer from './SelasContainer';
+//客户管理
+import CustContainer from './CustContainer';
+//设置
+import SettingContainer from './SettingContainer';
+//登录
 import LoginContainer from './login/LoginContainer'
+
 const TabContainer = TabNavigator(
   {
     Work: { screen: WorkContainer },
@@ -44,6 +51,9 @@ const App = StackNavigator(
         headerLeft: null
       }
     },
+    SelectLadingbills: {
+      screen: SelectLadingbillsContainer
+    }
   },
   {
     headerMode: 'screen',

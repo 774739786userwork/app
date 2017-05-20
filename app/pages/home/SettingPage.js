@@ -15,10 +15,12 @@ import {
   InteractionManager
 } from 'react-native';
 
-import ListItemSetting from '../../components/ListItemSetting';
+import NavigationUtil from '../../utils/NavigationUtil';
 
+
+import ListItemSetting from '../../components/ListItemSetting';
 import HomeBar from '../../components/HomeBar'
-import { Iconfont } from 'react-native-go';
+import { Iconfont, LoginInfo } from 'react-native-go';
 
 var WINDOW_WIDTH = Dimensions.get('window').width;
 
@@ -109,7 +111,10 @@ class SettingPage extends React.Component {
   }
 
   onLoginOut() {
-
+    LoginInfo.loginOut();
+    InteractionManager.runAfterInteractions(() => {
+      NavigationUtil.reset(this.props.navigation, 'Login');
+    });
   }
   onUpdateAction() {
 

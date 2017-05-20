@@ -6,11 +6,12 @@ import {
   Dimensions,
   TouchableHighlight,
   Image,
-  StyleSheet
+  StyleSheet,
+  InteractionManager
 } from 'react-native';
 
 import Swiper from 'react-native-swiper'
-
+import NavigationUtil from '../../utils/NavigationUtil';
 import GridView from '../../components/GridView';
 import HomeBar from '../../components/HomeBar'
 import { Iconfont } from 'react-native-go';
@@ -18,14 +19,14 @@ import { Iconfont } from 'react-native-go';
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
 const HomeItem = [
-  { name: '提货单', type: null, typeName: '', image: require('../../imgs/home/tihuo_order.png') },
-  { name: '送货单', type: null, typeName: '', image: require('../../imgs/home/songhuo_order.png') },
-  { name: '订货单', type: null, typeName: '', image: require('../../imgs/home/dinghuo_order.png') },
-  { name: '车余货单', type: null, typeName: '', image: require('../../imgs/home/yuhuo_order.png') },
-  { name: '退货单', type: null, typeName: '', image: require('../../imgs/home/tuihuo_order.png') },
-  { name: '开提货单', type: null, typeName: '', image: require('../../imgs/home/add_tihuo_order.png') },
-  { name: '开送货单', type: null, typeName: '', image: require('../../imgs/home/add_songhuo_order.png') },
-  { name: '开退货单', type: null, typeName: '', image: require('../../imgs/home/add_tuihuo_order.png') },
+  { name: '提货单', typeName: 'SelectLadingbills', image: require('../../imgs/home/tihuo_order.png') },
+  { name: '送货单', typeName: 'SelectLadingbills', image: require('../../imgs/home/songhuo_order.png') },
+  { name: '订货单', typeName: 'SelectLadingbills', image: require('../../imgs/home/dinghuo_order.png') },
+  { name: '车余货单', typeName: 'SelectLadingbills', image: require('../../imgs/home/yuhuo_order.png') },
+  { name: '退货单', typeName: 'SelectLadingbills', image: require('../../imgs/home/tuihuo_order.png') },
+  { name: '开提货单', typeName: 'SelectLadingbills', image: require('../../imgs/home/add_tihuo_order.png') },
+  { name: '开送货单', typeName: 'SelectLadingbills', image: require('../../imgs/home/add_songhuo_order.png') },
+  { name: '开退货单', typeName: 'SelectLadingbills', image: require('../../imgs/home/add_tuihuo_order.png') },
 ];
 
 const styles = {
@@ -111,7 +112,8 @@ class WorkPage extends React.Component {
     })
   }
   _onMenuClick(item) {
-
+    const { navigate } = this.props.navigation;
+    navigate(item.typeName);
   }
   _renderItem(item, index) {
     return (
