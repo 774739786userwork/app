@@ -123,7 +123,7 @@ function get_carstock_product_list() {
             "gifts_quantity": 0,
             "foregift": "0.0",
             "total_loadingbill_quantity": "100"
-        },{
+        }, {
             "id": 35,
             "image": "/assets/images/products/33.png",
             "name": "内墙（大）",
@@ -136,7 +136,7 @@ function get_carstock_product_list() {
             "gifts_quantity": 0,
             "foregift": "0.0",
             "total_loadingbill_quantity": "100"
-        },{
+        }, {
             "id": 36,
             "image": "/assets/images/products/33.png",
             "name": "内墙（大）",
@@ -155,6 +155,52 @@ function get_carstock_product_list() {
     }
     return { result: 0, data };
 }
+function queryReturn_lists() {
+    let data = [
+        {
+            "id": 3131,
+            "serial_number": "1705090001",
+            "saler_id": 20035,
+            "saler_name": "罗连贵",
+            "return_date": "2017-05-09",
+            "customer_id": 22571,
+            "car_number": "湘AUE742",
+            "status": "未审核",
+            "create_user_id": 20073,
+            "return_reson": "fbjhjj",
+            "return_total_sum": 525,
+            "foregift": "0.0",
+            "create_person": "罗连贵",
+            "customerid": 22571,
+            "customername": "嘉宝莉",
+            "customerphone": "15675277188",
+            "customeraddress": "花石镇中心加油站隔壁"
+        }];
+    return { result: 0, data };
+}
+
+/**
+ * 订单详情
+ * @param {*} start 
+ * @param {*} page 
+ */
+function get_return_product_list(start, page) {
+    let item = {
+        "quantity": 5,
+        "price": 105,
+        "gift_quantity": 6,
+        "product_sum": 525,
+        "product_id": 5,
+        "product_name": "KII（中）红",
+        "product_foregift": "0.0",
+        "img_url": "/assets/images/products/5.png"
+    };
+    let data = []
+    for (let i = 0; i < 3; i++) {
+        data.push(item);
+    }
+    return { result: 0, data };
+}
 
 export default function mock(api, param) {
     console.log('mock-->' + api + '---param->' + param);
@@ -167,8 +213,14 @@ export default function mock(api, param) {
         data = employee_to_delivery_order(0, 20);
     } else if ("mobile_interfaces/mobile_info/get_delivery_product_list.page" === api) {
         data = get_delivery_product_list();
-    } else if ("mobile_interfaces/mobile_info/get_carstock_product_list.page" === api) {
+    }
+    else if ("mobile_interfaces/mobile_info/get_carstock_product_list.page" === api) {
         data = get_carstock_product_list();
     }
-    return data;
+    else if ("mobile_interfaces/mobile_info/queryReturn_lists.page" === api) {
+        data = queryReturn_lists();
+    } else if ("mobile_interfaces/mobile_info/get_return_product_list.page" === api) {
+        data = get_return_product_list();
+    }
+    return data
 }

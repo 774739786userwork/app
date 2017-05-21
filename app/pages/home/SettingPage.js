@@ -107,7 +107,8 @@ class SettingPage extends React.Component {
   }
 
   onAboutAction() {
-
+    const { navigation } = this.props;
+    navigation.navigate('AboutPage')
   }
 
   onLoginOut() {

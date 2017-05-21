@@ -13,6 +13,17 @@ import DeliveryOrderDetailContainer from './work/DeliveryOrderDetailContainer'
 import GetCarstockProductListContainer from './work/GetCarstockProductListContainer'
 //车辆选择
 import SelectCarContainer from './select/SelectCarContainer'
+//业务员 选择
+import SelectNameContainer from './select/SelectNameContainer'
+//仓库查询
+import SelectStoreContainer from './select/SelectStoreContainer'
+//退货查询
+import QueryReturnListsContainer from './work/QueryReturnListsContainer'
+import QueryReturnDetailContainer from './work/QueryReturnDetailContainer'
+//开提货单
+import AddLadingbillsContainer from './work/AddLadingbillsContainer'
+import AddLadingbillsProductContainer from './work/AddLadingbillsProductContainer'
+
 //销售管理
 import SelasContainer from './SelasContainer';
 //客户管理
@@ -21,6 +32,8 @@ import CustContainer from './CustContainer';
 import SettingContainer from './SettingContainer';
 //登录
 import LoginContainer from './login/LoginContainer'
+//关于
+import AboutPageContainer from './setting/AboutPageContainer'
 
 const TabContainer = TabNavigator(
   {
@@ -77,7 +90,30 @@ const App = StackNavigator(
     SelectCar: {
       screen: SelectCarContainer
     },
-    
+    SelectName: {
+      screen: SelectNameContainer
+    },
+    SelectStore: {
+      screen: SelectStoreContainer
+    },
+
+    QueryReturnLists: {
+      screen: QueryReturnListsContainer
+    },
+    QueryReturnDetail: {
+      screen: QueryReturnDetailContainer
+    },
+    AddLadingbills: {
+      screen: AddLadingbillsContainer
+    },
+    AddLadingbillsProduct: {
+      screen: AddLadingbillsProductContainer
+    },
+    AboutPage: {
+      screen: AboutPageContainer
+    },
+
+
   },
   {
     headerMode: 'screen',

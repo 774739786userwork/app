@@ -154,3 +154,80 @@ export function selectCar() {
     };
 
 }
+//业务员搜索
+/**
+ * 
+ * @param {*产品ID} id 
+ * @param {*卸货数量} count 
+ */
+export function selectName() {
+    const organization_id = LoginInfo.getUserInfo().organization_id;
+    return {
+        type: types.SelectNameing_ACTION,
+        api: types.SelectName_API,
+        param: { organization_id }
+    };
+
+}
+//仓库搜索
+/**
+ * 
+ * @param {*产品ID} id 
+ * @param {*卸货数量} count 
+ */
+export function selectStore() {
+    const organization_id = LoginInfo.getUserInfo().organization_id;
+    return {
+        type: types.SelectStoreing_ACTION,
+        api: types.SelectStore_API,
+        param: { organization_id }
+    };
+
+}
+/**
+ * 退货单查询 列表
+ */
+export function queryReturnLists(begin_date, end_date, start = 0, rows = 10) {
+    const user_id = LoginInfo.getUserInfo().user_id;
+    let page = 1;
+    if (start) {
+        page = start / rows + 1;
+        return {
+            type: types.QueryReturnListsing_More_ACTION,
+            api: types.QueryReturnLists_API,
+            param: { user_id, begin_date, end_date, page, rows }
+        };
+    } else {
+        return {
+            type: types.QueryReturnListsing_ACTION,
+            api: types.QueryReturnLists_API,
+            param: { user_id, begin_date, end_date, page, rows }
+        };
+    }
+
+}
+/**
+ * 退货单查询 详情
+ */
+export function queryReturnDetail(return_id) {
+
+    return {
+        type: types.QueryReturnDetailing_ACTION,
+        api: types.QueryReturnDetail_API,
+        param: { return_id }
+    };
+
+}
+
+/**
+ * 产品列表查询
+ */
+export function addLadingbillsProduct(product_spell) {
+
+    return {
+        type: types.AddLadingbillsProducting_ACTION,
+        api: types.AddLadingbillsProduct_API,
+        param: { product_spell }
+    };
+
+}

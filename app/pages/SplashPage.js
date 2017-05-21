@@ -25,7 +25,7 @@ class SplashPage extends React.Component {
   componentDidMount() {
     const { navigate } = this.props.navigation;
     let baseUrl = "http://112.74.47.41:1009/csbboss/";
-    FetchManger.initConfig({ baseUrl, expiry: 1 });
+    FetchManger.initConfig({ baseUrl, expiry: 60 });
     LoginInfo.loadUserInfo();
     
     this.timer = setTimeout(() => {

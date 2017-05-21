@@ -49,11 +49,34 @@ export const SelectCar_API = "mobileServiceManager/ladingbills/appGetCarList.pag
 export const SelectCaring_ACTION = 'SelectCaring_ACTION';  
 export const SelectCarError_ACTION = 'SelectCarError_ACTION'; //收到结果
 export const SelectCarSucceed_ACTION = 'SelectCarSucceed_ACTION'; //收到结果
+// 业务员搜索
+export const SelectName_API = "mobileServiceManager/ladingbills/appGetUserList.page";
+export const SelectNameing_ACTION = 'SelectNameing_ACTION';  
+export const SelectNameError_ACTION = 'SelectNameError_ACTION'; //收到结果
+export const SelectNameSucceed_ACTION = 'SelectNameSucceed_ACTION'; //收到结果
+// 仓库搜索
+export const SelectStore_API = "mobileServiceManager/ladingbills/appGetWarehouse.page";
+export const SelectStoreing_ACTION = 'SelectStoreing_ACTION';  
+export const SelectStoreError_ACTION = 'SelectStoreError_ACTION'; //收到结果
+export const SelectStoreSucceed_ACTION = 'SelectStoreSucceed_ACTION'; //收到结果
+
+//退货单信息查询接口
+export const QueryReturnLists_API = "mobile_interfaces/mobile_info/queryReturn_lists.page";
+export const QueryReturnListsing_ACTION = 'QueryReturnListsing_ACTION';  
+export const QueryReturnListsing_More_ACTION = 'QueryReturnListsing_More_ACTION';  
+export const QueryReturnListsError_ACTION = 'QueryReturnListsError_ACTION'; //收到结果
+export const QueryReturnListsSucceed_ACTION = 'QueryReturnListsSucceed_ACTION'; //收到结果
+//退货单详情查询接口
+export const QueryReturnDetail_API = "mobile_interfaces/mobile_info/get_return_product_list.page";
+export const QueryReturnDetailing_ACTION = 'QueryReturnDetailing_ACTION';  
+export const QueryReturnDetailing_More_ACTION = 'QueryReturnDetailing_More_ACTION';  
+export const QueryReturnDetailError_ACTION = 'QueryReturnDetailError_ACTION'; //收到结果
+export const QueryReturnDetailSucceed_ACTION = 'QueryReturnDetailSucceed_ACTION'; //收到结果
 
 
-export const REQUEST_ARTICLE_LIST = 'REQUEST_ARTICLE_LIST';
-export const FETCH_ARTICLE_LIST = 'FETCH_ARTICLE_LIST';
-export const RECEIVE_ARTICLE_LIST = 'RECEIVE_ARTICLE_LIST';
-export const REQUEST_TYPE_LIST = 'REQUEST_TYPE_LIST';
-export const FETCH_TYPE_LIST = 'FETCH_TYPE_LIST';
-export const RECEIVE_TYPE_LIST = 'RECEIVE_TYPE_LIST';
+//开提货单产品列表
+export const AddLadingbillsProduct_API = "mobile_interfaces/mobile_info/get_ladingbill_product_list.page";
+export const AddLadingbillsProducting_ACTION = 'AddLadingbillsProducting_ACTION';  
+export const AddLadingbillsProducting_More_ACTION = 'AddLadingbillsProducting_More_ACTION';  
+export const AddLadingbillsProductError_ACTION = 'AddLadingbillsProductError_ACTION'; //收到结果
+export const AddLadingbillsProductSucceed_ACTION = 'AddLadingbillsProductSucceed_ACTION'; //收到结果

@@ -7,6 +7,12 @@ import selectDeliveryOrder from './selectDeliveryOrderReducer'
 import deliveryOrderDetail from './deliveryOrderDetailReducer'
 import getCarstockProductList from './getCarstockProductListReducer'
 import selectCar from './selectCarReducer'
+import selectName from './selectNameReducer'
+import selectStore from './selectStoreReducer'
+import queryReturnLists from './queryReturnListsReducer'
+import queryReturnDetail from './queryReturnDetailReducer'
+import addLadingbillsProduct from './addLadingbillsProductReducer'
+
 const rootReducer = combineReducers({
   login,
   selectLadingbills,
@@ -15,7 +21,12 @@ const rootReducer = combineReducers({
   selectDeliveryOrder,
   deliveryOrderDetail,
   getCarstockProductList,
-  selectCar
+  selectCar,
+  queryReturnLists,
+  queryReturnDetail,
+  selectName,
+  selectStore,
+  addLadingbillsProduct
 });
 
 export default rootReducer;
