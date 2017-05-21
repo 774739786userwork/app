@@ -1,16 +1,10 @@
-import React, {
-    ListView,
-} from 'react-native';
 
 import * as types from '../actions/ActionTypes';
 
-var dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 const initialState = {
     loading: false,
     loadMore: false,
-    count: 0,
-    listData: dataSource.cloneWithRows([]),//数据源
     errMsg: undefined,
     result: []
 
@@ -22,29 +16,53 @@ export default function getCarstockProductListReducer(state = initialState, acti
             return Object.assign({}, state, {
                 loading: true,
                 errMsg: undefined,
-                count: 0,
-                listData: dataSource.cloneWithRows([]),//数据源
+                result: []
             });
         case types.GetCarstockProductListError_ACTION:
             return Object.assign({}, state, {
                 loading: false,
-                count: 0,
-                listData: dataSource.cloneWithRows([]),//数据源
                 errMsg: action.errMsg,
             });
         case types.GetCarstockProductListSucceed_ACTION:
-
-            return Object.assign({}, state, {
-                loading: false,
-                result: action.result,
-                listData: dataSource.cloneWithRows(action.result),//数据源
-                errMsg: undefined,
-            });
-
-        case types.GetCarstockProductListing_More_ACTION:
-            return Object.assign({}, state, {
-                loadMore: true,
-            });
+            {
+                let listData = [];
+                if (action.result) {
+                    action.result.forEach((e) => {
+                        //stock 库存
+                        //disburden_quantity 卸货数量
+                        //stock_quantity 余货数量
+                        e.disburden_quantity = e.stock;
+                        e.stock_quantity = 0;
+                        listData.push(e);
+                    });
+                }
+                return Object.assign({}, state, {
+                    loading: false,
+                    result: listData,
+                });
+            }
+        case types.GetCarstockProductListDisburden_ACTION:
+            {
+                let listData = [];
+                if (state.result) {
+                    state.result.forEach((e) => {
+                        //stock 库存
+                        //disburden_quantity 卸货数量
+                        //stock_quantity 余货数量
+                        e.disburden_quantity = e.stock;
+                        e.stock_quantity = 0;
+                        if (e.id === action.param.id) {
+                            e.disburden_quantity = action.param.count;
+                            e.stock_quantity = e.stock - action.param.count;
+                        }
+                        listData.push(e);
+                    });
+                }
+                return Object.assign({}, state, {
+                    loading: false,
+                    result: listData,
+                });
+            }
         default:
             return state;
     }

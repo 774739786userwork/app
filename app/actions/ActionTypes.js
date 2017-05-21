@@ -42,6 +42,14 @@ export const GetCarstockProductListing_ACTION = 'GetCarstockProductListing_ACTIO
 export const GetCarstockProductListing_More_ACTION = 'GetCarstockProductListing_More_ACTION';  
 export const GetCarstockProductListError_ACTION = 'GetCarstockProductListError_ACTION'; //收到结果
 export const GetCarstockProductListSucceed_ACTION = 'GetCarstockProductListSucceed_ACTION'; //收到结果
+export const GetCarstockProductListDisburden_ACTION = 'GetCarstockProductListDisburden_ACTION'; //卸货修改
+
+// 车牌号搜索
+export const SelectCar_API = "mobileServiceManager/ladingbills/appGetCarList.page";
+export const SelectCaring_ACTION = 'SelectCaring_ACTION';  
+export const SelectCarError_ACTION = 'SelectCarError_ACTION'; //收到结果
+export const SelectCarSucceed_ACTION = 'SelectCarSucceed_ACTION'; //收到结果
+
 
 export const REQUEST_ARTICLE_LIST = 'REQUEST_ARTICLE_LIST';
 export const FETCH_ARTICLE_LIST = 'FETCH_ARTICLE_LIST';

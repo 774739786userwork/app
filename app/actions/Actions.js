@@ -124,3 +124,33 @@ export function getCarstockProductList(carbaseinfo_id) {
     };
 
 }
+//卸货数量修改
+/**
+ * 
+ * @param {*产品ID} id 
+ * @param {*卸货数量} count 
+ */
+export function getCarstockProductListDisburden(id,count) {
+    const user_id = LoginInfo.getUserInfo().user_id;
+    return {
+        type: types.GetCarstockProductListDisburden_ACTION,
+        param: { id,count }
+    };
+
+}
+
+//车牌号搜索
+/**
+ * 
+ * @param {*产品ID} id 
+ * @param {*卸货数量} count 
+ */
+export function selectCar() {
+    const organization_id = LoginInfo.getUserInfo().organization_id;
+    return {
+        type: types.SelectCaring_ACTION,
+        api: types.SelectCar_API,
+        param: { organization_id }
+    };
+
+}

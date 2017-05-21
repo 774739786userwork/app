@@ -109,6 +109,46 @@ function get_carstock_product_list() {
             "gifts_quantity": 0,
             "foregift": "0.0",
             "total_loadingbill_quantity": "100"
+        },
+        {
+            "id": 34,
+            "image": "/assets/images/products/33.png",
+            "name": "内墙（大）4",
+            "specifications": "12.5KG/包",
+            "unit": "包",
+            "price": "6.0",
+            "stock": 3232312,
+            "activity": "",
+            "sale_quantity": 0,
+            "gifts_quantity": 0,
+            "foregift": "0.0",
+            "total_loadingbill_quantity": "100"
+        },{
+            "id": 35,
+            "image": "/assets/images/products/33.png",
+            "name": "内墙（大）",
+            "specifications": "12.5KG/包",
+            "unit": "包",
+            "price": "6.0",
+            "stock": 2323,
+            "activity": "",
+            "sale_quantity": 0,
+            "gifts_quantity": 0,
+            "foregift": "0.0",
+            "total_loadingbill_quantity": "100"
+        },{
+            "id": 36,
+            "image": "/assets/images/products/33.png",
+            "name": "内墙（大）",
+            "specifications": "12.5KG/包",
+            "unit": "包",
+            "price": "6.0",
+            "stock": 23,
+            "activity": "",
+            "sale_quantity": 0,
+            "gifts_quantity": 0,
+            "foregift": "0.0",
+            "total_loadingbill_quantity": "100"
         }],
         "car_id": 80,
         "car_number": "湘AUE742"

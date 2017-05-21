@@ -19,20 +19,22 @@ export default class EditeModel extends React.Component {
     constructor(props) {
         super(props)
         this.onConfirmPress = this.onConfirmPress.bind(this)
+        let item = this.props.item;
         this.state = {
             modalVisible: this.props.modalVisible,
-            count: this.props.initCount,
-            maxCount: this.props.maxCount
+            count: item.disburden_quantity,
+            maxCount: item.stock,
         };
     }
     componentWillReceiveProps(nextProps) {
+        let item = nextProps.item;
         this.setState({
             modalVisible: nextProps.modalVisible,
-            count: nextProps.initCount,
-            maxCount: nextProps.maxCount
+            count: item.disburden_quantity,
+            maxCount: item.stock,
         });
     }
-   
+
     updateNewCount(newCount) {
 
         if (newCount < 0) {
@@ -44,11 +46,13 @@ export default class EditeModel extends React.Component {
         this.setState({ count: newCount });
     }
     onConfirmPress() {
-        this.props.onConfirmPress && this.props.onConfirmPress(this.state.count)
+        let item = this.props.item;
+        this.props.onConfirmPress && this.props.onConfirmPress(item.id,this.state.count)
         this.setState({ modalVisible: false });
     }
     render() {
         let modelWidth = WINDOW_WIDTH - 40;
+        let item = this.props.item;
         return (<Modal
             animationType={'slide'}
             transparent={true}
@@ -60,10 +64,11 @@ export default class EditeModel extends React.Component {
                     backgroundColor: '#fff',
                 }}>
                     <View style={{ backgroundColor: '#0081d4', height: 36, width: modelWidth, borderTopLeftRadius: 10, borderTopRightRadius: 10, justifyContent: 'center', alignItems: 'center', }}>
-                        <Text style={{ color: '#fff' }}>多帮反调器</Text>
+                        <Text style={{ color: '#fff' }}>{`${item.name}`}</Text>
                     </View>
                     <View style={{ marginTop: 12, height: 34, flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{ flex: 2, textAlign: 'right', }}>库存:</Text><Text style={{ marginLeft: 8, flex: 3, color: '#f80000' }}>20桶</Text>
+                        <Text style={{ flex: 2, textAlign: 'right', }}>库存:</Text>
+                        <Text style={{ marginLeft: 8, flex: 3, color: '#f80000' }}>{`${item.stock}${item.unit}`}</Text>
                     </View>
                     <View style={{ height: 34, marginBottom: 12, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                         <Text style={{ flex: 2, textAlign: 'right', }}>卸货:</Text>
@@ -76,9 +81,10 @@ export default class EditeModel extends React.Component {
                                     iconColor={'#0081d4'}
                                     iconSize={26} />
                             </TouchableOpacity>
-                            <TextInput style={{ width: 40,height:30, textAlign: 'center', color: '#666', borderRadius: 8, padding: 0, borderWidth: 1, borderColor: '#c4c4c4' }}
+                            <TextInput style={{ width: 80, height: 30, textAlign: 'center', color: '#666', borderRadius: 8, padding: 0, borderWidth: 1, borderColor: '#c4c4c4' }}
                                 underlineColorAndroid={'transparent'}
                                 value={'' + this.state.count}
+                                in
                                 defaultValue={'' + this.state.count}
                                 onChangeText={(newCount) => {
                                     this.updateNewCount(parseInt(newCount));
