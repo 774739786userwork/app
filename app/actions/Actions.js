@@ -112,3 +112,15 @@ export function selectDeliveryOrder(begin_date, end_date, start = 0, rows = 10) 
     }
 
 }
+/**
+ * 车余货 列表
+ */
+export function getCarstockProductList(carbaseinfo_id) {
+    const user_id = LoginInfo.getUserInfo().user_id;
+    return {
+        type: types.GetCarstockProductListing_ACTION,
+        api: types.GetCarstockProductList_API,
+        param: { user_id, carbaseinfo_id }
+    };
+
+}

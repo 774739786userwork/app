@@ -36,6 +36,12 @@ export const DeliveryOrderDetailing_ACTION = 'DeliveryOrderDetailing_ACTION';
 export const DeliveryOrderDetailing_More_ACTION = 'DeliveryOrderDetailing_More_ACTION';  
 export const DeliveryOrderDetailError_ACTION = 'DeliveryOrderDetailError_ACTION'; //收到结果
 export const DeliveryOrderDetailSucceed_ACTION = 'DeliveryOrderDetailSucceed_ACTION'; //收到结果
+// 车余货列表
+export const GetCarstockProductList_API = "mobile_interfaces/mobile_info/get_carstock_product_list.page";
+export const GetCarstockProductListing_ACTION = 'GetCarstockProductListing_ACTION';  
+export const GetCarstockProductListing_More_ACTION = 'GetCarstockProductListing_More_ACTION';  
+export const GetCarstockProductListError_ACTION = 'GetCarstockProductListError_ACTION'; //收到结果
+export const GetCarstockProductListSucceed_ACTION = 'GetCarstockProductListSucceed_ACTION'; //收到结果
 
 export const REQUEST_ARTICLE_LIST = 'REQUEST_ARTICLE_LIST';
 export const FETCH_ARTICLE_LIST = 'FETCH_ARTICLE_LIST';

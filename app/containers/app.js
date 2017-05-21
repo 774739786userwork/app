@@ -9,7 +9,8 @@ import PurchaseOrderInfoContainer from './work/PurchaseOrderInfoContainer';
 //送货单查询
 import SelectDeliveryOrderContainer from './work/SelectDeliveryOrderContainer'
 import DeliveryOrderDetailContainer from './work/DeliveryOrderDetailContainer'
-
+//车余货
+import GetCarstockProductListContainer from './work/GetCarstockProductListContainer'
 //销售管理
 import SelasContainer from './SelasContainer';
 //客户管理
@@ -68,6 +69,10 @@ const App = StackNavigator(
     DeliveryOrderDetail: {
       screen: DeliveryOrderDetailContainer
     },
+    GetCarstockProductList: {
+      screen: GetCarstockProductListContainer
+    },
+    
     
   },
   {

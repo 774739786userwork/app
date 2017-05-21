@@ -5,7 +5,7 @@ import purchaseOrderDetail from './purchaseOrderDetailReducer'
 import purchaseOrderInfo from './purchaseOrderInfoReducer'
 import selectDeliveryOrder from './selectDeliveryOrderReducer'
 import deliveryOrderDetail from './deliveryOrderDetailReducer'
-
+import getCarstockProductList from './getCarstockProductListReducer'
 
 const rootReducer = combineReducers({
   login,
@@ -13,7 +13,8 @@ const rootReducer = combineReducers({
   purchaseOrderDetail,
   purchaseOrderInfo,
   selectDeliveryOrder,
-  deliveryOrderDetail
+  deliveryOrderDetail,
+  getCarstockProductList
 });
 
 export default rootReducer;

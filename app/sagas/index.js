@@ -5,7 +5,7 @@ import { watchPurchaseOrderDetail } from './purchaseOrderDetail'
 import { watchPurchaseOrderInfo } from './purchaseOrderInfo'
 import { watchSelectDeliveryOrder } from './selectDeliveryOrder'
 import { watchDeliveryOrderDetail } from './deliveryOrderDetail'
-
+import { watchGetCarstockProductList } from './getCarstockProductList'
 
 export default function* rootSaga() {
     yield [
@@ -14,6 +14,7 @@ export default function* rootSaga() {
         fork(watchPurchaseOrderDetail),
         fork(watchPurchaseOrderInfo),
         fork(watchSelectDeliveryOrder),
-         fork(watchDeliveryOrderDetail),
+        fork(watchDeliveryOrderDetail),
+        fork(watchGetCarstockProductList),
     ];
 }

@@ -93,6 +93,29 @@ function get_delivery_product_list() {
     }
     return { result: 0, data };
 }
+//mobile_interfaces/mobile_info/get_carstock_product_list.page
+function get_carstock_product_list() {
+    let data = {
+        "good_list": [{
+            "id": 33,
+            "image": "/assets/images/products/33.png",
+            "name": "内墙（大）",
+            "specifications": "12.5KG/包",
+            "unit": "包",
+            "price": "6.0",
+            "stock": 50,
+            "activity": "",
+            "sale_quantity": 0,
+            "gifts_quantity": 0,
+            "foregift": "0.0",
+            "total_loadingbill_quantity": "100"
+        }],
+        "car_id": 80,
+        "car_number": "湘AUE742"
+    }
+    return { result: 0, data };
+}
+
 export default function mock(api, param) {
     console.log('mock-->' + api + '---param->' + param);
     let data = {};
@@ -104,6 +127,8 @@ export default function mock(api, param) {
         data = employee_to_delivery_order(0, 20);
     } else if ("mobile_interfaces/mobile_info/get_delivery_product_list.page" === api) {
         data = get_delivery_product_list();
+    } else if ("mobile_interfaces/mobile_info/get_carstock_product_list.page" === api) {
+        data = get_carstock_product_list();
     }
     return data;
 }
