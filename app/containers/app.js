@@ -34,11 +34,14 @@ import SettingContainer from './SettingContainer';
 import LoginContainer from './login/LoginContainer'
 //关于
 import AboutPageContainer from './setting/AboutPageContainer'
+//修改密码
+import ForgetPassWordContainer from './setting/ForgetPassWordContainer'
+
+import QRPage from '../pages/QRPage'
 
 const TabContainer = TabNavigator(
   {
     Work: { screen: WorkContainer },
-    Selas: { screen: SelasContainer },
     Cust: { screen: CustContainer },
     Setting: { screen: SettingContainer }
   },
@@ -112,7 +115,12 @@ const App = StackNavigator(
     AboutPage: {
       screen: AboutPageContainer
     },
-
+    ForgetPassWord: {
+      screen: ForgetPassWordContainer
+    },
+    QR: {
+      screen: QRPage
+    },
 
   },
   {

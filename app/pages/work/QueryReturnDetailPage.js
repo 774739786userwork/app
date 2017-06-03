@@ -12,7 +12,7 @@ import {
     FlatList
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
-import { Iconfont, LoadingView } from 'react-native-go';
+import { Iconfont, LoadingView,Toast } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 const ic_product = require('../../imgs/ic_product.png')
@@ -21,6 +21,12 @@ class QueryReturnDetailPage extends React.Component {
     constructor(props) {
         super(props);
         this._renderItem = this._renderItem.bind(this);
+    }
+    componentWillReceiveProps(nextProps) {
+        const { queryReturnDetail } = nextProps;
+        if (queryReturnDetail.errMsg) {
+            Toast.show(queryReturnDetail.errMsg);
+        }
     }
     componentDidMount() {
         const { action } = this.props;

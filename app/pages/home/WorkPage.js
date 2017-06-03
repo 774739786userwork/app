@@ -96,6 +96,7 @@ class WorkPage extends React.Component {
     this._onMenuClick = this._onMenuClick.bind(this);
     this._renderItem = this._renderItem.bind(this);
     this.loadHandle = this.loadHandle.bind(this)
+    this.onRightButtonPress = this.onRightButtonPress.bind(this)
 
     this.state = {
       imgList: [
@@ -125,12 +126,33 @@ class WorkPage extends React.Component {
       </TouchableHighlight>
     );
   }
-
+  onRightButtonPress() {
+    const { navigate } = this.props.navigation;
+    navigate('QR');
+  }
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
-        <HomeBar title='多邦建筑装饰材料' navigator={this.props.navigator} rightView={() => (<Iconfont icon='e6a8' iconSize={24} label={'扫'} labelColor={'#0081d4'} />)} />
-        <Swiper loadMinimal loadMinimalSize={1} style={styles.wrapper} height={134} loop={true} showsButtons={true} autoplay={true}>
+        <HomeBar title='多邦建筑装饰材料' onRightButtonPress={this.onRightButtonPress} rightView={() => (<Iconfont icon='e6a8' iconSize={24} label={'扫'} labelColor={'#0081d4'} />)} />
+        <Swiper
+          nextButton={<Text style={{
+            fontSize: 50,
+            color: '#c4c4c4',
+            fontFamily: 'Arial'
+          }}>›</Text>}
+          prevButton={<Text style={{
+            fontSize: 50,
+            color: '#c4c4c4',
+            fontFamily: 'Arial'
+          }}>‹</Text>}
+          loadMinimal
+          loadMinimalSize={1}
+          showsPagination={false}
+          style={styles.wrapper}
+          height={134}
+          loop={true}
+          showsButtons={true}
+          autoplay={true}>
           {
             this.state.imgList.map((item, i) => <Slide
               loadHandle={this.loadHandle}

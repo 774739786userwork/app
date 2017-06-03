@@ -104,13 +104,17 @@ class SettingPage extends React.Component {
     super(props);
     this.onAboutAction = this.onAboutAction.bind(this);
     this.onLoginOut = this.onLoginOut.bind(this);
+    this.onUpdatePWDAction = this.onUpdatePWDAction.bind(this)
   }
 
   onAboutAction() {
     const { navigation } = this.props;
     navigation.navigate('AboutPage')
   }
-
+  onUpdatePWDAction() {
+    const { navigation } = this.props;
+    navigation.navigate('ForgetPassWord')
+  }
   onLoginOut() {
     LoginInfo.loginOut();
     InteractionManager.runAfterInteractions(() => {
@@ -118,6 +122,9 @@ class SettingPage extends React.Component {
     });
   }
   onUpdateAction() {
+
+  }
+  onBlueAction() {
 
   }
 
@@ -130,17 +137,17 @@ class SettingPage extends React.Component {
           <ListItemSetting
             icon='e6ae'
             iconColor='#f74171'
-            onPress={this.onAboutAction}
+            onPress={this.onUpdatePWDAction}
             showText='密码修改' />
           <ListItemSetting
             icon='e6b6'
             iconColor='#f9ae0f'
-            onPress={this.onAboutAction}
+            onPress={this.onBlueAction}
             showText='蓝牙打印' />
           <ListItemSetting
             icon='e6b0'
             iconColor='#18c5c0'
-            onPress={this.onAboutAction}
+            onPress={this.onUpdateAction}
             showText='检查更新' />
           <ListItemSetting
             icon='e693'

@@ -56,8 +56,9 @@ export default class EditeModel extends React.Component {
         return (<Modal
             animationType={'slide'}
             transparent={true}
+            onRequestClose={() => {}}
             visible={this.state.modalVisible}>
-            <View style={{ flex: 1, justifyContent: 'center', padding: 20, backgroundColor: '#0000' }}>
+            <View style={{ flex: 1, justifyContent: 'center', padding: 20,backgroundColor:'rgba(0, 0, 0, 0.5)'}}>
                 <View style={{
                     borderRadius: 10,
                     alignItems: 'center',

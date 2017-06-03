@@ -34,7 +34,7 @@ export default function selectLadingbillsReducer(state = initialState, action) {
             });
         case types.SelectLadingbillsSucceed_ACTION:
             if (state.loadMore) {
-                let list = state.result.concat(action.result.data);
+                let list = state.result.concat(action.result.loadingbillsOrder);
                 return Object.assign({}, state, {
                     loading: false,
                     loadMore:false,
@@ -47,8 +47,8 @@ export default function selectLadingbillsReducer(state = initialState, action) {
                 return Object.assign({}, state, {
                     loading: false,
                     count: action.result.total_record,
-                    result:action.result.data,
-                    listData: dataSource.cloneWithRows(action.result.data),//数据源
+                    result:action.result.loadingbillsOrder,
+                    listData: dataSource.cloneWithRows(action.result.loadingbillsOrder),//数据源
                     errMsg: undefined,
                 });
             }

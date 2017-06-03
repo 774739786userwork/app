@@ -5,6 +5,7 @@ import { LoginInfo } from 'react-native-go'
  * 用户登录
  */
 export function loginingActon(username, password) {
+
     return {
         type: types.Logining_ACTION,
         api: types.Login_API,
@@ -17,19 +18,20 @@ export function loginingActon(username, password) {
  */
 export function selectLadingbills(begin_date, end_date, start = 0, rows = 10) {
     const user_id = LoginInfo.getUserInfo().user_id;
+    const token = LoginInfo.getUserInfo().token;
     let page = 1;
     if (start) {
         page = start / rows + 1;
         return {
             type: types.SelectLadingbillsing_More_ACTION,
             api: types.SelectLadingbills_API,
-            param: { user_id, begin_date, end_date, page, rows }
+            param: { user_id, token, begin_date, end_date, page, rows }
         };
     } else {
         return {
             type: types.SelectLadingbillsing_ACTION,
             api: types.SelectLadingbills_API,
-            param: { user_id, begin_date, end_date, page, rows }
+            param: { token, user_id, begin_date, end_date, page, rows }
         };
     }
 
@@ -38,6 +40,7 @@ export function selectLadingbills(begin_date, end_date, start = 0, rows = 10) {
  * 订货单查询 详细
  */
 export function purchaseOrderDetail(start = 0, rows = 10) {
+    const token = LoginInfo.getUserInfo().token;
     const user_id = LoginInfo.getUserInfo().user_id;
     let page = 1;
     if (start) {
@@ -45,13 +48,13 @@ export function purchaseOrderDetail(start = 0, rows = 10) {
         return {
             type: types.PurchaseOrderDetailing_More_ACTION,
             api: types.PurchaseOrderDetail_API,
-            param: { user_id, page, rows }
+            param: { token, user_id, page, rows }
         };
     } else {
         return {
             type: types.PurchaseOrderDetailing_ACTION,
             api: types.PurchaseOrderDetail_API,
-            param: { user_id, page, rows }
+            param: { token, user_id, page, rows }
         };
     }
 
@@ -60,6 +63,7 @@ export function purchaseOrderDetail(start = 0, rows = 10) {
  * 订货单查询 详细
  */
 export function purchaseOrderInfo(start = 0, rows = 10) {
+    const token = LoginInfo.getUserInfo().token;
     const user_id = LoginInfo.getUserInfo().user_id;
     let page = 1;
     if (start) {
@@ -67,13 +71,13 @@ export function purchaseOrderInfo(start = 0, rows = 10) {
         return {
             type: types.PurchaseOrderInfoing_More_ACTION,
             api: types.PurchaseOrderInfo_API,
-            param: { user_id, page, rows }
+            param: { token, user_id, page, rows }
         };
     } else {
         return {
             type: types.PurchaseOrderInfoing_ACTION,
             api: types.PurchaseOrderInfo_API,
-            param: { user_id, page, rows }
+            param: { token, user_id, page, rows }
         };
     }
 
@@ -82,11 +86,11 @@ export function purchaseOrderInfo(start = 0, rows = 10) {
  * 送货单查询 详情
  */
 export function deliveryOrderDetail(delivery_id, car_id) {
-
+    const token = LoginInfo.getUserInfo().token;
     return {
         type: types.DeliveryOrderDetailing_ACTION,
         api: types.DeliveryOrderDetail_API,
-        param: { delivery_id, car_id }
+        param: { token, delivery_id, car_id }
     };
 
 }
@@ -94,6 +98,7 @@ export function deliveryOrderDetail(delivery_id, car_id) {
  * 送货单查询 列表
  */
 export function selectDeliveryOrder(begin_date, end_date, start = 0, rows = 10) {
+    const token = LoginInfo.getUserInfo().token;
     const user_id = LoginInfo.getUserInfo().user_id;
     let page = 1;
     if (start) {
@@ -101,13 +106,13 @@ export function selectDeliveryOrder(begin_date, end_date, start = 0, rows = 10) 
         return {
             type: types.SelectDeliveryOrdering_More_ACTION,
             api: types.SelectDeliveryOrder_API,
-            param: { user_id, begin_date, end_date, page, rows }
+            param: { token,user_id, begin_date, end_date, page, rows }
         };
     } else {
         return {
             type: types.SelectDeliveryOrdering_ACTION,
             api: types.SelectDeliveryOrder_API,
-            param: { user_id, begin_date, end_date, page, rows }
+            param: { token,user_id, begin_date, end_date, page, rows }
         };
     }
 
@@ -117,10 +122,11 @@ export function selectDeliveryOrder(begin_date, end_date, start = 0, rows = 10) 
  */
 export function getCarstockProductList(carbaseinfo_id) {
     const user_id = LoginInfo.getUserInfo().user_id;
+     const token = LoginInfo.getUserInfo().token;
     return {
         type: types.GetCarstockProductListing_ACTION,
         api: types.GetCarstockProductList_API,
-        param: { user_id, carbaseinfo_id }
+        param: { token,user_id, carbaseinfo_id }
     };
 
 }
@@ -130,11 +136,12 @@ export function getCarstockProductList(carbaseinfo_id) {
  * @param {*产品ID} id 
  * @param {*卸货数量} count 
  */
-export function getCarstockProductListDisburden(id,count) {
+export function getCarstockProductListDisburden(id, count) {
     const user_id = LoginInfo.getUserInfo().user_id;
+    const token = LoginInfo.getUserInfo().token;
     return {
         type: types.GetCarstockProductListDisburden_ACTION,
-        param: { id,count }
+        param: {token, id, count }
     };
 
 }
@@ -146,11 +153,12 @@ export function getCarstockProductListDisburden(id,count) {
  * @param {*卸货数量} count 
  */
 export function selectCar() {
+    const token = LoginInfo.getUserInfo().token;
     const organization_id = LoginInfo.getUserInfo().organization_id;
     return {
         type: types.SelectCaring_ACTION,
         api: types.SelectCar_API,
-        param: { organization_id }
+        param: { token,organization_id }
     };
 
 }
@@ -161,11 +169,12 @@ export function selectCar() {
  * @param {*卸货数量} count 
  */
 export function selectName() {
+    const token = LoginInfo.getUserInfo().token;
     const organization_id = LoginInfo.getUserInfo().organization_id;
     return {
         type: types.SelectNameing_ACTION,
         api: types.SelectName_API,
-        param: { organization_id }
+        param: { token,organization_id }
     };
 
 }
@@ -176,11 +185,12 @@ export function selectName() {
  * @param {*卸货数量} count 
  */
 export function selectStore() {
+    const token = LoginInfo.getUserInfo().token;
     const organization_id = LoginInfo.getUserInfo().organization_id;
     return {
         type: types.SelectStoreing_ACTION,
         api: types.SelectStore_API,
-        param: { organization_id }
+        param: { token,organization_id }
     };
 
 }
@@ -188,6 +198,7 @@ export function selectStore() {
  * 退货单查询 列表
  */
 export function queryReturnLists(begin_date, end_date, start = 0, rows = 10) {
+    const token = LoginInfo.getUserInfo().token;
     const user_id = LoginInfo.getUserInfo().user_id;
     let page = 1;
     if (start) {
@@ -195,13 +206,13 @@ export function queryReturnLists(begin_date, end_date, start = 0, rows = 10) {
         return {
             type: types.QueryReturnListsing_More_ACTION,
             api: types.QueryReturnLists_API,
-            param: { user_id, begin_date, end_date, page, rows }
+            param: { token,user_id, begin_date, end_date, page, rows }
         };
     } else {
         return {
             type: types.QueryReturnListsing_ACTION,
             api: types.QueryReturnLists_API,
-            param: { user_id, begin_date, end_date, page, rows }
+            param: { token,user_id, begin_date, end_date, page, rows }
         };
     }
 
@@ -210,11 +221,12 @@ export function queryReturnLists(begin_date, end_date, start = 0, rows = 10) {
  * 退货单查询 详情
  */
 export function queryReturnDetail(return_id) {
+    const token = LoginInfo.getUserInfo().token;
 
     return {
         type: types.QueryReturnDetailing_ACTION,
         api: types.QueryReturnDetail_API,
-        param: { return_id }
+        param: { token,return_id }
     };
 
 }
@@ -223,11 +235,12 @@ export function queryReturnDetail(return_id) {
  * 产品列表查询
  */
 export function addLadingbillsProduct(product_spell) {
+    const token = LoginInfo.getUserInfo().token;
 
     return {
         type: types.AddLadingbillsProducting_ACTION,
         api: types.AddLadingbillsProduct_API,
-        param: { product_spell }
+        param: { token,product_spell }
     };
 
 }

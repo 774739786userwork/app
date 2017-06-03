@@ -12,7 +12,7 @@ import {
     FlatList
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
-import { Iconfont, LoadingView } from 'react-native-go';
+import { Iconfont, LoadingView,Toast } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 const styles = StyleSheet.create({
@@ -33,6 +33,12 @@ class SelectLadingbillsPage extends React.Component {
             startDate: DateUtils.getYearMonthDay(),
             endDate: DateUtils.getYearMonthDay(),
             count: 0,
+        }
+    }
+    componentWillReceiveProps(nextProps) {
+        const { selectLadingbills } = nextProps;
+        if (selectLadingbills.errMsg) {
+            Toast.show(selectLadingbills.errMsg);
         }
     }
     componentDidMount() {

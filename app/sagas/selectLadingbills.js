@@ -6,8 +6,8 @@ import { FetchManger } from 'react-native-go'
 export function* selectLadingbills(action) {
   try {
     const responseData = yield call(FetchManger.getUri, action.api, action.param);
-    if (responseData.result === '0' || responseData.result === 0) {
-      yield put({ type: types.SelectLadingbillsSucceed_ACTION, result: responseData });
+    if (responseData.status === '0' || responseData.status === 0) {
+      yield put({ type: types.SelectLadingbillsSucceed_ACTION, result: responseData.data });
     } else {
       yield put({ type: types.SelectLadingbillsError_ACTION, errMsg: responseData.msg });
     }

@@ -12,7 +12,7 @@ import {
     FlatList
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
-import { Iconfont, LoadingView } from 'react-native-go';
+import { Iconfont, LoadingView,Toast } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 
@@ -27,6 +27,12 @@ class QueryReturnListsPage extends React.Component {
             startDate: DateUtils.getYearMonthDay(),
             endDate: DateUtils.getYearMonthDay(),
             count: 0,
+        }
+    }
+     componentWillReceiveProps(nextProps) {
+        const { queryReturnLists } = nextProps;
+        if (queryReturnLists.errMsg) {
+            Toast.show(queryReturnLists.errMsg);
         }
     }
     componentDidMount() {

@@ -13,7 +13,7 @@ import {
     TouchableHighlight
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
-import { Iconfont, LoadingView } from 'react-native-go';
+import { Iconfont, LoadingView,Toast } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 import EditeModel from './EditeModel'
@@ -31,6 +31,12 @@ class GetCarstockProductListPage extends React.Component {
             modalVisible: false,
             selectItem:{}
         };
+    }
+    componentWillReceiveProps(nextProps) {
+        const { getCarstockProductList } = nextProps;
+        if (getCarstockProductList.errMsg) {
+            Toast.show(getCarstockProductList.errMsg);
+        }
     }
     componentDidMount() {
         const { action } = this.props;

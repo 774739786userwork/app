@@ -10,7 +10,7 @@ import {
     TouchableHighlight,
     InteractionManager,
 } from 'react-native';
-import { Iconfont } from 'react-native-go';
+import { Iconfont,Toast } from 'react-native-go';
 import LoadingListView from '../../components/LoadingListView'
 
 
@@ -19,6 +19,12 @@ class PurchaseOrderInfoPage extends React.Component {
         super(props);
         this.onEndReached = this.onEndReached.bind(this)
         this._renderItem = this._renderItem.bind(this);
+    }
+    componentWillReceiveProps(nextProps) {
+        const { purchaseOrderInfo } = nextProps;
+        if (purchaseOrderInfo.errMsg) {
+            Toast.show(purchaseOrderInfo.errMsg);
+        }
     }
     componentDidMount() {
         const { action } = this.props;

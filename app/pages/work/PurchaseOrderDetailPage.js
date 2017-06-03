@@ -10,7 +10,7 @@ import {
     TouchableHighlight,
     InteractionManager,
 } from 'react-native';
-import { Iconfont, LoadingView } from 'react-native-go';
+import { Iconfont, LoadingView,Toast } from 'react-native-go';
 import LoadingListView from '../../components/LoadingListView'
 const ic_peisong = require('../../imgs/ic_paisong.png');
 
@@ -19,6 +19,12 @@ class PurchaseOrderDetailPage extends React.Component {
         super(props);
         this.onEndReached = this.onEndReached.bind(this)
         this._renderItem = this._renderItem.bind(this);
+    }
+     componentWillReceiveProps(nextProps) {
+        const { purchaseOrderDetail } = nextProps;
+        if (purchaseOrderDetail.errMsg) {
+            Toast.show(purchaseOrderDetail.errMsg);
+        }
     }
     componentDidMount() {
         const { action } = this.props;

@@ -34,12 +34,6 @@ class AddLadingbillsPage extends React.Component {
             { title: '车牌号', key: 'car_id', value: '请选择车牌号', target: 'SelectCar' },
             { title: '提货日期', key: 'loadingbill_date', value: today },
             {},
-            { title: '装车工', key: 'loading_car_person_id', value: '请选择装车工', target: 'SelectName' },
-            { title: '卸车工', key: 'unloading_car_person_id', value: '请选择卸车工', target: 'SelectName' },
-            {},
-            { title: '配送工', key: 'distribution_person_id', value: '请选择配送工', target: 'SelectName' },
-            { title: '查包工', key: 'check_person_id', value: '请选择查包工', target: 'SelectName' },
-            {},
             { title: '仓库', key: 'storehouse_id', value: '请选择仓库', target: 'SelectStore' },
         ];
         this.state = {
