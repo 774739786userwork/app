@@ -9,12 +9,14 @@ import {
     ScrollView,
     View,
     TouchableHighlight,
-    Alert
+    Alert,
+    InteractionManager
 } from 'react-native';
 import CountDownText from '../components/CountDownText';
 import { Iconfont, Toast, Spinner, LoginInfo } from 'react-native-go';
 import * as ValidateUtils from '../utils/ValidateUtils';
 import dismissKeyboard from 'dismissKeyboard';
+import NavigationUtil from '../utils/NavigationUtil';
 
 let userInfo = {};
 class Login4MsgPage extends React.Component {

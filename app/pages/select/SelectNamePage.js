@@ -40,7 +40,7 @@ class SelectNamePage extends React.Component {
         return (
             <TouchableHighlight onPress={this._onItemPress.bind(this, item)} key={`row_${index}`}>
                 <View style={{ backgroundColor: '#fff' }} >
-                    <View style={{ height: 40, paddingLeft: 12, paddingRight: 12, flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{ height: 44, paddingLeft: 12, paddingRight: 12, flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={{ color: '#333', fontSize: 16 }}>{item.name}</Text>
                         <View style={{ flex: 1 }} />
                         <Text style={{ color: '#999' }}>{`${item.organization}`}</Text>

@@ -43,13 +43,13 @@ export function selectLadingbills(begin_date, end_date, start = 0, rows = 10) {
         return {
             type: types.SelectLadingbillsing_More_ACTION,
             api: types.SelectLadingbills_API,
-            param: { user_id, token, begin_date, end_date, page, rows }
+            param: { user_id, token,/* begin_date, end_date, */page, rows }
         };
     } else {
         return {
             type: types.SelectLadingbillsing_ACTION,
             api: types.SelectLadingbills_API,
-            param: { token, user_id, begin_date, end_date, page, rows }
+            param: { token, user_id, /* begin_date, end_date, */ page, rows }
         };
     }
 

@@ -5,9 +5,13 @@ import SplashPage from '../pages/SplashPage';
 import WorkContainer from '../containers/WorkContainer';
 //提货单查询
 import SelectLadingbillsContainer from './work/SelectLadingbillsContainer';
+//订货单查询
 import PurchaseOrderInfoContainer from './work/PurchaseOrderInfoContainer';
 //送货单查询
 import SelectDeliveryOrderContainer from './work/SelectDeliveryOrderContainer'
+//开送货单  客户查询
+import ListCustomersContainer from './work/ListCustomersContainer'
+
 import DeliveryOrderDetailContainer from './work/DeliveryOrderDetailContainer'
 //车余货
 import GetCarstockProductListContainer from './work/GetCarstockProductListContainer'
@@ -124,6 +128,10 @@ const App = StackNavigator(
     QR: {
       screen: QRPage
     },
+    ListCustomers: {
+      screen: ListCustomersContainer
+    },
+    
 
   },
   {

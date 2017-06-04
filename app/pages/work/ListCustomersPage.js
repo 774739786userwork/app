@@ -19,7 +19,7 @@ import LoadingListView from '../../components/LoadingListView'
 
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
-class SelectStorePage extends React.Component {
+class ListCustomersPage extends React.Component {
     constructor(props) {
         super(props);
         this._renderItem = this._renderItem.bind(this);
@@ -28,7 +28,7 @@ class SelectStorePage extends React.Component {
     componentDidMount() {
         const { action } = this.props;
         InteractionManager.runAfterInteractions(() => {
-            action.selectStore();
+            action.selectName();
         });
     }
     _onItemPress(item) {
@@ -41,8 +41,9 @@ class SelectStorePage extends React.Component {
             <TouchableHighlight onPress={this._onItemPress.bind(this, item)} key={`row_${index}`}>
                 <View style={{ backgroundColor: '#fff' }} >
                     <View style={{ height: 44, paddingLeft: 12, paddingRight: 12, flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{ color: '#333', fontSize: 16 }}>{item.STORE_HOUSE_NAME}</Text>
+                        <Text style={{ color: '#333', fontSize: 16 }}>{item.name}</Text>
                         <View style={{ flex: 1 }} />
+                        <Text style={{ color: '#999' }}>{`${item.organization}`}</Text>
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, flex: 1, backgroundColor: '#c4c4c4' }} />
                 </View>
@@ -52,21 +53,21 @@ class SelectStorePage extends React.Component {
 
     render() {
         const { params } = this.props.navigation.state;
-        const { selectStore } = this.props;
+        const { selectName } = this.props;
         return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
                 <View style={{ flex: 1 }}>
                     {
-                        selectStore.loading ?
+                        selectName.loading ?
                             <LoadingView /> :
-                            (selectStore.data.lenght == 0 ?
+                            (selectName.data.lenght == 0 ?
                                 <View style={{ alignItems: 'center', flex: 1, backgroundColor: '#fff', justifyContent: 'center' }}>
                                     <Text> 无相关数据</Text>
                                 </View>
                                 :
                                 <ListView
                                     enableEmptySections={true}
-                                    dataSource={dataSource.cloneWithRows(selectStore.data)}
+                                    dataSource={dataSource.cloneWithRows(selectName.data)}
                                     renderRow={this._renderItem}
                                 />
                             )
@@ -78,4 +79,4 @@ class SelectStorePage extends React.Component {
     }
 }
 
-export default SelectStorePage;
+export default ListCustomersPage;

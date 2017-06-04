@@ -6,7 +6,7 @@ import { FetchManger } from 'react-native-go'
 export function* selectStore(action) {
   try {
     const responseData = yield call(FetchManger.getUri, action.api, action.param);
-    if (responseData.result === '0' || responseData.result === 0) {
+    if (responseData.status === '0' || responseData.status === 0) {
       yield put({ type: types.SelectStoreSucceed_ACTION, result: responseData.data });
     } else {
       yield put({ type: types.SelectStoreError_ACTION, errMsg: responseData.msg });

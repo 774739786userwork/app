@@ -12,7 +12,7 @@ const initialState = {
     count: 0,
     listData: dataSource.cloneWithRows([]),//数据源
     errMsg: undefined,
-    result:[]
+    result: []
 
 }
 
@@ -34,12 +34,14 @@ export default function selectLadingbillsReducer(state = initialState, action) {
             });
         case types.SelectLadingbillsSucceed_ACTION:
             if (state.loadMore) {
-                let list = state.result.concat(action.result.loadingbillsOrder);
+                let list = state.result.concat(action.result.ladbiling_order_list);
                 return Object.assign({}, state, {
                     loading: false,
-                    loadMore:false,
+                    loadMore: false,
                     count: action.result.total_record,
-                    result:list,
+                    begin_date: action.result.begin_date,
+                    end_date: action.result.end_date,
+                    result: list,
                     listData: dataSource.cloneWithRows(list),//数据源
                     errMsg: undefined,
                 });
@@ -47,8 +49,10 @@ export default function selectLadingbillsReducer(state = initialState, action) {
                 return Object.assign({}, state, {
                     loading: false,
                     count: action.result.total_record,
-                    result:action.result.loadingbillsOrder,
-                    listData: dataSource.cloneWithRows(action.result.loadingbillsOrder),//数据源
+                    begin_date: action.result.begin_date,
+                    end_date: action.result.end_date,
+                    result: action.result.ladbiling_order_list,
+                    listData: dataSource.cloneWithRows(action.result.ladbiling_order_list),//数据源
                     errMsg: undefined,
                 });
             }

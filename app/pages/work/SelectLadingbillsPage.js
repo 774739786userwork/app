@@ -12,7 +12,7 @@ import {
     FlatList
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
-import { Iconfont, LoadingView,Toast } from 'react-native-go';
+import { Iconfont, LoadingView, Toast } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 const styles = StyleSheet.create({
@@ -78,11 +78,21 @@ class SelectLadingbillsPage extends React.Component {
                         />
                     </View>
                     <Text style={{ color: '#118cd7' }}>{item.loadingdate}</Text>
+                    <View style={{ flex: 1 }} />
+                    <Text style={{ color: '#666', fontSize: 12 }}>提货单编号：</Text>
+                    <Text style={{ color: '#666', fontSize: 12, marginRight: 8 }}>{item.serial_number}</Text>
                 </View>
-                <View style={{ height: 34, paddingLeft: 12, marginBottom: 8, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={{ color: '#333', fontSize: 16 }}>提货单编号：</Text>
-                    <Text style={{ color: '#333', fontSize: 16 }}>{item.serial_number}</Text>
-                </View>
+                <View style={{ height: 8 }} />
+                {
+                    item.goodsList.map((goodsItem) => (
+                        <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
+                            <Text style={{ color: '#333' }}>{goodsItem.name}</Text>
+                            <Text style={{ color: '#333' }}>{': '}</Text>
+                            <Text style={{ color: '#333' }}>{goodsItem.quantity}</Text>
+                             <View style={{ width: 8 }} />
+                            <Text style={{ color: '#333' }}>{goodsItem.unit}</Text>
+                        </View>))
+                }
                 <View style={{ flex: 1, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                     <Text style={{ color: '#666' }}>{item.goodsStr}</Text>
                 </View>
@@ -96,7 +106,7 @@ class SelectLadingbillsPage extends React.Component {
                         <Text style={{ color: '#f80000' }}>{item.create_user_name}</Text>
                     </View>
                 </View>
-                <View style={{ height: StyleSheet.hairlineWidth, marginTop: 12, flex: 1, backgroundColor: '#c4c4c4' }} />
+                <View style={{ height: StyleSheet.hairlineWidth, marginTop: 4, flex: 1, backgroundColor: '#c4c4c4' }} />
             </View>);
     }
     //加载更多
@@ -114,51 +124,63 @@ class SelectLadingbillsPage extends React.Component {
         const { selectLadingbills } = this.props;
         return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
-                <View style={{ height: 74, backgroundColor: '#118cd7' }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4 }}>
-                        <DatePicker
-                            style={{ width: 100, }}
-                            date={this.state.startDate}
-                            customStyles={{
-                                dateInput: { borderWidth: 0 },
-                                dateText: { color: '#fff' }
-                            }}
-                            mode="date"
-                            showIcon={false}
-                            format="YYYY-MM-DD"
-                            confirmBtnText="确定"
-                            cancelBtnText="取消"
-                            onDateChange={(date) => { this._selectLadingbillsByDate(date) }}
-                        />
-                        <Text style={{ color: '#00548b' }}>
+                <View style={{ height: 74, backgroundColor: '#f2f2f2' }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 12, paddingBottom: 8 }}>
+                        {
+                            false ? <DatePicker
+                                style={{ width: 100, }}
+                                disabled={true}
+                                date={selectLadingbills.begin_date}
+                                customStyles={{
+                                    dateInput: { borderWidth: 0 },
+                                    dateText: { color: '#fff' }
+                                }}
+                                mode="date"
+                                showIcon={false}
+                                format="YYYY-MM-DD"
+                                confirmBtnText="确定"
+                                cancelBtnText="取消"
+                                onDateChange={(date) => { this._selectLadingbillsByDate(date) }}
+                            /> : null
+                        }
+                        <Text style={{ color: '#999', width: 100, textAlign: 'center' }}>
+                            {selectLadingbills.begin_date}
+                        </Text>
+                        <Text style={{ color: '#999' }}>
                             {'开始'}
                         </Text>
-                        <Text style={{ color: '#fff', marginLeft: 8, marginRight: 8 }}>
+                        <Text style={{ color: '#999', marginLeft: 8, marginRight: 8 }}>
                             {'----'}
                         </Text>
-                        <DatePicker
-                            style={{ width: 100, }}
-                            date={this.state.endDate}
-                            customStyles={{
-                                dateInput: { borderWidth: 0 },
-                                dateText: { color: '#fff' }
-                            }}
-                            mode="date"
-                            showIcon={false}
-                            format="YYYY-MM-DD"
-                            confirmBtnText="确定"
-                            cancelBtnText="取消"
-                            onDateChange={(date) => { this._selectLadingbillsByDate(null, date) }}
-                        />
-                        <Text style={{ color: '#00548b' }}>
+                        {
+                            false ? <DatePicker
+                                style={{ width: 100, }}
+                                date={selectLadingbills.end_date}
+                                customStyles={{
+                                    dateInput: { borderWidth: 0 },
+                                    dateText: { color: '#fff' }
+                                }}
+                                disabled={true}
+                                mode="date"
+                                showIcon={false}
+                                format="YYYY-MM-DD"
+                                confirmBtnText="确定"
+                                cancelBtnText="取消"
+                                onDateChange={(date) => { this._selectLadingbillsByDate(null, date) }}
+                            /> : null
+                        }
+                        <Text style={{ color: '#999', width: 100, textAlign: 'center' }}>
+                            {selectLadingbills.end_date}
+                        </Text>
+                        <Text style={{ color: '#999' }}>
                             {'结束'}
                         </Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 10 }}>
-                        <Text style={{ color: '#00548b' }}>
+                        <Text style={{ color: '#999' }}>
                             {'提货次数'}
                         </Text>
-                        <Text style={{ color: '#fff', marginLeft: 8 }}>
+                        <Text style={{ color: '#f80000', marginLeft: 8 }}>
                             {'' + selectLadingbills.count}
                         </Text>
                     </View>

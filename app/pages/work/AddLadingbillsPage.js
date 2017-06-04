@@ -26,7 +26,7 @@ class AddLadingbillsPage extends React.Component {
         this._selectByDate = this._selectByDate.bind(this)
         this._onItemPress = this._onItemPress.bind(this)
         this._onAddItemPress = this._onAddItemPress.bind(this)
-
+        valeMap = {};
         let today = DateUtils.getYearMonthDay();
         valeMap.loadingbill_date = [today];
         listViewData = [
