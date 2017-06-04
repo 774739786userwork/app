@@ -32,6 +32,8 @@ import CustContainer from './CustContainer';
 import SettingContainer from './SettingContainer';
 //登录
 import LoginContainer from './login/LoginContainer'
+//密码验证
+import Login4MsgContainer from './login/Login4MsgContainer'
 //关于
 import AboutPageContainer from './setting/AboutPageContainer'
 //修改密码
@@ -69,6 +71,7 @@ const App = StackNavigator(
   {
     Splash: { screen: SplashPage },
     Login: { screen: LoginContainer },
+    Login4Msg: { screen: Login4MsgContainer },
     Home: {
       screen: TabContainer,
       navigationOptions: {

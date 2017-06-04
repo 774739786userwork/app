@@ -12,6 +12,7 @@ import selectStore from './selectStoreReducer'
 import queryReturnLists from './queryReturnListsReducer'
 import queryReturnDetail from './queryReturnDetailReducer'
 import addLadingbillsProduct from './addLadingbillsProductReducer'
+import sendMsg from './sendMsgReducer'
 
 const rootReducer = combineReducers({
   login,
@@ -26,7 +27,8 @@ const rootReducer = combineReducers({
   queryReturnDetail,
   selectName,
   selectStore,
-  addLadingbillsProduct
+  addLadingbillsProduct,
+  sendMsg
 });
 
 export default rootReducer;

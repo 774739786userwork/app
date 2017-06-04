@@ -27,6 +27,9 @@ const HomeItem = [
   { name: '开提货单', typeName: 'AddLadingbills', image: require('../../imgs/home/add_tihuo_order.png') },
   { name: '开送货单', typeName: 'SelectLadingbills', image: require('../../imgs/home/add_songhuo_order.png') },
   { name: '开退货单', typeName: 'SelectLadingbills', image: require('../../imgs/home/add_tuihuo_order.png') },
+  { name: '开提货单', typeName: 'SelectLadingbills', image: require('../../imgs/home/kaidinghuodan.png') },
+  { name: '结算单', typeName: 'SelectLadingbills', image: require('../../imgs/home/jiesuandan.png') },
+  { name: '欠款单', typeName: 'SelectLadingbills', image: require('../../imgs/home/qiankuandan.png') },
 ];
 
 const styles = {

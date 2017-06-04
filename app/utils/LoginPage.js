@@ -41,7 +41,7 @@ class LoginPage extends React.Component {
         if (1 === login.code || '1' === login.code) {
             const { navigation } = this.props;
             InteractionManager.runAfterInteractions(() => {
-                navigation.navigate('Login4Msg',userInfo)
+                navigation.navigate('Login4Msg')
             });
         } else if (login.errMsg) {
             Toast.show(login.errMsg);

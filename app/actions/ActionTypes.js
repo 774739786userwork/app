@@ -6,6 +6,16 @@ export const Login_API = "appLand/appUserland.page";
 export const Logining_ACTION = 'Logining_ACTION';  //开始登陆
 export const LoginError_ACTION = 'LoginError_ACTION'; //收到登陆结果
 export const LoginSucceed_ACTION = 'LoginSucceed_ACTION'; //收到登陆结果
+
+export const SendMsg_API = "appLand/buildRand.page";
+export const SendMsging_ACTION = 'SendMsging_ACTION';  //开始登陆
+export const SendMsgError_ACTION = 'SendMsgError_ACTION'; //收到登陆结果
+export const SendMsgSucceed_ACTION = 'SendMsgSucceed_ACTION'; //收到登陆结果
+
+export const Login4Msg_API = "appLand/appUserlandDX.page";
+export const Login4Msging_ACTION = 'Login4Msging_ACTION';  //开始登陆
+export const Login4MsgError_ACTION = 'Login4MsgError_ACTION'; //收到登陆结果
+export const Login4MsgSucceed_ACTION = 'Login4MsgSucceed_ACTION'; //收到登陆结果
 // 提货单查询
 export const SelectLadingbills_API = "mobileServiceManager/ladingbills/selectLadingbills.page";
 export const SelectLadingbillsing_ACTION = 'SelectLadingbillsing_ACTION';  

@@ -9,7 +9,7 @@ export function* login(action) {
     if (responseData.status === '0' || responseData.status === 0) {
       yield put({ type: types.LoginSucceed_ACTION, result: responseData.data });
     } else {
-      yield put({ type: types.LoginError_ACTION, errMsg: responseData.msg });
+      yield put({ type: types.LoginError_ACTION, errMsg: responseData.msg, code: responseData.status });
     }
   } catch (e) {
     yield put({ type: types.LoginError_ACTION, errMsg: e });

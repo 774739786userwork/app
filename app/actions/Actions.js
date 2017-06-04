@@ -1,6 +1,6 @@
 import * as types from './ActionTypes';
 import { LoginInfo } from 'react-native-go'
-
+import DeviceInfo from 'react-native-device-info';
 /**
  * 用户登录
  */
@@ -9,7 +9,25 @@ export function loginingActon(username, password) {
     return {
         type: types.Logining_ACTION,
         api: types.Login_API,
-        param: { username, password }
+        param: { username, password, mobilesequencenumber: DeviceInfo.getUniqueID() }
+    };
+}
+//发送短信验证码
+export function buildRand(mobile_number) {
+
+    return {
+        type: types.SendMsging_ACTION,
+        api: types.SendMsg_API,
+        param: { mobile_number }
+    };
+}
+//短信登录 
+export function appUserlandDX(username, password,dxyzm) {
+
+    return {
+        type: types.Login4Msging_ACTION,
+        api: types.Login4Msg_API,
+        param: { username, password, dxyzm,mobilesequencenumber: DeviceInfo.getUniqueID() }
     };
 }
 
@@ -106,13 +124,13 @@ export function selectDeliveryOrder(begin_date, end_date, start = 0, rows = 10) 
         return {
             type: types.SelectDeliveryOrdering_More_ACTION,
             api: types.SelectDeliveryOrder_API,
-            param: { token,user_id, begin_date, end_date, page, rows }
+            param: { token, user_id, begin_date, end_date, page, rows }
         };
     } else {
         return {
             type: types.SelectDeliveryOrdering_ACTION,
             api: types.SelectDeliveryOrder_API,
-            param: { token,user_id, begin_date, end_date, page, rows }
+            param: { token, user_id, begin_date, end_date, page, rows }
         };
     }
 
@@ -122,11 +140,11 @@ export function selectDeliveryOrder(begin_date, end_date, start = 0, rows = 10) 
  */
 export function getCarstockProductList(carbaseinfo_id) {
     const user_id = LoginInfo.getUserInfo().user_id;
-     const token = LoginInfo.getUserInfo().token;
+    const token = LoginInfo.getUserInfo().token;
     return {
         type: types.GetCarstockProductListing_ACTION,
         api: types.GetCarstockProductList_API,
-        param: { token,user_id, carbaseinfo_id }
+        param: { token, user_id, carbaseinfo_id }
     };
 
 }
@@ -141,7 +159,7 @@ export function getCarstockProductListDisburden(id, count) {
     const token = LoginInfo.getUserInfo().token;
     return {
         type: types.GetCarstockProductListDisburden_ACTION,
-        param: {token, id, count }
+        param: { token, id, count }
     };
 
 }
@@ -158,7 +176,7 @@ export function selectCar() {
     return {
         type: types.SelectCaring_ACTION,
         api: types.SelectCar_API,
-        param: { token,organization_id }
+        param: { token, organization_id }
     };
 
 }
@@ -174,7 +192,7 @@ export function selectName() {
     return {
         type: types.SelectNameing_ACTION,
         api: types.SelectName_API,
-        param: { token,organization_id }
+        param: { token, organization_id }
     };
 
 }
@@ -190,7 +208,7 @@ export function selectStore() {
     return {
         type: types.SelectStoreing_ACTION,
         api: types.SelectStore_API,
-        param: { token,organization_id }
+        param: { token, organization_id }
     };
 
 }
@@ -206,13 +224,13 @@ export function queryReturnLists(begin_date, end_date, start = 0, rows = 10) {
         return {
             type: types.QueryReturnListsing_More_ACTION,
             api: types.QueryReturnLists_API,
-            param: { token,user_id, begin_date, end_date, page, rows }
+            param: { token, user_id, begin_date, end_date, page, rows }
         };
     } else {
         return {
             type: types.QueryReturnListsing_ACTION,
             api: types.QueryReturnLists_API,
-            param: { token,user_id, begin_date, end_date, page, rows }
+            param: { token, user_id, begin_date, end_date, page, rows }
         };
     }
 
@@ -226,7 +244,7 @@ export function queryReturnDetail(return_id) {
     return {
         type: types.QueryReturnDetailing_ACTION,
         api: types.QueryReturnDetail_API,
-        param: { token,return_id }
+        param: { token, return_id }
     };
 
 }
@@ -240,7 +258,7 @@ export function addLadingbillsProduct(product_spell) {
     return {
         type: types.AddLadingbillsProducting_ACTION,
         api: types.AddLadingbillsProduct_API,
-        param: { token,product_spell }
+        param: { token, product_spell }
     };
 
 }
