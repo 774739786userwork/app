@@ -19,6 +19,7 @@ export default class EditeModel extends React.Component {
     constructor(props) {
         super(props)
         this.onConfirmPress = this.onConfirmPress.bind(this)
+        this.onCancelPress = this.onCancelPress.bind(this)
         let item = this.props.item;
         this.state = {
             modalVisible: this.props.modalVisible,
@@ -48,6 +49,10 @@ export default class EditeModel extends React.Component {
     onConfirmPress() {
         let item = this.props.item;
         this.props.onConfirmPress && this.props.onConfirmPress(item.id,this.state.count)
+        this.setState({ modalVisible: false });
+    }
+    onCancelPress() {
+        this.props.onCancelPress && this.props.onCancelPress()
         this.setState({ modalVisible: false });
     }
     render() {
@@ -103,9 +108,7 @@ export default class EditeModel extends React.Component {
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, width: modelWidth, backgroundColor: '#c4c4c4' }} />
                     <View style={{ backgroundColor: '#fff', flexDirection: 'row', height: 36, width: modelWidth, borderBottomLeftRadius: 10, borderBottomRightRadius: 10, justifyContent: 'center', alignItems: 'center', }}>
-                        <TouchableOpacity onPress={() => {
-                            this.setState({ modalVisible: false });
-                        }}>
+                        <TouchableOpacity onPress={this.onCancelPress}>
                             <View style={{ height: 36, width: modelWidth / 2, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: '#666' }}>{'取消'}</Text></View>
                         </TouchableOpacity>
                         <View style={{ width: StyleSheet.hairlineWidth, height: 36, backgroundColor: '#c4c4c4' }} />

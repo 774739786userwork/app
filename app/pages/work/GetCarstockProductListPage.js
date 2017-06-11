@@ -27,6 +27,7 @@ class GetCarstockProductListPage extends React.Component {
         this._renderItem = this._renderItem.bind(this);
         this._rowOnPress = this._rowOnPress.bind(this);
         this.onConfirmPress = this.onConfirmPress.bind(this)
+        this.onCancelPress = this.onCancelPress.bind(this)
         this.state = { 
             modalVisible: false,
             selectItem:{}
@@ -95,11 +96,14 @@ class GetCarstockProductListPage extends React.Component {
         });
          this.setState({ modalVisible: false });
     }
+    onCancelPress() {
+         this.setState({ modalVisible: false });
+    }
     render() {
         const { getCarstockProductList } = this.props;
         return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
-                <EditeModel modalVisible={this.state.modalVisible} item={this.state.selectItem} onConfirmPress={this.onConfirmPress} />
+                <EditeModel modalVisible={this.state.modalVisible} onCancelPress={this.onCancelPress} item={this.state.selectItem} onConfirmPress={this.onConfirmPress} />
                 <LoadingListView
                     loading={getCarstockProductList.loading}
                     loadMore={getCarstockProductList.loadMore}

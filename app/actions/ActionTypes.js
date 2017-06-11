@@ -16,6 +16,12 @@ export const Login4Msg_API = "appLand/appUserlandDX.page";
 export const Login4Msging_ACTION = 'Login4Msging_ACTION';  //开始登陆
 export const Login4MsgError_ACTION = 'Login4MsgError_ACTION'; //收到登陆结果
 export const Login4MsgSucceed_ACTION = 'Login4MsgSucceed_ACTION'; //收到登陆结果
+
+export const ListCustomers_API = "mobileServiceManager/customers/selectListCustomers.page";
+export const ListCustomersing_ACTION = 'ListCustomersing_ACTION';  //开始登陆
+export const ListCustomersError_ACTION = 'ListCustomersError_ACTION'; //收到登陆结果
+export const ListCustomersSucceed_ACTION = 'ListCustomersSucceed_ACTION'; //收到登陆结果
+
 // 提货单查询
 export const SelectLadingbills_API = "mobileServiceManager/ladingbills/selectLadingbills.page";
 export const SelectLadingbillsing_ACTION = 'SelectLadingbillsing_ACTION';  

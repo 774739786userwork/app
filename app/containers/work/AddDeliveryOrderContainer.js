@@ -8,17 +8,17 @@ import { bindActionCreators } from 'redux';
 import { Iconfont } from 'react-native-go';
 import * as actions from '../../actions/Actions';
 
-import GetCarstockProductListPage from '../../pages/work/GetCarstockProductListPage';
+import AddDeliveryOrderPage from '../../pages/work/AddDeliveryOrderPage';
 
 
-class GetCarstockProductListContainer extends React.Component {
+class AddDeliveryOrderContainer extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
     const { state, setParams } = navigation;
     const rightTitle = navigation.state.params ? navigation.state.params.rightTitle : '车辆选择';
     console.log(navigation.state.params)
     return {
-      title: '今日余货',
+      title: `${navigation.state.params.customersName}`,
       headerRight: (<TouchableOpacity onPress={() => {
         navigation.state.params.headerRightPress();
       }}>
@@ -62,7 +62,7 @@ class GetCarstockProductListContainer extends React.Component {
     navigation.navigate('SelectCar', { callback: (data) => this.updateRightView(data) })
   }
   render() {
-    return <GetCarstockProductListPage {...this.props} />;
+    return <AddDeliveryOrderPage {...this.props} />;
   }
 }
 
@@ -80,4 +80,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(GetCarstockProductListContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(AddDeliveryOrderContainer);

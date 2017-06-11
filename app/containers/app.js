@@ -11,6 +11,7 @@ import PurchaseOrderInfoContainer from './work/PurchaseOrderInfoContainer';
 import SelectDeliveryOrderContainer from './work/SelectDeliveryOrderContainer'
 //开送货单  客户查询
 import ListCustomersContainer from './work/ListCustomersContainer'
+import AddDeliveryOrderContainer from './work/AddDeliveryOrderContainer'
 
 import DeliveryOrderDetailContainer from './work/DeliveryOrderDetailContainer'
 //车余货
@@ -130,6 +131,9 @@ const App = StackNavigator(
     },
     ListCustomers: {
       screen: ListCustomersContainer
+    },
+    AddDeliveryOrder: {
+      screen: AddDeliveryOrderContainer
     },
     
 

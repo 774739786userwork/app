@@ -21,13 +21,28 @@ export function buildRand(mobile_number) {
         param: { mobile_number }
     };
 }
+
 //短信登录 
-export function appUserlandDX(username, password,dxyzm) {
+export function appUserlandDX(username, password, dxyzm) {
 
     return {
         type: types.Login4Msging_ACTION,
         api: types.Login4Msg_API,
-        param: { username, password, dxyzm,mobilesequencenumber: DeviceInfo.getUniqueID() }
+        param: { username, password, dxyzm, mobilesequencenumber: DeviceInfo.getUniqueID() }
+    };
+}
+//客户列表查询
+export function listCustomers(lat, lng, contactMobile) {
+    const orgId = 100002;//LoginInfo.getUserInfo().user_id;
+    const token = LoginInfo.getUserInfo().token;
+    let param = { lat, lng, token, orgId };
+    if(contactMobile){
+        param.contactMobile = contactMobile;
+    }
+    return {
+        type: types.ListCustomersing_ACTION,
+        api: types.ListCustomers_API,
+        param: param
     };
 }
 

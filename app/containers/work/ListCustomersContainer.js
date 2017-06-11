@@ -12,7 +12,7 @@ import ListCustomersPage from '../../pages/work/ListCustomersPage';
  */
 class ListCustomersContainer extends React.Component {
   static navigationOptions = ({ navigation }) => ({
-    title: '退货单查询',
+    title: '客户选择',
   });
   render() {
     return <ListCustomersPage {...this.props} />;
@@ -20,9 +20,9 @@ class ListCustomersContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const { queryReturnLists } = state;
+  const { listCustomers } = state;
   return {
-    queryReturnLists
+    listCustomers
   };
 };
 

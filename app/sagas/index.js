@@ -13,7 +13,7 @@ import { watchQueryReturnDetail } from './queryReturnDetail'
 import { watchRequestSelectStore } from './selectStore'
 import { watchAddLadingbillsProduct } from './addLadingbillsProduct'
 import { watchLogin4msg } from './login4msg'
-
+import { watchRequestListCustomers } from './listCustomers'
 export default function* rootSaga() {
     yield [
         fork(watchRequestLogin),
@@ -30,5 +30,6 @@ export default function* rootSaga() {
         fork(watchRequestSelectStore),
         fork(watchAddLadingbillsProduct),
         fork(watchLogin4msg),
+        fork(watchRequestListCustomers),
     ];
 }
