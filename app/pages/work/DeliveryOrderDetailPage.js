@@ -32,7 +32,7 @@ class DeliveryOrderDetailPage extends React.Component {
         const { action } = this.props;
         const { params } = this.props.navigation.state;
         InteractionManager.runAfterInteractions(() => {
-            action.deliveryOrderDetail(params.delivery_id, params.customer_id);
+            action.deliveryOrderDetail(params.delivery_id);
         });
     }
 
@@ -123,7 +123,9 @@ class DeliveryOrderDetailPage extends React.Component {
 
                     }
                 </View>
-                <View style={{ height: 58, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
+                {
+                    !deliveryOrderDetail.loading && deliveryOrderDetail.listData._cachedRowCount > 0 ?
+                    <View style={{ height: 58, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{ width: 12 }} />
                     <TouchableHighlight style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} onPress={this._onItemPress.bind(this)}>
                         <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: '#17c6c1', borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
@@ -162,6 +164,9 @@ class DeliveryOrderDetailPage extends React.Component {
                     </TouchableHighlight>
                     <View style={{ width: 12 }} />
                 </View>
+                :null
+                }
+                
             </View >
         );
     }

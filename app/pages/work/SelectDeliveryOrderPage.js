@@ -12,7 +12,7 @@ import {
     FlatList
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
-import { Iconfont, LoadingView,Toast } from 'react-native-go';
+import { Iconfont, LoadingView, Toast } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 
@@ -62,7 +62,7 @@ class SelectDeliveryOrderPage extends React.Component {
     }
     _rowOnPress(rowData) {
         const { navigate } = this.props.navigation;
-        navigate('DeliveryOrderDetail',rowData);
+        navigate('DeliveryOrderDetail', rowData);
     }
     _renderItem = (item, index) => {
         return (
@@ -84,33 +84,50 @@ class SelectDeliveryOrderPage extends React.Component {
                         <Text style={{ color: '#666' }}>{'送货单数'}</Text>
                         <View style={{
                             backgroundColor: '#fe6732',
-                            borderRadius: 10,
+                            borderRadius: 14,
                             height: 20,
-                            width: 20,
                             alignItems: 'center',
                             marginLeft: 8,
+                            padding:2,
                             marginRight: 8,
                             justifyContent: 'center',
                         }}>
-                            <Text style={{ fontSize: 12, color: '#fff' }}>{'10'}</Text>
+                            <Text style={{ fontSize: 12, color: '#fff' }}>{item.total_sum+''}</Text>
                         </View>
                     </View>
                     <View style={{ height: 34, paddingLeft: 12, paddingRight: 12, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{ flex: 2, color: '#333', textAlign: 'left', fontSize: 16 }}>{item.shop_name}</Text>
+                        <Text style={{ flex: 2, color: '#333', textAlign: 'left', fontSize: 16 }}>{item.contacts_name}</Text>
                         <Text style={{ flex: 1, color: '#999', textAlign: 'right' }}>{item.contacts_mobile}</Text>
                     </View>
+                    {
+                        item.goodsList.map((goodsItem)=>( 
                     <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{ color: '#f80000' }}>{'未收金额：'}</Text>
-                        <Text style={{ color: '#f80000' }}>{item.unpaid_total_sum + '元'}</Text>
+                        <Text style={{ color: '#999' }}>{goodsItem.name+': '}</Text>
+                        <Text style={{ color: '#999' }}>{goodsItem.quantity + goodsItem.unit}</Text>
+                    </View>))
+                    }
+                    <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
+                        <Text style={{ color: '#f80000' }}>{'铺货金额：'}</Text>
+                        <Text style={{ color: '#f80000' }}>{item.distribution_sum ? item.distribution_sum : 0 + '元'}</Text>
                     </View>
                     <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
+                            <Text style={{ color: '#f80000' }}>{'优惠金额：'}</Text>
+                            <Text style={{ color: '#f80000' }}>{item.discount_sum ? item.discount_sum : 0+ '元'}</Text>
+                        </View>
+                        <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#f80000' }}>{'抹零金额：'}</Text>
-                            <Text style={{ color: '#f80000' }}>{item.count_small_change_sum + '元'}</Text>
+                            <Text style={{ color: '#f80000' }}>{item.count_small_change_sum ? item.count_small_change_sum : 0+ '元'}</Text>
+                        </View>
+                    </View>
+                    <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{ flex: 1, flexDirection: 'row' }}>
+                            <Text style={{ color: '#f80000' }}>{'未收金额：'}</Text>
+                            <Text style={{ color: '#f80000' }}>{item.unpaid_total_sum ? item.unpaid_total_sum : 0+ '元'}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#f80000' }}>{'总计金额：'}</Text>
-                            <Text style={{ color: '#f80000' }}>{item.total_sum + '元'}</Text>
+                            <Text style={{ color: '#f80000' }}>{item.total_sum ? item.total_sum : 0+ '元'}</Text>
                         </View>
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, marginTop: 12, flex: 1, backgroundColor: '#c4c4c4' }} />
@@ -134,40 +151,18 @@ class SelectDeliveryOrderPage extends React.Component {
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
                 <View style={{ backgroundColor: '#118cd7' }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4 }}>
-                        <DatePicker
-                            style={{ width: 100, }}
-                            date={this.state.startDate}
-                            customStyles={{
-                                dateInput: { borderWidth: 0 },
-                                dateText: { color: '#fff' }
-                            }}
-                            mode="date"
-                            showIcon={false}
-                            format="YYYY-MM-DD"
-                            confirmBtnText="确定"
-                            cancelBtnText="取消"
-                            onDateChange={(date) => { this._selectByDate(date) }}
-                        />
+                        <Text style={{ color: '#fff', width: 100, textAlign: 'center' }}>
+                            {selectDeliveryOrder.begin_date}
+                        </Text>
                         <Text style={{ color: '#00548b' }}>
                             {'开始'}
                         </Text>
                         <Text style={{ color: '#fff', marginLeft: 8, marginRight: 8 }}>
                             {'----'}
                         </Text>
-                        <DatePicker
-                            style={{ width: 100, }}
-                            date={this.state.endDate}
-                            customStyles={{
-                                dateInput: { borderWidth: 0 },
-                                dateText: { color: '#fff' }
-                            }}
-                            mode="date"
-                            showIcon={false}
-                            format="YYYY-MM-DD"
-                            confirmBtnText="确定"
-                            cancelBtnText="取消"
-                            onDateChange={(date) => { this._selectByDate(null, date) }}
-                        />
+                        <Text style={{ color: '#fff', width: 100, textAlign: 'center' }}>
+                            {selectDeliveryOrder.end_date}
+                        </Text>
                         <Text style={{ color: '#00548b' }}>
                             {'结束'}
                         </Text>
@@ -192,7 +187,16 @@ class SelectDeliveryOrderPage extends React.Component {
                             <Text style={{ color: '#fff' }}>{selectDeliveryOrder.delivery_note_number + '张'}</Text>
                         </View>
                     </View>
-
+                    <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{ flex: 1, flexDirection: 'row' }}>
+                            <Text style={{ color: '#00548b' }}>{'铺货总计：'}</Text>
+                            <Text style={{ color: '#fff' }}>{selectDeliveryOrder.d_distribution_sum + '元'}</Text>
+                        </View>
+                        <View style={{ flex: 1, flexDirection: 'row' }}>
+                            <Text style={{ color: '#00548b' }}>{'优惠总计：'}</Text>
+                            <Text style={{ color: '#fff' }}>{selectDeliveryOrder.d_discount_sum + '张'}</Text>
+                        </View>
+                    </View>
                 </View>
                 <View style={{ flex: 1 }}>
                     <LoadingListView

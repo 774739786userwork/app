@@ -10,7 +10,7 @@ import * as actions from '../../actions/Actions';
 
 import AddDeliveryOrderPage from '../../pages/work/AddDeliveryOrderPage';
 
-
+let theCar;
 class AddDeliveryOrderContainer extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
@@ -38,24 +38,35 @@ class AddDeliveryOrderContainer extends React.Component {
   constructor(props) {
     super(props)
     this.updateRightView = this.updateRightView.bind(this);
+
   }
 
   componentDidMount() {
+    theCar = ""
     this.props.navigation.setParams({
       headerRightPress: this.headerRightPress,
       rightTitle: '车辆选择'
     })
+  }
+  componentWillReceiveProps(nextProps) {
+    const { addDeliveryOrder } = nextProps;
+    if (addDeliveryOrder.selectCar) {
+      if (theCar != addDeliveryOrder.selectCar.platenumber) {
+        theCar = addDeliveryOrder.selectCar.platenumber;
+        this.updateRightView(addDeliveryOrder.selectCar)
+      }
+    }
   }
   intervalAction(data) {
     this.timer && clearTimeout(this.timer)
     this.props.navigation.setParams({
       rightTitle: data.platenumber//'车辆选择3'
     })
+
   }
   updateRightView(data) {
     console.log(data)
-    this.timer = setTimeout(this.intervalAction.bind(this,data), 10)
-
+    this.timer = setTimeout(this.intervalAction.bind(this, data), 10)
   }
   headerRightPress = () => {
     const { navigation } = this.props;
@@ -67,9 +78,9 @@ class AddDeliveryOrderContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const { getCarstockProductList } = state;
+  const { addDeliveryOrder } = state;
   return {
-    getCarstockProductList
+    addDeliveryOrder
   };
 };
 

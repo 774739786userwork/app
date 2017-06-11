@@ -32,19 +32,28 @@ class AddDeliveryOrderPage extends React.Component {
         this.onCancelPress = this.onCancelPress.bind(this)
         this.state = {
             modalVisible: false,
-            selectItem: {}
+            selectItem: {},
+            chooseList: [],
         };
     }
+
     componentWillReceiveProps(nextProps) {
-        const { getCarstockProductList } = nextProps;
-        if (getCarstockProductList.errMsg) {
-            Toast.show(getCarstockProductList.errMsg);
+        const { addDeliveryOrder } = nextProps;
+        if (addDeliveryOrder.errMsg) {
+            Toast.show(addDeliveryOrder.errMsg);
+            return;
+        }
+        const { action, navigation } = this.props;
+        const { params } = navigation.state;
+        if (addDeliveryOrder.selectCar && !addDeliveryOrder.loading && addDeliveryOrder.result.length == 0) {
+            action.addDeliveryOrder(params.customersId, params.orgId, addDeliveryOrder.selectCar.platenumber)
         }
     }
     componentDidMount() {
-        const { action } = this.props;
+        const { action, navigation } = this.props;
+        const { params } = navigation.state;
         InteractionManager.runAfterInteractions(() => {
-            action.getCarstockProductList();
+            action.getCar4Delivery(params.customersId);
         });
     }
     _rowOnPress(selectItem) {
@@ -100,7 +109,7 @@ class AddDeliveryOrderPage extends React.Component {
     onConfirmPress(id, newCount) {
         const { action } = this.props;
         InteractionManager.runAfterInteractions(() => {
-            action.getCarstockProductListDisburden(id, newCount);
+            action.addDeliveryOrderDisburden(id, newCount);
         });
         this.setState({ modalVisible: false });
     }
@@ -108,33 +117,45 @@ class AddDeliveryOrderPage extends React.Component {
         this.setState({ modalVisible: false });
     }
     render() {
-        const { getCarstockProductList } = this.props;
+        const { addDeliveryOrder } = this.props;
+        let num = 0;
+        let numberCarsh = 0;
+        
         return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
                 <EditeModel modalVisible={this.state.modalVisible} onCancelPress={this.onCancelPress} item={this.state.selectItem} onConfirmPress={this.onConfirmPress} />
                 <LoadingListView
-                    loading={getCarstockProductList.loading}
-                    loadMore={getCarstockProductList.loadMore}
-                    listData={dataSource.cloneWithRows(getCarstockProductList.result)}
+                    loading={addDeliveryOrder.loading || addDeliveryOrder.carLoading}
+                    loadMore={addDeliveryOrder.loadMore}
+                    listData={dataSource.cloneWithRows(addDeliveryOrder.result)}
                     renderRowView={this._renderItem} />
                 <View style={{ height: 50, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
                     <TouchableHighlight onPress={this._onItemPress.bind(this)}>
-                        <View style={{ width: 50, height: 50, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' }}>
+                        <View style={{ width: 50, height: 50, padding:6, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' }}>
                             <Iconfont fontFamily={'OAIndexIcon'}
                                 icon={'e6b5'} // 图标
                                 iconColor={'#999'}
                                 iconSize={30}
                             />
-                            <Text style={{position: 'absolute',fontSize:10,padding:2 ,top:8,right:0,backgroundColor:'#fe6732',color:'#fff',borderRadius:12}}>{'182'}</Text>
+                            {
+                                num > 0 ?
+                                <Text style={{ position: 'absolute', fontSize: 10, padding: 4, top: 6,right:6, backgroundColor: '#fe6732', color: '#fff', borderRadius: 12 }}>{''+num}</Text>
+                                : null
+                            }
                         </View>
                     </TouchableHighlight>
-                    <Text style={{ color: '#f80000' }}>{'￥500元'}</Text>
+                    <Text style={{ color: '#f80000' }}>{'￥'+numberCarsh+'元'}</Text>
                     <View style={{ flex: 1 }} />
-                    <TouchableHighlight onPress={this._onItemPress.bind(this)}>
-                        <View style={{ width: 100, height: 50, backgroundColor: '#fe6732', justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ color: '#fff' }}>{'结算'}</Text>
-                        </View>
-                    </TouchableHighlight>
+                    {
+                        this.state.chooseList.length > 0 ?
+                            <TouchableHighlight onPress={this._onItemPress.bind(this)}>
+                                <View style={{ width: 100, height: 50, backgroundColor: '#fe6732', justifyContent: 'center', alignItems: 'center' }}>
+                                    <Text style={{ color: '#fff' }}>{'结算'}</Text>
+                                </View>
+                            </TouchableHighlight>
+                            : null
+                    }
+
                 </View>
             </View >
         );

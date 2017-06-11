@@ -64,6 +64,7 @@ class Login4MsgPage extends React.Component {
                         placeholderTextColor={'#cbcbcb'}
                         underlineColorAndroid={'transparent'}
                         autoCapitalize={'none'}
+                        keyboardType={'phone-pad'}
                         autoCorrect={false}
                         onChangeText={(mobilesequencenumber) => {
                             userInfo.mobilesequencenumber = mobilesequencenumber;

@@ -81,8 +81,6 @@ export default class SearchBar extends React.Component {
     }
 
     _onBlur() {
-        this._clearText();
-        this.setState({ isOnFocus: false });
         if (this.props.onBlur) {
             this.props.onBlur();
         }
@@ -111,7 +109,7 @@ export default class SearchBar extends React.Component {
         }
         this.timer = setTimeout(() => {
             onSearchChange && onSearchChange(text);
-        }, 800);
+        }, 500);
     }
 
     render() {
@@ -136,9 +134,8 @@ export default class SearchBar extends React.Component {
 
         return (
             <View
-                onStartShouldSetResponder={this._dismissKeyboard}
                 style={{ padding: padding }}
-                >
+            >
                 <View
                     style={
                         [
@@ -150,7 +147,7 @@ export default class SearchBar extends React.Component {
                             inputStyle
                         ]
                     }
-                    >
+                >
                     {this.state.isOnFocus ?
                         <TouchableOpacity onPress={this._dismissKeyboard}>
                             <Iconfont
@@ -158,7 +155,7 @@ export default class SearchBar extends React.Component {
                                 icon={iconCloseName} // 图标
                                 iconColor='#a3a3a3'
                                 iconSize={height * 0.5}
-                                />
+                            />
                         </TouchableOpacity>
                         :
                         <View style={{
@@ -171,7 +168,7 @@ export default class SearchBar extends React.Component {
                                 icon={iconSearchName} // 图标
                                 iconColor='#a3a3a3'
                                 iconSize={height * 0.48}
-                                />
+                            />
                         </View>
                     }
                     <TextInput
@@ -182,6 +179,15 @@ export default class SearchBar extends React.Component {
                         onBlur={this._onBlur}
                         onChangeText={this.onTextChangeFire}
                         placeholder={placeholder}
+                        onEndEditing={() => {
+                            console.log('onEndEditing');
+                        }
+                        }
+                        onSubmitEditing={() => {
+                            console.log('onSubmitEditing');
+                        }
+
+                        }
                         placeholderTextColor={placeholderColor}
                         underlineColorAndroid="transparent"
                         style={
@@ -191,7 +197,7 @@ export default class SearchBar extends React.Component {
                             },
                             ]
                         }
-                        />
+                    />
                     {this.state.isOnFocus ?
                         <TouchableOpacity onPress={this._onClose}>
                             <View style={{
@@ -203,7 +209,7 @@ export default class SearchBar extends React.Component {
                                     icon={iconBackName} // 图标
                                     iconColor='#a3a3a3'
                                     iconSize={height * 0.6}
-                                    />
+                                />
                             </View>
                         </TouchableOpacity>
                         : null

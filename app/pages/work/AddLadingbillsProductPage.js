@@ -15,6 +15,8 @@ import DatePicker from 'react-native-datepicker'
 import { Iconfont, LoadingView } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
+import SearchBar from '../../components/SearchBar';
+
 const ic_product = require('../../imgs/ic_product.png')
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
@@ -25,11 +27,20 @@ class AddLadingbillsProductPage extends React.Component {
     }
     componentDidMount() {
         const { action } = this.props;
+        const { params } = this.props.navigation.state;
+        let organization_id = params.storehouse_id[1]
         InteractionManager.runAfterInteractions(() => {
-            action.addLadingbillsProduct();
+            action.addLadingbillsProduct(organization_id);
         });
     }
-
+    onSearchAction(txt) {
+        const { action } = this.props;
+        const { params } = this.props.navigation.state;
+        let organization_id = params.storehouse_id[1]
+        InteractionManager.runAfterInteractions(() => {
+            action.addLadingbillsProduct(organization_id,txt);
+        });
+    }
     _renderItem = (item, index) => {
         return (
             <View style={{ backgroundColor: '#fff' }} key={`row_${index}`}>
@@ -82,6 +93,24 @@ class AddLadingbillsProductPage extends React.Component {
                         <Text style={{ color: '#fff', fontSize: 16 }}>{`${params.storehouse_id[0]}`}</Text>
                     </View>
                 </View>
+                <SearchBar
+                    onSearchChange={(text) => {
+                        if (text && text.length > 0) {
+                            this.onSearchAction(text);
+                        }
+                    }}
+                    height={30}
+                    onFocus={() => console.log('On Focus')}
+                    onClose={() => {
+                        this.onSearchAction();
+                    }}
+                    placeholder={'请输入产品拼音查询'}
+                    autoCorrect={false}
+                    padding={8}
+                    returnKeyType={'search'}
+                />
+                <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#d9d9d9' }} />
+
                 <View style={{ flex: 1 }}>
                     {
                         addLadingbillsProduct.loading ?
@@ -108,22 +137,22 @@ class AddLadingbillsProductPage extends React.Component {
                 <View style={{ width: WINDOW_WIDTH, height: 1, backgroundColor: '#c4c4c4' }} />
                 <View style={{ height: 50, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
                     <TouchableHighlight onPress={this._onItemPress.bind(this)}>
-                        <View>
+                        <View style={{ width: 50, height: 50, padding: 6, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' }}>
                             <Iconfont
-                                icon={'e66e'} // 图标
+                                icon={'e6b5'} // 图标
                                 iconColor={'#999'}
-                                iconSize={22}
+                                iconSize={30}
                             />
                         </View>
                     </TouchableHighlight>
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#999' }}>{'总数量：'}</Text>
-                            <Text style={{ color: '#f80000' }}>{'100'}</Text>
+                            <Text style={{ color: '#f80000' }}>{'0'}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#999' }}>{'总质量：'}</Text>
-                            <Text style={{ color: '#f80000' }}>{'100'}</Text>
+                            <Text style={{ color: '#f80000' }}>{'0'}</Text>
                         </View>
                     </View>
                     <View style={{ flex: 1 }} />

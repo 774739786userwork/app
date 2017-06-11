@@ -33,6 +33,8 @@ import AddLadingbillsProductContainer from './work/AddLadingbillsProductContaine
 import SelasContainer from './SelasContainer';
 //客户管理
 import CustContainer from './CustContainer';
+//新增客户
+import AddCustContainer from './cust/AddCustContainer'
 //设置
 import SettingContainer from './SettingContainer';
 //登录
@@ -134,6 +136,9 @@ const App = StackNavigator(
     },
     AddDeliveryOrder: {
       screen: AddDeliveryOrderContainer
+    },
+    AddCust: {
+      screen: AddCustContainer
     },
     
 

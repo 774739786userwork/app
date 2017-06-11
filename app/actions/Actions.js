@@ -36,7 +36,7 @@ export function listCustomers(lat, lng, contactMobile) {
     const orgId = 100002;//LoginInfo.getUserInfo().user_id;
     const token = LoginInfo.getUserInfo().token;
     let param = { lat, lng, token, orgId };
-    if(contactMobile){
+    if (contactMobile) {
         param.contactMobile = contactMobile;
     }
     return {
@@ -45,7 +45,48 @@ export function listCustomers(lat, lng, contactMobile) {
         param: param
     };
 }
+/**
+ * 开送货单获取产品数据接口
+ * @param {*} begin_date 
+ * @param {*} end_date 
+ * @param {*} start 
+ * @param {*} rows 
+ * ?user_id=100002&org_id=100002&car_id=149&token=p59tYTPlRBS59Xe
+ */
+export function addDeliveryOrder(user_id,org_id,car_id, start = 0, rows = 10) {
+    const token = LoginInfo.getUserInfo().token;
+    let page = 1;
+    if (start) {
+        page = start / rows + 1;
+        return {
+            type: types.AddDeliveryOrdering_More_ACTION,
+            api: types.AddDeliveryOrder_API,
+            param: { user_id, token, org_id, car_id, page, rows }
+        };
+    } else {
+        return {
+            type: types.AddDeliveryOrdering_ACTION,
+            api: types.AddDeliveryOrder_API,
+            param: { user_id, token, org_id, car_id, page, rows }
+        };
+    }
 
+}
+/**
+ * 开送货单 车牌查询接口
+ * mobileServiceManager/customers/getCarInfoJson.page?user_id=100002&token=xKJ6ZrR6ws0Z
+ */
+export function getCar4Delivery(user_id) {
+    const token = LoginInfo.getUserInfo().token;
+    const organization_id = LoginInfo.getUserInfo().organization_id;
+
+    return {
+        type: types.AddDeliveryOrdering4Car_ACTION,
+        api: "mobileServiceManager/ladingbills/appGetCarList.page",//'mobileServiceManager/customers/getCarInfoJson.page',
+        param: { token, organization_id }
+    };
+
+}
 /**
  * 提货单查询
  */
@@ -118,12 +159,12 @@ export function purchaseOrderInfo(start = 0, rows = 10) {
 /**
  * 送货单查询 详情
  */
-export function deliveryOrderDetail(delivery_id, car_id) {
+export function deliveryOrderDetail(delivery_id) {
     const token = LoginInfo.getUserInfo().token;
     return {
         type: types.DeliveryOrderDetailing_ACTION,
         api: types.DeliveryOrderDetail_API,
-        param: { token, delivery_id, car_id }
+        param: { token, delivery_id }
     };
 
 }
@@ -139,13 +180,13 @@ export function selectDeliveryOrder(begin_date, end_date, start = 0, rows = 10) 
         return {
             type: types.SelectDeliveryOrdering_More_ACTION,
             api: types.SelectDeliveryOrder_API,
-            param: { token, user_id, begin_date, end_date, page, rows }
+            param: { token, user_id,/* begin_date, end_date, */page, rows }
         };
     } else {
         return {
             type: types.SelectDeliveryOrdering_ACTION,
             api: types.SelectDeliveryOrder_API,
-            param: { token, user_id, begin_date, end_date, page, rows }
+            param: { token, user_id,/* begin_date, end_date, */page, rows }
         };
     }
 
@@ -267,13 +308,17 @@ export function queryReturnDetail(return_id) {
 /**
  * 产品列表查询
  */
-export function addLadingbillsProduct(product_spell) {
+export function addLadingbillsProduct(organization_id,product_spell) {
     const token = LoginInfo.getUserInfo().token;
-
+    const user_id = LoginInfo.getUserInfo().user_id;
+    let param = { token, organization_id,user_id };
+    if(product_spell){
+        param.product_spell = product_spell;
+    }
     return {
         type: types.AddLadingbillsProducting_ACTION,
         api: types.AddLadingbillsProduct_API,
-        param: { token, product_spell }
+        param: param
     };
 
 }

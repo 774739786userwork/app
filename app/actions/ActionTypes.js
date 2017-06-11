@@ -41,13 +41,13 @@ export const PurchaseOrderInfoing_More_ACTION = 'PurchaseOrderInfoing_More_ACTIO
 export const PurchaseOrderInfoError_ACTION = 'PurchaseOrderInfoError_ACTION'; //收到结果
 export const PurchaseOrderInfoSucceed_ACTION = 'PurchaseOrderInfoSucceed_ACTION'; //收到结果
 // 送货单查询
-export const SelectDeliveryOrder_API = "mobile_interfaces/mobile_info/employee_to_delivery_order";
+export const SelectDeliveryOrder_API = "mobileServiceManager/deliveryNotes/selectDeliveryNotes.page";
 export const SelectDeliveryOrdering_ACTION = 'SelectDeliveryOrdering_ACTION';  
 export const SelectDeliveryOrdering_More_ACTION = 'SelectDeliveryOrdering_More_ACTION';  
 export const SelectDeliveryOrderError_ACTION = 'SelectDeliveryOrderError_ACTION'; //收到结果
 export const SelectDeliveryOrderSucceed_ACTION = 'SelectDeliveryOrderSucceed_ACTION'; //收到结果
-// 送货单详情
-export const DeliveryOrderDetail_API = "mobile_interfaces/mobile_info/get_delivery_product_list.page";
+// 送货单详情 mobileServiceManager/deliveryNotes/getDeliveryProductList.page?token=rc3GWySoPEF4aFrUgG&delivery_id=100072
+export const DeliveryOrderDetail_API = "mobileServiceManager/deliveryNotes/getDeliveryProductList.page";
 export const DeliveryOrderDetailing_ACTION = 'DeliveryOrderDetailing_ACTION';  
 export const DeliveryOrderDetailing_More_ACTION = 'DeliveryOrderDetailing_More_ACTION';  
 export const DeliveryOrderDetailError_ACTION = 'DeliveryOrderDetailError_ACTION'; //收到结果
@@ -91,8 +91,18 @@ export const QueryReturnDetailSucceed_ACTION = 'QueryReturnDetailSucceed_ACTION'
 
 
 //开提货单产品列表
-export const AddLadingbillsProduct_API = "mobile_interfaces/mobile_info/get_ladingbill_product_list.page";
+export const AddLadingbillsProduct_API = "mobileServiceManager/ladingbills/appGetProductList.page";
 export const AddLadingbillsProducting_ACTION = 'AddLadingbillsProducting_ACTION';  
 export const AddLadingbillsProducting_More_ACTION = 'AddLadingbillsProducting_More_ACTION';  
 export const AddLadingbillsProductError_ACTION = 'AddLadingbillsProductError_ACTION'; //收到结果
 export const AddLadingbillsProductSucceed_ACTION = 'AddLadingbillsProductSucceed_ACTION'; //收到结果
+
+//开送货单获取产品
+export const AddDeliveryOrder_API = "mobileServiceManager/deliveryNotes/getladingbillproductlist.page";
+export const AddDeliveryOrdering_ACTION = 'AddDeliveryOrdering_ACTION';
+export const AddDeliveryOrdering_More_ACTION = 'AddDeliveryOrdering_More_ACTION';  
+export const AddDeliveryOrderError_ACTION = 'AddDeliveryOrderError_ACTION'; //收到结果
+export const AddDeliveryOrderSucceed_ACTION = 'AddDeliveryOrderSucceed_ACTION'; //收到结果
+
+export const AddDeliveryOrdering4Car_ACTION = 'AddDeliveryOrdering4Car_ACTION';//获取车牌
+export const AddDeliveryOrder4CarSucceed_ACTION = 'AddDeliveryOrder4CarSucceed_ACTION';//获取车牌

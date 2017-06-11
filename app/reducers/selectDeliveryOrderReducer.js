@@ -17,7 +17,8 @@ const initialState = {
     d_unpaid_total_sum: 0,
     d_count_small_change_sum: 0,
     delivery_note_number: 0,
-
+    d_distribution_sum: 0,
+    d_discount_sum: 0,
 
 }
 
@@ -49,6 +50,10 @@ export default function selectDeliveryOrderReducer(state = initialState, action)
                     loadMore: false,
                     count: action.result.total_record,
                     result: list,
+                    begin_date: action.result.begin_date,
+                    end_date: action.result.end_date,
+                    d_distribution_sum: action.result.d_distribution_sum,
+                    d_discount_sum: action.result.d_discount_sum,
                     d_total_sum: action.result.d_total_sum,
                     d_unpaid_total_sum: action.result.d_unpaid_total_sum,
                     d_count_small_change_sum: action.result.d_count_small_change_sum,
@@ -61,6 +66,10 @@ export default function selectDeliveryOrderReducer(state = initialState, action)
                     loading: false,
                     count: action.result.total_record,
                     result: action.result.delivery_order_list,
+                    begin_date: action.result.begin_date,
+                    end_date: action.result.end_date,
+                    d_distribution_sum: action.result.d_distribution_sum,
+                    d_discount_sum: action.result.d_discount_sum,
                     d_total_sum: action.result.d_total_sum,
                     d_unpaid_total_sum: action.result.d_unpaid_total_sum,
                     d_count_small_change_sum: action.result.d_count_small_change_sum,

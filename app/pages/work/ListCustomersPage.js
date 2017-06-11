@@ -59,12 +59,12 @@ class ListCustomersPage extends React.Component {
         navigation.navigate('AddDeliveryOrder', { ...item })
 
     }
-    onTelAction(rowData) {
-        Alert.alert(rowData.customersName + '', rowData.telephone,
+    onTelAction(type,title,customersName,telephone) {
+        Alert.alert(customersName + '', telephone,
             [
                 {
-                    text: '拨打电话', onPress: () => {
-                        let url = 'tel:' + rowData.TELL;
+                    text: title, onPress: () => {
+                        let url = type + telephone;
                         Linking.canOpenURL(url).then(supported => {
                             if (supported) {
                                 Linking.openURL(url);
@@ -94,8 +94,13 @@ class ListCustomersPage extends React.Component {
      */
 
     _renderItem = (item, index) => {
-        let contactName = ""
-        
+        let contactName = "";
+        let contactPhone = "";
+        if (item.contacts && item.contacts.length > 0) {
+            contactName = item.contacts[0].name;
+            contactPhone = item.contacts[0].mobile1;
+        }
+
         return (
             <TouchableHighlight
                 onPress={this._onItemPress.bind(this, item)}
@@ -106,20 +111,30 @@ class ListCustomersPage extends React.Component {
                         <View style={{ alignItems: 'center', justifyContent: 'center', height: 110 }}>
                             <Image style={{ width: 90, height: 90, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={ic_product} />
                         </View>
-                        <View style={{ flex: 1 , paddingLeft: 12,}}>
+                        <View style={{ flex: 1, paddingLeft: 12, }}>
                             <View style={{ height: 34, marginBottom: 8, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
                                 <Text style={{ color: '#333', fontSize: 16 }}>{`${item.customersName}`}</Text>
                             </View>
-                            <Text style={{ color: '#666' }}>{`${item.customersName}`}</Text>
-                            <Text style={{ color: '#666'}}>{`${item.telephone}`}</Text>
+                            <Text style={{ color: '#666' }}>{`${contactName}`}</Text>
+                            <Text style={{ color: '#666' }}>{`${contactPhone}`}</Text>
                         </View>
-                        <View style={{ alignItems: 'center', justifyContent: 'center', height: 110 }}>
-                            <TouchableOpacity onPress={this.onTelAction.bind(this, item)}>
-                                <View style={{ width: 32, height: 32, borderRadius: 16, backgroundColor: '#fb6d23' }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', height: 110 }}>
+                            <TouchableOpacity onPress={this.onTelAction.bind(this,'tel:','拨打电话', contactName,contactPhone)}>
+                                <View style={{ width: 32, height: 32, alignItems: 'center', justifyContent: 'center',borderRadius: 16, backgroundColor: '#fb6d23' }}>
                                     <Iconfont fontFamily={'OAIndexIcon'}
                                         icon={'e68e'} // 图标
                                         iconColor={'#fff'}
                                         iconSize={14}
+                                    />
+                                </View>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={{margin:12}} onPress={this.onTelAction.bind(this, 'smsto:','发送短信',contactName,contactPhone)}>
+                                <View style={{ width: 32, height: 32,alignItems: 'center', justifyContent: 'center', borderRadius: 16, backgroundColor: '#18c5c1' }}>
+                                    <Iconfont fontFamily={'OAIndexIcon'}
+                                        icon={'e6c1'} // 图标
+                                        iconColor={'#fff'}
+                                        iconSize={18}
                                     />
                                 </View>
                             </TouchableOpacity>
@@ -147,7 +162,7 @@ class ListCustomersPage extends React.Component {
                     }}
                     height={30}
                     onFocus={() => console.log('On Focus')}
-                    onBlur={() => {
+                    onClose={() => {
                         this.onSearchAction();
                     }}
                     placeholder={'请输入手机号码查询'}
