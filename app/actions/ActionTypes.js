@@ -97,6 +97,13 @@ export const AddLadingbillsProducting_More_ACTION = 'AddLadingbillsProducting_Mo
 export const AddLadingbillsProductError_ACTION = 'AddLadingbillsProductError_ACTION'; //收到结果
 export const AddLadingbillsProductSucceed_ACTION = 'AddLadingbillsProductSucceed_ACTION'; //收到结果
 
+//开提货单 保存
+export const SaveLadingbillsProduct_API = "mobileServiceManager/ladingbills/addLadingbills.page";
+export const SaveLadingbillsProducting_ACTION = 'SaveLadingbillsProducting_ACTION';  
+export const SaveLadingbillsProducting_More_ACTION = 'SaveLadingbillsProducting_More_ACTION';  
+export const SaveLadingbillsProductError_ACTION = 'SaveLadingbillsProductError_ACTION'; //收到结果
+export const SaveLadingbillsProductSucceed_ACTION = 'SaveLadingbillsProductSucceed_ACTION'; //收到结果
+
 //开送货单获取产品
 export const AddDeliveryOrder_API = "mobileServiceManager/deliveryNotes/getladingbillproductlist.page";
 export const AddDeliveryOrdering_ACTION = 'AddDeliveryOrdering_ACTION';

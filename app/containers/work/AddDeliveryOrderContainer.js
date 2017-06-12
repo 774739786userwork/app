@@ -45,7 +45,7 @@ class AddDeliveryOrderContainer extends React.Component {
     theCar = ""
     this.props.navigation.setParams({
       headerRightPress: this.headerRightPress,
-      rightTitle: '车辆选择'
+      rightTitle: '暂无车辆'
     })
   }
   componentWillReceiveProps(nextProps) {

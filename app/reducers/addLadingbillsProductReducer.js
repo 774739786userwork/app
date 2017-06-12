@@ -9,7 +9,7 @@ var dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 
 const initialState = {
     loading: false,
     loadMore: false,
-    count: 0,
+    saving:false,
     listData: dataSource.cloneWithRows([]),//数据源
     errMsg: undefined,
     result:[]
@@ -22,13 +22,11 @@ export default function addLadingbillsProductReducer(state = initialState, actio
             return Object.assign({}, state, {
                 loading: true,
                 errMsg: undefined,
-                count: 0,
                 listData: dataSource.cloneWithRows([]),//数据源
             });
         case types.AddLadingbillsProductError_ACTION:
             return Object.assign({}, state, {
                 loading: false,
-                count: 0,
                 listData: dataSource.cloneWithRows([]),//数据源
                 errMsg: action.errMsg,
             });
@@ -38,7 +36,6 @@ export default function addLadingbillsProductReducer(state = initialState, actio
                 return Object.assign({}, state, {
                     loading: false,
                     loadMore:false,
-                    count: action.result.total_record,
                     result:list,
                     listData: dataSource.cloneWithRows(list),//数据源
                     errMsg: undefined,
@@ -46,7 +43,6 @@ export default function addLadingbillsProductReducer(state = initialState, actio
             } else {
                 return Object.assign({}, state, {
                     loading: false,
-                    count: action.result.total_record,
                     result:action.result.data,
                     listData: dataSource.cloneWithRows(action.result.data),//数据源
                     errMsg: undefined,

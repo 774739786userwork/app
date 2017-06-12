@@ -15,6 +15,7 @@ import addLadingbillsProduct from './addLadingbillsProductReducer'
 import sendMsg from './sendMsgReducer'
 import listCustomers from './listCustomersReducer'
 import addDeliveryOrder from './addDeliveryOrderReducer'
+import saveLadingbillsProduct from './saveLadingbillsProductReducer'
 
 const rootReducer = combineReducers({
   login,
@@ -32,7 +33,8 @@ const rootReducer = combineReducers({
   addLadingbillsProduct,
   sendMsg,
   listCustomers,
-  addDeliveryOrder
+  addDeliveryOrder,
+  saveLadingbillsProduct
 });
 
 export default rootReducer;

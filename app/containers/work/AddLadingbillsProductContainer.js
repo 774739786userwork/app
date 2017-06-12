@@ -18,9 +18,9 @@ class AddLadingbillsProductContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const { addLadingbillsProduct } = state;
+  const { addLadingbillsProduct,saveLadingbillsProduct } = state;
   return {
-    addLadingbillsProduct
+    addLadingbillsProduct,saveLadingbillsProduct
   };
 };
 

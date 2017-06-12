@@ -46,14 +46,14 @@ class AddDeliveryOrderPage extends React.Component {
         const { action, navigation } = this.props;
         const { params } = navigation.state;
         if (addDeliveryOrder.selectCar && !addDeliveryOrder.loading && addDeliveryOrder.result.length == 0) {
-            action.addDeliveryOrder(params.customersId, params.orgId, addDeliveryOrder.selectCar.platenumber)
+            action.addDeliveryOrder(addDeliveryOrder.selectCar.carbaseinfo_id)
         }
     }
     componentDidMount() {
         const { action, navigation } = this.props;
         const { params } = navigation.state;
         InteractionManager.runAfterInteractions(() => {
-            action.getCar4Delivery(params.customersId);
+            action.getCar4Delivery();
         });
     }
     _rowOnPress(selectItem) {

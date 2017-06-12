@@ -12,84 +12,147 @@ import {
     FlatList
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
-import { Iconfont, LoadingView } from 'react-native-go';
+import { Iconfont, LoadingView, Spinner,Toast } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 import SearchBar from '../../components/SearchBar';
+import LadProductItem from './components/LadProductItem'
+import SaveModel from './components/SaveModel'
 
-const ic_product = require('../../imgs/ic_product.png')
 const WINDOW_WIDTH = Dimensions.get('window').width;
-
+/**
+ * 提货单 产品列表
+ */
 class AddLadingbillsProductPage extends React.Component {
     constructor(props) {
         super(props);
         this._renderItem = this._renderItem.bind(this);
+        this.onUpdateGoogs = this.onUpdateGoogs.bind(this);
+        this._onItemPress = this._onItemPress.bind(this);
+        this.onCancelPress = this.onCancelPress.bind(this);
+        this.onConfirmPress = this.onConfirmPress.bind(this)
+        this.state = {
+            good_list: [],
+            totalNum: 0,
+            totalWeight: 0,
+            modalVisible: false
+        }
+
+    }
+    componentWillReceiveProps(nextProps) {
+        const { saveLadingbillsProduct } = nextProps;
+        if (saveLadingbillsProduct.errMsg) {
+            Toast.show(saveLadingbillsProduct.errMsg);
+        } else if (!saveLadingbillsProduct.saving && saveLadingbillsProduct.seccued) {
+            const { navigation } = this.props;
+            InteractionManager.runAfterInteractions(() => {
+                Toast.show('保存成功');
+                navigation.goBack();
+            });
+        }
     }
     componentDidMount() {
         const { action } = this.props;
         const { params } = this.props.navigation.state;
-        let organization_id = params.storehouse_id[1]
         InteractionManager.runAfterInteractions(() => {
-            action.addLadingbillsProduct(organization_id);
+            action.addLadingbillsProduct();
         });
     }
     onSearchAction(txt) {
         const { action } = this.props;
         const { params } = this.props.navigation.state;
-        let organization_id = params.storehouse_id[1]
         InteractionManager.runAfterInteractions(() => {
-            action.addLadingbillsProduct(organization_id,txt);
+            action.addLadingbillsProduct(txt);
         });
     }
+    onUpdateGoogs(item) {
+        let good_list = this.state.good_list;
+        let oldItem = null;
+        for (let i = 0; i < good_list.length; i++) {
+            if (item.product_id == good_list[i].product_id) {
+                oldItem = good_list[i];
+            }
+        }
+        if (oldItem) {
+            oldItem.real_loading_count = item.real_loading_count
+        } else {
+            good_list.push(item)
+        }
+        let totalWeight = 0;
+        let totalNum = 0;
+        if (good_list) {
+            good_list.map((a) => {
+                totalWeight += a.product_weight * a.real_loading_count;
+                totalNum += a.real_loading_count;
+            })
+        }
+        this.setState({ good_list, totalNum, totalWeight });
+    }
     _renderItem = (item, index) => {
+        let good_list = this.state.good_list;
+        if (good_list) {
+            good_list.map((a) => {
+                if (item.product_id == a.product_id) {
+                    item.real_loading_count = a.real_loading_count
+                }
+            })
+        }
         return (
             <View style={{ backgroundColor: '#fff' }} key={`row_${index}`}>
-                <View style={{ flexDirection: 'row', paddingLeft: 12, }}>
-                    <View style={{ alignItems: 'center', justifyContent: 'center', height: 110 }}>
-                        <Image style={{ width: 90, height: 90, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={ic_product} />
-                    </View>
-                    <View>
-                        <View style={{ height: 34, paddingLeft: 12, marginBottom: 8, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
-                            <Text style={{ color: '#333', fontSize: 16 }}>{`${item.product_name}`}</Text>
-                        </View>
-                        <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
-                            <Text style={{ color: '#666' }}>{'售价：'}</Text>
-                            <Text style={{ color: '#666' }}>{`${item.price}`}</Text>
-                            <Text style={{ color: '#666' }}>{'x'}</Text>
-                            <Text style={{ color: '#f80000' }}>{`${item.sale_quantity}`}</Text>
-                        </View>
-                        <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
-                            <View style={{ flex: 1, flexDirection: 'row' }}>
-                                <Text style={{ color: '#999' }}>{'赠送：'}</Text>
-                                <Text style={{ color: '#999' }}>{`${item.gifts_quantity}`}</Text>
-                            </View>
-                            <View style={{ flex: 1, flexDirection: 'row' }}>
-                                <Text style={{ color: '#999' }}>{'总计金额：'}</Text>
-                                <Text style={{ color: '#f80000' }}>{'￥'}</Text>
-                                <Text style={{ color: '#f80000' }}>{`${item.sum}`}</Text>
-                            </View>
-                        </View>
-                    </View>
-                </View>
-                <View style={{ height: StyleSheet.hairlineWidth, marginTop: 12, flex: 1, backgroundColor: '#c4c4c4' }} />
+                <LadProductItem item={item} onUpdate={this.onUpdateGoogs} />
             </View>
         );
     }
+    /**
+     * 提交数据
+     * 
+     * "loadingbill_date":"2017-05-10",
+    "car_id":"104",
+    "car_number":"江铃全顺-云AOXY58",
+    "store_house_id":"2",
+    "organization_id":"100002",
+    "total_quantity":"1000",
+    "total_weight":"500kg",
+    "source_equipment":"1",
+     */
     _onItemPress() {
+        this.setState({ modalVisible: true })
 
     }
+    onConfirmPress() {
 
+        this.setState({ modalVisible: false });
+    }
+    onCancelPress() {
+        const { action } = this.props;
+        const { params } = this.props.navigation.state;
 
+        let sbParam = {
+            source_equipment: '1',
+            loadingbill_date: params.loadingbill_date[0],
+            car_number: params.car_id[0],
+            car_id: params.car_id[1],
+            store_house_id: params.storehouse_id[1],
+            total_quantity: this.state.totalNum,
+            total_weight: this.state.totalWeight + 'kg',
+            good_list: JSON.stringify(this.state.good_list)
+        };
+        InteractionManager.runAfterInteractions(() => {
+            action.saveLadingbillsProduct(sbParam);
+        });
+        this.setState({ modalVisible: false });
+    }
     render() {
         const { params } = this.props.navigation.state;
-        const { addLadingbillsProduct } = this.props;
+        const { addLadingbillsProduct, saveLadingbillsProduct } = this.props;
+
         return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
-                <View style={{ backgroundColor: '#118cd7', padding: 12 }}>
-                    <View style={{ height: 30, flexDirection: 'row', alignItems: 'center' }}>
+                <View style={{ backgroundColor: '#118cd7', paddingLeft: 12, paddingBottom: 6, paddingTop: 6 }}>
+                    <View style={{ height: 26, flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={{ color: '#fff', fontSize: 16 }}>{`${params.car_id[0]}`}</Text>
                     </View>
-                    <View style={{ height: 30, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{ height: 26, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={{ color: '#fff', fontSize: 16 }}>{`${params.storehouse_id[0]}`}</Text>
                     </View>
                 </View>
@@ -124,11 +187,6 @@ class AddLadingbillsProductPage extends React.Component {
                                     enableEmptySections={true}
                                     dataSource={addLadingbillsProduct.listData}
                                     renderRow={this._renderItem}
-                                    renderFooter={() =>
-                                        <View style={{ height: 40, paddingLeft: 8, backgroundColor: '#fff9f9', flexDirection: 'row', alignItems: 'center' }}>
-                                            <Text style={{ color: '#666' }}>{`总共${count}件商品,共计￥${sum},其中押金￥${foregift}。`}</Text>
-                                        </View>
-                                    }
                                 />
                             )
 
@@ -136,32 +194,31 @@ class AddLadingbillsProductPage extends React.Component {
                 </View>
                 <View style={{ width: WINDOW_WIDTH, height: 1, backgroundColor: '#c4c4c4' }} />
                 <View style={{ height: 50, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
-                    <TouchableHighlight onPress={this._onItemPress.bind(this)}>
-                        <View style={{ width: 50, height: 50, padding: 6, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' }}>
-                            <Iconfont
-                                icon={'e6b5'} // 图标
-                                iconColor={'#999'}
-                                iconSize={30}
-                            />
+                    <View style={{ width: 50, height: 50, padding: 6, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' }}>
+                        <Iconfont
+                            icon={'e6b5'} // 图标
+                            iconColor={'#999'}
+                            iconSize={30}
+                        />
+                    </View>
+                    <View style={{ flex: 1, justifyContent: 'center' }}>
+                        <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }}>
+                            <Text style={{ color: '#666' }}>{'总数量：'}</Text>
+                            <Text style={{ color: '#f80000' }}>{`${this.state.totalNum}`}</Text>
                         </View>
-                    </TouchableHighlight>
-                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                        <View style={{ flex: 1, flexDirection: 'row' }}>
-                            <Text style={{ color: '#999' }}>{'总数量：'}</Text>
-                            <Text style={{ color: '#f80000' }}>{'0'}</Text>
-                        </View>
-                        <View style={{ flex: 1, flexDirection: 'row' }}>
-                            <Text style={{ color: '#999' }}>{'总质量：'}</Text>
-                            <Text style={{ color: '#f80000' }}>{'0'}</Text>
+                        <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }}>
+                            <Text style={{ color: '#666' }}>{'总质量：'}</Text>
+                            <Text style={{ color: '#f80000' }}>{`${this.state.totalWeight}KG`}</Text>
                         </View>
                     </View>
-                    <View style={{ flex: 1 }} />
                     <TouchableHighlight onPress={this._onItemPress.bind(this)}>
                         <View style={{ width: 100, height: 50, backgroundColor: '#fe6732', justifyContent: 'center', alignItems: 'center' }}>
                             <Text style={{ color: '#fff' }}>{'保存'}</Text>
                         </View>
                     </TouchableHighlight>
                 </View>
+                <View><Spinner visible={saveLadingbillsProduct.saving} text={'正在提交,请稍后...'} /></View>
+                <SaveModel modalVisible={this.state.modalVisible} onConfirmPress={this.onConfirmPress} onCancelPress={this.onCancelPress} />
             </View >
         );
     }
