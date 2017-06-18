@@ -60,9 +60,27 @@ class AddDeliveryOrderPage extends React.Component {
         this.setState({ modalVisible: true, selectItem });
     }
     //disburden_quantity 卸货数量
-    //stock_quantity 余货数量
+  /*  //stock_quantity 余货数量
+    100064
+image
+:
+"/bboss\db\uploadfile\faa1cb61-0194-4a34-b00d-356c81bcaf48.png"
+name
+:
+"瓷砖包角线（白色）"
+price
+:
+7
+sequence
+:
+"94"
+stock
+:
+0
+unit
+:
+"根"*/
     _renderItem = (item, index) => {
-
         return (
             <TouchableHighlight
                 onPress={this._rowOnPress.bind(this, item)}
@@ -75,25 +93,25 @@ class AddDeliveryOrderPage extends React.Component {
                         </View>
                         <View style={{ flex: 1 }}>
                             <View style={{ height: 34, paddingLeft: 12, marginBottom: 8, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
-                                <Text style={{ color: '#333', fontSize: 16 }}>{'多帮放掉钻'}</Text>
+                                <Text style={{ color: '#333', fontSize: 16 }}>{item.name}</Text>
                             </View>
                             <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
                                     <Text style={{ color: '#666' }}>{'无赠送'}</Text>
                                 </View>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                                    <Text style={{ color: '#666' }}>{'余货：'}</Text>
-                                    <Text style={{ color: '#f80000' }}>{`${item.stock_quantity}`}</Text>
+                                    <Text style={{ color: '#666' }}>{'库存：'}</Text>
+                                    <Text style={{ color: '#f80000' }}>{`${item.stock}`}</Text>
                                 </View>
                             </View>
                             <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
                                     <Text style={{ color: '#666' }}>{'单价：'}</Text>
-                                    <Text style={{ color: '#f80000' }}>{`${item.disburden_quantity}`}</Text>
+                                    <Text style={{ color: '#f80000' }}>{`${item.price}`}</Text>
                                 </View>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
                                     <Text style={{ color: '#666' }}>{'数量：'}</Text>
-                                    <Text style={{ color: '#f80000' }}>{`${item.stock_quantity}`}</Text>
+                                    <Text style={{ color: '#f80000' }}>{`${item.sequence}`}</Text>
                                 </View>
                             </View>
                         </View>
@@ -120,14 +138,15 @@ class AddDeliveryOrderPage extends React.Component {
         const { addDeliveryOrder } = this.props;
         let num = 0;
         let numberCarsh = 0;
-        
+        let list = addDeliveryOrder.result ? addDeliveryOrder.result.good_list : [];
+        list = list ? list : []
         return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
                 <EditeModel modalVisible={this.state.modalVisible} onCancelPress={this.onCancelPress} item={this.state.selectItem} onConfirmPress={this.onConfirmPress} />
                 <LoadingListView
                     loading={addDeliveryOrder.loading || addDeliveryOrder.carLoading}
                     loadMore={addDeliveryOrder.loadMore}
-                    listData={dataSource.cloneWithRows(addDeliveryOrder.result)}
+                    listData={dataSource.cloneWithRows(list)}
                     renderRowView={this._renderItem} />
                 <View style={{ height: 50, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
                     <TouchableHighlight onPress={this._onItemPress.bind(this)}>

@@ -16,6 +16,7 @@ export default function saveLadingbillsProductReducer(state = initialState, acti
         case types.SaveLadingbillsProductError_ACTION:
             return Object.assign({}, state, {
                 saving: false,
+                seccued:true,
                 errMsg: action.errMsg,
             });
         case types.SaveLadingbillsProductSucceed_ACTION:

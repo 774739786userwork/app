@@ -2,6 +2,20 @@ import * as types from './ActionTypes';
 import { LoginInfo } from 'react-native-go'
 import DeviceInfo from 'react-native-device-info';
 /**
+ * 
+dept_id:"100003"
+dxyzm:""
+mobile_number:""
+mobilesequencenumber:"F797268C-1358-4C05-ACFA-8FB5CF9C848A"
+org_pinyin:"KMDB"
+organization_id:"100002"
+organization_name:"昆明多邦"
+password:"123456"
+roles:""
+token:"QYoMtach4MK"
+user_id:"100002"
+user_real_name:"张士军"
+username:"zhangshijun"
  * 用户登录
  */
 export function loginingActon(username, password) {
@@ -33,7 +47,7 @@ export function appUserlandDX(username, password, dxyzm) {
 }
 //客户列表查询
 export function listCustomers(lat, lng, contactMobile) {
-    const orgId = 100002;//LoginInfo.getUserInfo().user_id;
+    const orgId = LoginInfo.getUserInfo().organization_id;//LoginInfo.getUserInfo().user_id;
     const token = LoginInfo.getUserInfo().token;
     let param = { lat, lng, token, orgId };
     if (contactMobile) {
@@ -56,19 +70,21 @@ export function listCustomers(lat, lng, contactMobile) {
 export function addDeliveryOrder(car_id, start = 0, rows = 10) {
     const token = LoginInfo.getUserInfo().token;
     const user_id = LoginInfo.getUserInfo().user_id;
+    const org_id = LoginInfo.getUserInfo().organization_id;
+    const org_pinyin = LoginInfo.getUserInfo().org_pinyin;
     let page = 1;
     if (start) {
         page = start / rows + 1;
         return {
             type: types.AddDeliveryOrdering_More_ACTION,
             api: types.AddDeliveryOrder_API,
-            param: { user_id, token, car_id }
+            param: { user_id, org_pinyin,token,org_id, car_id }
         };
     } else {
         return {
             type: types.AddDeliveryOrdering_ACTION,
             api: types.AddDeliveryOrder_API,
-            param: { user_id, token, car_id }
+            param: { user_id, org_pinyin,token,org_id, car_id }
         };
     }
 

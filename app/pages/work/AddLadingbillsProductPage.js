@@ -9,15 +9,17 @@ import {
     Dimensions,
     TouchableHighlight,
     InteractionManager,
-    FlatList
+    FlatList,
+    Alert
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
-import { Iconfont, LoadingView, Spinner,Toast } from 'react-native-go';
+import { Iconfont, LoadingView, Toast } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 import SearchBar from '../../components/SearchBar';
 import LadProductItem from './components/LadProductItem'
 import SaveModel from './components/SaveModel'
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 /**
@@ -35,20 +37,28 @@ class AddLadingbillsProductPage extends React.Component {
             good_list: [],
             totalNum: 0,
             totalWeight: 0,
-            modalVisible: false
+            modalVisible: false,
+            showSaving: false,
         }
 
     }
     componentWillReceiveProps(nextProps) {
         const { saveLadingbillsProduct } = nextProps;
+        const { navigation } = this.props;
+
         if (saveLadingbillsProduct.errMsg) {
             Toast.show(saveLadingbillsProduct.errMsg);
         } else if (!saveLadingbillsProduct.saving && saveLadingbillsProduct.seccued) {
-            const { navigation } = this.props;
-            InteractionManager.runAfterInteractions(() => {
+            if (this.state.good_list.length > 0) {
+                this.setState({
+                    showSaving: false,
+                    good_list: []
+                })
                 Toast.show('保存成功');
-                navigation.goBack();
-            });
+                InteractionManager.runAfterInteractions(() => {
+                    navigation.goBack();
+                });
+            }
         }
     }
     componentDidMount() {
@@ -75,7 +85,9 @@ class AddLadingbillsProductPage extends React.Component {
         }
         if (oldItem) {
             oldItem.real_loading_count = item.real_loading_count
+            oldItem.product_total_count = item.real_loading_count + item.remain_count
         } else {
+            item.product_total_count = item.real_loading_count + item.remain_count
             good_list.push(item)
         }
         let totalWeight = 0;
@@ -94,6 +106,7 @@ class AddLadingbillsProductPage extends React.Component {
             good_list.map((a) => {
                 if (item.product_id == a.product_id) {
                     item.real_loading_count = a.real_loading_count
+                    item.product_total_count = a.real_loading_count + a.remain_count
                 }
             })
         }
@@ -140,7 +153,7 @@ class AddLadingbillsProductPage extends React.Component {
         InteractionManager.runAfterInteractions(() => {
             action.saveLadingbillsProduct(sbParam);
         });
-        this.setState({ modalVisible: false });
+        this.setState({ modalVisible: false, showSaving: true });
     }
     render() {
         const { params } = this.props.navigation.state;
@@ -211,14 +224,16 @@ class AddLadingbillsProductPage extends React.Component {
                             <Text style={{ color: '#f80000' }}>{`${this.state.totalWeight}KG`}</Text>
                         </View>
                     </View>
-                    <TouchableHighlight onPress={this._onItemPress.bind(this)}>
-                        <View style={{ width: 100, height: 50, backgroundColor: '#fe6732', justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ color: '#fff' }}>{'保存'}</Text>
-                        </View>
-                    </TouchableHighlight>
+                    {
+                        this.state.good_list.length > 0 ?
+                            <TouchableHighlight onPress={this._onItemPress.bind(this)}>
+                                <View style={{ width: 100, height: 50, backgroundColor: '#fe6732', justifyContent: 'center', alignItems: 'center' }}>
+                                    <Text style={{ color: '#fff' }}>{'保存'}</Text>
+                                </View>
+                            </TouchableHighlight> : null
+                    }
                 </View>
-                <View><Spinner visible={saveLadingbillsProduct.saving} text={'正在提交,请稍后...'} /></View>
-                <SaveModel modalVisible={this.state.modalVisible} onConfirmPress={this.onConfirmPress} onCancelPress={this.onCancelPress} />
+                <SaveModel modalVisible={this.state.modalVisible} onConfirmPress={this.onCancelPress} onCancelPress={this.onCancelPress} />
             </View >
         );
     }

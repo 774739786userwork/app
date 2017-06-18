@@ -23,7 +23,7 @@ export default class EditeModel extends React.Component {
         let item = this.props.item;
         this.state = {
             modalVisible: this.props.modalVisible,
-            count: item.disburden_quantity,
+            count: item.stock,
             maxCount: item.stock,
         };
     }
@@ -31,7 +31,7 @@ export default class EditeModel extends React.Component {
         let item = nextProps.item;
         this.setState({
             modalVisible: nextProps.modalVisible,
-            count: item.disburden_quantity,
+            count: item.stock,
             maxCount: item.stock,
         });
     }
