@@ -18,7 +18,7 @@ import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 const ic_product = require('../../imgs/ic_product.png')
 
-import EditeModel from './EditeModel'
+import AddDeliveryEditeModel from './AddDeliveryEditeModel'
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -59,27 +59,7 @@ class AddDeliveryOrderPage extends React.Component {
     _rowOnPress(selectItem) {
         this.setState({ modalVisible: true, selectItem });
     }
-    //disburden_quantity 卸货数量
-  /*  //stock_quantity 余货数量
-    100064
-image
-:
-"/bboss\db\uploadfile\faa1cb61-0194-4a34-b00d-356c81bcaf48.png"
-name
-:
-"瓷砖包角线（白色）"
-price
-:
-7
-sequence
-:
-"94"
-stock
-:
-0
-unit
-:
-"根"*/
+   
     _renderItem = (item, index) => {
         return (
             <TouchableHighlight
@@ -142,7 +122,7 @@ unit
         list = list ? list : []
         return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
-                <EditeModel modalVisible={this.state.modalVisible} onCancelPress={this.onCancelPress} item={this.state.selectItem} onConfirmPress={this.onConfirmPress} />
+                <AddDeliveryEditeModel modalVisible={this.state.modalVisible} onCancelPress={this.onCancelPress} item={this.state.selectItem} onConfirmPress={this.onConfirmPress} />
                 <LoadingListView
                     loading={addDeliveryOrder.loading || addDeliveryOrder.carLoading}
                     loadMore={addDeliveryOrder.loadMore}
