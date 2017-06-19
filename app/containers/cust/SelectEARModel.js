@@ -66,7 +66,8 @@ export default class SelectEARModel extends React.Component {
 
     onConfirmPress() {
         let item = this.state.dataList[this.rowIndex0].cityList[this.rowIndex1].districtsList[this.rowIndex2]
-        this.props.onConfirmPress && this.props.onConfirmPress(item)
+        let cityId = this.state.dataList[this.rowIndex0].cityList[this.rowIndex1].cityid
+        this.props.onConfirmPress && this.props.onConfirmPress(item,cityId)
         this.setState({ modalVisible: false });
     }
     onCancelPress() {

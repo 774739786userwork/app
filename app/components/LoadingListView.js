@@ -9,8 +9,8 @@ import {
 import { LoadingView } from 'react-native-go';
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
-export default LoadingListView = ({loading, loadMore, listData, renderRowView, onEndReached }) => {
-    return (<View style={{flex:1}}>
+export default LoadingListView = ({loading, loadMore, listData, renderRowView, onEndReached,style }) => {
+    return (<View style={[{flex:1},style]}>
         {
             loading ?
                 <LoadingView /> :

@@ -1,6 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 const returnTrue = () => true;
+const sections = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '#'];
 
 export default class IndexSectionList extends PureComponent {
 
@@ -11,7 +12,6 @@ export default class IndexSectionList extends PureComponent {
         onSectionUp: PropTypes.func
     }
     //这边是需要显示的数据信息
-    static sections = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','R','S','T','U','V','W','X','Y','Z','#'];
 
     constructor(props, context) {
         super(props, context);
@@ -181,6 +181,6 @@ const styles = StyleSheet.create({
 
     sectionItem: {
         fontSize: 14,
-        color:'#666'
+        color: '#666'
     }
 });

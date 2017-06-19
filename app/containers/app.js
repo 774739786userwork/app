@@ -12,6 +12,8 @@ import SelectDeliveryOrderContainer from './work/SelectDeliveryOrderContainer'
 //开送货单  客户查询
 import ListCustomersContainer from './work/ListCustomersContainer'
 import AddDeliveryOrderContainer from './work/AddDeliveryOrderContainer'
+//开送货单结算
+import AddDeliveryOrderEndPageContainer from './work/AddDeliveryOrderEndPageContainer'
 
 import DeliveryOrderDetailContainer from './work/DeliveryOrderDetailContainer'
 //车余货
@@ -20,6 +22,8 @@ import GetCarstockProductListContainer from './work/GetCarstockProductListContai
 import SelectCarContainer from './select/SelectCarContainer'
 //业务员 选择
 import SelectNameContainer from './select/SelectNameContainer'
+//计量人 选择
+import SelectUserContainer from './select/SelectUserContainer'
 //仓库查询
 import SelectStoreContainer from './select/SelectStoreContainer'
 //退货查询
@@ -35,6 +39,7 @@ import SelasContainer from './SelasContainer';
 import CustContainer from './CustContainer';
 //新增客户
 import AddCustContainer from './cust/AddCustContainer'
+import DeliveryCustomersContainer from './cust/DeliveryCustomersContainer'
 //设置
 import SettingContainer from './SettingContainer';
 //登录
@@ -140,7 +145,16 @@ const App = StackNavigator(
     AddCust: {
       screen: AddCustContainer
     },
-    
+    AddDeliveryOrderEnd: {
+      screen: AddDeliveryOrderEndPageContainer
+    },
+    SelectUser: {
+      screen: SelectUserContainer
+    },
+    DeliveryCustomers: {
+      screen: DeliveryCustomersContainer
+    },
+
 
   },
   {

@@ -35,7 +35,7 @@ export default class SaleAreaModel extends React.Component {
     }
     componentDidMount() {
         const token = LoginInfo.getUserInfo().token;
-        const user_id =778
+        const user_id =LoginInfo.getUserInfo().user_id;
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('mobileServiceManager/customers/getSaleAreaTreeInfo.page', { token, user_id }).then((responseData) => {
                if (responseData.status === '0' || responseData.status === 0) {

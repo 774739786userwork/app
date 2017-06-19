@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { Iconfont, LoadingView } from 'react-native-go';
 import LoadingListView from '../../components/LoadingListView'
+import IndexSectionList from './IndexSectionList'
 
 const ITEM_HEIGHT = 50; //item的高度
 const HEADER_HEIGHT = 24;  //分组头部的高度
@@ -36,14 +37,14 @@ class SelectUserPage extends React.Component {
         navigation.state.params.callback(item);
         navigation.goBack();
     }
-    _renderItem = (item, index) => {
+    _renderItem = (data) => {
+        const { item, index } = data;
         return (
             <TouchableHighlight onPress={this._onItemPress.bind(this, item)} key={`row_${index}`}>
                 <View style={{ backgroundColor: '#fff' }} >
                     <View style={{ height: 44, paddingLeft: 12, paddingRight: 12, flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{ color: '#333', fontSize: 16 }}>{item.name}</Text>
+                        <Text style={{ color: '#666', fontSize: 16 }}>{item.name}</Text>
                         <View style={{ flex: 1 }} />
-                        <Text style={{ color: '#999' }}>{`${item.organization}`}</Text>
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, flex: 1, backgroundColor: '#c4c4c4' }} />
                 </View>
@@ -57,18 +58,20 @@ class SelectUserPage extends React.Component {
                 height: HEADER_HEIGHT,
                 paddingLeft: 20,
                 backgroundColor: '#eee'
-            }}>
+            }}
+                key={`row_${section.section.key}`}
+            >
                 <Text style={{
                     fontSize: 15,
                     fontWeight: 'bold',
-                    color: '#3cb775'
-                }}>{section.section.key}</Text>
+                    color: '#666'
+                }}>{section.section.key.toUpperCase()}</Text>
             </View>
         )
     }
     //这边返回的是A,0这样的数据
     _onSectionselect = (section, index) => {
-        this.refs.list.scrollToIndex({ animated: true, index: 0 })//this.state.sectionSize[index]})
+        // this.refs.list.scrollToIndex({ animated: true, index: 0 })//this.state.sectionSize[index]})
     }
 
     _getItemLayout(data, index) {
@@ -77,15 +80,18 @@ class SelectUserPage extends React.Component {
     }
     render() {
         const { selectName } = this.props;
+        selectName.data.sort((a, b) => {
+            return a.pinyin.charCodeAt(0) - b.pinyin.charCodeAt(0)
+        })
         let sectionList = [];
         let preKey = null;
         let section = null;
         for (let i = 0; i < selectName.data.length; i++) {
             let userItem = selectName.data[i];
-            if (preKey === userItem.pinyin) {
+            if (preKey === userItem.pinyin.charAt(0)) {
                 section.data.push(userItem);
             } else {
-                preKey = userItem.pinyin;
+                preKey = userItem.pinyin.charAt(0);
                 section = { data: [], key: preKey };
                 section.data.push(userItem);
                 sectionList.push(section);
@@ -112,8 +118,7 @@ class SelectUserPage extends React.Component {
                                         sections={sectionList}
                                         getItemLayout={this._getItemLayout} />
 
-                                    <CitySectionList
-                                        sections={this.state.sections}
+                                    <IndexSectionList
                                         onSectionSelect={this._onSectionselect} />
                                 </View>
                             )

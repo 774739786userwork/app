@@ -20,7 +20,7 @@ import NavigationUtil from '../../utils/NavigationUtil';
 
 import ListItemSetting from '../../components/ListItemSetting';
 import HomeBar from '../../components/HomeBar'
-import { Iconfont, LoginInfo } from 'react-native-go';
+import { Iconfont, LoginInfo,FetchManger } from 'react-native-go';
 
 var WINDOW_WIDTH = Dimensions.get('window').width;
 
@@ -116,8 +116,12 @@ class SettingPage extends React.Component {
     navigation.navigate('ForgetPassWord')
   }
   onLoginOut() {
-    LoginInfo.loginOut();
+    
+    const token = LoginInfo.getUserInfo().token;
+    const user_id = LoginInfo.getUserInfo().user_id;
+    FetchManger.postUri('mobileServiceManager/user/signOut.page', {user_id,token})
     InteractionManager.runAfterInteractions(() => {
+      LoginInfo.loginOut();
       NavigationUtil.reset(this.props.navigation, 'Login');
     });
   }

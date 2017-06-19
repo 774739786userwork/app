@@ -22,11 +22,14 @@ export default class AddDeliveryEditeModel extends React.Component {
         super(props)
         this.onConfirmPress = this.onConfirmPress.bind(this)
         this.onCancelPress = this.onCancelPress.bind(this)
+        this.updateSaleQuantity = this.updateSaleQuantity.bind(this)
+        this.updateGiftsQuantity = this.updateGiftsQuantity.bind(this)
         let item = this.props.item;
         this.state = {
             modalVisible: this.props.modalVisible,
-            count: item.stock,
-            maxCount: item.stock,
+            sale_quantity: item.sale_quantity,
+            gifts_quantity: item.gifts_quantity,
+            price: item.price,
             isSend: false,
         };
     }
@@ -34,24 +37,37 @@ export default class AddDeliveryEditeModel extends React.Component {
         let item = nextProps.item;
         this.setState({
             modalVisible: nextProps.modalVisible,
-            count: item.stock,
-            maxCount: item.stock,
+            stock:item.stock,
+            sale_quantity: item.sale_quantity ? item.sale_quantity : 0,
+            gifts_quantity: item.gifts_quantity ? item.gifts_quantity : 0,
+            price: item.price,
+            isSend: false,
         });
     }
 
-    updateNewCount(newCount) {
-
-        if (newCount < 0) {
-            newCount = 0;
+    updateSaleQuantity(sale_quantity) {
+        if (sale_quantity < 0) {
+            sale_quantity = 0;
         }
-        if (newCount > this.state.maxCount) {
-            newCount = this.state.maxCount;
-        }
-        this.setState({ count: newCount });
+        this.setState({ sale_quantity });
     }
+    updateGiftsQuantity(gifts_quantity) {
+        if (gifts_quantity < 0) {
+            gifts_quantity = 0;
+        }
+        this.setState({ gifts_quantity });
+    }
+
     onConfirmPress() {
         let item = this.props.item;
-        this.props.onConfirmPress && this.props.onConfirmPress(item.id, this.state.count)
+        //产品销售量
+        item.sale_quantity = this.state.sale_quantity
+        //产品赠送量
+        item.gifts_quantity = this.state.gifts_quantity
+        //产品出售时单价
+        item.price = this.state.price
+
+        this.props.onConfirmPress && this.props.onConfirmPress(item)
         this.setState({ modalVisible: false });
     }
     onCancelPress() {
@@ -61,6 +77,7 @@ export default class AddDeliveryEditeModel extends React.Component {
     onTypePress(isSend) {
         this.setState({ isSend });
     }
+
     render() {
         let modelWidth = WINDOW_WIDTH - 40;
         let item = this.props.item;
@@ -103,7 +120,7 @@ export default class AddDeliveryEditeModel extends React.Component {
                             <Image style={{ width: 90, height: 90, marginTop: 12, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={ic_product} />
                             <View style={{ marginTop: 8, height: 34, flexDirection: 'row', alignItems: 'center' }}>
                                 <Text style={{ textAlign: 'right', color: '#666' }}>库存:</Text>
-                                <Text style={{ marginLeft: 8, color: '#666' }}>{`10`}</Text>
+                                <Text style={{ marginLeft: 8, color: '#666' }}>{'' + this.state.stock}</Text>
                             </View>
                         </View>
                         <View style={{ flex: 2 }}>
@@ -111,22 +128,22 @@ export default class AddDeliveryEditeModel extends React.Component {
                                 <Text style={{ width: 40, marginRight: 8, textAlign: 'right', }}>单价:</Text>
                                 <TextInput style={{ width: 100, height: 30, textAlign: 'center', color: '#666', borderRadius: 8, padding: 0, borderWidth: 1, borderColor: '#c4c4c4' }}
                                     underlineColorAndroid={'transparent'}
-                                    value={'' + this.state.count}
-                                    defaultValue={'' + this.state.count}
-                                    onChangeText={(newCount) => {
-                                        this.updateNewCount(parseInt(newCount));
+                                    value={'' + this.state.price}
+                                    defaultValue={'' + this.state.price}
+                                    onChangeText={(price) => {
+                                        this.setState({ price })
                                     }}
                                 />
                             </View>
                             <View style={{ marginTop: 8, height: 34, flexDirection: 'row', alignItems: 'center' }}>
                                 <Text style={{ width: 40, textAlign: 'right', }}>押金:</Text>
-                                <Text style={{ marginLeft: 8, flex: 3, color: '#f80000' }}>{`${item.stock}${item.unit}`}</Text>
+                                <Text style={{ marginLeft: 8, flex: 3, }}>{`0`}</Text>
                             </View>
                             <View style={{ height: 34, marginTop: 8, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                                 <Text style={{ width: 40, textAlign: 'right', }}>销量:</Text>
                                 <View style={{ flex: 3, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                                     <TouchableOpacity style={{ marginLeft: 8, marginRight: 12 }} onPress={() => {
-                                        this.updateNewCount(this.state.count - 1);
+                                        this.updateSaleQuantity(this.state.sale_quantity - 1);
                                     }}>
                                         <Iconfont
                                             icon={'e6ba'} // 图标
@@ -135,14 +152,16 @@ export default class AddDeliveryEditeModel extends React.Component {
                                     </TouchableOpacity>
                                     <TextInput style={{ width: 80, height: 30, textAlign: 'center', color: '#666', borderRadius: 8, padding: 0, borderWidth: 1, borderColor: '#c4c4c4' }}
                                         underlineColorAndroid={'transparent'}
-                                        value={'' + this.state.count}
-                                        defaultValue={'' + this.state.count}
+                                        value={'' + this.state.sale_quantity}
+                                        defaultValue={'' + this.state.sale_quantity}
                                         onChangeText={(newCount) => {
-                                            this.updateNewCount(parseInt(newCount));
+                                            let num = parseInt(newCount);
+
+                                            this.updateSaleQuantity(isNaN(num) ? 0 : num);
                                         }}
                                     />
                                     <TouchableOpacity style={{ marginLeft: 12 }} onPress={() => {
-                                        this.updateNewCount(this.state.count + 1);
+                                        this.updateSaleQuantity(this.state.sale_quantity + 1);
                                     }}>
                                         <Iconfont
                                             icon={'e6b9'} // 图标
@@ -157,7 +176,7 @@ export default class AddDeliveryEditeModel extends React.Component {
                                         <Text style={{ width: 40, textAlign: 'right', }}>赠送:</Text>
                                         <View style={{ flex: 3, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                                             <TouchableOpacity style={{ marginLeft: 8, marginRight: 12 }} onPress={() => {
-                                                this.updateNewCount(this.state.count - 1);
+                                                this.updateGiftsQuantity(this.state.gifts_quantity - 1);
                                             }}>
                                                 <Iconfont
                                                     icon={'e6ba'} // 图标
@@ -166,14 +185,14 @@ export default class AddDeliveryEditeModel extends React.Component {
                                             </TouchableOpacity>
                                             <TextInput style={{ width: 80, height: 30, textAlign: 'center', color: '#666', borderRadius: 8, padding: 0, borderWidth: 1, borderColor: '#c4c4c4' }}
                                                 underlineColorAndroid={'transparent'}
-                                                value={'' + this.state.count}
-                                                defaultValue={'' + this.state.count}
+                                                value={'' + this.state.gifts_quantity}
+                                                defaultValue={'' + this.state.gifts_quantity}
                                                 onChangeText={(newCount) => {
-                                                    this.updateNewCount(parseInt(newCount));
+                                                    this.updateGiftsQuantity(parseInt(gifts_quantity));
                                                 }}
                                             />
                                             <TouchableOpacity style={{ marginLeft: 12 }} onPress={() => {
-                                                this.updateNewCount(this.state.count + 1);
+                                                this.updateGiftsQuantity(this.state.gifts_quantity + 1);
                                             }}>
                                                 <Iconfont
                                                     icon={'e6b9'} // 图标

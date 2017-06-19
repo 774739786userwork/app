@@ -14,11 +14,39 @@ import {
     TouchableOpacity
 } from 'react-native';
 
-import { Iconfont, LineView, Toast, Spinner } from 'react-native-go';
+import { Iconfont, LineView, Toast, Spinner, FetchManger } from 'react-native-go';
 import dismissKeyboard from 'dismissKeyboard';
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
 export default class ForgetPassWordPage extends React.Component {
+    constructor(props) {
+        super(props)
+        this.doAction = this.doAction.bind(this);
+        this.userInfo = {}
+        this.state = {
+            showSpinner: false,
+        }
+    }
+    //mobileServiceManager/user/updatePassword.page?userid=100002&password=654321&newPassword=666666&token=gOpzCsvTuRqY24
+    doAction() {
+        this.setState({ showSpinner: true })
+        const token = LoginInfo.getUserInfo().token;
+        const user_id = LoginInfo.getUserInfo().user_id;
+        
+        this.userInfo.token = token;
+        this.userInfo.user_id = user_id;
+        FetchManger.postUri('mobileServiceManager/user/updatePassword.page',this.userInfo).then((responseData) => {
+                this.setState({ showSpinner: false })
+                if (responseData.status === '0' || responseData.status === 0) {
+                    Toast.show('修改密码成功')
+                } else {
+                    Toast.show('修改密码失败')
+                }
+            }).catch((error) => {
+                this.setState({ showSpinner: false })
+                Toast.show('修改密码失败')
+            })
+    }
 
     render() {
         return (<View style={{ flex: 1 }} >
@@ -31,8 +59,8 @@ export default class ForgetPassWordPage extends React.Component {
                         underlineColorAndroid={'transparent'}
                         autoCapitalize={'none'}
                         autoCorrect={false}
-                        onChangeText={(username) => {
-
+                        onChangeText={(password) => {
+                            userInfo.password = password;
                         }}
                     />
                 </View>
@@ -44,8 +72,8 @@ export default class ForgetPassWordPage extends React.Component {
                         underlineColorAndroid={'transparent'}
                         autoCapitalize={'none'}
                         autoCorrect={false}
-                        onChangeText={(disability_code) => {
-
+                        onChangeText={(newPassword) => {
+                            userInfo.newPassword = newPassword;
                         }}
                     />
                 </View>
@@ -59,8 +87,8 @@ export default class ForgetPassWordPage extends React.Component {
                         autoCapitalize={'none'}
                         autoCorrect={false}
                         secureTextEntry={true}
-                        onChangeText={(user_password) => {
-
+                        onChangeText={(reNewPassword) => {
+                            userInfo.reNewPassword = reNewPassword;
                         }}
                     />
                 </View>
@@ -71,13 +99,22 @@ export default class ForgetPassWordPage extends React.Component {
 
                 <TouchableOpacity onPress={() => {
                     dismissKeyboard();
+                    if (!userInfo.password || !userInfo.newPassword || !userInfo.reNewPassword){
+                        Toast.show('密码不能为空');
+                        return
+                    }
+                    if (userInfo.newPassword != userInfo.reNewPassword){
+                        Toast.show('两次输入的密码不一致');
+                        return
+                    }
+                    doAction()
                 }}
                     underlayColor={'#999'}
                     style={{ height: 44, width: WINDOW_WIDTH, backgroundColor: '#ffffff', alignItems: 'center', justifyContent: 'center' }}>
                     <Text style={{ fontSize: 20, color: '#0081d4', }}>完成</Text>
                 </TouchableOpacity >
             </View >
-            <View><Spinner visible={false} /></View>
+            <View><Spinner visible={this.state.showSpinner} /></View>
 
         </View >);
     }

@@ -82,6 +82,7 @@ class AddLadingbillsPage extends React.Component {
                                         <DatePicker
                                             style={{ width: 100, }}
                                             date={item.value}
+                                            minDate={DateUtils.getYearMonthDay()}
                                             customStyles={{
                                                 dateInput: { borderWidth: 0 },
                                                 dateText: { color: '#999', textAlign: 'left' }

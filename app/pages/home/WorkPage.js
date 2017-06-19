@@ -19,13 +19,13 @@ import { Iconfont } from 'react-native-go';
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
 const HomeItem = [
-  { name: '提货单', typeName: 'SelectLadingbills', image: require('../../imgs/home/tihuo_order.png') },
-  { name: '送货单', typeName: 'SelectDeliveryOrder', image: require('../../imgs/home/songhuo_order.png') },
+  { name: '提货单',open:true, typeName: 'SelectLadingbills', image: require('../../imgs/home/tihuo_order.png') },
+  { name: '送货单', open:true,typeName: 'SelectDeliveryOrder', image: require('../../imgs/home/songhuo_order.png') },
   { name: '订货单', typeName: 'PurchaseOrderInfo', image: require('../../imgs/home/dinghuo_order.png') },
   { name: '车余货单', typeName: 'GetCarstockProductList', image: require('../../imgs/home/yuhuo_order.png') },
   { name: '退货单', typeName: 'QueryReturnLists', image: require('../../imgs/home/tuihuo_order.png') },
-  { name: '开提货单', typeName: 'AddLadingbills', image: require('../../imgs/home/add_tihuo_order.png') },
-  { name: '开送货单', typeName: 'ListCustomers', image: require('../../imgs/home/add_songhuo_order.png') },
+  { name: '开提货单', open:true,typeName: 'AddLadingbills', image: require('../../imgs/home/add_tihuo_order.png') },
+  { name: '开送货单', open:true,typeName: 'ListCustomers', image: require('../../imgs/home/add_songhuo_order.png') },
   { name: '开退货单', typeName: 'SelectLadingbills', image: require('../../imgs/home/add_tuihuo_order.png') },
   { name: '开订货单', typeName: 'SelectLadingbills', image: require('../../imgs/home/kaidinghuodan.png') },
   { name: '结算单', typeName: 'SelectLadingbills', image: require('../../imgs/home/jiesuandan.png') },
@@ -117,6 +117,10 @@ class WorkPage extends React.Component {
   }
   _onMenuClick(item) {
     const { navigate } = this.props.navigation;
+    if (!item.open) {
+      Toast.show('该功能还未开放')
+      return
+    }
     navigate(item.typeName);
   }
   _renderItem(item, index) {

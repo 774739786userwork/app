@@ -21,7 +21,7 @@ import BuildingMaterialModel from './BuildingMaterialModel'
 
 
 var WINDOW_WIDTH = Dimensions.get('window').width;
-import { Iconfont } from 'react-native-go';
+import { Iconfont,Toast } from 'react-native-go';
 
 class AddCustContainer extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -51,6 +51,7 @@ class AddCustContainer extends React.Component {
             imgs: [],
             regional: undefined,
             regionalShow: false,
+            cityId: undefined,
             saleArea: undefined,
             saleAreaShow: false,
             customerKinds: undefined,
@@ -276,9 +277,14 @@ class AddCustContainer extends React.Component {
                     </TouchableOpacity>
                     <View style={{ height: StyleSheet.hairlineWidth, width: WINDOW_WIDTH, backgroundColor: '#d9d9d9' }} />
                     <TouchableOpacity onPress={() => {
-                        this.setState({
-                            buildingMaterialShow: true,
-                        })
+                        if (this.state.cityId) {
+                            this.setState({
+                                buildingMaterialShow: true,
+                            })
+                        }else{
+                            Toast.show('请先选择行政区域')
+                        }
+
                     }} style={{ height: 42, width: WINDOW_WIDTH, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }} >
 
                         <View style={{ height: 42, width: WINDOW_WIDTH, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
@@ -364,9 +370,10 @@ class AddCustContainer extends React.Component {
                     })
                 }}
                     onConfirmPress={
-                        (regional) => {
+                        (regional, cityId) => {
                             this.setState({
                                 regional,
+                                cityId,
                                 regionalShow: false,
                             })
                         }

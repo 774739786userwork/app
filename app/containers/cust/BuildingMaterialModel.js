@@ -34,7 +34,7 @@ export default class BuildingMaterialModel extends React.Component {
     }
     componentDidMount() {
         const token = LoginInfo.getUserInfo().token;
-        const regionalid =430700
+        const regionalid = this.props.regionalid
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('mobileServiceManager/customers/getBuildingMaterialJson.page', { token, regionalid }).then((responseData) => {
                if (responseData.status === '0' || responseData.status === 0) {
