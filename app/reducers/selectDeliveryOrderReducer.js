@@ -19,7 +19,6 @@ const initialState = {
     delivery_note_number: 0,
     d_distribution_sum: 0,
     d_discount_sum: 0,
-
 }
 
 export default function selectDeliveryOrderReducer(state = initialState, action) {
@@ -43,7 +42,18 @@ export default function selectDeliveryOrderReducer(state = initialState, action)
                 errMsg: action.errMsg,
             });
         case types.SelectDeliveryOrderSucceed_ACTION:
-            if (state.loadMore) {
+            if (!action.result.d_distribution_sum) {
+                return Object.assign({}, state, {
+                    loading: false,
+                    loadMore: false,
+                    count: 0,
+                    d_total_sum: 0,
+                    d_unpaid_total_sum: 0,
+                    d_count_small_change_sum: 0,
+                    delivery_note_number: 0,
+                    errMsg: undefined,
+                });
+            } else if (state.loadMore) {
                 let list = state.result.concat(action.result.delivery_order_list);
                 return Object.assign({}, state, {
                     loading: false,
@@ -74,7 +84,7 @@ export default function selectDeliveryOrderReducer(state = initialState, action)
                     d_unpaid_total_sum: action.result.d_unpaid_total_sum,
                     d_count_small_change_sum: action.result.d_count_small_change_sum,
                     delivery_note_number: action.result.delivery_note_number,
-                    listData: dataSource.cloneWithRows(action.result.delivery_order_list),//数据源
+                    listData: dataSource.cloneWithRows(action.result.delivery_order_list ? action.result.delivery_order_list : []),//数据源
                     errMsg: undefined,
                 });
             }

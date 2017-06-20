@@ -14,7 +14,6 @@ import {
 } from 'react-native';
 import { Iconfont } from 'react-native-go';
 import Picker from '../../components/Picker/Picker'
-import cityCode from './ChinaCityCode'
 import { FetchManger, LoginInfo, LoadingView } from 'react-native-go'
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
@@ -67,7 +66,8 @@ export default class SelectEARModel extends React.Component {
     onConfirmPress() {
         let item = this.state.dataList[this.rowIndex0].cityList[this.rowIndex1].districtsList[this.rowIndex2]
         let cityId = this.state.dataList[this.rowIndex0].cityList[this.rowIndex1].cityid
-        this.props.onConfirmPress && this.props.onConfirmPress(item,cityId)
+        let proviceId = this.state.dataList[this.rowIndex0].provinceId
+        this.props.onConfirmPress && this.props.onConfirmPress(item,cityId,proviceId)
         this.setState({ modalVisible: false });
     }
     onCancelPress() {

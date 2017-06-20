@@ -18,10 +18,12 @@ import SelectEARModel from './SelectEARModel'
 import SaleAreaModel from './SaleAreaModel'
 import CustomerKindsModel from './CustomerKindsModel'
 import BuildingMaterialModel from './BuildingMaterialModel'
+import Spinner from 'react-native-loading-spinner-overlay';
+
+import { Iconfont, LoadingView, Toast, FetchManger, LoginInfo } from 'react-native-go';
 
 
 var WINDOW_WIDTH = Dimensions.get('window').width;
-import { Iconfont,Toast } from 'react-native-go';
 
 class AddCustContainer extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -41,12 +43,12 @@ class AddCustContainer extends React.Component {
             </TouchableOpacity>)
         };
     };
-    headerRightPress = () => {
-        const { navigation } = this.props;
-    }
+
+
     constructor(props) {
         super(props)
         this.pickerImage = this.pickerImage.bind(this);
+        this.headerRightPress = this.headerRightPress.bind(this)
         this.state = {
             imgs: [],
             regional: undefined,
@@ -58,15 +60,93 @@ class AddCustContainer extends React.Component {
             customerKindsShow: false,
             buildingMaterial: undefined,
             buildingMaterialShow: false,
-
+            showSpinner: false
         }
+        this.customerName = ''
+        this.customerDetailAddress = ''
+        this.customerPhone = ''
+        this.mainContacts = ''
+        this.mainMobile = ''
+        this.secondaryContact = ''
+        this.secondaryMobile = ''
+        this.coords = {};
     }
     componentDidMount() {
         this.props.navigation.setParams({
             headerRightPress: this.headerRightPress,
         })
+        navigator.geolocation.getCurrentPosition(
+            (initialPosition) => {
+                coords = initialPosition.coords;
+            },
+            (error) => console.error(error)
+        );
     }
+    headerRightPress() {
+        const token = LoginInfo.getUserInfo().token;
+        const user_id = LoginInfo.getUserInfo().user_id;
+        const organization_id = LoginInfo.getUserInfo().organization_id;
+        /**
+         proviceId	int	省id
+         cityId	int	市id
+         districtId	int	区id
+         customerKindsId	Int array	店面类型id
+         salerAreaId	int	销售区域id
+         buildingMaterialId	int	建材市场id
+         Longitude	flot	经度
+         Latitude	flot	纬度
+         Image[{}]	JsonArray	图片数组
+         */
+        let saveParams = {};
+        //coords.latitude, coords.longitude
+        saveParams.Longitude = this.coords.longitude;
+        saveParams.Latitude = this.coords.latitude;
+        saveParams.token = token;
+        saveParams.customerName = this.customerName;
+        saveParams.customerDetailAddress = this.customerDetailAddress;
 
+        saveParams.mainContacts = this.mainContacts;
+        saveParams.mainMobile = this.mainMobile;
+        saveParams.secondaryContact = this.secondaryContact;
+        saveParams.secondaryMobile = this.secondaryMobile;
+
+        saveParams.user_id = user_id;
+        saveParams.organization_id = organization_id;
+        saveParams.customerPhone = this.customerPhone;
+        if(!this.state.saleArea){
+            Toast.show('请选择销售区域') 
+            return ;
+        }
+        if(!this.state.buildingMaterial){
+            Toast.show('请选择建材市场') 
+            return ;
+        }
+        if(!this.state.regional){
+            Toast.show('请选择行政区域') 
+            return ;
+        }
+        saveParams.salerAreaId = this.state.saleArea.salerId;
+        saveParams.buildingMaterialId = this.state.buildingMaterial.buildingMaterialId;
+        saveParams.cityId = this.state.cityId;
+        saveParams.proviceId = this.state.proviceId;
+        saveParams.districtId = this.state.regional.districtsId;
+
+        const { navigation } = this.props;
+
+        this.setState({ showSpinner: true })
+        FetchManger.postUri('/mobileServiceManager/customers/toAddCustomers.page', saveParams).then((responseData) => {
+            this.setState({ showSpinner: false })
+            if (responseData.status === '0' || responseData.status === 0) {
+                Toast.show('保存成功')
+                navigation.goBack();
+            } else {
+                Toast.show(responseData.msg)
+            }
+        }).catch((error) => {
+            this.setState({ showSpinner: false })
+            Toast.show('保存失败')
+        })
+    }
     pickerImage() {
         var options = {
             title: '选择头像',
@@ -204,7 +284,8 @@ class AddCustContainer extends React.Component {
                             underlineColorAndroid={'transparent'}
                             autoCapitalize={'none'}
                             autoCorrect={false}
-                            onChangeText={(user_name) => {
+                            onChangeText={(customerName) => {
+                                this.customerName = customerName
                             }} />
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, width: WINDOW_WIDTH, backgroundColor: '#d9d9d9' }} />
@@ -216,7 +297,8 @@ class AddCustContainer extends React.Component {
                             autoCapitalize={'none'}
                             keyboardType={'phone-pad'}
                             autoCorrect={false}
-                            onChangeText={(user_name) => {
+                            onChangeText={(customerPhone) => {
+                                this.customerPhone = customerPhone
                             }} />
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, width: WINDOW_WIDTH, backgroundColor: '#d9d9d9' }} />
@@ -281,7 +363,7 @@ class AddCustContainer extends React.Component {
                             this.setState({
                                 buildingMaterialShow: true,
                             })
-                        }else{
+                        } else {
                             Toast.show('请先选择行政区域')
                         }
 
@@ -307,7 +389,8 @@ class AddCustContainer extends React.Component {
                             underlineColorAndroid={'transparent'}
                             autoCapitalize={'none'}
                             autoCorrect={false}
-                            onChangeText={(user_name) => {
+                            onChangeText={(customerDetailAddress) => {
+                                this.customerDetailAddress = customerDetailAddress
                             }} />
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, width: WINDOW_WIDTH, backgroundColor: '#d9d9d9' }} />
@@ -320,7 +403,8 @@ class AddCustContainer extends React.Component {
                             underlineColorAndroid={'transparent'}
                             autoCapitalize={'none'}
                             autoCorrect={false}
-                            onChangeText={(user_name) => {
+                            onChangeText={(mainContacts) => {
+                                this.mainContacts = mainContacts
                             }} />
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, width: WINDOW_WIDTH, backgroundColor: '#d9d9d9' }} />
@@ -333,7 +417,8 @@ class AddCustContainer extends React.Component {
                             keyboardType={'phone-pad'}
                             autoCapitalize={'none'}
                             autoCorrect={false}
-                            onChangeText={(user_name) => {
+                            onChangeText={(mainMobile) => {
+                                this.mainMobile = mainMobile
                             }} />
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, width: WINDOW_WIDTH, backgroundColor: '#d9d9d9' }} />
@@ -345,7 +430,8 @@ class AddCustContainer extends React.Component {
                             underlineColorAndroid={'transparent'}
                             autoCapitalize={'none'}
                             autoCorrect={false}
-                            onChangeText={(user_name) => {
+                            onChangeText={(secondaryContact) => {
+                                this.secondaryContact = secondaryContact
                             }} />
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, width: WINDOW_WIDTH, backgroundColor: '#d9d9d9' }} />
@@ -358,7 +444,8 @@ class AddCustContainer extends React.Component {
                             keyboardType={'phone-pad'}
                             autoCapitalize={'none'}
                             autoCorrect={false}
-                            onChangeText={(user_name) => {
+                            onChangeText={(secondaryMobile) => {
+                                this.secondaryMobile = secondaryMobile
                             }} />
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, width: WINDOW_WIDTH, backgroundColor: '#d9d9d9' }} />
@@ -370,10 +457,11 @@ class AddCustContainer extends React.Component {
                     })
                 }}
                     onConfirmPress={
-                        (regional, cityId) => {
+                        (regional, cityId, proviceId) => {
                             this.setState({
                                 regional,
                                 cityId,
+                                proviceId,
                                 regionalShow: false,
                             })
                         }
@@ -404,7 +492,7 @@ class AddCustContainer extends React.Component {
                             })
                         }
                     } />
-                <BuildingMaterialModel modalVisible={this.state.buildingMaterialShow} onCancelPress={() => {
+                <BuildingMaterialModel modalVisible={this.state.buildingMaterialShow} regionalid={this.state.cityId} onCancelPress={() => {
                     this.setState({
                         buildingMaterialShow: false,
                     })
@@ -418,6 +506,7 @@ class AddCustContainer extends React.Component {
                         }
                     } />
 
+                <View><Spinner visible={this.state.showSpinner} textContent={'提交中,请稍后...'} /></View>
 
             </View >
         );

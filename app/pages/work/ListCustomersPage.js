@@ -37,11 +37,11 @@ class ListCustomersPage extends React.Component {
         this.onSearchAction = this.onSearchAction.bind(this);
     }
     componentDidMount() {
-
+        const { action } = this.props;
         navigator.geolocation.getCurrentPosition(
             (initialPosition) => {
                 coords = initialPosition.coords;
-                this.onSearchAction();
+                action.listCustomers(coords.latitude, coords.longitude);
             },
             (error) => console.error(error)
         );
@@ -50,8 +50,8 @@ class ListCustomersPage extends React.Component {
         const { action } = this.props;
         InteractionManager.runAfterInteractions(() => {
             //lat=25.005789&lng=102.770189
-            //action.listCustomers(coords.latitude,coords.longitude);
-            action.listCustomers(25.005789, 102.770189, txt);
+            action.listCustomers(coords.latitude,coords.longitude,txt);
+            //action.listCustomers(25.005789, 102.770189, txt);
         });
     }
     _onItemPress(item) {
@@ -59,7 +59,7 @@ class ListCustomersPage extends React.Component {
         navigation.navigate('AddDeliveryOrder', { ...item })
 
     }
-    onTelAction(type,title,customersName,telephone) {
+    onTelAction(type, title, customersName, telephone) {
         Alert.alert(customersName + '', telephone,
             [
                 {
@@ -119,8 +119,8 @@ class ListCustomersPage extends React.Component {
                             <Text style={{ color: '#666' }}>{`${contactPhone}`}</Text>
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', height: 110 }}>
-                            <TouchableOpacity onPress={this.onTelAction.bind(this,'tel:','拨打电话', contactName,contactPhone)}>
-                                <View style={{ width: 32, height: 32, alignItems: 'center', justifyContent: 'center',borderRadius: 16, backgroundColor: '#fb6d23' }}>
+                            <TouchableOpacity onPress={this.onTelAction.bind(this, 'tel:', '拨打电话', contactName, contactPhone)}>
+                                <View style={{ width: 32, height: 32, alignItems: 'center', justifyContent: 'center', borderRadius: 16, backgroundColor: '#fb6d23' }}>
                                     <Iconfont fontFamily={'OAIndexIcon'}
                                         icon={'e68e'} // 图标
                                         iconColor={'#fff'}
@@ -129,8 +129,8 @@ class ListCustomersPage extends React.Component {
                                 </View>
                             </TouchableOpacity>
 
-                            <TouchableOpacity style={{margin:12}} onPress={this.onTelAction.bind(this, 'smsto:','发送短信',contactName,contactPhone)}>
-                                <View style={{ width: 32, height: 32,alignItems: 'center', justifyContent: 'center', borderRadius: 16, backgroundColor: '#18c5c1' }}>
+                            <TouchableOpacity style={{ margin: 12 }} onPress={this.onTelAction.bind(this, 'smsto:', '发送短信', contactName, contactPhone)}>
+                                <View style={{ width: 32, height: 32, alignItems: 'center', justifyContent: 'center', borderRadius: 16, backgroundColor: '#18c5c1' }}>
                                     <Iconfont fontFamily={'OAIndexIcon'}
                                         icon={'e6c1'} // 图标
                                         iconColor={'#fff'}

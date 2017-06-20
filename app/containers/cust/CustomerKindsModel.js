@@ -14,7 +14,6 @@ import {
 } from 'react-native';
 import { Iconfont } from 'react-native-go';
 import Picker from '../../components/Picker/Picker'
-import cityCode from './ChinaCityCode'
 import { FetchManger, LoginInfo, LoadingView } from 'react-native-go'
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
@@ -35,7 +34,7 @@ export default class CustomerKindsModel extends React.Component {
     }
     componentDidMount() {
         const token = LoginInfo.getUserInfo().token;
-        const user_id =778
+        const user_id =LoginInfo.getUserInfo().user_id;
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('mobileServiceManager/customers/getCustomerKindsTreeInfo.page', { token, user_id }).then((responseData) => {
                if (responseData.status === '0' || responseData.status === 0) {

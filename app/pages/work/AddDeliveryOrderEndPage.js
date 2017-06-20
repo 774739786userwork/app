@@ -8,12 +8,13 @@ import {
     ListView,
     Dimensions,
     TouchableHighlight,
+    TouchableOpacity,
     InteractionManager,
     FlatList,
     Alert
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
-import { Iconfont, LoadingView, Toast } from 'react-native-go';
+import { Iconfont, LoadingView, Toast,FetchManger,LoginInfo } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 import SearchBar from '../../components/SearchBar';
@@ -34,7 +35,7 @@ class AddDeliveryOrderEndPage extends React.Component {
         this.onConfirmPress = this.onConfirmPress.bind(this);
         this.onCancelPress = this.onCancelPress.bind(this)
         this._renderItem = this._renderItem.bind(this);
-        this.doAction = this._renderItem.bind(this);
+        this.dosubmitAction = this.dosubmitAction.bind(this);
         const { params } = this.props.navigation.state;
         this.renderFooter = this.renderFooter.bind(this)
 
@@ -73,7 +74,7 @@ class AddDeliveryOrderEndPage extends React.Component {
             unpaid_sum: 0,
             remark: undefined,
             modalVisible: false,
-            loading: false
+            showSpinner: false
         }
     }
 
@@ -91,8 +92,7 @@ class AddDeliveryOrderEndPage extends React.Component {
     onConfirmPress(content) {
         this.setState({ modalVisible: false, remark: content });
     }
-    doAction() {
-        this.setState({ showSpinner: true })
+    dosubmitAction() {
         const token = LoginInfo.getUserInfo().token;
         const user_id = LoginInfo.getUserInfo().user_id;
         const organization_id = LoginInfo.getUserInfo().organization_id;
@@ -103,9 +103,7 @@ class AddDeliveryOrderEndPage extends React.Component {
         // unpaid_sum	Double	未收金额
         // distribution_sum	Double	铺货总额
         // remark	String	备注信息
-        this.userInfo.token = token;
-        this.userInfo.user_id = user_id;
-        const { navigation } = this.props;
+       
 
         const { params } = this.props.navigation.state;
         let saveParams = params;
@@ -123,6 +121,7 @@ class AddDeliveryOrderEndPage extends React.Component {
         saveParams.unpaid_sum = this.unpaid_sum
         saveParams.distribution_sum = this.distribution_sum;
         saveParams.remark = this.state.remark;
+
         this.setState({ showSpinner: true })
         FetchManger.postUri('/mobileServiceManager/deliveryNotes/addDeliveryNotes.page', saveParams).then((responseData) => {
             this.setState({ showSpinner: false })
@@ -301,11 +300,11 @@ class AddDeliveryOrderEndPage extends React.Component {
                 <View style={{ width: WINDOW_WIDTH, height: 1, backgroundColor: '#c4c4c4' }} />
                 <View style={{ height: 50, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{ flex: 1 }} />
-                    <TouchableHighlight onPress={this._onItemPress.bind(this)}>
+                    <TouchableOpacity onPress={this.dosubmitAction}>
                         <View style={{ width: 160, height: 50, backgroundColor: '#fe6732', justifyContent: 'center', alignItems: 'center' }}>
                             <Text style={{ color: '#fff' }}>{`收款￥${this.state.paid_total_sum}`}</Text>
                         </View>
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                 </View>
                 <RemarkEditeModel content={this.state.remark} modalVisible={this.state.modalVisible} onCancelPress={this.onCancelPress} onConfirmPress={this.onConfirmPress} />
                 <View><Spinner visible={this.state.showSpinner} text={'提交中,请稍后...'} /></View>

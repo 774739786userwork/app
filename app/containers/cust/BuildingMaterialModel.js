@@ -33,8 +33,13 @@ export default class BuildingMaterialModel extends React.Component {
         this.rowIndex0 = 0;
     }
     componentDidMount() {
+        
+    }
+    componentWillReceiveProps(nextProps) {
+        this.rowIndex0 = 0;
+        this.setState({ modalVisible: nextProps.modalVisible });
         const token = LoginInfo.getUserInfo().token;
-        const regionalid = this.props.regionalid
+        const regionalid = nextProps.regionalid
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('mobileServiceManager/customers/getBuildingMaterialJson.page', { token, regionalid }).then((responseData) => {
                if (responseData.status === '0' || responseData.status === 0) {
@@ -48,11 +53,8 @@ export default class BuildingMaterialModel extends React.Component {
 
             })
         });
-    }
-    componentWillReceiveProps(nextProps) {
-        this.rowIndex0 = 0;
-        this.setState({ 
-            modalVisible: nextProps.modalVisible });
+
+
     }
 
     onConfirmPress() {
