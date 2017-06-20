@@ -30,18 +30,18 @@ export default class AddDeliveryEditeModel extends React.Component {
             sale_quantity: item.sale_quantity,
             gifts_quantity: item.gifts_quantity,
             price: item.price,
-            isSend: false,
+            isDistribution: false,
         };
     }
     componentWillReceiveProps(nextProps) {
         let item = nextProps.item;
         this.setState({
             modalVisible: nextProps.modalVisible,
-            stock:item.stock,
+            stock: item.stock,
             sale_quantity: item.sale_quantity ? item.sale_quantity : 0,
             gifts_quantity: item.gifts_quantity ? item.gifts_quantity : 0,
             price: item.price,
-            isSend: false,
+            isDistribution: false,
         });
     }
 
@@ -66,7 +66,10 @@ export default class AddDeliveryEditeModel extends React.Component {
         item.gifts_quantity = this.state.gifts_quantity
         //产品出售时单价
         item.price = this.state.price
-
+        item.isDistribution = this.state.isDistribution
+        if (this.state.isDistribution) {
+            item.gifts_quantity = 0
+        }
         this.props.onConfirmPress && this.props.onConfirmPress(item)
         this.setState({ modalVisible: false });
     }
@@ -74,8 +77,8 @@ export default class AddDeliveryEditeModel extends React.Component {
         this.props.onCancelPress && this.props.onCancelPress()
         this.setState({ modalVisible: false });
     }
-    onTypePress(isSend) {
-        this.setState({ isSend });
+    onTypePress(isDistribution) {
+        this.setState({ isDistribution });
     }
 
     render() {
@@ -96,18 +99,18 @@ export default class AddDeliveryEditeModel extends React.Component {
                         <Text style={{ color: '#fff' }}>{`${item.name}`}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', backgroundColor: '#fff', height: 44, width: modelWidth, justifyContent: 'center', alignItems: 'center', }}>
-                        <TouchableOpacity style={{ flex: 1 }} onPress={this.onTypePress.bind(this, true)}>
+                        <TouchableOpacity style={{ flex: 1 }} onPress={this.onTypePress.bind(this, false)}>
                             <Iconfont
-                                icon={this.state.isSend ? 'e662' : 'e663'} // 图标
+                                icon={!this.state.isDistribution ? 'e662' : 'e663'} // 图标
                                 iconColor={'#0081d4'}
                                 label={'送货类型'}
                                 iconPadding={8}
                                 iconSize={22} />
                         </TouchableOpacity>
                         <View style={{ backgroundColor: '#c4c4c4', width: StyleSheet.hairlineWidth, height: 44 }} />
-                        <TouchableOpacity style={{ flex: 1 }} onPress={this.onTypePress.bind(this, false)}>
+                        <TouchableOpacity style={{ flex: 1 }} onPress={this.onTypePress.bind(this, true)}>
                             <Iconfont
-                                icon={this.state.isSend ? 'e663' : 'e662'} // 图标
+                                icon={!this.state.isDistribution ? 'e663' : 'e662'} // 图标
                                 iconColor={'#0081d4'}
                                 label={'铺货类型'}
                                 iconPadding={8}
@@ -129,9 +132,20 @@ export default class AddDeliveryEditeModel extends React.Component {
                                 <TextInput style={{ width: 100, height: 30, textAlign: 'center', color: '#666', borderRadius: 8, padding: 0, borderWidth: 1, borderColor: '#c4c4c4' }}
                                     underlineColorAndroid={'transparent'}
                                     value={'' + this.state.price}
+                                    keyboardType={'numeric'}
                                     defaultValue={'' + this.state.price}
                                     onChangeText={(price) => {
-                                        this.setState({ price })
+                                        price = price ? price : '0'
+                                        let num = parseFloat(price);
+
+                                        if (!isNaN(num)) {
+                                            if (price.length > 1 && price.charAt(price.length - 1) === '.') {
+                                                num += '.';
+                                            }
+                                            this.setState({ price: num })
+                                        } else {
+                                            this.setState({ price: this.state.price })
+                                        }
                                     }}
                                 />
                             </View>
@@ -156,7 +170,6 @@ export default class AddDeliveryEditeModel extends React.Component {
                                         defaultValue={'' + this.state.sale_quantity}
                                         onChangeText={(newCount) => {
                                             let num = parseInt(newCount);
-
                                             this.updateSaleQuantity(isNaN(num) ? 0 : num);
                                         }}
                                     />
@@ -171,7 +184,7 @@ export default class AddDeliveryEditeModel extends React.Component {
                                 </View>
                             </View>
                             {
-                                this.state.isSend ?
+                                !this.state.isDistribution ?
                                     <View style={{ height: 34, marginTop: 8, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                                         <Text style={{ width: 40, textAlign: 'right', }}>赠送:</Text>
                                         <View style={{ flex: 3, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
@@ -188,7 +201,8 @@ export default class AddDeliveryEditeModel extends React.Component {
                                                 value={'' + this.state.gifts_quantity}
                                                 defaultValue={'' + this.state.gifts_quantity}
                                                 onChangeText={(newCount) => {
-                                                    this.updateGiftsQuantity(parseInt(gifts_quantity));
+                                                    let num = parseInt(newCount);
+                                                    this.updateGiftsQuantity(isNaN(num) ? 0 : num);
                                                 }}
                                             />
                                             <TouchableOpacity style={{ marginLeft: 12 }} onPress={() => {

@@ -22,7 +22,7 @@ class AddDeliveryOrderEndPageContainer extends React.Component {
         <View style={{ marginRight: 8 }}>
           <Iconfont
             label={'写备注'}
-            labelSize={18}
+            labelSize={16}
             labelColor={'#fff'}
           />
         </View>
@@ -30,13 +30,7 @@ class AddDeliveryOrderEndPageContainer extends React.Component {
     };
   };
   
-  componentDidMount() {
-    this.props.navigation.setParams({
-      headerRemarkRightPress: this.headerRemarkRightPress,
-    })
-  }
-  headerRemarkRightPress = () => {
-  }
+  
   render() {
     return <AddDeliveryOrderEndPage {...this.props} />;
   }

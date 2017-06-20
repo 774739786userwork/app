@@ -32,6 +32,7 @@ class AddDeliveryOrderPage extends React.Component {
         this.onConfirmPress = this.onConfirmPress.bind(this)
         this.onCancelPress = this.onCancelPress.bind(this)
         this._onItemPress = this._onItemPress.bind(this)
+        this.carbaseinfo_id = null;
         this.state = {
             modalVisible: false,
             modalPopVisible: false,
@@ -46,11 +47,15 @@ class AddDeliveryOrderPage extends React.Component {
             Toast.show(addDeliveryOrder.errMsg);
             return;
         }
-        const { action, navigation } = this.props;
-        const { params } = navigation.state;
-        if (addDeliveryOrder.selectCar && !addDeliveryOrder.loading && addDeliveryOrder.result.length == 0) {
-            action.addDeliveryOrder(addDeliveryOrder.selectCar.carbaseinfo_id)
+        const { action } = this.props;
+        const selectCar = nextProps.selectCar
+        if (selectCar.carbaseinfo_id && !addDeliveryOrder.loading && addDeliveryOrder.result.length == 0) {
+            action.addDeliveryOrder(selectCar.carbaseinfo_id)
+        } else if (selectCar.carbaseinfo_id != this.carbaseinfo_id) {
+            action.addDeliveryOrder(selectCar.carbaseinfo_id)
         }
+        this.carbaseinfo_id = selectCar.carbaseinfo_id
+
     }
     componentDidMount() {
         const { action, navigation } = this.props;
@@ -64,6 +69,7 @@ class AddDeliveryOrderPage extends React.Component {
     }
 
     _renderItem = (item, index) => {
+        let num = (item.sale_quantity ? parseInt(item.sale_quantity) : 0) + (item.gifts_quantity ? parseInt(item.gifts_quantity) : 0)
         return (
             <TouchableHighlight
                 onPress={this._rowOnPress.bind(this, item)}
@@ -91,12 +97,12 @@ class AddDeliveryOrderPage extends React.Component {
                             </View>
                             <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                                    <Text style={{ color: '#666' }}>{'单价：'}</Text>
+                                    <Text style={{ color: '#666' }}>{'单价(元)：'}</Text>
                                     <Text style={{ color: '#f80000' }}>{`${item.price}`}</Text>
                                 </View>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
                                     <Text style={{ color: '#666' }}>{'数量：'}</Text>
-                                    <Text style={{ color: '#f80000' }}>{`${item.sequence}`}</Text>
+                                    <Text style={{ color: '#f80000' }}>{`${num}`}</Text>
                                 </View>
                             </View>
                         </View>
@@ -154,16 +160,23 @@ class AddDeliveryOrderPage extends React.Component {
     }
     render() {
         const { addDeliveryOrder } = this.props;
-        let num = this.state.chooseList.length;
+        let chooseList = this.state.chooseList;
+        let num = 0;
         let numberCarsh = 0;
+        chooseList.map((item) => {
+            num += item.sale_quantity + item.gifts_quantity
+            numberCarsh += item.price * item.sale_quantity
+        })
+
+
         let list = addDeliveryOrder.result ? addDeliveryOrder.result.good_list : [];
         list = list ? list : []
         return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
-                <AddDeliveryPopModel chooseList={this.state.chooseList} modalVisible={this.state.modalPopVisible} onCancelPress={this.onPopCancelPress.bind(this)} onClear={() => { this.setState({ chooseList: [] }) }} />
+                <AddDeliveryPopModel onEndAction={this.onEndAction.bind(this)} chooseList={this.state.chooseList} modalVisible={this.state.modalPopVisible} onCancelPress={this.onPopCancelPress.bind(this)} onClear={() => { this.setState({ chooseList: [] }) }} />
                 <AddDeliveryEditeModel modalVisible={this.state.modalVisible} onCancelPress={this.onCancelPress} item={this.state.selectItem} onConfirmPress={this.onConfirmPress} />
                 <LoadingListView
-                    loading={addDeliveryOrder.loading || addDeliveryOrder.carLoading}
+                    loading={addDeliveryOrder.loading}
                     loadMore={addDeliveryOrder.loadMore}
                     listData={dataSource.cloneWithRows(list)}
                     renderRowView={this._renderItem} />

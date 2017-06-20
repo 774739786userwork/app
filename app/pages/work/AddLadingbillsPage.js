@@ -19,6 +19,14 @@ const WINDOW_WIDTH = Dimensions.get('window').width;
 import * as DateUtils from '../../utils/DateUtils'
 let listViewData = []
 let valeMap = {}
+function GetDateStr(AddDayCount) {
+    var dd = new Date();
+    dd.setDate(dd.getDate() + AddDayCount);//获取AddDayCount天后的日期 
+    var y = dd.getFullYear();
+    var m = dd.getMonth() + 1;//获取当前月份的日期 
+    var d = dd.getDate();
+    return y + "-" + m + "-" + d;
+}
 class AddLadingbillsPage extends React.Component {
     constructor(props) {
         super(props);
@@ -27,7 +35,7 @@ class AddLadingbillsPage extends React.Component {
         this._onItemPress = this._onItemPress.bind(this)
         this._onAddItemPress = this._onAddItemPress.bind(this)
         valeMap = {};
-        let today = DateUtils.getYearMonthDay();
+        let today = GetDateStr(0);
         valeMap.loadingbill_date = [today];
         listViewData = [
             {},
@@ -82,7 +90,8 @@ class AddLadingbillsPage extends React.Component {
                                         <DatePicker
                                             style={{ width: 100, }}
                                             date={item.value}
-                                            minDate={DateUtils.getYearMonthDay()}
+                                            minDate={GetDateStr(0)}
+                                            maxDate={GetDateStr(1)}
                                             customStyles={{
                                                 dateInput: { borderWidth: 0 },
                                                 dateText: { color: '#999', textAlign: 'left' }

@@ -15,6 +15,8 @@ import DatePicker from 'react-native-datepicker'
 import { Iconfont, LoadingView, Toast } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
+var dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+
 const styles = StyleSheet.create({
     txt: {
         textAlign: 'center',
@@ -45,7 +47,7 @@ class UnAuditedLadingbillsPage extends React.Component {
         const { action } = this.props;
         const { startDate, endDate } = this.state;
         InteractionManager.runAfterInteractions(() => {
-            action.selectLadingbills(startDate, endDate);
+             action.selectLadingbills(startDate, endDate);
         });
     }
     _selectLadingbillsByDate(_startDate, _endDate) {
@@ -136,9 +138,9 @@ class UnAuditedLadingbillsPage extends React.Component {
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
                 <View style={{ flex: 1 }}>
                     <LoadingListView
-                        loading={selectLadingbills.loading}
+                        loading={false}
                         loadMore={selectLadingbills.loadMore}
-                        listData={selectLadingbills.listData}
+                        listData={dataSource.cloneWithRows([])}
                         renderRowView={this._renderItem}
                         onEndReached={this.onEndReached} />
                 </View>

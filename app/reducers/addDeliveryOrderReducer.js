@@ -19,7 +19,7 @@ export default function addDeliveryOrderReducer(state = initialState, action) {
             });
         case types.AddDeliveryOrdering4Car_ACTION:
             return Object.assign({}, state, {
-                carloading: true,
+                loading: true,
                 errMsg: undefined,
                 carList: [],
                 result: [],
@@ -27,7 +27,6 @@ export default function addDeliveryOrderReducer(state = initialState, action) {
         case types.AddDeliveryOrderError_ACTION:
             return Object.assign({}, state, {
                 loading: false,
-                carloading: false,
                 errMsg: action.errMsg,
             });
         case types.AddDeliveryOrder4CarSucceed_ACTION:
@@ -36,7 +35,7 @@ export default function addDeliveryOrderReducer(state = initialState, action) {
                 selectCar = action.result[0]
             }
             return Object.assign({}, state, {
-                carList: action.result, selectCar, carloading: false,
+                carList: action.result, selectCar, loading: false,
             });
         case types.AddDeliveryOrderSucceed_ACTION:
             return Object.assign({}, state, {

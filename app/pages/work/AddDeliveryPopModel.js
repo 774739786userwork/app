@@ -26,7 +26,7 @@ export default class AddDeliveryPopModel extends React.Component {
         this.onCancelPress = this.onCancelPress.bind(this)
         this.state = {
             modalVisible: props.modalVisible,
-            chooseList:[],
+            chooseList: [],
         };
     }
     componentWillReceiveProps(nextProps) {
@@ -39,12 +39,13 @@ export default class AddDeliveryPopModel extends React.Component {
 
 
     onCancelPress() {
-        this.props.onCancelPress && this.props.onCancelPress() 
+        this.props.onCancelPress && this.props.onCancelPress()
         this.setState({ modalVisible: false });
     }
     renderRowView = (item, index) => {
+        let num = (item.sale_quantity ? parseInt(item.sale_quantity) : 0) + (item.gifts_quantity ? parseInt(item.gifts_quantity) : 0)
         return (
-            <View style={{ backgroundColor: '#fff' ,width:WINDOW_WIDTH}} key={`row_${index}`}>
+            <View style={{ backgroundColor: '#fff', width: WINDOW_WIDTH }} key={`row_${index}`}>
                 <View style={{ height: 34, paddingLeft: 12, marginBottom: 8, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
                     <Text style={{ color: '#333', fontSize: 16 }}>{item.name}</Text>
                 </View>
@@ -55,19 +56,24 @@ export default class AddDeliveryPopModel extends React.Component {
                     </View>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
                         <Text style={{ color: '#666' }}>{'数量：'}</Text>
-                        <Text style={{ color: '#f80000' }}>{`${item.sequence}`}</Text>
+                        <Text style={{ color: '#f80000' }}>{`${num}`}</Text>
                     </View>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
-                        <Text style={{ color: '#666' }}>{'数量：'}</Text>
-                        <Text style={{ color: '#f80000' }}>{`${item.sequence}`}</Text>
+                        <Text style={{ color: '#666' }}>{'押金：'}</Text>
+                        <Text style={{ color: '#f80000' }}>{`0`}</Text>
                     </View>
                 </View>
                 <View style={{ height: StyleSheet.hairlineWidth, marginTop: 12, flex: 1, backgroundColor: '#c4c4c4' }} />
             </View>)
     }
     render() {
-        let num = this.state.chooseList.length
+        let chooseList = this.state.chooseList;
+        let num = 0;
         let numberCarsh = 0;
+        chooseList.map((item) => {
+            num += item.sale_quantity + item.gifts_quantity
+            numberCarsh += item.price * item.sale_quantity
+        })
         let loading = true
         return (<Modal
             animationType={'slide'}
@@ -86,7 +92,7 @@ export default class AddDeliveryPopModel extends React.Component {
                         <TouchableOpacity onPress={() => {
                             this.props.onClear && this.props.onClear()
                             this.setState({
-                                chooseList:[]
+                                chooseList: []
                             })
                         }}>
                             <Iconfont
@@ -95,12 +101,12 @@ export default class AddDeliveryPopModel extends React.Component {
                                 iconSize={20} />
                         </TouchableOpacity>
                     </View>
-                    <View style={{ height: 160,width:WINDOW_WIDTH, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ height: 160, width: WINDOW_WIDTH, justifyContent: 'center', alignItems: 'center' }}>
                         {
-                            num > 0  ?
+                            num > 0 ?
                                 <ListView
                                     enableEmptySections={true}
-                                    style={{width:WINDOW_WIDTH}}
+                                    style={{ width: WINDOW_WIDTH }}
                                     dataSource={dataSource.cloneWithRows(this.state.chooseList)}
                                     renderRow={this.renderRowView}
                                 />
@@ -125,7 +131,7 @@ export default class AddDeliveryPopModel extends React.Component {
                         </TouchableHighlight>
                         <Text style={{ color: '#f80000' }}>{'￥' + numberCarsh + '元'}</Text>
                         <View style={{ flex: 1 }} />
-                        <TouchableHighlight onPress={() => { }}>
+                        <TouchableHighlight onPress={this.props.onEndAction}>
                             <View style={{ width: 100, height: 50, backgroundColor: '#fe6732', justifyContent: 'center', alignItems: 'center' }}>
                                 <Text style={{ color: '#fff' }}>{'结算'}</Text>
                             </View>

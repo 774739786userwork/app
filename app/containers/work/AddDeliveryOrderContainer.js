@@ -5,75 +5,74 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Iconfont } from 'react-native-go';
+import { Iconfont, Toast } from 'react-native-go';
 import * as actions from '../../actions/Actions';
-
+import NavigationBar from '../../components/NavigationBar'
 import AddDeliveryOrderPage from '../../pages/work/AddDeliveryOrderPage';
 
-let theCar;
 class AddDeliveryOrderContainer extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
-    const { state, setParams } = navigation;
-    const rightTitle = navigation.state.params ? navigation.state.params.rightTitle : '车辆选择';
-    console.log(navigation.state.params)
-    return {
-      title: `${navigation.state.params.customersName}`,
-      headerRight: (<TouchableOpacity onPress={() => {
-        navigation.state.params.headerRightPress();
-      }}>
-        <View style={{ marginRight: 8 }}>
-          <Iconfont
-            icon={'e66e'} // 图标
-            iconColor={'#fff'}
-            iconSize={22}
-            position={'left'}
-            label={rightTitle}
-            labelColor={'#fff'}
-          />
-        </View>
-      </TouchableOpacity>)
-    };
+    return { header: null };
   };
   constructor(props) {
     super(props)
     this.updateRightView = this.updateRightView.bind(this);
-
-  }
-
-  componentDidMount() {
-    theCar = ""
-    this.props.navigation.setParams({
-      headerRightPress: this.headerRightPress,
-      rightTitle: '暂无车辆'
-    })
-  }
-  componentWillReceiveProps(nextProps) {
-    const { addDeliveryOrder } = nextProps;
-    if (addDeliveryOrder.selectCar) {
-      if (theCar != addDeliveryOrder.selectCar.platenumber) {
-        theCar = addDeliveryOrder.selectCar.platenumber;
-        this.updateRightView(addDeliveryOrder.selectCar)
-      }
+    this.renderRightView = this.renderRightView.bind(this);
+    this.callback = this.callback.bind(this)
+    this.carList = []
+    this.state = {
+      selectCar: {}
     }
   }
-  intervalAction(data) {
-    this.timer && clearTimeout(this.timer)
-    this.props.navigation.setParams({
-      rightTitle: data.platenumber//'车辆选择3'
-    })
 
+  componentWillReceiveProps(nextProps) {
+    const { addDeliveryOrder } = nextProps;
+    this.carList = addDeliveryOrder.carList
+    if (!this.state.selectCar.platenumber && this.carList.length >0 ) {
+      this.setState({ selectCar: addDeliveryOrder.carList[0] })
+    }
   }
   updateRightView(data) {
-    console.log(data)
-    this.timer = setTimeout(this.intervalAction.bind(this, data), 10)
+    this.setState({ selectCar: data })
+
+  }
+  callback(data) {
+    this.updateRightView(data)
   }
   headerRightPress = () => {
     const { navigation } = this.props;
-    navigation.navigate('SelectCar', { callback: (data) => this.updateRightView(data) })
+    if (this.carList.length === 0) {
+      Toast.show('暂无车辆')
+    } else if (this.carList.length === 1) {
+      Toast.show('当前只有该辆车')
+    } else {
+      navigation.navigate('ShowSelectCar', {
+        carList: this.carList, callback: this.callback
+      })
+    }
+  }
+  renderRightView() {
+    return (
+      <View>
+        <Iconfont
+          icon={'e66e'} // 图标
+          iconColor={'#fff'}
+          iconSize={22}
+          position={'left'}
+          label={this.state.selectCar.platenumber ? this.state.selectCar.platenumber : '暂无车辆'}
+          labelColor={'#fff'}
+        />
+      </View>)
   }
   render() {
-    return <AddDeliveryOrderPage {...this.props} />;
+    const { customersName } = this.props.navigation.state.params;
+    return (
+      <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
+        <NavigationBar title={customersName} navigator={this.props.navigation} rightView={this.renderRightView} onRightButtonPress={this.headerRightPress} />
+        <AddDeliveryOrderPage {...this.props} selectCar={this.state.selectCar} />
+      </View>
+    );
   }
 }
 

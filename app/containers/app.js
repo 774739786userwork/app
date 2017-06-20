@@ -5,6 +5,7 @@ import SplashPage from '../pages/SplashPage';
 import WorkContainer from '../containers/WorkContainer';
 //提货单查询
 import SelectLadingbillsContainer from './work/SelectLadingbillsContainer';
+import SelectLadingbillsDetailPage from '../pages/work/SelectLadingbillsDetailPage'
 //订货单查询
 import PurchaseOrderInfoContainer from './work/PurchaseOrderInfoContainer';
 //送货单查询
@@ -20,6 +21,9 @@ import DeliveryOrderDetailContainer from './work/DeliveryOrderDetailContainer'
 import GetCarstockProductListContainer from './work/GetCarstockProductListContainer'
 //车辆选择
 import SelectCarContainer from './select/SelectCarContainer'
+//车辆选择  不需要请求数据
+import ShowSelectCarPage from '../pages/select/ShowSelectCarPage'
+
 //业务员 选择
 import SelectNameContainer from './select/SelectNameContainer'
 //计量人 选择
@@ -153,6 +157,12 @@ const App = StackNavigator(
     },
     DeliveryCustomers: {
       screen: DeliveryCustomersContainer
+    },
+    SelectLadingbillsDetail: {
+      screen: SelectLadingbillsDetailPage
+    },
+    ShowSelectCar: {
+      screen: ShowSelectCarPage
     },
 
 

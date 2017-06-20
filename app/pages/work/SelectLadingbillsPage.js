@@ -29,6 +29,7 @@ class SelectLadingbillsPage extends React.Component {
         this._selectLadingbillsByDate = this._selectLadingbillsByDate.bind(this);
         this.onEndReached = this.onEndReached.bind(this)
         this._renderItem = this._renderItem.bind(this);
+        this.onItemPress = this.onItemPress.bind(this)
         this.state = {
             startDate: DateUtils.getYearMonthDay(),
             endDate: DateUtils.getYearMonthDay(),
@@ -66,48 +67,57 @@ class SelectLadingbillsPage extends React.Component {
         }
 
     }
+    onItemPress(rowData) {
+        const { navigate } = this.props.navigation;
+       // navigate('SelectLadingbillsDetail', rowData);
+    }
     _renderItem = (item, index) => {
         return (
-            <View style={{ backgroundColor: '#fff' }} key={`row_${index}`}>
-                <View style={{ paddingLeft: 12, flexDirection: 'row', alignItems: 'center', height: 34, backgroundColor: '#f9f9f9' }}>
-                    <View style={{ marginRight: 4 }}>
-                        <Iconfont fontFamily={'OAIndexIcon'}
-                            icon='e6bf'
-                            iconColor='#118cd7'
-                            iconSize={16}
-                        />
+            <TouchableHighlight
+                onPress={this.onItemPress.bind(this, item)}
+                key={`row_${index}`}
+            >
+                <View style={{ backgroundColor: '#fff' }} >
+                    <View style={{ paddingLeft: 12, flexDirection: 'row', alignItems: 'center', height: 34, backgroundColor: '#f9f9f9' }}>
+                        <View style={{ marginRight: 4 }}>
+                            <Iconfont fontFamily={'OAIndexIcon'}
+                                icon='e6bf'
+                                iconColor='#118cd7'
+                                iconSize={16}
+                            />
+                        </View>
+                        <Text style={{ color: '#118cd7' }}>{item.loadingdate}</Text>
+                        <View style={{ flex: 1 }} />
+                        <Text style={{ color: '#666', fontSize: 12 }}>提货单编号：</Text>
+                        <Text style={{ color: '#666', fontSize: 12, marginRight: 8 }}>{item.serial_number}</Text>
                     </View>
-                    <Text style={{ color: '#118cd7' }}>{item.loadingdate}</Text>
-                    <View style={{ flex: 1 }} />
-                    <Text style={{ color: '#666', fontSize: 12 }}>提货单编号：</Text>
-                    <Text style={{ color: '#666', fontSize: 12, marginRight: 8 }}>{item.serial_number}</Text>
-                </View>
-                <View style={{ height: 8 }} />
-                {
-                    item.goodsList.map((goodsItem) => (
-                        <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
-                            <Text style={{ color: '#333' }}>{goodsItem.name}</Text>
-                            <Text style={{ color: '#333' }}>{': '}</Text>
-                            <Text style={{ color: '#333' }}>{goodsItem.quantity}</Text>
-                             <View style={{ width: 8 }} />
-                            <Text style={{ color: '#333' }}>{goodsItem.unit}</Text>
-                        </View>))
-                }
-                <View style={{ flex: 1, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={{ color: '#666' }}>{item.goodsStr}</Text>
-                </View>
-                <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{ flex: 1, flexDirection: 'row' }}>
-                        <Text style={{ color: '#f80000' }}>{'车次：'}</Text>
-                        <Text style={{ color: '#f80000' }}>{'第' + item.loadingcount + '车'}</Text>
+                    <View style={{ height: 8 }} />
+                    {
+                        item.goodsList.map((goodsItem) => (
+                            <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
+                                <Text style={{ color: '#333' }}>{goodsItem.name}</Text>
+                                <Text style={{ color: '#333' }}>{': '}</Text>
+                                <Text style={{ color: '#333' }}>{goodsItem.quantity}</Text>
+                                <View style={{ width: 8 }} />
+                                <Text style={{ color: '#333' }}>{goodsItem.unit}</Text>
+                            </View>))
+                    }
+                    <View style={{ flex: 1, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
+                        <Text style={{ color: '#666' }}>{item.goodsStr}</Text>
                     </View>
-                    <View style={{ flex: 1, flexDirection: 'row' }}>
-                        <Text style={{ color: '#f80000' }}>{'开单人：'}</Text>
-                        <Text style={{ color: '#f80000' }}>{item.create_user_name}</Text>
+                    <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{ flex: 1, flexDirection: 'row' }}>
+                            <Text style={{ color: '#f80000' }}>{'车次：'}</Text>
+                            <Text style={{ color: '#f80000' }}>{'第' + item.loadingcount + '车'}</Text>
+                        </View>
+                        <View style={{ flex: 1, flexDirection: 'row' }}>
+                            <Text style={{ color: '#f80000' }}>{'开单人：'}</Text>
+                            <Text style={{ color: '#f80000' }}>{item.create_user_name}</Text>
+                        </View>
                     </View>
+                    <View style={{ height: StyleSheet.hairlineWidth, marginTop: 4, flex: 1, backgroundColor: '#c4c4c4' }} />
                 </View>
-                <View style={{ height: StyleSheet.hairlineWidth, marginTop: 4, flex: 1, backgroundColor: '#c4c4c4' }} />
-            </View>);
+            </TouchableHighlight>);
     }
     //加载更多
     onEndReached() {

@@ -14,7 +14,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 
-import { Iconfont, LineView, Toast, Spinner, FetchManger } from 'react-native-go';
+import { Iconfont, LoginInfo, LineView, Toast, Spinner, FetchManger } from 'react-native-go';
 import dismissKeyboard from 'dismissKeyboard';
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
@@ -27,25 +27,27 @@ export default class ForgetPassWordPage extends React.Component {
             showSpinner: false,
         }
     }
-    //mobileServiceManager/user/updatePassword.page?userid=100002&password=654321&newPassword=666666&token=gOpzCsvTuRqY24
     doAction() {
         this.setState({ showSpinner: true })
         const token = LoginInfo.getUserInfo().token;
         const user_id = LoginInfo.getUserInfo().user_id;
-        
+
         this.userInfo.token = token;
         this.userInfo.user_id = user_id;
-        FetchManger.postUri('mobileServiceManager/user/updatePassword.page',this.userInfo).then((responseData) => {
-                this.setState({ showSpinner: false })
-                if (responseData.status === '0' || responseData.status === 0) {
-                    Toast.show('修改密码成功')
-                } else {
-                    Toast.show('修改密码失败')
-                }
-            }).catch((error) => {
-                this.setState({ showSpinner: false })
-                Toast.show('修改密码失败')
-            })
+        const { navigation } = this.props;
+
+        FetchManger.postUri('mobileServiceManager/user/updatePassword.page', this.userInfo).then((responseData) => {
+            this.setState({ showSpinner: false })
+            if (responseData.status === '0' || responseData.status === 0) {
+                navigation.goBack();
+                Toast.show('修改密码成功')
+            } else {
+                Toast.show(responseData.msg)
+            }
+        }).catch((error) => {
+            this.setState({ showSpinner: false })
+            Toast.show('修改密码失败')
+        })
     }
 
     render() {
@@ -59,12 +61,14 @@ export default class ForgetPassWordPage extends React.Component {
                         underlineColorAndroid={'transparent'}
                         autoCapitalize={'none'}
                         autoCorrect={false}
+                        secureTextEntry={true}
                         onChangeText={(password) => {
-                            userInfo.password = password;
+                            this.userInfo.password = password;
                         }}
                     />
                 </View>
                 <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#d9d9d9' }} />
+                <View style={{ marginTop: 20, height: StyleSheet.hairlineWidth, backgroundColor: '#d9d9d9' }} />
                 <View style={{ height: 40 }}>
                     <TextInput style={{ height: 40, paddingLeft: 8, backgroundColor: '#fff' }}
                         placeholder={'请输入您的新密码'}
@@ -72,13 +76,13 @@ export default class ForgetPassWordPage extends React.Component {
                         underlineColorAndroid={'transparent'}
                         autoCapitalize={'none'}
                         autoCorrect={false}
+                        secureTextEntry={true}
                         onChangeText={(newPassword) => {
-                            userInfo.newPassword = newPassword;
+                            this.userInfo.newPassword = newPassword;
                         }}
                     />
                 </View>
                 <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#d9d9d9' }} />
-                <View style={{ marginTop: 20, height: StyleSheet.hairlineWidth, backgroundColor: '#d9d9d9' }} />
                 <View style={{ height: 40, }}>
                     <TextInput style={{ height: 40, paddingLeft: 8, backgroundColor: '#fff' }}
                         placeholder={'请再次输入您的新密码'}
@@ -88,7 +92,7 @@ export default class ForgetPassWordPage extends React.Component {
                         autoCorrect={false}
                         secureTextEntry={true}
                         onChangeText={(reNewPassword) => {
-                            userInfo.reNewPassword = reNewPassword;
+                            this.userInfo.reNewPassword = reNewPassword;
                         }}
                     />
                 </View>
@@ -99,15 +103,26 @@ export default class ForgetPassWordPage extends React.Component {
 
                 <TouchableOpacity onPress={() => {
                     dismissKeyboard();
-                    if (!userInfo.password || !userInfo.newPassword || !userInfo.reNewPassword){
+                    if (!this.userInfo.password || !this.userInfo.newPassword) {
                         Toast.show('密码不能为空');
                         return
                     }
-                    if (userInfo.newPassword != userInfo.reNewPassword){
+                    if (this.userInfo.newPassword != this.userInfo.reNewPassword) {
                         Toast.show('两次输入的密码不一致');
                         return
                     }
-                    doAction()
+                    if (this.userInfo.newPassword.length < 6 || this.userInfo.newPassword.length > 20) {
+                        Toast.show('密码的长度必须为6-20位');
+                        return
+                    }
+                    let regStr = "^([A-Z]|[a-z]|[0-9]){6,20}$";
+                    if (!this.userInfo.newPassword.match(regStr)) {
+                        Toast.show('密码的只能包含数字或字母');
+                        return
+                    } else {
+                        this.doAction()
+                    }
+
                 }}
                     underlayColor={'#999'}
                     style={{ height: 44, width: WINDOW_WIDTH, backgroundColor: '#ffffff', alignItems: 'center', justifyContent: 'center' }}>
