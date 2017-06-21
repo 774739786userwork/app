@@ -54,6 +54,10 @@ import Login4MsgContainer from './login/Login4MsgContainer'
 import AboutPageContainer from './setting/AboutPageContainer'
 //修改密码
 import ForgetPassWordContainer from './setting/ForgetPassWordContainer'
+import BleManagerPage from '../pages/setting/BleManagerPage'
+import ScanManagerPage from '../pages/setting/ScanManagerPage'
+
+
 
 import QRPage from '../pages/QRPage'
 
@@ -163,6 +167,12 @@ const App = StackNavigator(
     },
     ShowSelectCar: {
       screen: ShowSelectCarPage
+    },
+    BleManager: {
+      screen: BleManagerPage
+    },
+    ScanManager: {
+      screen: ScanManagerPage
     },
 
 

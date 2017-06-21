@@ -20,7 +20,7 @@ import NavigationUtil from '../../utils/NavigationUtil';
 
 import ListItemSetting from '../../components/ListItemSetting';
 import HomeBar from '../../components/HomeBar'
-import { Iconfont, LoginInfo,FetchManger } from 'react-native-go';
+import { Iconfont, LoginInfo, FetchManger } from 'react-native-go';
 
 var WINDOW_WIDTH = Dimensions.get('window').width;
 
@@ -105,6 +105,7 @@ class SettingPage extends React.Component {
     this.onAboutAction = this.onAboutAction.bind(this);
     this.onLoginOut = this.onLoginOut.bind(this);
     this.onUpdatePWDAction = this.onUpdatePWDAction.bind(this)
+    this.onBlueAction = this.onBlueAction.bind(this)
   }
 
   onAboutAction() {
@@ -116,10 +117,10 @@ class SettingPage extends React.Component {
     navigation.navigate('ForgetPassWord')
   }
   onLoginOut() {
-    
+
     const token = LoginInfo.getUserInfo().token;
     const user_id = LoginInfo.getUserInfo().user_id;
-    FetchManger.postUri('mobileServiceManager/user/signOut.page', {user_id,token})
+    FetchManger.postUri('mobileServiceManager/user/signOut.page', { user_id, token })
     InteractionManager.runAfterInteractions(() => {
       LoginInfo.loginOut();
       NavigationUtil.reset(this.props.navigation, 'Login');
@@ -129,7 +130,8 @@ class SettingPage extends React.Component {
 
   }
   onBlueAction() {
-
+    const { navigation } = this.props;
+    navigation.navigate('BleManager')
   }
 
   render() {

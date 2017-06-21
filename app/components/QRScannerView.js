@@ -33,7 +33,7 @@ class QRScannerRectView extends Component {
         isLoading: false,
         cornerOffsetSize: 8,
         isCornerOffset: true,
-        bottomMenuHeight: 100,
+        bottomMenuHeight: 0,
         scanBarAnimateTime: 2000,
         scanBarColor: '#22ff00',
         scanBarImage: null,
@@ -397,8 +397,6 @@ export default class QRScannerView extends Component {
                     onBarCodeRead={this.props.onScanResultReceived}
                     style={{flex: 1}}
                 >
-                    {/*绘制顶部标题栏组件*/}
-                    {this.props.renderTopBarView()}
 
                     {/*绘制扫描遮罩*/}
                     <QRScannerRectView
@@ -422,14 +420,7 @@ export default class QRScannerView extends Component {
                         hintTextStyle={this.props.hintTextStyle}
                         scanBarImage={this.props.scanBarImage}
                         hintTextPosition={this.props.hintTextPosition}
-                        isShowScanBar={this.props.isShowScanBar}
                     />
-
-                    {/*绘制底部操作栏*/}
-                    <View style={[styles.buttonsContainer, this.props.bottomMenuStyle]}>
-                        {this.props.renderBottomMenuView()}
-                    </View>
-
                 </Camera>
             </View>
         );
