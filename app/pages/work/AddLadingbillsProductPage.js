@@ -10,7 +10,8 @@ import {
     TouchableHighlight,
     InteractionManager,
     FlatList,
-    Alert
+    Alert,
+    ScrollView
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
 import { Iconfont, LoadingView, Toast } from 'react-native-go';
@@ -20,6 +21,8 @@ import SearchBar from '../../components/SearchBar';
 import LadProductItem from './components/LadProductItem'
 import SaveModel from './components/SaveModel'
 import Spinner from 'react-native-loading-spinner-overlay';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
+import { NavigationActions } from 'react-navigation'
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 /**
@@ -56,7 +59,13 @@ class AddLadingbillsProductPage extends React.Component {
                 })
                 Toast.show('保存成功');
                 InteractionManager.runAfterInteractions(() => {
-                    navigation.goBack();
+                    const navigationAction = NavigationActions.reset({
+                        index: 0,
+                        actions: [
+                            NavigationActions.navigate({ routeName: 'Home' }),
+                        ]
+                    })
+                    navigation.dispatch(navigationAction)
                 });
             }
         }
@@ -186,8 +195,7 @@ class AddLadingbillsProductPage extends React.Component {
                     returnKeyType={'search'}
                 />
                 <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#d9d9d9' }} />
-
-                <View style={{ flex: 1 }}>
+                <ScrollView>
                     {
                         addLadingbillsProduct.loading ?
                             <LoadingView /> :
@@ -197,14 +205,14 @@ class AddLadingbillsProductPage extends React.Component {
                                 </View>
                                 :
                                 <ListView
-                                    enableEmptySections={true}
                                     dataSource={addLadingbillsProduct.listData}
                                     renderRow={this._renderItem}
                                 />
                             )
 
                     }
-                </View>
+                </ScrollView>
+
                 <View style={{ width: WINDOW_WIDTH, height: 1, backgroundColor: '#c4c4c4' }} />
                 <View style={{ height: 50, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{ width: 50, height: 50, padding: 6, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' }}>

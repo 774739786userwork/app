@@ -39,8 +39,8 @@ export default class ForgetPassWordPage extends React.Component {
         FetchManger.postUri('mobileServiceManager/user/updatePassword.page', this.userInfo).then((responseData) => {
             this.setState({ showSpinner: false })
             if (responseData.status === '0' || responseData.status === 0) {
-                navigation.goBack();
-                Toast.show('修改密码成功')
+                NavigationUtil.reset(this.props.navigation, 'Login');
+                Toast.show('修改密码成功,请重新登录')
             } else {
                 Toast.show(responseData.msg)
             }

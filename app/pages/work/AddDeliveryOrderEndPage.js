@@ -14,7 +14,7 @@ import {
     Alert
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
-import { Iconfont, LoadingView, Toast,FetchManger,LoginInfo } from 'react-native-go';
+import { Iconfont, LoadingView, Toast, FetchManger, LoginInfo } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 import SearchBar from '../../components/SearchBar';
@@ -55,14 +55,13 @@ class AddDeliveryOrderEndPage extends React.Component {
         var toChange = numberCarsh + '';
         var b = toChange.split(".");
         if (b.length > 1) {
-            this.small_change_sum = b[1]
+            this.small_change_sum = '0.' + b[1]
         }
         //总计销售金额
         this.total_sum = 0;
         //押金
         this.foregift_sum = 0;
-        //抹零金额
-        this.small_change_sum = 0;
+
 
         this.num = num;
         this.numberCarsh = numberCarsh;
@@ -70,9 +69,9 @@ class AddDeliveryOrderEndPage extends React.Component {
             chooseList: params.chooseList,
             //实收金额
             paid_total_sum: numberCarsh,
-            isOpenChange: true,
+            isOpenChange: false,
             unpaid_sum: 0,
-            remark: undefined,
+            remark: '',
             modalVisible: false,
             showSpinner: false
         }
@@ -103,16 +102,22 @@ class AddDeliveryOrderEndPage extends React.Component {
         // unpaid_sum	Double	未收金额
         // distribution_sum	Double	铺货总额
         // remark	String	备注信息
-       
-
         const { params } = this.props.navigation.state;
-        let saveParams = params;
-        saveParams.token = token;
+        var date = new Date();
+        var currentTime = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+
+        let saveParams = {};
         saveParams.user_id = user_id;
         saveParams.organization_id = organization_id;
-        saveParams.contact_mobile = params.contacts[0].name;
-        saveParams.contact_name = params.contacts[0].mobile1;
-        saveParams.source_equipment = token;
+        saveParams.token = token;
+        saveParams.customer_id = params.customersId
+        saveParams.car_id = params.selectCar.carbaseinfo_id
+        saveParams.delivery_date = currentTime
+        saveParams.contact_mobile = params.contacts[0].mobile1;
+        saveParams.contact_name = params.contacts[0].name;
+        saveParams.source_equipment = '1'
+        saveParams.lat = params.lat
+        saveParams.lng = params.lng
 
         saveParams.total_sum = this.numberCarsh;
         saveParams.paid_total_sum = this.state.paid_total_sum;
@@ -122,17 +127,43 @@ class AddDeliveryOrderEndPage extends React.Component {
         saveParams.distribution_sum = this.distribution_sum;
         saveParams.remark = this.state.remark;
 
+        let good_list = []
+        this.state.chooseList.map((item) => {
+            let gItem = {}
+            gItem.sequence = params.sequence
+            gItem.product_id = params.id
+            gItem.product_name = params.name
+            gItem.sale_quantity = params.sale_quantity
+            gItem.gifts_quantity = params.gifts_quantity
+            gItem.price = params.price
+            gItem.product_sum = params.stock
+            gItem.delivery_remember_person = params.delivery_remember_person
+            good_list.push(gItem)
+        })
+
+        saveParams.good_list = JSON.stringify(good_list);
         this.setState({ showSpinner: true })
         FetchManger.postUri('/mobileServiceManager/deliveryNotes/addDeliveryNotes.page', saveParams).then((responseData) => {
             this.setState({ showSpinner: false })
             if (responseData.status === '0' || responseData.status === 0) {
-
+                const navigationAction = NavigationActions.navigate({
+                    routeName: 'Home',
+                    params: {},
+                    action: NavigationActions.navigate({ routeName: 'BleManager' })
+                })
+                this.props.navigation.dispatch(navigationAction)
             } else {
                 Toast.show(responseData.msg)
             }
         }).catch((error) => {
             this.setState({ showSpinner: false })
             Toast.show('保存失败')
+            const navigationAction = NavigationActions.navigate({
+                routeName: 'Home',
+                params: {},
+                action: NavigationActions.navigate({ routeName: 'BleManager' })
+            })
+            this.props.navigation.dispatch(navigationAction)
         })
     }
 
@@ -202,7 +233,13 @@ class AddDeliveryOrderEndPage extends React.Component {
     }
     //抹零开关
     _onChangePress() {
+        if (!this.state.isOpenChange) {
+            this.setState({ paid_total_sum: this.numberCarsh - this.small_change_sum })
+        } else {
+            this.setState({ paid_total_sum: this.numberCarsh })
+        }
         this.setState({ isOpenChange: !this.state.isOpenChange })
+
     }
     renderFooter() {
 
@@ -265,7 +302,7 @@ class AddDeliveryOrderEndPage extends React.Component {
                     </View>
                 </View>
                 <View style={{ flexDirection: 'row', marginTop: 8, alignItems: 'center' }}>
-                    <Text style={{ color: '#666' }}>{`共${this.num}件商品,总计${this.numberCarsh}元,押金总计0元`}</Text>
+                    <Text style={{ color: '#666' }}>{`共${this.num}件商品,总计${this.state.isOpenChange ? this.numberCarsh - this.small_change_sum : this.numberCarsh}元,押金总计0元`}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', marginTop: 8, alignItems: 'center' }}>
                     <Text style={{ color: '#f80000' }}>{`备注:${this.state.remark}`}</Text>
@@ -300,8 +337,8 @@ class AddDeliveryOrderEndPage extends React.Component {
                 <View style={{ width: WINDOW_WIDTH, height: 1, backgroundColor: '#c4c4c4' }} />
                 <View style={{ height: 50, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{ flex: 1 }} />
-                    <TouchableOpacity onPress={this.dosubmitAction}>
-                        <View style={{ width: 160, height: 50, backgroundColor: '#fe6732', justifyContent: 'center', alignItems: 'center' }}>
+                    <TouchableOpacity onPress={this.dosubmitAction} disabled={this.state.paid_total_sum > this.numberCarsh}>
+                        <View style={{ width: 160, height: 50, backgroundColor: this.state.paid_total_sum > this.numberCarsh ? '#c4c4c4' : '#fe6732' , justifyContent: 'center', alignItems: 'center' }}>
                             <Text style={{ color: '#fff' }}>{`收款￥${this.state.paid_total_sum}`}</Text>
                         </View>
                     </TouchableOpacity>

@@ -12,7 +12,7 @@ import {
     FlatList
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
-import { Iconfont, LoadingView,Toast } from 'react-native-go';
+import { Iconfont, LoadingView, Toast } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 const ic_product = require('../../imgs/ic_product.png')
@@ -61,7 +61,7 @@ class DeliveryOrderDetailPage extends React.Component {
                             <View style={{ flex: 1, flexDirection: 'row' }}>
                                 <Text style={{ color: '#999' }}>{'总计金额：'}</Text>
                                 <Text style={{ color: '#f80000' }}>{'￥'}</Text>
-                                <Text style={{ color: '#f80000' }}>{`${item.sum}`}</Text>
+                                <Text style={{ color: '#f80000' }}>{`${item.product_sum}`}</Text>
                             </View>
                         </View>
                     </View>
@@ -78,23 +78,13 @@ class DeliveryOrderDetailPage extends React.Component {
     render() {
         const { params } = this.props.navigation.state;
         const { deliveryOrderDetail } = this.props;
-        let count = 0;
-        let sum = 0.0;
-        let foregift = 0.0;
-        if (deliveryOrderDetail.result) {
-            count = deliveryOrderDetail.result.length;
-            deliveryOrderDetail.result.forEach((e) => {
-                sum += parseFloat(e.sum);
-                foregift += parseFloat(e.total_foregift);
-            });
-        }
 
         return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
                 <View style={{ backgroundColor: '#118cd7', padding: 12 }}>
                     <View style={{ height: 30, flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{ color: '#fff', fontSize: 16 }}>{`${params.contacts_name}`}</Text>
-                        <Text style={{ color: '#fff', fontSize: 16 }}>{`${params.contacts_mobile}`}</Text>
+                        <Text style={{ color: '#fff', fontSize: 16 }}>{`${params.contact_name}`}</Text>
+                        <Text style={{ color: '#fff', fontSize: 16 }}>{`${params.contact_mobile}`}</Text>
                     </View>
                     <View style={{ height: 30, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={{ color: '#fff' }}>{`${params.customer_address}`}</Text>
@@ -114,8 +104,12 @@ class DeliveryOrderDetailPage extends React.Component {
                                     dataSource={deliveryOrderDetail.listData}
                                     renderRow={this._renderItem}
                                     renderFooter={() =>
-                                        <View style={{ height: 40, paddingLeft: 8, backgroundColor: '#fff9f9', flexDirection: 'row', alignItems: 'center' }}>
-                                            <Text style={{ color: '#666' }}>{`总共${count}件商品,共计￥${sum},其中押金￥${foregift}。`}</Text>
+                                        <View style={{padding: 12, backgroundColor: '#fff9f9' }}>
+                                            <Text style={{ color: '#666' }}>{`总共${deliveryOrderDetail.result.total_sum}件商品,共计￥${deliveryOrderDetail.result.total_sum},其中押金￥${deliveryOrderDetail.result.total_foregift}`}</Text>
+                                            <View style={{ flexDirection: 'row',marginTop:6 }}>
+                                                <Text style={{ color: '#666' }}>{`铺货总计/优惠总计/未收总计:`}</Text>
+                                                <Text style={{ color: '#f80000' }}>{`￥${deliveryOrderDetail.result.total_discount_sum}/￥${deliveryOrderDetail.result.total_discount_sum}/￥${deliveryOrderDetail.result.unpaid_total_sum}`}</Text>
+                                            </View>
                                         </View>
                                     }
                                 />
@@ -125,48 +119,48 @@ class DeliveryOrderDetailPage extends React.Component {
                 </View>
                 {
                     !deliveryOrderDetail.loading && deliveryOrderDetail.listData._cachedRowCount > 0 ?
-                    <View style={{ height: 58, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{ width: 12 }} />
-                    <TouchableHighlight style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} onPress={this._onItemPress.bind(this)}>
-                        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: '#17c6c1', borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
-                            <Iconfont
-                                icon={'e6c4'} // 图标
-                                iconColor={'#fff'}
-                                iconSize={22}
-                                label={'作废本单'}
-                                labelColor={'#fff'}
-                            />
+                        <View style={{ height: 58, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
+                            <View style={{ width: 12 }} />
+                            <TouchableHighlight style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} onPress={this._onItemPress.bind(this)}>
+                                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: '#17c6c1', borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
+                                    <Iconfont
+                                        icon={'e6c4'} // 图标
+                                        iconColor={'#fff'}
+                                        iconSize={22}
+                                        label={'作废本单'}
+                                        labelColor={'#fff'}
+                                    />
+                                </View>
+                            </TouchableHighlight>
+                            <View style={{ width: 12 }} />
+                            <TouchableHighlight style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} onPress={this._onItemPress.bind(this)}>
+                                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: '#17c6c1', borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
+                                    <Iconfont
+                                        icon={'e6c5'} // 图标
+                                        iconColor={'#fff'}
+                                        iconSize={22}
+                                        label={'重新送货'}
+                                        labelColor={'#fff'}
+                                    />
+                                </View>
+                            </TouchableHighlight>
+                            <View style={{ width: 12 }} />
+                            <TouchableHighlight style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} onPress={this._onItemPress.bind(this)}>
+                                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: '#17c6c1', borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
+                                    <Iconfont
+                                        icon={'e6bd'} // 图标
+                                        iconColor={'#fff'}
+                                        iconSize={22}
+                                        label={'重新打印'}
+                                        labelColor={'#fff'}
+                                    />
+                                </View>
+                            </TouchableHighlight>
+                            <View style={{ width: 12 }} />
                         </View>
-                    </TouchableHighlight>
-                    <View style={{ width: 12 }} />
-                    <TouchableHighlight style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} onPress={this._onItemPress.bind(this)}>
-                        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: '#17c6c1', borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
-                            <Iconfont
-                                icon={'e6c5'} // 图标
-                                iconColor={'#fff'}
-                                iconSize={22}
-                                label={'重新送货'}
-                                labelColor={'#fff'}
-                            />
-                        </View>
-                    </TouchableHighlight>
-                    <View style={{ width: 12 }} />
-                    <TouchableHighlight style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} onPress={this._onItemPress.bind(this)}>
-                        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: '#17c6c1', borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
-                            <Iconfont
-                                icon={'e6bd'} // 图标
-                                iconColor={'#fff'}
-                                iconSize={22}
-                                label={'重新打印'}
-                                labelColor={'#fff'}
-                            />
-                        </View>
-                    </TouchableHighlight>
-                    <View style={{ width: 12 }} />
-                </View>
-                :null
+                        : null
                 }
-                
+
             </View >
         );
     }

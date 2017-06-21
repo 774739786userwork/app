@@ -33,11 +33,12 @@ class LadProductItem extends React.Component {
     }
     render() {
         const { item } = this.props;
-
+        let uri = global.baseUrl + item.image
+        console.log(uri)
         return (<View style={{ backgroundColor: '#fff' }}>
             <View style={{ flexDirection: 'row', paddingLeft: 12, }}>
                 <View style={{ alignItems: 'center', justifyContent: 'center', height: 110 }}>
-                    <Image style={{ width: 90, height: 90, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={ic_product} />
+                    <Image source={item.image ? { uri: global.baseUrl + item.image } : ic_product} style={{ width: 90, height: 90, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }}  />
                 </View>
                 <View style={{ flex: 1 }}>
                     <View style={{ height: 24, paddingLeft: 12, marginBottom: 4, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>

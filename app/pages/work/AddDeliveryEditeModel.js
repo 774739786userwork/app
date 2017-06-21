@@ -65,7 +65,7 @@ export default class AddDeliveryEditeModel extends React.Component {
         //产品赠送量
         item.gifts_quantity = this.state.gifts_quantity
         //产品出售时单价
-        item.price = this.state.price
+        item.price = parseFloat(this.state.price).toFixed(2)
         item.isDistribution = this.state.isDistribution
         if (this.state.isDistribution) {
             item.gifts_quantity = 0
@@ -136,13 +136,9 @@ export default class AddDeliveryEditeModel extends React.Component {
                                     defaultValue={'' + this.state.price}
                                     onChangeText={(price) => {
                                         price = price ? price : '0'
-                                        let num = parseFloat(price);
-
-                                        if (!isNaN(num)) {
-                                            if (price.length > 1 && price.charAt(price.length - 1) === '.') {
-                                                num += '.';
-                                            }
-                                            this.setState({ price: num })
+                                        var re = /^[0-9]+.?[0-9]*$/;
+                                        if (re.test(price)) {
+                                            this.setState({ price: price })
                                         } else {
                                             this.setState({ price: this.state.price })
                                         }

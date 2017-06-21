@@ -116,6 +116,7 @@ class SelectUserPage extends React.Component {
                                         renderItem={this._renderItem}
                                         renderSectionHeader={this._renderSectionHeader}
                                         sections={sectionList}
+                                        keyExtractor={(item, index)=> `key_${index}`}
                                         getItemLayout={this._getItemLayout} />
 
                                     <IndexSectionList

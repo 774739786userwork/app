@@ -77,7 +77,7 @@ class AddCustContainer extends React.Component {
         })
         navigator.geolocation.getCurrentPosition(
             (initialPosition) => {
-                coords = initialPosition.coords;
+                this.coords = initialPosition.coords;
             },
             (error) => console.error(error)
         );
@@ -125,6 +125,7 @@ class AddCustContainer extends React.Component {
             Toast.show('请选择行政区域') 
             return ;
         }
+        saveParams.customerKindsId = this.state.customerKinds.childrentPositionId
         saveParams.salerAreaId = this.state.saleArea.salerId;
         saveParams.buildingMaterialId = this.state.buildingMaterial.buildingMaterialId;
         saveParams.cityId = this.state.cityId;

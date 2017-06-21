@@ -42,18 +42,7 @@ export default function selectDeliveryOrderReducer(state = initialState, action)
                 errMsg: action.errMsg,
             });
         case types.SelectDeliveryOrderSucceed_ACTION:
-            if (!action.result.d_distribution_sum) {
-                return Object.assign({}, state, {
-                    loading: false,
-                    loadMore: false,
-                    count: 0,
-                    d_total_sum: 0,
-                    d_unpaid_total_sum: 0,
-                    d_count_small_change_sum: 0,
-                    delivery_note_number: 0,
-                    errMsg: undefined,
-                });
-            } else if (state.loadMore) {
+           if (state.loadMore) {
                 let list = state.result.concat(action.result.delivery_order_list);
                 return Object.assign({}, state, {
                     loading: false,

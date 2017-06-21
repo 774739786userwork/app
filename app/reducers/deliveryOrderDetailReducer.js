@@ -33,22 +33,23 @@ export default function deliveryOrderDetailReducer(state = initialState, action)
                 errMsg: action.errMsg,
             });
         case types.DeliveryOrderDetailSucceed_ACTION:
+
             if (state.loadMore) {
-                let list = state.result.concat(action.result.data);
+                let list = state.result.productLists.concat(action.result.productLists);
                 return Object.assign({}, state, {
                     loading: false,
                     loadMore:false,
-                    count: action.result.total_record,
-                    result:list,
+                    count:action.result.productLists.length,
+                    result:action.result,
                     listData: dataSource.cloneWithRows(list),//数据源
                     errMsg: undefined,
                 });
             } else {
                 return Object.assign({}, state, {
                     loading: false,
-                    count: action.result.total_record,
-                    result:action.result.data,
-                    listData: dataSource.cloneWithRows(action.result.data),//数据源
+                    count:action.result.productLists.length,
+                    result:action.result,
+                    listData: dataSource.cloneWithRows(action.result.productLists),//数据源
                     errMsg: undefined,
                 });
             }

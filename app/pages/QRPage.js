@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
 import QRScannerView from '../components/QRScannerView';
+import { NavigationActions } from 'react-navigation'
 
 export default class QRPage extends Component {
     static navigationOptions = {
@@ -30,7 +31,14 @@ export default class QRPage extends Component {
             this.lastTime = Date.now();
             console.log(e)
             const { navigation } = this.props;
-            navigation.navigate('ScanManager', { content: e })
+            const navigationAction = NavigationActions.reset({
+                index: 1,
+                actions: [
+                    NavigationActions.navigate({ routeName: 'Home' }),
+                    NavigationActions.navigate({ routeName: 'ScanManager',params:{ content: e.data } }),
+                ]
+            })
+            navigation.dispatch(navigationAction)
         }
 
     }

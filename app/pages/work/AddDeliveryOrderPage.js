@@ -156,6 +156,8 @@ class AddDeliveryOrderPage extends React.Component {
         const { navigate } = this.props.navigation;
         const { params } = this.props.navigation.state;
         params.chooseList = this.state.chooseList
+        let selectCar = this.props.selectCar;
+        params.selectCar = selectCar;
         navigate('AddDeliveryOrderEnd', params);
     }
     render() {
