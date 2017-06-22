@@ -16,7 +16,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
-import { Iconfont, LoadingView } from 'react-native-go';
+import { Iconfont, LoadingView,Toast } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 import SearchBar from '../../components/SearchBar';
@@ -43,7 +43,9 @@ class ListCustomersPage extends React.Component {
                 coords = initialPosition.coords;
                 action.listCustomers(coords.latitude, coords.longitude);
             },
-            (error) => console.error(error)
+            (error) => {
+                Toast.show('请打开软件定位权限')
+            }
         );
     }
     onSearchAction(txt) {

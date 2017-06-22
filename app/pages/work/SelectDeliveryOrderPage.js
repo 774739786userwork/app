@@ -81,30 +81,20 @@ class SelectDeliveryOrderPage extends React.Component {
                         </View>
                         <Text style={{ color: '#118cd7' }}>{item.delivery_date}</Text>
                         <View style={{ flex: 1 }} />
-                        <Text style={{ color: '#666' }}>{'送货单数'}</Text>
-                        <View style={{
-                            backgroundColor: '#fe6732',
-                            borderRadius: 14,
-                            height: 20,
-                            alignItems: 'center',
-                            marginLeft: 8,
-                            padding:2,
-                            marginRight: 8,
-                            justifyContent: 'center',
-                        }}>
-                            <Text style={{ fontSize: 12, color: '#fff' }}>{item.total_sum+''}</Text>
-                        </View>
+                        <Text style={{ color: '#666', fontSize: 12 }}>提货单编号：</Text>
+                        <Text style={{ color: '#666', fontSize: 12, marginRight: 8 }}>{item.serial_number}</Text>
+
                     </View>
                     <View style={{ height: 34, paddingLeft: 12, paddingRight: 12, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{ flex: 2, color: '#333', textAlign: 'left', fontSize: 16 }}>{item.contacts_name}</Text>
-                        <Text style={{ flex: 1, color: '#999', textAlign: 'right' }}>{item.contacts_mobile}</Text>
+                        <Text style={{ flex: 2, color: '#333', textAlign: 'left', fontSize: 16 }}>{item.customer_name}</Text>
+                        <Text style={{ flex: 1, color: '#999', textAlign: 'right' }}>{item.contact_mobile}</Text>
                     </View>
                     {
-                        item.goodsList.map((goodsItem)=>( 
-                    <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{ color: '#999' }}>{goodsItem.name+': '}</Text>
-                        <Text style={{ color: '#999' }}>{goodsItem.quantity + goodsItem.unit}</Text>
-                    </View>))
+                        item.goodsList.map((goodsItem) => (
+                            <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
+                                <Text style={{ color: '#999' }}>{goodsItem.name + ': '}</Text>
+                                <Text style={{ color: '#999' }}>{goodsItem.quantity + goodsItem.unit}</Text>
+                            </View>))
                     }
                     <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={{ color: '#f80000' }}>{'铺货金额：'}</Text>
@@ -113,21 +103,21 @@ class SelectDeliveryOrderPage extends React.Component {
                     <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#f80000' }}>{'优惠金额：'}</Text>
-                            <Text style={{ color: '#f80000' }}>{item.discount_sum ? item.discount_sum : 0+ '元'}</Text>
+                            <Text style={{ color: '#f80000' }}>{item.discount_sum ? item.discount_sum : 0 + '元'}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#f80000' }}>{'抹零金额：'}</Text>
-                            <Text style={{ color: '#f80000' }}>{item.count_small_change_sum ? item.count_small_change_sum : 0+ '元'}</Text>
+                            <Text style={{ color: '#f80000' }}>{item.count_small_change_sum ? item.count_small_change_sum : 0 + '元'}</Text>
                         </View>
                     </View>
                     <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#f80000' }}>{'未收金额：'}</Text>
-                            <Text style={{ color: '#f80000' }}>{item.unpaid_total_sum ? item.unpaid_total_sum : 0+ '元'}</Text>
+                            <Text style={{ color: '#f80000' }}>{item.unpaid_total_sum ? item.unpaid_total_sum : 0 + '元'}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#f80000' }}>{'总计金额：'}</Text>
-                            <Text style={{ color: '#f80000' }}>{item.total_sum ? item.total_sum : 0+ '元'}</Text>
+                            <Text style={{ color: '#f80000' }}>{item.total_sum ? item.total_sum : 0 + '元'}</Text>
                         </View>
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, marginTop: 12, flex: 1, backgroundColor: '#c4c4c4' }} />

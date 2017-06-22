@@ -12,7 +12,7 @@ import DeliveryOrderDetailPage from '../../pages/work/DeliveryOrderDetailPage';
  */
 class DeliveryOrderDetailContainer extends React.Component {
   static navigationOptions = ({ navigation }) => ({
-    title: ` ${navigation.state.params.contact_name}`,
+    title: ` ${navigation.state.params.customer_name}`,
   });
   render() {
     return <DeliveryOrderDetailPage {...this.props} />;

@@ -11,7 +11,8 @@ import {
     TouchableHighlight,
     Dimensions,
     View,
-    TouchableOpacity
+    TouchableOpacity,
+    Modal
 } from 'react-native';
 var ImagePicker = require('react-native-image-picker');
 import SelectEARModel from './SelectEARModel'
@@ -19,7 +20,7 @@ import SaleAreaModel from './SaleAreaModel'
 import CustomerKindsModel from './CustomerKindsModel'
 import BuildingMaterialModel from './BuildingMaterialModel'
 import Spinner from 'react-native-loading-spinner-overlay';
-
+import ImageViewer from 'react-native-image-zoom-viewer';
 import { Iconfont, LoadingView, Toast, FetchManger, LoginInfo } from 'react-native-go';
 
 
@@ -60,7 +61,8 @@ class AddCustContainer extends React.Component {
             customerKindsShow: false,
             buildingMaterial: undefined,
             buildingMaterialShow: false,
-            showSpinner: false
+            showSpinner: false,
+            viewImageIndex: -1,
         }
         this.customerName = ''
         this.customerDetailAddress = ''
@@ -79,7 +81,9 @@ class AddCustContainer extends React.Component {
             (initialPosition) => {
                 this.coords = initialPosition.coords;
             },
-            (error) => console.error(error)
+            (error) => {
+                Toast.show('请打开软件定位权限')
+            }
         );
     }
     headerRightPress() {
@@ -103,30 +107,55 @@ class AddCustContainer extends React.Component {
         saveParams.Latitude = this.coords.latitude;
         saveParams.token = token;
         saveParams.customerName = this.customerName;
+        if (!this.customerName) {
+            Toast.show('客户名称不能为空')
+            return;
+        }
         saveParams.customerDetailAddress = this.customerDetailAddress;
+        if (!this.customerName) {
+            Toast.show('客户名称不能为空')
+            return;
+        }
+        saveParams.customerPhone = this.customerPhone;
+        if (!/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/.test(this.customerPhone)) {
+            Toast.show('固定电话有误，请重填')
+            return;
+        }
 
-        saveParams.mainContacts = this.mainContacts;
-        saveParams.mainMobile = this.mainMobile;
+
         saveParams.secondaryContact = this.secondaryContact;
         saveParams.secondaryMobile = this.secondaryMobile;
 
         saveParams.user_id = user_id;
         saveParams.organization_id = organization_id;
-        saveParams.customerPhone = this.customerPhone;
-        if(!this.state.saleArea){
-            Toast.show('请选择销售区域') 
-            return ;
+        saveParams.customerKindsId = this.state.customerKinds ? this.state.customerKinds.childrentPositionId : undefined
+        saveParams.salerAreaId = this.state.saleArea ? this.state.saleArea.salerId : undefined
+        if (!this.state.regional) {
+            Toast.show('请选择行政区域')
+            return;
         }
-        if(!this.state.buildingMaterial){
-            Toast.show('请选择建材市场') 
-            return ;
+         if (!saveParams.customerKindsId) {
+            Toast.show('请选择客户类型')
+            return;
         }
-        if(!this.state.regional){
-            Toast.show('请选择行政区域') 
-            return ;
+        if (!this.state.saleArea) {
+            Toast.show('请选择销售区域')
+            return;
         }
-        saveParams.customerKindsId = this.state.customerKinds.childrentPositionId
-        saveParams.salerAreaId = this.state.saleArea.salerId;
+        if (!this.state.buildingMaterial) {
+            Toast.show('请选择建材市场')
+            return;
+        }
+        saveParams.mainContacts = this.mainContacts;
+        if (!this.mainContacts) {
+            Toast.show('首要联系人不能为空')
+            return;
+        }
+        saveParams.mainMobile = this.mainMobile;
+        if (!(/^1(3|4|5|7|8)\d{9}$/.test(this.mainMobile))) {
+            Toast.show("首要联系人手机号码有误，请重填");
+            return;
+        }
         saveParams.buildingMaterialId = this.state.buildingMaterial.buildingMaterialId;
         saveParams.cityId = this.state.cityId;
         saveParams.proviceId = this.state.proviceId;
@@ -151,9 +180,12 @@ class AddCustContainer extends React.Component {
     pickerImage() {
         var options = {
             title: '选择头像',
+            cancelButtonTitle: '取消',
+            takePhotoButtonTitle: '拍照',
+            chooseFromLibraryButtonTitle: '相册',
             mediaType: 'photo',
-            maxWidth: 256,
-            maxHeight: 256,
+            maxWidth: 512,
+            maxHeight: 512,
             storageOptions: {
                 skipBackup: true,
                 path: 'images'
@@ -176,7 +208,7 @@ class AddCustContainer extends React.Component {
                 console.log('User tapped custom button: ', response.customButton);
             }
             else {
-                let source = { uri: response.uri };
+                let source = { url: response.uri };
                 let imgs = this.state.imgs;
                 if (imgs.length < 3) {
                     imgs.push(source);
@@ -193,6 +225,7 @@ class AddCustContainer extends React.Component {
     }
 
     render() {
+        console.log(this.state.imgs)
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <ScrollView contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }} showsVerticalScrollIndicator={false}>
@@ -214,8 +247,8 @@ class AddCustContainer extends React.Component {
 
                         {
                             this.state.imgs.length > 0 ?
-                                <TouchableOpacity onPress={this.removeImage.bind(this, 0)}>
-                                    <Image source={this.state.imgs[0]} style={{ width: 80, height: 80 }} />
+                                <TouchableOpacity onPress={() => this.setState({ viewImageIndex: 0 })} onLongPress={this.removeImage.bind(this, 0)}>
+                                    <Image source={{ uri: this.state.imgs[0].url }} style={{ width: 80, height: 80 }} />
                                 </TouchableOpacity>
                                 :
                                 <View style={{ width: 80, height: 80, backgroundColor: '#ebebeb', alignItems: 'center', justifyContent: 'center' }}>
@@ -237,8 +270,8 @@ class AddCustContainer extends React.Component {
                         <View style={{ flex: 1 }} />
                         {
                             this.state.imgs.length > 1 ?
-                                <TouchableOpacity onPress={this.removeImage.bind(this, 1)}>
-                                    <Image source={this.state.imgs[1]} style={{ width: 80, height: 80 }} />
+                                <TouchableOpacity onPress={() => this.setState({ viewImageIndex: 1 })} onLongPress={this.removeImage.bind(this, 1)}>
+                                    <Image source={{ uri: this.state.imgs[1].url }} style={{ width: 80, height: 80 }} />
                                 </TouchableOpacity>
                                 :
                                 <View style={{ width: 80, height: 80, backgroundColor: '#ebebeb', alignItems: 'center', justifyContent: 'center' }}>
@@ -258,8 +291,8 @@ class AddCustContainer extends React.Component {
                         <View style={{ flex: 1 }} />
                         {
                             this.state.imgs.length > 2 ?
-                                <TouchableOpacity onPress={this.removeImage.bind(this, 2)}>
-                                    <Image source={this.state.imgs[2]} style={{ width: 80, height: 80 }} />
+                                <TouchableOpacity onPress={() => this.setState({ viewImageIndex: 2 })} onLongPress={this.removeImage.bind(this, 2)}>
+                                    <Image source={{ uri: this.state.imgs[2].url }} style={{ width: 80, height: 80 }} />
                                 </TouchableOpacity>
                                 :
                                 <View style={{ width: 80, height: 80, backgroundColor: '#ebebeb', alignItems: 'center', justifyContent: 'center' }}>
@@ -506,6 +539,14 @@ class AddCustContainer extends React.Component {
                             })
                         }
                     } />
+                {
+                    this.state.imgs.length > 0 ?
+                        <Modal visible={this.state.viewImageIndex !== -1} transparent={true} onRequestClose={() => { }}>
+                            <ImageViewer imageUrls={this.state.imgs} index={this.state.viewImageIndex} onClick={() => this.setState({ viewImageIndex: -1 })} />
+                        </Modal>
+                        :
+                        null
+                }
 
                 <View><Spinner visible={this.state.showSpinner} textContent={'提交中,请稍后...'} /></View>
 

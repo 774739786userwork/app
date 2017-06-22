@@ -13,13 +13,14 @@ import {
     ImageButton,
     TouchableOpacity,
     ScrollView,
-    InteractionManager
+    InteractionManager,
+    ActivityIndicator
 } from 'react-native';
 import _ from 'underscore';
 import GMBluetooth from 'react-native-gm-bluetooth';
 const { ESC, TSC } = GMBluetooth;
 
-import { Iconfont, LoginInfo, LineView, Toast, Spinner, FetchManger } from 'react-native-go';
+import { Iconfont, LoginInfo, LineView, Toast, Spinner, FetchManger, LoadingView } from 'react-native-go';
 import dismissKeyboard from 'dismissKeyboard';
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
@@ -47,11 +48,8 @@ export default class BleManagerPage extends React.Component {
         this.headerRightPress = this.headerRightPress.bind(this);
         this._onPrintPress = this._onPrintPress.bind(this)
         this._onPrintTypePress = this._onPrintTypePress.bind(this)
-        this.discoverUnpaired = this.discoverUnpaired.bind(this)
+        this.listBlueTooth = this.listBlueTooth.bind(this)
         this.pairDevice = this.pairDevice.bind(this)
-        this.showBTSettings = this.showBTSettings.bind(this)
-        this.gotoSetting = this.gotoSetting.bind(this)
-        this.userInfo = {}
         this.state = {
             devices: [],
             showSpinner: false,
@@ -60,27 +58,23 @@ export default class BleManagerPage extends React.Component {
             discovering: false,
             unpairedDevices: [],
             connected: false,
-            section: 0
+            section: 0,
+            connecting_id: ''
         }
     }
 
 
     componentWillMount() {
-        Promise.all([
-            GMBluetooth.isEnabled(),
-            GMBluetooth.list()
-        ])
-            .then((values) => {
-                const [isEnabled, devices] = values
-                this.setState({ isEnabled, devices })
-            })
 
-        GMBluetooth.on('bluetoothEnabled', () => Toast.showShortBottom('Bluetooth enabled'))
-        GMBluetooth.on('bluetoothDisabled', () => Toast.showShortBottom('Bluetooth disabled'))
+        GMBluetooth.on('bluetoothEnabled', this.listBlueTooth.bind(this))
+        GMBluetooth.on('bluetoothDisabled', () => {
+            this.setState({ isEnabled: false })
+            Toast.show('蓝牙已关闭')
+        })
         GMBluetooth.on('error', (err) => console.log(`Error: ${err.message}`))
         GMBluetooth.on('connectionLost', () => {
             if (this.state.device) {
-                Toast.show(`Connection to device ${this.state.device.name} has been lost`)
+                Toast.show(`${this.state.device.name} 连接断开`)
             }
             this.setState({ connected: false })
         })
@@ -90,107 +84,74 @@ export default class BleManagerPage extends React.Component {
         this.props.navigation.setParams({
             headerRightPress: this.headerRightPress,
         })
-        // 判断蓝牙是否可用
-        GMBluetooth.isEnabled().then(result => {
-            if (!result) {
-                this.showBTSettings()
-            }
-        }).catch((reason) => {
-            this.showBTSettings()
-        });
-
-        // 列出已配对的设备列表
-        GMBluetooth.list().then(devices => {
-            console.log('GMBluetooth list:', devices);
-            this.setState({
-                devices
-            });
-        }).catch((reason) => {
-            this.setState({ msg: '获取蓝牙列表失败' });
-        });
-        this.discoverUnpaired();
+        this.listBlueTooth();
     }
-    gotoSetting() {
-        GMBluetooth.showBTSettings();
-    }
-    showBTSettings() {
-        InteractionManager.runAfterInteractions(() => {
-            Alert.alert('提示', '蓝牙设置未打开，前往设置？',
-                [
-                    { text: '设置', onPress: this.gotoSetting },
-                    { text: '取消', onPress: () => console.log('Cancel Pressed!') }
-                ]
-            )
-        });
+    listBlueTooth() {
+        Promise.all([
+            GMBluetooth.isEnabled(),
+            GMBluetooth.list()
+        ])
+            .then((values) => {
+                const [isEnabled, devices] = values
+                if (!isEnabled) {
+                    GMBluetooth.enable()
+                        .then((res) => this.setState({ isEnabled: true }))
+                        .catch((err) => Toast.show(err.message))
+                }
+                this.setState({ isEnabled, devices })
+            })
     }
 
     headerRightPress() {
-        this.setState({ msg: '正在刷新' });
-        GMBluetooth.list().then(devices => {
-            this.setState({
-                devices,
-                msg: ''
-            });
-        }).catch((reason) => {
-            this.setState({ msg: '刷新失败' });
-        });
-        this.discoverUnpaired();
-    }
-    discoverUnpaired() {
+        if (!this.state.isEnabled) {
+            GMBluetooth.enable()
+                .then((res) => this.setState({ isEnabled: true }))
+                .catch((err) => Toast.show(err.message))
+        }
         if (this.state.discovering) {
             return false
         } else {
-            this.setState({ discovering: true, msg: '正在扫描' })
+            this.setState({ discovering: true })
             GMBluetooth.discoverUnpairedDevices()
                 .then((unpairedDevices) => {
-                    this.setState({ unpairedDevices, msg: '', discovering: false })
+                    if (unpairedDevices.length === 0) {
+                        Toast.show('未找到新设备')
+                    }
+                    this.setState({ unpairedDevices, discovering: false })
                 })
-                .catch((reason) => {
-                    this.setState({ msg: '扫描失败' });
-                });
+                .catch((err) => Toast.show(err.message))
         }
     }
+    handleConnect(device) {
+        this.setState({ connecting: true, connecting_id: device.id })
+        GMBluetooth.connect(device.id)
+            .then((res) => {
+                Toast.show(`连接 ${device.name} 成功`)
+                this.setState({ connectedID: device.id, connected: true, connecting: false })
+            })
+            .catch((err) => {
+                Toast.show(`无法连接到 ${device.name}`)
+                this.setState({ connecting: false })
 
+            })
+    }
+    /**
+     * 
+     * @param {*配对} device 
+     */
     pairDevice(device) {
         GMBluetooth.pairDevice(device.id)
             .then((paired) => {
                 if (paired) {
-                    console.log('Device ${device.name} paired successfully');
+                    Toast.show(`配对成功`)
                     let devices = this.state.devices
                     devices.push(device)
                     this.setState({ devices, unpairedDevices: this.state.unpairedDevices.filter((d) => d.id !== device.id) })
-                    Alert.alert('::::::::' + unpairedDevices.name)
                 } else {
-                    console.log('11111111');
+                    Toast.show(`${device.name} 配对失败`)
                 }
             })
-            .catch((e) => {
-                console.log(e);
-            })
-    }
-    handleConnect(device) {
-        GMBluetooth.isConnected().then(isConnected => {
-            if (isConnected) {
-                console.log('已连接');
-            } else {
-                this.setState({ msg: '正在连接...' });
-                GMBluetooth.connect(device.id).then(info => {
-                    console.log('GMBluetooth connect to ' + device.id, info);
-                    this.setState({
-                        connectedID: device.id,
-                        msg: '连接成功'
-                    });
-                }).catch(reason => {
-                    Alert.alert('连接失败，检测蓝牙设配是否打开！')
-                    this.setState({
-                        connectedID: null,
-                        weight: null
-                    });
-                    console.log('GMBluetooth connect to ' + reason);
-                    this.setState({ msg: '连接失败，检测蓝牙设配是否打开！' });
-                });
-            }
-        });
+            .catch((err) => Toast.show(err.message))
     }
     _onPrintTypePress(selectItem) {
         this.setState({ selectItem })
@@ -212,13 +173,23 @@ export default class BleManagerPage extends React.Component {
                                         <Text style={{ color: '#333' }}>{device.name}</Text>
                                         <Text style={{ marginTop: 4, color: '#999' }}>{device.id}</Text>
                                     </View>
+                                    {
+                                        this.state.connecting && this.state.connecting_id === device.id ? <ActivityIndicator
+                                            size={26} />
+                                            : null
+                                    }
                                     <Text style={{}}> {(device.id === connectedID) ? '已连接' : '未连接'}</Text>
                                 </View>
                             </TouchableOpacity>
                         })
                     }
-                    <View style={{ height: 34, backgroundColor: '#f2f2f2', justifyContent: 'center', paddingLeft: 12 }}>
-                        <Text style={{ color: '#999', fontSize: 12 }}>{'未配对设备'}</Text>
+                    <View style={{ height: 34, backgroundColor: '#f2f2f2', alignItems: 'center', flexDirection: 'row', paddingLeft: 12 }}>
+                        <Text style={{ color: '#999', fontSize: 12, marginRight: 10 }}>{'未配对设备'}</Text>
+                        {
+                            this.state.discovering ? <ActivityIndicator
+                                size={18} />
+                                : null
+                        }
                     </View>
                     {
                         unpairedDevices.map((device) => {
