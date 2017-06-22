@@ -23,7 +23,7 @@ import SaveModel from './components/SaveModel'
 import Spinner from 'react-native-loading-spinner-overlay';
 import RemarkEditeModel from './RemarkEditeModel'
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-const ic_product = require('../../imgs/ic_product.png')
+import ImageView from '../../components/ImageView'
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 /**
@@ -185,7 +185,7 @@ class AddDeliveryOrderEndPage extends React.Component {
             <View style={{ backgroundColor: '#fff' }} key={`row_${index}`} >
                 <View style={{ flexDirection: 'row', paddingLeft: 12, }}>
                     <View style={{ alignItems: 'center', justifyContent: 'center', height: 110 }}>
-                        <Image style={{ width: 90, height: 90, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={ic_product} />
+                        <ImageView style={{ width: 90, height: 90, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={{uri:item.image}} />
                     </View>
                     <View style={{ flex: 1 }}>
                         <View style={{ height: 34, paddingLeft: 12, marginBottom: 8, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>

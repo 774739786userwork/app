@@ -16,7 +16,6 @@ import LoadingListView from '../../components/LoadingListView'
 import { Iconfont, LoadingView } from 'react-native-go';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
-const ic_product = require('../../imgs/ic_product.png')
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 const modelWidth = WINDOW_WIDTH;
 

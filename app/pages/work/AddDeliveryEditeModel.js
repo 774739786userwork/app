@@ -15,7 +15,7 @@ import {
 
 import { Iconfont } from 'react-native-go';
 const WINDOW_WIDTH = Dimensions.get('window').width;
-const ic_product = require('../../imgs/ic_product.png')
+import ImageView from '../../components/ImageView'
 
 export default class AddDeliveryEditeModel extends React.Component {
     constructor(props) {
@@ -120,7 +120,7 @@ export default class AddDeliveryEditeModel extends React.Component {
                     <View style={{ height: StyleSheet.hairlineWidth, width: modelWidth, backgroundColor: '#c4c4c4' }} />
                     <View style={{ flexDirection: 'row' }}>
                         <View style={{ flex: 1, alignItems: 'center' }}>
-                            <Image style={{ width: 90, height: 90, marginTop: 12, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={ic_product} />
+                            <ImageView style={{ width: 90, height: 90, marginTop: 12, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={{uri:item.image}} />
                             <View style={{ marginTop: 8, height: 34, flexDirection: 'row', alignItems: 'center' }}>
                                 <Text style={{ textAlign: 'right', color: '#666' }}>库存:</Text>
                                 <Text style={{ marginLeft: 8, color: '#666' }}>{'' + this.state.stock}</Text>

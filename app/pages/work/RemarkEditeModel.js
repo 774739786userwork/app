@@ -3,7 +3,6 @@ import {
     StyleSheet,
     TextInput,
     Text,
-    Image,
     View,
     ListView,
     Dimensions,
@@ -15,7 +14,6 @@ import {
 
 import { Iconfont } from 'react-native-go';
 const WINDOW_WIDTH = Dimensions.get('window').width;
-const ic_product = require('../../imgs/ic_product.png')
 
 export default class RemarkEditeModel extends React.Component {
     constructor(props) {

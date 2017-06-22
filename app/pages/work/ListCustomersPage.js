@@ -20,8 +20,8 @@ import { Iconfont, LoadingView,Toast } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 import SearchBar from '../../components/SearchBar';
+import ImageView from '../../components/ImageView'
 
-const ic_product = require('../../imgs/ic_product.png')
 
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 let coords = {};
@@ -111,7 +111,7 @@ class ListCustomersPage extends React.Component {
                 <View style={{ backgroundColor: '#fff' }} >
                     <View style={{ flexDirection: 'row', paddingLeft: 12, }}>
                         <View style={{ alignItems: 'center', justifyContent: 'center', height: 110 }}>
-                            <Image style={{ width: 90, height: 90, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={ic_product} />
+                            <ImageView style={{ width: 90, height: 90, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={item && item[0] ? {uri:item[0].img_url} : {}} />
                         </View>
                         <View style={{ flex: 1, paddingLeft: 12, }}>
                             <View style={{ height: 34, marginBottom: 8, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
