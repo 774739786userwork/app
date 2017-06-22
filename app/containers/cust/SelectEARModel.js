@@ -39,15 +39,15 @@ export default class SelectEARModel extends React.Component {
     }
     componentDidMount() {
         const token = LoginInfo.getUserInfo().token;
-        const orgId =107// LoginInfo.getUserInfo().organization_id;
+        const orgId = 107// LoginInfo.getUserInfo().organization_id;
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('mobileServiceManager/customers/getRegionalTreeInfo.page', { token, orgId }).then((responseData) => {
-               if (responseData.status === '0' || responseData.status === 0) {
+                if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
                     this.setState({
-                        dataList:data,
-                        loading:false,
-                         type: 3,
+                        dataList: data,
+                        loading: false,
+                        type: 3,
                     });
                 }
             }).catch((error) => {
@@ -59,16 +59,22 @@ export default class SelectEARModel extends React.Component {
         this.rowIndex0 = 0;
         this.rowIndex1 = 0;
         this.rowIndex2 = 0;
-        this.setState({ 
-            modalVisible: nextProps.modalVisible });
+        this.setState({
+            modalVisible: nextProps.modalVisible
+        });
     }
 
     onConfirmPress() {
-        let item = this.state.dataList[this.rowIndex0].cityList[this.rowIndex1].districtsList[this.rowIndex2]
-        let cityId = this.state.dataList[this.rowIndex0].cityList[this.rowIndex1].cityid
-        let proviceId = this.state.dataList[this.rowIndex0].provinceId
-        this.props.onConfirmPress && this.props.onConfirmPress(item,cityId,proviceId)
-        this.setState({ modalVisible: false });
+        if (this.state.dataList && this.state.dataList.length > 0) {
+            let item = this.state.dataList[this.rowIndex0].cityList[this.rowIndex1].districtsList[this.rowIndex2]
+            let cityId = this.state.dataList[this.rowIndex0].cityList[this.rowIndex1].cityid
+            let proviceId = this.state.dataList[this.rowIndex0].provinceId
+            this.props.onConfirmPress && this.props.onConfirmPress(item, cityId, proviceId)
+            this.setState({ modalVisible: false });
+        }else{
+            this.onCancelPress()
+        }
+
     }
     onCancelPress() {
         this.props.onCancelPress && this.props.onCancelPress()

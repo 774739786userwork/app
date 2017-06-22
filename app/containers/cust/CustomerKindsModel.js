@@ -34,14 +34,14 @@ export default class CustomerKindsModel extends React.Component {
     }
     componentDidMount() {
         const token = LoginInfo.getUserInfo().token;
-        const user_id =LoginInfo.getUserInfo().user_id;
+        const user_id = LoginInfo.getUserInfo().user_id;
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('mobileServiceManager/customers/getCustomerKindsTreeInfo.page', { token, user_id }).then((responseData) => {
-               if (responseData.status === '0' || responseData.status === 0) {
+                if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data.parentPosition;
                     this.setState({
-                        dataList:data,
-                        loading:false,
+                        dataList: data,
+                        loading: false,
                     });
                 }
             }).catch((error) => {
@@ -52,20 +52,26 @@ export default class CustomerKindsModel extends React.Component {
     componentWillReceiveProps(nextProps) {
         this.rowIndex0 = 0;
         this.rowIndex1 = 0;
-        this.setState({ 
-            modalVisible: nextProps.modalVisible });
+        this.setState({
+            modalVisible: nextProps.modalVisible
+        });
     }
 
     onConfirmPress() {
-        let item = this.state.dataList[this.rowIndex0].childrentPosition[this.rowIndex1]
-        this.props.onConfirmPress && this.props.onConfirmPress(item)
-        this.setState({ modalVisible: false });
+        if (this.state.dataList && this.state.dataList.length > 0) {
+            let item = this.state.dataList[this.rowIndex0].childrentPosition[this.rowIndex1]
+            this.props.onConfirmPress && this.props.onConfirmPress(item)
+            this.setState({ modalVisible: false });
+        }else{
+            this.onCancelPress()
+        }
+
     }
     onCancelPress() {
         this.props.onCancelPress && this.props.onCancelPress()
         this.setState({ modalVisible: false });
     }
-   
+
     renderType2() {
         return (<View style={{ height: 230, flexDirection: 'row' }}>
             <View style={{ flex: 1 }}>
@@ -95,7 +101,7 @@ export default class CustomerKindsModel extends React.Component {
             <LoadingView />
         </View>)
     }
-    
+
     render() {
         return (<Modal
             animationType={'slide'}
@@ -115,7 +121,7 @@ export default class CustomerKindsModel extends React.Component {
                 </View>
                 <View style={{ height: StyleSheet.hairlineWidth, width: WINDOW_WIDTH, backgroundColor: '#d9d9d9' }} />
                 {
-                    this.state.loading ? this.renderLoading() :  this.renderType2()
+                    this.state.loading ? this.renderLoading() : this.renderType2()
                 }
             </View>
         </Modal>)

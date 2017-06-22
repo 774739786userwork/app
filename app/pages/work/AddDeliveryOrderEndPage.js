@@ -130,14 +130,14 @@ class AddDeliveryOrderEndPage extends React.Component {
         let good_list = []
         this.state.chooseList.map((item) => {
             let gItem = {}
-            gItem.sequence = params.sequence
-            gItem.product_id = params.id
-            gItem.product_name = params.name
-            gItem.sale_quantity = params.sale_quantity
-            gItem.gifts_quantity = params.gifts_quantity
-            gItem.price = params.price
-            gItem.product_sum = params.stock
-            gItem.delivery_remember_person = params.delivery_remember_person
+            gItem.sequence = item.sequence
+            gItem.product_id = item.id
+            gItem.product_name = item.name
+            gItem.sale_quantity = item.sale_quantity
+            gItem.gifts_quantity = item.gifts_quantity
+            gItem.price = item.price
+            gItem.product_sum = item.stock
+            gItem.delivery_remember_person = item.delivery_remember_person
             good_list.push(gItem)
         })
 

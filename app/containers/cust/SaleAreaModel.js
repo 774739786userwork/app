@@ -35,15 +35,15 @@ export default class SaleAreaModel extends React.Component {
     }
     componentDidMount() {
         const token = LoginInfo.getUserInfo().token;
-        const user_id =LoginInfo.getUserInfo().user_id;
+        const user_id = LoginInfo.getUserInfo().user_id;
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('mobileServiceManager/customers/getSaleAreaTreeInfo.page', { token, user_id }).then((responseData) => {
-               if (responseData.status === '0' || responseData.status === 0) {
+                if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data.saleAreaList;
                     this.setState({
-                        dataList:data,
-                        loading:false,
-                         type: 1,
+                        dataList: data,
+                        loading: false,
+                        type: 1,
                     });
                 }
             }).catch((error) => {
@@ -53,14 +53,20 @@ export default class SaleAreaModel extends React.Component {
     }
     componentWillReceiveProps(nextProps) {
         this.rowIndex0 = 0;
-        this.setState({ 
-            modalVisible: nextProps.modalVisible });
+        this.setState({
+            modalVisible: nextProps.modalVisible
+        });
     }
 
     onConfirmPress() {
-        let item = this.state.dataList[this.rowIndex0]
-        this.props.onConfirmPress && this.props.onConfirmPress(item)
-        this.setState({ modalVisible: false });
+        if (this.state.dataList && this.state.dataList.length > 0) {
+            let item = this.state.dataList[this.rowIndex0]
+            this.props.onConfirmPress && this.props.onConfirmPress(item)
+            this.setState({ modalVisible: false });
+        }else{
+            this.onCancelPress()
+        }
+
     }
     onCancelPress() {
         this.props.onCancelPress && this.props.onCancelPress()

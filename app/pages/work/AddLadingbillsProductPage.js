@@ -94,9 +94,9 @@ class AddLadingbillsProductPage extends React.Component {
         }
         if (oldItem) {
             oldItem.real_loading_count = item.real_loading_count
-            oldItem.product_total_count = item.real_loading_count + item.remain_count
+            oldItem.loading_quantity = item.real_loading_count + item.remain_count
         } else {
-            item.product_total_count = item.real_loading_count + item.remain_count
+            item.loading_quantity = item.real_loading_count + item.remain_count
             good_list.push(item)
         }
         let totalWeight = 0;
@@ -115,7 +115,7 @@ class AddLadingbillsProductPage extends React.Component {
             good_list.map((a) => {
                 if (item.product_id == a.product_id) {
                     item.real_loading_count = a.real_loading_count
-                    item.product_total_count = a.real_loading_count + a.remain_count
+                    item.loading_quantity = a.real_loading_count + a.remain_count
                 }
             })
         }
@@ -155,10 +155,12 @@ class AddLadingbillsProductPage extends React.Component {
             car_number: params.car_id[0],
             car_id: params.car_id[1],
             store_house_id: params.storehouse_id[1],
+
             total_quantity: this.state.totalNum,
             total_weight: this.state.totalWeight + 'kg',
             good_list: JSON.stringify(this.state.good_list)
         };
+        debugger
         InteractionManager.runAfterInteractions(() => {
             action.saveLadingbillsProduct(sbParam);
         });

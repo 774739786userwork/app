@@ -12,7 +12,8 @@ import {
     Dimensions,
     ImageButton,
     TouchableOpacity,
-    ScrollView
+    ScrollView,
+    InteractionManager
 } from 'react-native';
 import _ from 'underscore';
 import GMBluetooth from 'react-native-gm-bluetooth';
@@ -45,27 +46,57 @@ export default class BleManagerPage extends React.Component {
         super(props)
         this.headerRightPress = this.headerRightPress.bind(this);
         this._onPrintPress = this._onPrintPress.bind(this)
+        this._onPrintTypePress = this._onPrintTypePress.bind(this)
         this.discoverUnpaired = this.discoverUnpaired.bind(this)
         this.pairDevice = this.pairDevice.bind(this)
+        this.showBTSettings = this.showBTSettings.bind(this)
+        this.gotoSetting = this.gotoSetting.bind(this)
         this.userInfo = {}
         this.state = {
             devices: [],
             showSpinner: false,
             selectItem: 0,
-            msg: undefined,
-            connectedID: null,
+            isEnabled: false,
             discovering: false,
-            unpairedDevices: []
+            unpairedDevices: [],
+            connected: false,
+            section: 0
         }
     }
+
+
+    componentWillMount() {
+        Promise.all([
+            GMBluetooth.isEnabled(),
+            GMBluetooth.list()
+        ])
+            .then((values) => {
+                const [isEnabled, devices] = values
+                this.setState({ isEnabled, devices })
+            })
+
+        GMBluetooth.on('bluetoothEnabled', () => Toast.showShortBottom('Bluetooth enabled'))
+        GMBluetooth.on('bluetoothDisabled', () => Toast.showShortBottom('Bluetooth disabled'))
+        GMBluetooth.on('error', (err) => console.log(`Error: ${err.message}`))
+        GMBluetooth.on('connectionLost', () => {
+            if (this.state.device) {
+                Toast.show(`Connection to device ${this.state.device.name} has been lost`)
+            }
+            this.setState({ connected: false })
+        })
+    }
+
     componentDidMount() {
         this.props.navigation.setParams({
             headerRightPress: this.headerRightPress,
         })
         // 判断蓝牙是否可用
         GMBluetooth.isEnabled().then(result => {
+            if (!result) {
+                this.showBTSettings()
+            }
         }).catch((reason) => {
-            this.setState({ msg: '请打开蓝牙设置' });
+            this.showBTSettings()
         });
 
         // 列出已配对的设备列表
@@ -79,6 +110,20 @@ export default class BleManagerPage extends React.Component {
         });
         this.discoverUnpaired();
     }
+    gotoSetting() {
+        GMBluetooth.showBTSettings();
+    }
+    showBTSettings() {
+        InteractionManager.runAfterInteractions(() => {
+            Alert.alert('提示', '蓝牙设置未打开，前往设置？',
+                [
+                    { text: '设置', onPress: this.gotoSetting },
+                    { text: '取消', onPress: () => console.log('Cancel Pressed!') }
+                ]
+            )
+        });
+    }
+
     headerRightPress() {
         this.setState({ msg: '正在刷新' });
         GMBluetooth.list().then(devices => {
@@ -98,7 +143,7 @@ export default class BleManagerPage extends React.Component {
             this.setState({ discovering: true, msg: '正在扫描' })
             GMBluetooth.discoverUnpairedDevices()
                 .then((unpairedDevices) => {
-                    this.setState({ unpairedDevices,msg: '' , discovering: false })
+                    this.setState({ unpairedDevices, msg: '', discovering: false })
                 })
                 .catch((reason) => {
                     this.setState({ msg: '扫描失败' });
@@ -111,7 +156,7 @@ export default class BleManagerPage extends React.Component {
             .then((paired) => {
                 if (paired) {
                     console.log('Device ${device.name} paired successfully');
-                    const devices = this.state.devices
+                    let devices = this.state.devices
                     devices.push(device)
                     this.setState({ devices, unpairedDevices: this.state.unpairedDevices.filter((d) => d.id !== device.id) })
                     Alert.alert('::::::::' + unpairedDevices.name)
@@ -119,7 +164,9 @@ export default class BleManagerPage extends React.Component {
                     console.log('11111111');
                 }
             })
-            .catch(logError)
+            .catch((e) => {
+                console.log(e);
+            })
     }
     handleConnect(device) {
         GMBluetooth.isConnected().then(isConnected => {
@@ -145,8 +192,11 @@ export default class BleManagerPage extends React.Component {
             }
         });
     }
+    _onPrintTypePress(selectItem) {
+        this.setState({ selectItem })
+    }
     render() {
-        const { isEnabled, devices, unpairedDevices,connectedID, weight } = this.state;
+        const { isEnabled, devices, unpairedDevices, connectedID, weight } = this.state;
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <ScrollView>
@@ -193,7 +243,7 @@ export default class BleManagerPage extends React.Component {
                 }
                 <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#dedede' }} />
                 <View style={{ flexDirection: 'row' }}>
-                    <TouchableHighlight style={{ flex: 1, alignItems: 'center', height: 44, }} onPress={this._onPrintPress.bind(this)}>
+                    <TouchableOpacity style={{ flex: 1, alignItems: 'center', height: 44, }} onPress={this._onPrintTypePress.bind(this, 0)}>
                         <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', }}>
                             <Iconfont
                                 icon={this.state.selectItem === 0 ? 'e662' : 'e663'} // 图标
@@ -204,33 +254,33 @@ export default class BleManagerPage extends React.Component {
                                 labelColor={'#666'}
                             />
                         </View>
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                     <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#dedede' }} />
-                    <TouchableHighlight style={{ flex: 1, alignItems: 'center', height: 44, }} onPress={this._onPrintPress.bind(this)}>
+                    <TouchableOpacity style={{ flex: 1, alignItems: 'center', height: 44, }} onPress={this._onPrintTypePress.bind(this, 1)}>
                         <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', }}>
                             <Iconfont
                                 icon={this.state.selectItem === 1 ? 'e662' : 'e663'} // 图标
                                 iconColor={'#0081d4'}
                                 iconPadding={8}
                                 position={'left'}
-                                label={'打印一张'}
+                                label={'打印两张'}
                                 labelColor={'#666'}
                             />
                         </View>
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                     <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#dedede' }} />
-                    <TouchableHighlight style={{ flex: 1, alignItems: 'center', height: 44, }} onPress={this._onPrintPress.bind(this)}>
+                    <TouchableOpacity style={{ flex: 1, alignItems: 'center', height: 44, }} onPress={this._onPrintTypePress.bind(this, 2)}>
                         <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', }}>
                             <Iconfont
                                 icon={this.state.selectItem === 2 ? 'e662' : 'e663'} // 图标
                                 iconColor={'#0081d4'}
                                 iconPadding={8}
                                 position={'left'}
-                                label={'打印一张'}
+                                label={'打印三张'}
                                 labelColor={'#666'}
                             />
                         </View>
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                 </View>
                 <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#dedede' }} />
                 <View style={{ height: 58, paddingLeft: 12, paddingRight: 12, paddingBottom: 8, paddingTop: 6 }}>

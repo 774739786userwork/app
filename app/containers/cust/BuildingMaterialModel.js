@@ -33,7 +33,7 @@ export default class BuildingMaterialModel extends React.Component {
         this.rowIndex0 = 0;
     }
     componentDidMount() {
-        
+
     }
     componentWillReceiveProps(nextProps) {
         this.rowIndex0 = 0;
@@ -42,11 +42,11 @@ export default class BuildingMaterialModel extends React.Component {
         const regionalid = nextProps.regionalid
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('mobileServiceManager/customers/getBuildingMaterialJson.page', { token, regionalid }).then((responseData) => {
-               if (responseData.status === '0' || responseData.status === 0) {
+                if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data.buildingMaterialList;
                     this.setState({
-                        dataList:data,
-                        loading:false,
+                        dataList: data,
+                        loading: false,
                     });
                 }
             }).catch((error) => {
@@ -58,9 +58,14 @@ export default class BuildingMaterialModel extends React.Component {
     }
 
     onConfirmPress() {
-        let item = this.state.dataList[this.rowIndex0]
-        this.props.onConfirmPress && this.props.onConfirmPress(item)
-        this.setState({ modalVisible: false });
+        if (this.state.dataList && this.state.dataList.length > 0) {
+            let item = this.state.dataList[this.rowIndex0]
+            this.props.onConfirmPress && this.props.onConfirmPress(item)
+            this.setState({ modalVisible: false });
+        }else{
+            this.onCancelPress()
+        }
+
     }
     onCancelPress() {
         this.props.onCancelPress && this.props.onCancelPress()
