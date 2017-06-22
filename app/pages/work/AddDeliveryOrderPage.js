@@ -169,8 +169,6 @@ class AddDeliveryOrderPage extends React.Component {
             num += item.sale_quantity + item.gifts_quantity
             numberCarsh += item.price * item.sale_quantity
         })
-
-
         let list = addDeliveryOrder.result ? addDeliveryOrder.result.good_list : [];
         list = list ? list : []
         return (

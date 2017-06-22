@@ -13,7 +13,7 @@ import {
     FlatList
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
-import { Iconfont, LoadingView } from 'react-native-go';
+import { Iconfont, Toast,LoadingView } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -28,6 +28,12 @@ class SelectCarPage extends React.Component {
         InteractionManager.runAfterInteractions(() => {
             action.selectCar();
         });
+    }
+     componentWillReceiveProps(nextProps) {
+        const { selectCar } = nextProps;
+        if (selectCar.errMsg) {
+            Toast.show(selectCar.errMsg);
+        }
     }
     _onItemPress(item) {
         const { navigation } = this.props;

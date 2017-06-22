@@ -16,7 +16,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
-import { Iconfont, LoadingView,Toast } from 'react-native-go';
+import { Iconfont, LoadingView, Toast } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 import SearchBar from '../../components/SearchBar';
@@ -52,12 +52,13 @@ class ListCustomersPage extends React.Component {
         const { action } = this.props;
         InteractionManager.runAfterInteractions(() => {
             //lat=25.005789&lng=102.770189
-            action.listCustomers(coords.latitude,coords.longitude,txt);
+            action.listCustomers(coords.latitude, coords.longitude, txt);
             //action.listCustomers(25.005789, 102.770189, txt);
         });
     }
     _onItemPress(item) {
         const { navigation } = this.props;
+        debugger
         navigation.navigate('AddDeliveryOrder', { ...item })
 
     }
@@ -111,7 +112,7 @@ class ListCustomersPage extends React.Component {
                 <View style={{ backgroundColor: '#fff' }} >
                     <View style={{ flexDirection: 'row', paddingLeft: 12, }}>
                         <View style={{ alignItems: 'center', justifyContent: 'center', height: 110 }}>
-                            <ImageView style={{ width: 90, height: 90, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={item && item[0] ? {uri:item[0].img_url} : {}} />
+                            <ImageView style={{ width: 90, height: 90, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={item && item[0] ? { uri: item[0].img_url } : {}} />
                         </View>
                         <View style={{ flex: 1, paddingLeft: 12, }}>
                             <View style={{ height: 34, marginBottom: 8, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
@@ -150,7 +151,12 @@ class ListCustomersPage extends React.Component {
             </TouchableHighlight>
         );
     }
-
+    componentWillReceiveProps(nextProps) {
+        const { listCustomers } = nextProps;
+        if (listCustomers.errMsg) {
+            Toast.show(listCustomers.errMsg);
+        }
+    }
     render() {
         const { params } = this.props.navigation.state;
         const { listCustomers } = this.props;

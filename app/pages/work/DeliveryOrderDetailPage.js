@@ -16,6 +16,7 @@ import { Iconfont, LoadingView, Toast } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 import ImageView from '../../components/ImageView'
+import { NavigationActions } from 'react-navigation'
 
 class DeliveryOrderDetailPage extends React.Component {
     constructor(props) {
@@ -41,7 +42,7 @@ class DeliveryOrderDetailPage extends React.Component {
             <View style={{ backgroundColor: '#fff' }} key={`row_${index}`}>
                 <View style={{ flexDirection: 'row', paddingLeft: 12, }}>
                     <View style={{ alignItems: 'center', justifyContent: 'center', height: 110 }}>
-                        <ImageView style={{ width: 90, height: 90, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={{uri:item.image}} />
+                        <ImageView style={{ width: 90, height: 90, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={{ uri: item.image }} />
                     </View>
                     <View>
                         <View style={{ height: 34, paddingLeft: 12, marginBottom: 8, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
@@ -70,15 +71,34 @@ class DeliveryOrderDetailPage extends React.Component {
             </View>
         );
     }
-    _onItemPress() {
+    //0  作废本单
+    //1  重开 送货单
+    //2  重新打印
+    _onItemPress(index) {
+        const { navigation } = this.props;
+        const { params } = this.props.navigation.state;
 
+        if (index === 0) {
+
+        } else if (index === 1) {
+            const navigationAction = NavigationActions.reset({
+                index: 1,
+                actions: [
+                    NavigationActions.navigate({ routeName: 'Home' }),
+                    NavigationActions.navigate({ routeName: 'ListCustomers'}),
+                ]
+            })
+            navigation.dispatch(navigationAction)
+        } else {
+            const { result } = this.props.deliveryOrderDetail;
+            navigation.navigate('BleManager', { ...params, ...result })
+        }
     }
 
 
     render() {
         const { params } = this.props.navigation.state;
         const { deliveryOrderDetail } = this.props;
-
         return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
                 <View style={{ backgroundColor: '#118cd7', padding: 12 }}>
@@ -104,9 +124,9 @@ class DeliveryOrderDetailPage extends React.Component {
                                     dataSource={deliveryOrderDetail.listData}
                                     renderRow={this._renderItem}
                                     renderFooter={() =>
-                                        <View style={{padding: 12, backgroundColor: '#fff9f9' }}>
+                                        <View style={{ padding: 12, backgroundColor: '#fff9f9' }}>
                                             <Text style={{ color: '#666' }}>{`总共${deliveryOrderDetail.result.total_sum}件商品,共计￥${deliveryOrderDetail.result.total_sum},其中押金￥${deliveryOrderDetail.result.total_foregift}`}</Text>
-                                            <View style={{ flexDirection: 'row',marginTop:6 }}>
+                                            <View style={{ flexDirection: 'row', marginTop: 6 }}>
                                                 <Text style={{ color: '#666' }}>{`铺货总计/优惠总计/未收总计:`}</Text>
                                                 <Text style={{ color: '#f80000' }}>{`￥${deliveryOrderDetail.result.total_discount_sum}/￥${deliveryOrderDetail.result.total_discount_sum}/￥${deliveryOrderDetail.result.unpaid_total_sum}`}</Text>
                                             </View>
@@ -121,7 +141,7 @@ class DeliveryOrderDetailPage extends React.Component {
                     !deliveryOrderDetail.loading && deliveryOrderDetail.listData._cachedRowCount > 0 ?
                         <View style={{ height: 58, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
                             <View style={{ width: 12 }} />
-                            <TouchableHighlight style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} onPress={this._onItemPress.bind(this)}>
+                            <TouchableHighlight style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} onPress={this._onItemPress.bind(this, 0)}>
                                 <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: '#17c6c1', borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
                                     <Iconfont
                                         icon={'e6c4'} // 图标
@@ -133,7 +153,7 @@ class DeliveryOrderDetailPage extends React.Component {
                                 </View>
                             </TouchableHighlight>
                             <View style={{ width: 12 }} />
-                            <TouchableHighlight style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} onPress={this._onItemPress.bind(this)}>
+                            <TouchableHighlight style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} onPress={this._onItemPress.bind(this, 1)}>
                                 <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: '#17c6c1', borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
                                     <Iconfont
                                         icon={'e6c5'} // 图标
@@ -145,7 +165,7 @@ class DeliveryOrderDetailPage extends React.Component {
                                 </View>
                             </TouchableHighlight>
                             <View style={{ width: 12 }} />
-                            <TouchableHighlight style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} onPress={this._onItemPress.bind(this)}>
+                            <TouchableHighlight style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} onPress={this._onItemPress.bind(this, 2)}>
                                 <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: '#17c6c1', borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
                                     <Iconfont
                                         icon={'e6bd'} // 图标

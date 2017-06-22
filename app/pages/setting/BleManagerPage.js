@@ -50,7 +50,9 @@ export default class BleManagerPage extends React.Component {
         this._onPrintTypePress = this._onPrintTypePress.bind(this)
         this.listBlueTooth = this.listBlueTooth.bind(this)
         this.pairDevice = this.pairDevice.bind(this)
+        this.printBody = this.printBody.bind(this)
         this.state = {
+
             devices: [],
             showSpinner: false,
             selectItem: 0,
@@ -274,74 +276,23 @@ export default class BleManagerPage extends React.Component {
 
 
     _onPrintPress() {
+        const { params } = this.props.navigation.state;
+        let title = params && params.title ? params.title : '多邦建材打印测试单'
         // 一定要配置好
-        const Config = {
-            wordNumber: 32
-        };
+        const Config = { wordNumber: 32 };
         ESC.setConfig(Config);
-
-
         ESC.init();
         for (var i = 0; i < this.state.selectItem + 1; i++) {
             ESC.alignCenter();
             ESC.fontBold();
             ESC.printAndNewLine();
-            ESC.text('多邦建材打印测试单');
+            ESC.text(title);
             ESC.printAndNewLine();
-
             ESC.printAndNewLine();
             ESC.printAndNewLine();
             ESC.init();
-            ESC.text('开单时间：2017-04-18 14:30:23');
-            ESC.printAndNewLine();
-            ESC.text('店名：平价建材');
-            ESC.printAndNewLine();
-            ESC.text('地址：梅溪湖壹号10栋地下室');
-            ESC.printAndNewLine();
-            ESC.text('联系人：张先生');
-            ESC.printAndNewLine();
-            ESC.text('电  话：15201083760');
-            ESC.printAndNewLine();
-            ESC.text('送货人：黄爱国');
-            ESC.printAndNewLine();
-            ESC.text('联系方式：13677360984');
-            ESC.printAndNewLine();
-            ESC.text('车牌号：湘AMH716');
-            ESC.printAndNewLine();
-            ESC.text(_.times(Config.wordNumber, () => '-').join(''));
-            ESC.printAndNewLine();
-            // 商品开始
-            ESC.text(ESC.Util.leftRight('产品名称：外墙抗裂腻子（敬天爱人）', '', 20));
-            ESC.printAndNewLine();
-            ESC.text(ESC.Util.leftRight('数量：2', '', 20));
-            ESC.printAndNewLine();
-            ESC.alignRight();
-            ESC.text('￥12.00');
-            ESC.printAndNewLine();
-            ESC.alignRight();
-            ESC.text('数量小计：2');
-            ESC.printAndNewLine();
-            ESC.text(_.times(Config.wordNumber, () => '-').join(''));
-            ESC.printAndNewLine();
-            ESC.text(ESC.Util.leftRight('数量总计：2', '', 2));
-            ESC.alignRight();
-            ESC.text('  ');
-            ESC.text('总计金额：12.00');
-            ESC.printAndNewLine();
-            ESC.text(ESC.Util.leftRight('其中押金：0.00', '', 0));
-            ESC.text('  ');
-            ESC.alignRight();
-            ESC.text('本单实收：12.00');
-            ESC.printAndNewLine();
-            ESC.alignRight();
-            ESC.text('本单未收：0.00');
-            ESC.printAndNewLine();
-            // 商品结束
-            ESC.text(_.times(Config.wordNumber, () => '-').join(''));
-            ESC.printAndNewLine();
-            ESC.printAndNewLine();
-            ESC.printAndNewLine();
-
+            //商品开始
+            this.printBody(Config,params)
             ESC.init();
             ESC.text('客户签名：______________________');
             ESC.printAndNewLine();
@@ -359,5 +310,75 @@ export default class BleManagerPage extends React.Component {
         }
         ESC.sound();
         ESC.init();
+    }
+
+
+    printBody(Config,param) {
+        if (!param) {
+            ESC.text('开单时间：打印测试');
+            ESC.printAndNewLine();
+            return;
+        }
+        ESC.text('开单时间：' + param.delivery_date);
+        ESC.printAndNewLine();
+        ESC.text('店名：' + param.customer_name);
+        ESC.printAndNewLine();
+        ESC.text('地址：' + param.customer_address);
+        ESC.printAndNewLine();
+        ESC.text('联系人：' + param.contact_name);
+        ESC.printAndNewLine();
+        ESC.text('电  话：' + param.contact_mobile);
+        ESC.printAndNewLine();
+        ESC.text('送货人：');
+        ESC.printAndNewLine();
+        ESC.text('联系方式：');
+        ESC.printAndNewLine();
+        ESC.text('车牌号：');
+        ESC.printAndNewLine();
+        ESC.text(_.times(Config.wordNumber, () => '-').join(''));
+        ESC.printAndNewLine();
+        // 商品开始
+        param.productLists.map((item) => {
+            ESC.printAndNewLine();
+            ESC.text(ESC.Util.leftRight('产品名称：' + item.product_name, '', 20));
+            ESC.printAndNewLine();
+            ESC.text(ESC.Util.leftRight('数量：' + item.sale_quantity, '', 20));
+            ESC.printAndNewLine();
+            ESC.alignRight();
+            ESC.text(`￥${item.price ? item.price : 0.00}`);
+            ESC.printAndNewLine();
+            ESC.alignRight();
+            ESC.text('数量小计：');
+            ESC.printAndNewLine();
+            ESC.text(_.times(Config.wordNumber, () => '-').join(''));
+            ESC.printAndNewLine();
+            ESC.text(ESC.Util.leftRight('数量总计：', '', 2));
+            ESC.alignRight();
+            ESC.text('  ');
+            ESC.text(`总计金额：${item.total_sum ? item.total_sum : 0.00}`);
+            ESC.printAndNewLine();
+            ESC.text(ESC.Util.leftRight(`其中押金：${item.total_foregift ? item.total_foregift : 0.00}`, '', 0));
+            ESC.text('  ');
+            ESC.alignRight();
+            ESC.text(`本单实收：${item.total_sum ? item.total_sum : 0.00}`);
+            ESC.printAndNewLine();
+            ESC.alignRight();
+            ESC.text(`本单未收：${item.unpaid_total_sum ? item.unpaid_total_sum : 0.00}`);
+            ESC.printAndNewLine();
+        })
+        // 商品结束
+        ESC.text(_.times(Config.wordNumber, () => '-').join(''));
+        ESC.printAndNewLine();
+        ESC.printAndNewLine();
+        ESC.printAndNewLine();
+
+        ESC.text(ESC.Util.leftRight(`优惠金额：${param.discount_sum ? param.discount_sum : 0.00}`, '', 0));
+        ESC.text('  ');
+        ESC.alignRight();
+        ESC.text(`铺货总额：${param.distribution_sum ? param.distribution_sum : 0.00}`);
+        ESC.printAndNewLine();
+        ESC.printAndNewLine();
+        ESC.printAndNewLine();
+        ESC.printAndNewLine();
     }
 }

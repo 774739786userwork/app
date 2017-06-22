@@ -31,6 +31,12 @@ class SelectStorePage extends React.Component {
             action.selectStore();
         });
     }
+    componentWillReceiveProps(nextProps) {
+        const { selectStore } = nextProps;
+        if (selectStore.errMsg) {
+            Toast.show(selectStore.errMsg);
+        }
+    }
     _onItemPress(item) {
         const { navigation } = this.props;
         navigation.state.params.callback(item);
