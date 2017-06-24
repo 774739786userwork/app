@@ -13,7 +13,7 @@ import {
     TouchableHighlight
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
-import { Iconfont, LoadingView, Toast } from 'react-native-go';
+import { Iconfont, LoadingView, Toast, LoginInfo } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 import ImageView from '../../components/ImageView'
@@ -32,12 +32,14 @@ class AddDeliveryOrderPage extends React.Component {
         this.onConfirmPress = this.onConfirmPress.bind(this)
         this.onCancelPress = this.onCancelPress.bind(this)
         this._onItemPress = this._onItemPress.bind(this)
+        this.onClear = this.onClear.bind(this)
         this.carbaseinfo_id = null;
         this.state = {
             modalVisible: false,
             modalPopVisible: false,
             selectItem: {},
             chooseList: [],
+            good_list: []
         };
     }
 
@@ -56,6 +58,8 @@ class AddDeliveryOrderPage extends React.Component {
         }
         this.carbaseinfo_id = selectCar.carbaseinfo_id
 
+        this.setState({ good_list: addDeliveryOrder.result.good_list })
+
     }
     componentDidMount() {
         const { action, navigation } = this.props;
@@ -69,7 +73,7 @@ class AddDeliveryOrderPage extends React.Component {
     }
 
     _renderItem = (item, index) => {
-        let num = (item.sale_quantity ? parseInt(item.sale_quantity) : 0) + (item.gifts_quantity ? parseInt(item.gifts_quantity) : 0)
+        let num = this.state.clear ? 0 : (item.sale_quantity ? parseInt(item.sale_quantity) : 0) + (item.gifts_quantity ? parseInt(item.gifts_quantity) : 0)
         return (
             <TouchableHighlight
                 onPress={this._rowOnPress.bind(this, item)}
@@ -114,6 +118,20 @@ class AddDeliveryOrderPage extends React.Component {
     _onItemPress() {
         this.setState({ modalPopVisible: true });
     }
+    onClear() {
+        let good_list = this.state.good_list
+        let new_good_list = []
+        let i = 0
+        for (; i < good_list.length; i++) {
+            let item = good_list[i]
+            item.sale_quantity = 0
+            //产品赠送量
+            item.gifts_quantity = 0
+            new_good_list.push(item)
+        }
+
+        this.setState({ good_list: new_good_list, chooseList: [] })
+    }
 
     onConfirmPress(newItem) {
         let oldItem = null;
@@ -125,6 +143,8 @@ class AddDeliveryOrderPage extends React.Component {
                     oldItem = item;
                 }
             })
+            newItem.delivery_remember_person = LoginInfo.getUserInfo().user_id;
+            newItem.delivery_remember_person_name = LoginInfo.getUserInfo().user_real_name;
             if (oldItem) {
                 //产品销售量
                 oldItem.sale_quantity = newItem.sale_quantity
@@ -139,8 +159,10 @@ class AddDeliveryOrderPage extends React.Component {
                 //产品简称
                 oldItem.product_name = newItem.product_name
                 //送货的记量人
-                oldItem.delivery_remember_person = newItem.delivery_remember_person
+                oldItem.delivery_remember_person = newItem.delivery_remember_person;
+                oldItem.delivery_remember_person_name = newItem.delivery_remember_person_name;
             } else {
+
                 chooseList.push(newItem)
             }
         }
@@ -159,7 +181,7 @@ class AddDeliveryOrderPage extends React.Component {
         params.chooseList = this.state.chooseList
         let selectCar = this.props.selectCar;
         params.selectCar = selectCar;
-        navigate('AddDeliveryOrderEnd', {...params,...result});
+        navigate('AddDeliveryOrderEnd', { ...params, ...result });
     }
     render() {
         const { addDeliveryOrder } = this.props;
@@ -170,11 +192,11 @@ class AddDeliveryOrderPage extends React.Component {
             num += item.sale_quantity + item.gifts_quantity
             numberCarsh += item.price * item.sale_quantity
         })
-        let list = addDeliveryOrder.result ? addDeliveryOrder.result.good_list : [];
+        let list = addDeliveryOrder.result ? this.state.good_list : [];
         list = list ? list : []
         return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
-                <AddDeliveryPopModel onEndAction={this.onEndAction.bind(this)} chooseList={this.state.chooseList} modalVisible={this.state.modalPopVisible} onCancelPress={this.onPopCancelPress.bind(this)} onClear={() => { this.setState({ chooseList: [] }) }} />
+                <AddDeliveryPopModel onClear={this.onClear} onEndAction={this.onEndAction.bind(this)} chooseList={this.state.chooseList} modalVisible={this.state.modalPopVisible} onCancelPress={this.onPopCancelPress.bind(this)} />
                 <AddDeliveryEditeModel modalVisible={this.state.modalVisible} onCancelPress={this.onCancelPress} item={this.state.selectItem} onConfirmPress={this.onConfirmPress} />
                 <LoadingListView
                     loading={addDeliveryOrder.loading}

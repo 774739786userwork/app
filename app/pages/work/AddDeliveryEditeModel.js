@@ -13,7 +13,7 @@ import {
     TouchableHighlight
 } from 'react-native';
 
-import { Iconfont } from 'react-native-go';
+import { Iconfont, Toast } from 'react-native-go';
 const WINDOW_WIDTH = Dimensions.get('window').width;
 import ImageView from '../../components/ImageView'
 
@@ -120,7 +120,7 @@ export default class AddDeliveryEditeModel extends React.Component {
                     <View style={{ height: StyleSheet.hairlineWidth, width: modelWidth, backgroundColor: '#c4c4c4' }} />
                     <View style={{ flexDirection: 'row' }}>
                         <View style={{ flex: 1, alignItems: 'center' }}>
-                            <ImageView style={{ width: 90, height: 90, marginTop: 12, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={{uri:item.image}} />
+                            <ImageView style={{ width: 90, height: 90, marginTop: 12, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={{ uri: item.image }} />
                             <View style={{ marginTop: 8, height: 34, flexDirection: 'row', alignItems: 'center' }}>
                                 <Text style={{ textAlign: 'right', color: '#666' }}>库存:</Text>
                                 <Text style={{ marginLeft: 8, color: '#666' }}>{'' + this.state.stock}</Text>
@@ -153,7 +153,10 @@ export default class AddDeliveryEditeModel extends React.Component {
                                 <Text style={{ width: 40, textAlign: 'right', }}>销量:</Text>
                                 <View style={{ flex: 3, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                                     <TouchableOpacity style={{ marginLeft: 8, marginRight: 12 }} onPress={() => {
-                                        this.updateSaleQuantity(this.state.sale_quantity - 1);
+                                        let sale_quantity = this.state.sale_quantity - 1;
+                                        if ((this.state.stock - sale_quantity - this.state.gifts_quantity) >= 0) {
+                                            this.updateSaleQuantity(sale_quantity);
+                                        }
                                     }}>
                                         <Iconfont
                                             icon={'e6ba'} // 图标
@@ -166,11 +169,19 @@ export default class AddDeliveryEditeModel extends React.Component {
                                         defaultValue={'' + this.state.sale_quantity}
                                         onChangeText={(newCount) => {
                                             let num = parseInt(newCount);
-                                            this.updateSaleQuantity(isNaN(num) ? 0 : num);
+                                            let sale_quantity = isNaN(num) ? 0 : num
+                                            if ((this.state.stock - sale_quantity - this.state.gifts_quantity) >= 0) {
+                                                this.updateSaleQuantity(sale_quantity);
+                                            }
                                         }}
                                     />
                                     <TouchableOpacity style={{ marginLeft: 12 }} onPress={() => {
-                                        this.updateSaleQuantity(this.state.sale_quantity + 1);
+                                        let sale_quantity = this.state.sale_quantity + 1;
+                                        if ((this.state.stock - sale_quantity - this.state.gifts_quantity) >= 0) {
+                                            this.updateSaleQuantity(sale_quantity);
+                                        } else {
+                                            Toast.show('库存不足')
+                                        }
                                     }}>
                                         <Iconfont
                                             icon={'e6b9'} // 图标
@@ -198,11 +209,19 @@ export default class AddDeliveryEditeModel extends React.Component {
                                                 defaultValue={'' + this.state.gifts_quantity}
                                                 onChangeText={(newCount) => {
                                                     let num = parseInt(newCount);
-                                                    this.updateGiftsQuantity(isNaN(num) ? 0 : num);
+                                                    let gifts_quantity = isNaN(num) ? 0 : num
+                                                    if ((this.state.stock - gifts_quantity - this.state.sale_quantity) >= 0) {
+                                                        this.updateGiftsQuantity(gifts_quantity);
+                                                    }
                                                 }}
                                             />
                                             <TouchableOpacity style={{ marginLeft: 12 }} onPress={() => {
-                                                this.updateGiftsQuantity(this.state.gifts_quantity + 1);
+                                                let gifts_quantity = this.state.gifts_quantity + 1;
+                                                if ((this.state.stock - gifts_quantity - this.state.sale_quantity) >= 0) {
+                                                    this.updateGiftsQuantity(gifts_quantity);
+                                                } else {
+                                                    Toast.show('库存不足')
+                                                }
                                             }}>
                                                 <Iconfont
                                                     icon={'e6b9'} // 图标

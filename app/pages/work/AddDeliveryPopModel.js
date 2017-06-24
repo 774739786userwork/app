@@ -90,9 +90,7 @@ export default class AddDeliveryPopModel extends React.Component {
                         <View style={{ flex: 1 }} />
                         <TouchableOpacity onPress={() => {
                             this.props.onClear && this.props.onClear()
-                            this.setState({
-                                chooseList: []
-                            })
+                            this.setState({chooseList:[]})
                         }}>
                             <Iconfont
                                 icon={'e6c6'} // 图标
