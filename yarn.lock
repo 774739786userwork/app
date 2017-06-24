@@ -3261,9 +3261,9 @@ react-native-gm-bluetooth@^0.39.3:
   dependencies:
     buffer "^4.6.0"
 
-react-native-go@^1.8.9:
-  version "1.8.9"
-  resolved "https://registry.npmjs.org/react-native-go/-/react-native-go-1.8.9.tgz#9c197cd52cdd09fecaf2916080dc938417455868"
+react-native-go@1.8.11:
+  version "1.8.11"
+  resolved "http://registry.npm.taobao.org/react-native-go/download/react-native-go-1.8.11.tgz#3e0b6cb998f37faec4220f44e6fa3a05b48cf6db"
   dependencies:
     static-container "^1.1.0"
 
