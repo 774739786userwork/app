@@ -352,7 +352,7 @@ class AddDeliveryOrderEndPage extends React.Component {
                     <View style={{ flex: 1 }} />
                     <TouchableOpacity onPress={this.dosubmitAction} disabled={this.state.paid_total_sum > this.numberCarsh}>
                         <View style={{ width: 160, height: 50, backgroundColor: this.state.paid_total_sum > this.numberCarsh ? '#c4c4c4' : '#fe6732', justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ color: '#fff' }}>{`收款￥${this.state.paid_total_sum}`}</Text>
+                            <Text style={{ color: '#fff' }}>{`收款￥${ this.state.paid_total_sum }`}</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
