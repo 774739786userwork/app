@@ -17,6 +17,7 @@ import {
 import { Iconfont, LoginInfo, LineView, Toast, Spinner, FetchManger } from 'react-native-go';
 import dismissKeyboard from 'dismissKeyboard';
 const WINDOW_WIDTH = Dimensions.get('window').width;
+import NavigationUtil from '../../utils/NavigationUtil';
 
 export default class ForgetPassWordPage extends React.Component {
     constructor(props) {
@@ -33,7 +34,7 @@ export default class ForgetPassWordPage extends React.Component {
         const user_id = LoginInfo.getUserInfo().user_id;
 
         this.userInfo.token = token;
-        this.userInfo.user_id = user_id;
+        this.userInfo.userid = user_id;
         const { navigation } = this.props;
 
         FetchManger.postUri('mobileServiceManager/user/updatePassword.page', this.userInfo).then((responseData) => {

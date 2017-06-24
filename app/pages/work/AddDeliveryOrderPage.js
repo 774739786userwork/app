@@ -78,7 +78,7 @@ class AddDeliveryOrderPage extends React.Component {
                 <View style={{ backgroundColor: '#fff' }} >
                     <View style={{ flexDirection: 'row', paddingLeft: 12, }}>
                         <View style={{ alignItems: 'center', justifyContent: 'center', height: 110 }}>
-                            <ImageView style={{ width: 90, height: 90, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={{uri:item.image}} />
+                            <ImageView style={{ width: 90, height: 90, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={{ uri: item.image }} />
                         </View>
                         <View style={{ flex: 1 }}>
                             <View style={{ height: 34, paddingLeft: 12, marginBottom: 8, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
@@ -155,10 +155,11 @@ class AddDeliveryOrderPage extends React.Component {
     onEndAction() {
         const { navigate } = this.props.navigation;
         const { params } = this.props.navigation.state;
+        const { result } = this.props.addDeliveryOrder;
         params.chooseList = this.state.chooseList
         let selectCar = this.props.selectCar;
         params.selectCar = selectCar;
-        navigate('AddDeliveryOrderEnd', params);
+        navigate('AddDeliveryOrderEnd', {...params,...result});
     }
     render() {
         const { addDeliveryOrder } = this.props;

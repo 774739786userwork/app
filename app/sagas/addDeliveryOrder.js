@@ -5,7 +5,6 @@ import { FetchManger } from 'react-native-go'
 export function* addDeliveryOrder(action) {
   try {
     let responseData = yield call(FetchManger.getUri, action.api, action.param);
-    
     if (responseData.status === '0' || responseData.status === 0) {
       yield put({ type: types.AddDeliveryOrderSucceed_ACTION, result: responseData.data });
     } else {

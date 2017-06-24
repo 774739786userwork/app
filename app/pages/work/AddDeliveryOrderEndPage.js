@@ -24,6 +24,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import RemarkEditeModel from './RemarkEditeModel'
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 import ImageView from '../../components/ImageView'
+import { NavigationActions } from 'react-navigation'
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 /**
@@ -96,6 +97,7 @@ class AddDeliveryOrderEndPage extends React.Component {
         const token = LoginInfo.getUserInfo().token;
         const user_id = LoginInfo.getUserInfo().user_id;
         const organization_id = LoginInfo.getUserInfo().organization_id;
+        const org_pinyin = LoginInfo.getUserInfo().org_pinyin;
         //total_sum	Double	总计销售金额
         // paid_total_sum	Double	实收金额
         // foregift_sum	Double	押金
@@ -106,20 +108,25 @@ class AddDeliveryOrderEndPage extends React.Component {
         const { params } = this.props.navigation.state;
         var date = new Date();
         let month = date.getMonth() + 1;
-        var currentTime = date.getFullYear() + '-' + (month < 10 ? '0'+month:month) + '-' + date.getDate();
+        var currentTime = date.getFullYear() + '-' + (month < 10 ? '0' + month : month) + '-' + date.getDate();
 
         let saveParams = {};
         saveParams.user_id = user_id;
         saveParams.organization_id = organization_id;
+        saveParams.org_pinyin = org_pinyin;
         saveParams.token = token;
         saveParams.customer_id = params.customersId
         saveParams.car_id = params.selectCar.carbaseinfo_id
+        saveParams.car_number = params.selectCar.platenumber
         saveParams.delivery_date = currentTime
         saveParams.contact_mobile = params.contacts[0].mobile1;
         saveParams.contact_name = params.contacts[0].name;
         saveParams.source_equipment = '1'
         saveParams.lat = params.lat
         saveParams.lng = params.lng
+        saveParams.lading_date = params.lading_date
+        saveParams.ladingbill_id = params.ladingbill_id
+        saveParams.ladingbill_serialnumber = params.ladingbill_serialnumber
 
         saveParams.total_sum = this.numberCarsh;
         saveParams.paid_total_sum = this.state.paid_total_sum;
@@ -147,34 +154,29 @@ class AddDeliveryOrderEndPage extends React.Component {
             }
             good_list.push(gItem)
         })
-        if (showErr) {
-            Toast.show('请选择计量人')
-            return;
-        }
         saveParams.good_list = JSON.stringify(good_list);
         this.setState({ showSpinner: true })
-        debugger
+        const { navigation } = this.props;
+
         FetchManger.postUri('/mobileServiceManager/deliveryNotes/addDeliveryNotes.page', saveParams).then((responseData) => {
             this.setState({ showSpinner: false })
             if (responseData.status === '0' || responseData.status === 0) {
-                const navigationAction = NavigationActions.navigate({
-                    routeName: 'Home',
-                    params: {},
-                    action: NavigationActions.navigate({ routeName: 'BleManager' })
+
+                const navigationAction = NavigationActions.reset({
+                    index: 1,
+                    actions: [
+                        NavigationActions.navigate({ routeName: 'Home' }),
+                        NavigationActions.navigate({ routeName: 'BleManager' }),
+                    ]
                 })
-                this.props.navigation.dispatch(navigationAction)
+                navigation.dispatch(navigationAction)
             } else {
                 Toast.show(responseData.msg)
             }
         }).catch((error) => {
+            console.log(error)
             this.setState({ showSpinner: false })
             Toast.show('保存失败')
-            const navigationAction = NavigationActions.navigate({
-                routeName: 'Home',
-                params: {},
-                action: NavigationActions.navigate({ routeName: 'BleManager' })
-            })
-            this.props.navigation.dispatch(navigationAction)
         })
     }
 
@@ -185,7 +187,7 @@ class AddDeliveryOrderEndPage extends React.Component {
             <View style={{ backgroundColor: '#fff' }} key={`row_${index}`} >
                 <View style={{ flexDirection: 'row', paddingLeft: 12, }}>
                     <View style={{ alignItems: 'center', justifyContent: 'center', height: 110 }}>
-                        <ImageView style={{ width: 90, height: 90, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={{uri:item.image}} />
+                        <ImageView style={{ width: 90, height: 90, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={{ uri: item.image }} />
                     </View>
                     <View style={{ flex: 1 }}>
                         <View style={{ height: 34, paddingLeft: 12, marginBottom: 8, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>

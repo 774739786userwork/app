@@ -58,7 +58,6 @@ class ListCustomersPage extends React.Component {
     }
     _onItemPress(item) {
         const { navigation } = this.props;
-        debugger
         navigation.navigate('AddDeliveryOrder', { ...item })
 
     }

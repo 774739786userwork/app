@@ -81,7 +81,7 @@ class SelectDeliveryOrderPage extends React.Component {
                         </View>
                         <Text style={{ color: '#118cd7' }}>{item.delivery_date}</Text>
                         <View style={{ flex: 1 }} />
-                        <Text style={{ color: '#666', fontSize: 12 }}>提货单编号：</Text>
+                        <Text style={{ color: '#666', fontSize: 12 }}>送货单编号：</Text>
                         <Text style={{ color: '#666', fontSize: 12, marginRight: 8 }}>{item.serial_number}</Text>
 
                     </View>
