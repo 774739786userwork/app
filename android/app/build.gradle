@@ -148,7 +148,6 @@ dependencies {
     compile 'org.lzh.nonview.updateplugin:UpdatePlugin:2.4.0'
     //异常上报
     compile 'com.tencent.bugly:crashreport:latest.release'
-    compile project(':react-native-select-contact-android')
 }
 
 // Run this once to be able to run the application with BUCK
