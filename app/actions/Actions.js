@@ -49,9 +49,12 @@ export function appUserlandDX(username, password, dxyzm) {
 export function listCustomers(lat, lng, contactMobile) {
     const orgId = LoginInfo.getUserInfo().organization_id;//LoginInfo.getUserInfo().user_id;
     const token = LoginInfo.getUserInfo().token;
-    let param = { lat, lng, token, orgId };
+    let param = {  token, orgId };
     if (contactMobile) {
         param.contactMobile = contactMobile;
+    }else{
+        param.lat = lat;
+        param.lng = lng
     }
     return {
         type: types.ListCustomersing_ACTION,

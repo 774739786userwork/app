@@ -10,6 +10,18 @@ import android.content.pm.PackageManager;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
+import com.rhaker.reactnativeselectcontacts.ReactNativeSelectContacts;
+import com.imagepicker.ImagePickerPackage;
+import com.gm.RCTGMBluetooth.RCTGMBluetoothPackage;
+import com.dylanvann.fastimage.FastImageViewPackage;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.lwansbrough.RCTCamera.RCTCameraPackage;
+import com.rhaker.reactnativeselectcontacts.ReactNativeSelectContacts;
+import com.imagepicker.ImagePickerPackage;
+import com.gm.RCTGMBluetooth.RCTGMBluetoothPackage;
+import com.dylanvann.fastimage.FastImageViewPackage;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.gm.RCTGMBluetooth.RCTGMBluetoothPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
@@ -50,6 +62,18 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactNativeSelectContacts(),
+            new ImagePickerPackage(),
+            new RCTGMBluetoothPackage(),
+            new FastImageViewPackage(),
+            new RNDeviceInfo(),
+            new RCTCameraPackage(),
+            new ReactNativeSelectContacts(),
+            new ImagePickerPackage(),
+            new RCTGMBluetoothPackage(),
+            new FastImageViewPackage(),
+            new RNDeviceInfo(),
+            new RCTCameraPackage(),
             new ImagePickerPackage(),
             new RCTGMBluetoothPackage(),
             new FastImageViewPackage(),
