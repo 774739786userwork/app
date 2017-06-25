@@ -48,8 +48,9 @@ export function appUserlandDX(username, password, dxyzm) {
 //客户列表查询
 export function listCustomers(lat, lng, contactMobile) {
     const orgId = LoginInfo.getUserInfo().organization_id;//LoginInfo.getUserInfo().user_id;
+     const user_id = LoginInfo.getUserInfo().user_id;//LoginInfo.getUserInfo().user_id;
     const token = LoginInfo.getUserInfo().token;
-    let param = {  token, orgId };
+    let param = {  token, orgId,user_id };
     if (contactMobile) {
         param.contactMobile = contactMobile;
     }else{

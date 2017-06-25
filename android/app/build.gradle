@@ -135,9 +135,9 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-fast-image')
-    compile project(':react-native-gm-bluetooth')
     compile project(':react-native-image-picker')
+    compile project(':react-native-gm-bluetooth')
+    compile project(':react-native-fast-image')
     compile project(':react-native-device-info')
     compile project(':react-native-camera')
     compile fileTree(include: ['*.jar'], dir: 'libs')

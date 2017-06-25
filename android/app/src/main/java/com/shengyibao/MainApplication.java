@@ -15,21 +15,6 @@ import com.gm.RCTGMBluetooth.RCTGMBluetoothPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
-import com.imagepicker.ImagePickerPackage;
-import com.gm.RCTGMBluetooth.RCTGMBluetoothPackage;
-import com.dylanvann.fastimage.FastImageViewPackage;
-import com.learnium.RNDeviceInfo.RNDeviceInfo;
-import com.lwansbrough.RCTCamera.RCTCameraPackage;
-import com.imagepicker.ImagePickerPackage;
-import com.gm.RCTGMBluetooth.RCTGMBluetoothPackage;
-import com.dylanvann.fastimage.FastImageViewPackage;
-import com.learnium.RNDeviceInfo.RNDeviceInfo;
-import com.lwansbrough.RCTCamera.RCTCameraPackage;
-import com.dylanvann.fastimage.FastImageViewPackage;
-import com.gm.RCTGMBluetooth.RCTGMBluetoothPackage;
-import com.imagepicker.ImagePickerPackage;
-import com.learnium.RNDeviceInfo.RNDeviceInfo;
-import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -63,21 +48,6 @@ public class MainApplication extends Application implements ReactApplication {
             new ImagePickerPackage(),
             new RCTGMBluetoothPackage(),
             new FastImageViewPackage(),
-            new RNDeviceInfo(),
-            new RCTCameraPackage(),
-            new ImagePickerPackage(),
-            new RCTGMBluetoothPackage(),
-            new FastImageViewPackage(),
-            new RNDeviceInfo(),
-            new RCTCameraPackage(),
-            new ImagePickerPackage(),
-            new RCTGMBluetoothPackage(),
-            new FastImageViewPackage(),
-            new RNDeviceInfo(),
-            new RCTCameraPackage(),
-            new FastImageViewPackage(),
-            new RCTGMBluetoothPackage(),
-            new ImagePickerPackage(),
             new RNDeviceInfo(),
             new RCTCameraPackage()
       );
