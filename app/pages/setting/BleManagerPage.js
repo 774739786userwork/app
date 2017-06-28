@@ -293,6 +293,7 @@ export default class BleManagerPage extends React.Component {
     }
 
     printBody(param) {
+        debugger
         let title = '多邦建材打印送货单'
         // 一定要配置好
         const Config = { wordNumber: 32 };
@@ -318,9 +319,9 @@ export default class BleManagerPage extends React.Component {
             ESC.printAndNewLine();
             ESC.text('电  话：' + param.contact_mobile);
             ESC.printAndNewLine();
-            ESC.text('送货人：');
+            ESC.text('送货人：' + LoginInfo.getUserInfo().user_real_name);
             ESC.printAndNewLine();
-            ESC.text('联系方式：');
+            ESC.text('联系方式：' + LoginInfo.getUserInfo().mobile_number);
             ESC.printAndNewLine();
             ESC.text('车牌号：' + param.car_number);
             ESC.printAndNewLine();
@@ -329,45 +330,39 @@ export default class BleManagerPage extends React.Component {
             // 商品开始
             param.productLists.map((item) => {
                 item.gifts_quantity = item.gifts_quantity ? item.gifts_quantity : 0
-                let total = item.sale_quantity * item.price
+
                 ESC.printAndNewLine();
                 ESC.text(ESC.Util.leftRight('产品名称：' + item.product_name, '', 20));
                 ESC.printAndNewLine();
                 ESC.text(ESC.Util.leftRight('数量：' + item.sale_quantity, '', 20));
                 ESC.printAndNewLine();
                 ESC.alignRight();
-                ESC.text(`￥${item.price ? item.price : 0.00}`);
+                ESC.text(`￥${item.product_sum ? item.product_sum : 0.00}`);
                 ESC.printAndNewLine();
                 ESC.alignRight();
-                ESC.text('数量小计：' + item.sale_quantity);
+                ESC.text('数量小计：' + (item.sale_quantity + item.gifts_quantity));
                 ESC.printAndNewLine();
                 ESC.text(_.times(Config.wordNumber, () => '-').join(''));
                 ESC.printAndNewLine();
-                ESC.text(ESC.Util.leftRight('数量总计：' + item.sale_quantity + item.gifts_quantity, '', 2));
-                ESC.alignRight();
-                ESC.text('  ');
-                ESC.text(`总计金额：${total.toFixed(2)}`);
-                ESC.printAndNewLine();
-                ESC.text(ESC.Util.leftRight(`其中押金：${item.total_foregift ? item.total_foregift : 0.00}`, '', 0));
-                ESC.text('  ');
-                ESC.alignRight();
-                ESC.text(`本单实收：${item.total_sum ? item.total_sum : 0.00}`);
-                ESC.printAndNewLine();
-                ESC.alignRight();
-                ESC.text(`本单未收：${item.unpaid_total_sum ? item.unpaid_total_sum : 0.00}`);
-                ESC.printAndNewLine();
+
             })
             // 商品结束
             ESC.text(_.times(Config.wordNumber, () => '-').join(''));
             ESC.printAndNewLine();
             ESC.printAndNewLine();
             ESC.printAndNewLine();
-
-            ESC.text(ESC.Util.leftRight(`优惠金额：${param.discount_sum ? param.discount_sum : 0.00}`, '', 0));
-            ESC.text('  ');
-            ESC.alignRight();
-            ESC.text(`铺货总额：${param.distribution_sum ? param.distribution_sum : 0.00}`);
+            var total = param.total_sum ? param.total_sum : 0.00
+            ESC.text(ESC.Util.leftRight(`数量总计：${param.num +''}`, '', 16));
+            ESC.text(ESC.Util.leftRight(`总计金额：￥${total.toFixed(2)}`, '', 16));
             ESC.printAndNewLine();
+            ESC.text(ESC.Util.leftRight(`其中押金：￥${param.total_foregift ? param.total_foregift : 0.00}`, '', 16));
+            ESC.text(ESC.Util.leftRight(`本单实收：￥${param.paid_total_sum ? param.paid_total_sum : 0.00}`, '', 16));
+            ESC.printAndNewLine();
+            ESC.text(ESC.Util.leftRight(`本单未收：￥${param.unpaid_total_sum ? param.unpaid_total_sum : 0.00}`, '', 16));
+            ESC.text(ESC.Util.leftRight(`优惠金额：￥${param.total_discount_sum ? param.total_discount_sum : 0.00}`, '', 16));
+            ESC.printAndNewLine();
+            ESC.text(ESC.Util.leftRight('', '', 16));
+            ESC.text(ESC.Util.leftRight(`铺货总额：￥${param.distribution_sum ? param.distribution_sum : 0.00}`, '', 16));
             ESC.printAndNewLine();
             ESC.printAndNewLine();
             ESC.printAndNewLine();
@@ -390,9 +385,25 @@ export default class BleManagerPage extends React.Component {
         ESC.sound();
         ESC.init();
     }
+    /**
+"100003"
+dxyzm:""
+mobile_number:""
+mobilesequencenumber:"85fe1ff13ba552a4"
+org_pinyin:"KMDB"
+organization_id:"100002"
+organization_name:"昆明多邦"
+password:"123456"
+roles:""
+token:"LE55ozyx0hKe1k8"
+user_id:"100002"
+user_real_name:"张士军"
+username:"zhangshijun"     
+     */
 
     printCreatorBody(param) {
         let title = '多邦建材打印送货单'
+        debugger
         // 一定要配置好
         const Config = { wordNumber: 32 };
         ESC.setConfig(Config);
@@ -417,9 +428,9 @@ export default class BleManagerPage extends React.Component {
             ESC.printAndNewLine();
             ESC.text('电  话：' + param.contacts[0].mobile1);
             ESC.printAndNewLine();
-            ESC.text('送货人：');
+            ESC.text('送货人：' + LoginInfo.getUserInfo().user_real_name);
             ESC.printAndNewLine();
-            ESC.text('联系方式：');
+            ESC.text('联系方式：' + LoginInfo.getUserInfo().mobile_number);
             ESC.printAndNewLine();
             ESC.text('车牌号：' + param.selectCar.platenumber);
             ESC.printAndNewLine();
@@ -435,38 +446,32 @@ export default class BleManagerPage extends React.Component {
                 ESC.text(ESC.Util.leftRight('数量：' + item.sale_quantity, '', 20));
                 ESC.printAndNewLine();
                 ESC.alignRight();
-                ESC.text(`￥${item.price ? item.price : 0.00}`);
+                ESC.text(`￥${total.toFixed(2)}`);
                 ESC.printAndNewLine();
                 ESC.alignRight();
-                ESC.text('数量小计：' + item.sale_quantity);
+                ESC.text('数量小计：' + (item.sale_quantity + item.gifts_quantity));
                 ESC.printAndNewLine();
                 ESC.text(_.times(Config.wordNumber, () => '-').join(''));
                 ESC.printAndNewLine();
-                ESC.text(ESC.Util.leftRight('数量总计：' + item.sale_quantity + item.gifts_quantity, '', 2));
-                ESC.alignRight();
-                ESC.text('  ');
-                ESC.text(`总计金额：${total.toFixed(2)}`);
-                ESC.printAndNewLine();
-                ESC.text(ESC.Util.leftRight(`其中押金：${item.total_foregift ? item.total_foregift : 0.00}`, '', 0));
-                ESC.text('  ');
-                ESC.alignRight();
-                ESC.text(`本单实收：${item.total_sum ? item.total_sum : 0.00}`);
-                ESC.printAndNewLine();
-                ESC.alignRight();
-                ESC.text(`本单未收：${item.unpaid_total_sum ? item.unpaid_total_sum : 0.00}`);
-                ESC.printAndNewLine();
+
             })
             // 商品结束
             ESC.text(_.times(Config.wordNumber, () => '-').join(''));
             ESC.printAndNewLine();
             ESC.printAndNewLine();
             ESC.printAndNewLine();
-
-            ESC.text(ESC.Util.leftRight(`优惠金额：${param.discount_sum ? param.discount_sum : 0.00}`, '', 0));
-            ESC.text('  ');
-            ESC.alignRight();
-            ESC.text(`铺货总额：${param.distribution_sum ? param.distribution_sum : 0.00}`);
+            var total = param.total_sum ? param.total_sum : 0.00
+            ESC.text(ESC.Util.leftRight(`数量总计：${param.num}`, '', 16));
+            ESC.text(ESC.Util.leftRight(`总计金额：￥${total.toFixed(2)}`, '', 16));
             ESC.printAndNewLine();
+            ESC.text(ESC.Util.leftRight(`其中押金：￥${param.total_foregift ? param.total_foregift : 0.00}`, '', 16));
+            ESC.text(ESC.Util.leftRight(`本单实收：￥${param.paid_total_sum ? param.paid_total_sum : 0.00}`, '', 16));
+            ESC.printAndNewLine();
+            ESC.text(ESC.Util.leftRight(`本单未收：￥${param.unpaid_total_sum ? param.unpaid_total_sum : 0.00}`, '', 16));
+            ESC.text(ESC.Util.leftRight(`优惠金额：￥${param.total_discount_sum ? param.total_discount_sum : 0.00}`, '', 16));
+            ESC.printAndNewLine();
+            ESC.text(ESC.Util.leftRight('', '', 16));
+            ESC.text(ESC.Util.leftRight(`铺货总额：￥${param.distribution_sum ? param.distribution_sum : 0.00}`, '', 16));
             ESC.printAndNewLine();
             ESC.printAndNewLine();
             ESC.printAndNewLine();

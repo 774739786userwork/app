@@ -12,7 +12,7 @@ import {
     FlatList
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
-import { Iconfont, LoadingView, Toast,LoginInfo,FetchManger } from 'react-native-go';
+import { Iconfont, LoadingView, Toast, LoginInfo, FetchManger } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 import ImageView from '../../components/ImageView'
@@ -97,7 +97,7 @@ class DeliveryOrderDetailPage extends React.Component {
             this.setState({ modalVisible: true })
         } else if (index === 1) {
             let custParam = {}
-            custParam.address = params.address;
+            custParam.address = params.customer_address;
             custParam.contacts = [{ name: params.contact_name, mobile1: params.contact_mobile }]
             custParam.customersName = params.customer_name
             custParam.customersId = params.customer_id
@@ -113,17 +113,26 @@ class DeliveryOrderDetailPage extends React.Component {
             })
             navigation.dispatch(navigationAction)
         } else {
-            const { result } = this.props.deliveryOrderDetail;
+            const { deliveryOrderDetail } = this.props;
+            let sum = 0
+            if (deliveryOrderDetail.result && deliveryOrderDetail.result.productLists) {
+                deliveryOrderDetail.result.productLists.map((item) => {
+                    sum += item.sale_quantity + item.gifts_quantity
+                })
+            }
+            const { result } = deliveryOrderDetail;
             result.print = true
+            result.num = sum
             navigation.navigate('BleManager', { ...params, ...result })
         }
     }
     onConfirmPress(content) {
         const { params } = this.props.navigation.state;
+        const { navigation } = this.props;
         this.setState({ modalVisible: false, showSpinner: true })
         const token = LoginInfo.getUserInfo().token;
         let saveParams = {}
-        saveParams.deliverynote_id = params.delivery_id
+        saveParams.delivery_id = params.delivery_id
         saveParams.value_date = content
         saveParams.token = token
         FetchManger.postUri('/mobileServiceManager/deliveryNotes/toAbortInfo.page', saveParams).then((responseData) => {
@@ -155,6 +164,12 @@ class DeliveryOrderDetailPage extends React.Component {
     render() {
         const { params } = this.props.navigation.state;
         const { deliveryOrderDetail } = this.props;
+        let sum = 0
+        if (deliveryOrderDetail.result && deliveryOrderDetail.result.productLists) {
+            deliveryOrderDetail.result.productLists.map((item) => {
+                sum += item.sale_quantity + item.gifts_quantity
+            })
+        }
         return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
                 <View style={{ backgroundColor: '#118cd7', padding: 12 }}>
@@ -181,7 +196,7 @@ class DeliveryOrderDetailPage extends React.Component {
                                     renderRow={this._renderItem}
                                     renderFooter={() =>
                                         <View style={{ padding: 12, backgroundColor: '#fff9f9' }}>
-                                            <Text style={{ color: '#666' }}>{`总共${deliveryOrderDetail.result.total_sum}件商品,共计￥${deliveryOrderDetail.result.total_sum},其中押金￥${deliveryOrderDetail.result.total_foregift}`}</Text>
+                                            <Text style={{ color: '#666' }}>{`总共${sum}件商品,共计￥${params.total_sum},其中押金￥${deliveryOrderDetail.result.total_foregift}`}</Text>
                                             <View style={{ flexDirection: 'row', marginTop: 6 }}>
                                                 <Text style={{ color: '#666' }}>{`铺货总计/优惠总计/未收总计:`}</Text>
                                                 <Text style={{ color: '#f80000' }}>{`￥${params.distribution_sum}/￥${params.discount_sum}/￥${params.unpaid_total_sum}`}</Text>
@@ -204,18 +219,6 @@ class DeliveryOrderDetailPage extends React.Component {
                                         iconColor={'#fff'}
                                         iconSize={22}
                                         label={'作废本单'}
-                                        labelColor={'#fff'}
-                                    />
-                                </View>
-                            </TouchableHighlight>
-                            <View style={{ width: 12 }} />
-                            <TouchableHighlight style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} onPress={this._onItemPress.bind(this, 1)}>
-                                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: '#17c6c1', borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
-                                    <Iconfont
-                                        icon={'e6c5'} // 图标
-                                        iconColor={'#fff'}
-                                        iconSize={22}
-                                        label={'重新送货'}
                                         labelColor={'#fff'}
                                     />
                                 </View>

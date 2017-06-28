@@ -21,7 +21,9 @@ import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 import SearchBar from '../../components/SearchBar';
 import ImageView from '../../components/ImageView'
-
+import NavigationBar from '../../components/NavigationBar'
+import SelectContacts from 'react-native-select-contact-android'
+import * as ValidateUtils from '../../utils/ValidateUtils';
 
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 let coords = {};
@@ -35,6 +37,9 @@ class ListCustomersPage extends React.Component {
         this._renderItem = this._renderItem.bind(this);
         this._onItemPress = this._onItemPress.bind(this);
         this.onSearchAction = this.onSearchAction.bind(this);
+        this.state = {
+            defaultValue:''
+        }
     }
     componentDidMount() {
         const { action } = this.props;
@@ -48,7 +53,7 @@ class ListCustomersPage extends React.Component {
             }
         );
     }
-  
+
     onSearchAction(txt) {
         const { action } = this.props;
         InteractionManager.runAfterInteractions(() => {
@@ -158,16 +163,52 @@ class ListCustomersPage extends React.Component {
             Toast.show(listCustomers.errMsg);
         }
     }
+    headerRightPress = () => {
+        const { navigation } = this.props;
+        SelectContacts.pickContact({ timeout: 45000 }, (err, contact) => {
+            if (err) {
+                if (typeof err === 'object') {
+                    if (err.message == "user canceled") {
+                        console.log("user hit back button in contact picker");
+                    } else if (err.message == "timed out") {
+                        Toast.show("选择超时");
+                    } else if (err.message == "android version not supported") {
+                        Toast.show("当前版本不支持");
+                    }
+                }
+                // log out err object
+                console.log(err)
+            } else {
+                this.setState({defaultValue:contact.phoneNumbers[0].number + ''})
+                this.onSearchAction(contact.phoneNumbers[0].number + '');
+            }
+
+        })
+    }
+    renderRightView() {
+        return (
+            <View>
+                <Iconfont
+                    icon={'e6c3'} // 图标
+                    iconColor={'#fff'}
+                    iconSize={22}
+                />
+            </View>)
+    }
     render() {
         const { params } = this.props.navigation.state;
+        
         const { listCustomers } = this.props;
         return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
+                <NavigationBar  title={'客户选择'} navigator={this.props.navigation} rightView={this.renderRightView} onRightButtonPress={this.headerRightPress} />
                 <SearchBar
+                    defaultValue={this.state.defaultValue}
                     onSearchChange={(text) => {
-                        if (text && text.length > 0) {
-                            this.onSearchAction(text);
-                        }
+                        this.setState({defaultValue:''})
+                         if (ValidateUtils.checkMobile(text)) {
+                                this.onSearchAction(text);
+                         }
                     }}
                     height={30}
                     onFocus={() => console.log('On Focus')}
@@ -185,16 +226,18 @@ class ListCustomersPage extends React.Component {
                     {
                         listCustomers.loading ?
                             <LoadingView /> :
-                            (listCustomers.data.lenght == 0 ?
-                                <View style={{ alignItems: 'center', flex: 1, backgroundColor: '#fff', justifyContent: 'center' }}>
-                                    <Text> 无相关数据</Text>
-                                </View>
-                                :
+                            (listCustomers.data.length > 0 ?
                                 <ListView
                                     enableEmptySections={true}
                                     dataSource={dataSource.cloneWithRows(listCustomers.data)}
                                     renderRow={this._renderItem}
                                 />
+                                :
+                                <View style={{ alignItems: 'center', flex: 1, backgroundColor: '#fff', justifyContent: 'center' }}>
+                                    <Text> 无相关数据</Text>
+                                </View>
+
+
                             )
 
                     }

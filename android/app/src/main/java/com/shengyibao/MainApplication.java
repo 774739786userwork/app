@@ -10,6 +10,9 @@ import android.content.pm.PackageManager;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativecomponent.amap.RCTAMapPackage;
+import com.reactnativecomponent.amaplocation.RCTAMapLocationPackage;
+import com.rhaker.reactnativeselectcontacts.ReactNativeSelectContacts;
 import com.imagepicker.ImagePickerPackage;
 import com.gm.RCTGMBluetooth.RCTGMBluetoothPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
@@ -45,6 +48,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RCTAMapPackage(),
+            new RCTAMapLocationPackage(),
+            new ReactNativeSelectContacts(),
             new ImagePickerPackage(),
             new RCTGMBluetoothPackage(),
             new FastImageViewPackage(),

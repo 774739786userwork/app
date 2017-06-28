@@ -29,7 +29,13 @@ export function checkPhone(strPhone) {
         return true;
     }
 }
-
+export function checkMobile(strPhone) {
+    if (!(/^((\d{7,8})|(1[35784]\d{9}))$/.test(strPhone))) {
+        return false;
+    } else {
+        return true;
+    }
+}
 /**
 * 检查输入的字符是否具有特殊字符
 * 输入:str  字符串
