@@ -44,6 +44,7 @@ import CustContainer from './CustContainer';
 //新增客户
 import AddCustContainer from './cust/AddCustContainer'
 import DeliveryCustomersContainer from './cust/DeliveryCustomersContainer'
+import CustDetailContainer from './cust/CustDetailContainer'
 //设置
 import SettingContainer from './SettingContainer';
 //登录
@@ -173,6 +174,9 @@ const App = StackNavigator(
     },
     ScanManager: {
       screen: ScanManagerPage
+    },
+    CustDetail: {
+      screen: CustDetailContainer
     },
 
 

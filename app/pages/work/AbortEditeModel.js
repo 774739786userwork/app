@@ -12,7 +12,7 @@ import {
     TouchableHighlight
 } from 'react-native';
 
-import { Iconfont } from 'react-native-go';
+import { Iconfont,Toast } from 'react-native-go';
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
 export default class AbortEditeModel extends React.Component {
@@ -34,8 +34,13 @@ export default class AbortEditeModel extends React.Component {
 
 
     onConfirmPress() {
-        this.props.onConfirmPress && this.props.onConfirmPress(this.content)
-        this.setState({ modalVisible: false });
+        if (this.content && this.content.length > 0) {
+            this.props.onConfirmPress && this.props.onConfirmPress(this.content)
+            this.setState({ modalVisible: false });
+        }else{
+            Toast.show('原因不能为空')
+        }
+
     }
     onCancelPress() {
         this.props.onCancelPress && this.props.onCancelPress()

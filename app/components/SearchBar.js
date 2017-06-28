@@ -56,14 +56,21 @@ export default class SearchBar extends React.Component {
 
     constructor(props) {
         super(props);
+        this.theValue = ''
         this.state = {
             isOnFocus: false,
+            value: '',
         };
         this._onFocus = this._onFocus.bind(this);
         this._onBlur = this._onBlur.bind(this);
         this._onClose = this._onClose.bind(this);
         this._clearText = this._clearText.bind(this);
         this.onTextChangeFire = this.onTextChangeFire.bind(this);
+    }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.defaultValue && nextProps.defaultValue.length > 0) {
+            this.setState({ value: nextProps.defaultValue, isOnFocus: true })
+        }
     }
 
     _onClose() {
@@ -87,8 +94,8 @@ export default class SearchBar extends React.Component {
     }
 
     _clearText() {
-        this._textInput.setNativeProps({ text: '' });
         this.props.onSearchChange({ nativeEvent: { text: '' } });
+        this.setState({value:''})
     }
 
     _dismissKeyboard() {
@@ -110,6 +117,7 @@ export default class SearchBar extends React.Component {
         this.timer = setTimeout(() => {
             onSearchChange && onSearchChange(text);
         }, 500);
+        this.setState({ value: text, isOnFocus: true })
     }
 
     render() {
@@ -173,11 +181,11 @@ export default class SearchBar extends React.Component {
                     }
                     <TextInput
                         autoCorrect={autoCorrect === true}
-                        ref={(c) => (this._textInput = c)}
                         returnKeyType={returnKeyType}
                         onFocus={this._onFocus}
                         onBlur={this._onBlur}
                         onChangeText={this.onTextChangeFire}
+                        value={this.state.value}
                         placeholder={placeholder}
                         onEndEditing={() => {
                             console.log('onEndEditing');

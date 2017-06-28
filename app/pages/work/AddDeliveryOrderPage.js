@@ -166,6 +166,12 @@ class AddDeliveryOrderPage extends React.Component {
                 chooseList.push(newItem)
             }
         }
+        for (var i = 0; i < chooseList.length; i++) {
+            var tempItem = chooseList[i];
+            if (tempItem.sale_quantity === 0 && tempItem.gifts_quantity === 0) {
+                chooseList.splice(i, 1);
+            }
+        }
         this.setState({ modalVisible: false, modalPopVisible: false, chooseList });
     }
     onCancelPress() {
@@ -192,6 +198,7 @@ class AddDeliveryOrderPage extends React.Component {
             num += item.sale_quantity + item.gifts_quantity
             numberCarsh += item.price * item.sale_quantity
         })
+        numberCarsh = numberCarsh.toFixed(2)
         let list = addDeliveryOrder.result ? this.state.good_list : [];
         list = list ? list : []
         return (
