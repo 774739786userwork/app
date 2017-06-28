@@ -245,13 +245,13 @@ export function getCarstockProductListDisburden(id, count) {
  * @param {*产品ID} id 
  * @param {*卸货数量} count 
  */
-export function selectCar() {
+export function selectCar(loadingdate) {
     const token = LoginInfo.getUserInfo().token;
     const organization_id = LoginInfo.getUserInfo().organization_id;
     return {
         type: types.SelectCaring_ACTION,
         api: types.SelectCar_API,
-        param: { token, organization_id }
+        param: { token, organization_id,loadingdate }
     };
 
 }

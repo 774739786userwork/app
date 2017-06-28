@@ -41,40 +41,49 @@ class AddDeliveryOrderEndPage extends React.Component {
         const { params } = this.props.navigation.state;
         this.renderFooter = this.renderFooter.bind(this)
 
-        //铺货
+        //铺货总额
         this.distribution_sum = 0
-        let num = 0;
-        let numberCarsh = 0;
+        //总计数量
+        this.num = 0;
+        //总计销售金额
+        this.total_sum = 0;
 
         params.chooseList.map((item) => {
-            num += item.sale_quantity + item.gifts_quantity
-            numberCarsh += item.price * item.sale_quantity
+            this.num += item.sale_quantity + item.gifts_quantity
+            this.total_sum += item.price * item.sale_quantity
             if (item.isDistribution) {
-
                 this.distribution_sum += NumberUtils.FloatMul(item.price, item.sale_quantity)
             }
         })
-        var toChange = numberCarsh + '';
+        //铺货总额
+        this.distribution_sum = NumberUtils.fc(this.distribution_sum)
+        // //总计销售金额
+        this.total_sum = NumberUtils.fc(this.total_sum)
+
+        var toChange = total_sum + '';
         var b = toChange.split(".");
         if (b.length > 1) {
-            this.small_change_sum = parseFloat('0.' + b[1])
+            this.small_change_sum = '0.' + b[1]
         } else {
             this.small_change_sum = 0.0
         }
-        //总计销售金额
-        this.total_sum = 0;
+        //优惠金额
+        this.small_change_sum = NumberUtils.fc(this.small_change_sum)
         //押金
         this.foregift_sum = 0;
 
 
         this.num = num;
-        this.numberCarsh = numberCarsh;
+        this.paid_total_sum = this.total_sum - this.small_change_sum - this.distribution_sum
         this.state = {
             chooseList: params.chooseList,
             //实收金额
-            paid_total_sum: NumberUtils.FloatSub(numberCarsh, this.small_change_sum),
+            paid_total_sum: NumberUtils.fc(this.paid_total_sum),
+            //是否开启 抹零
             isOpenChange: true,
+            //优惠金额
             discount_sum: 0,
+            //备注
             remark: '',
             modalVisible: false,
             showSpinner: false
@@ -111,7 +120,6 @@ class AddDeliveryOrderEndPage extends React.Component {
         var date = new Date();
         let month = date.getMonth() + 1;
         var currentTime = date.getFullYear() + '-' + (month < 10 ? '0' + month : month) + '-' + date.getDate();
-
         let saveParams = {};
         saveParams.user_id = user_id;
         saveParams.organization_id = organization_id;
@@ -130,7 +138,7 @@ class AddDeliveryOrderEndPage extends React.Component {
         saveParams.ladingbill_id = params.ladingbill_id
         saveParams.ladingbill_serialnumber = params.ladingbill_serialnumber
 
-        saveParams.total_sum = this.numberCarsh;
+        saveParams.total_sum = this.total_sum;
         saveParams.paid_total_sum = this.state.paid_total_sum;
         saveParams.foregift_sum = this.foregift_sum;
         //抹零
@@ -138,12 +146,12 @@ class AddDeliveryOrderEndPage extends React.Component {
         //优惠金额
         saveParams.discount_sum = this.state.discount_sum
 
-        let unpaid_sum = this.state.isOpenChange ? this.numberCarsh - this.state.discount_sum - this.state.paid_total_sum - this.small_change_sum : this.numberCarsh - this.state.paid_total_sum
-        saveParams.unpaid_sum = Math.abs(unpaid_sum.toFixed(2)) 
+        let unpaid_sum = this.state.isOpenChange ? this.total_sum - this.state.discount_sum - this.state.paid_total_sum - this.small_change_sum : this.numberCarsh - this.state.paid_total_sum
+        saveParams.unpaid_sum = Math.abs(NumberUtils.fc(unpaid_sum))
         //铺货总额
         saveParams.distribution_sum = this.distribution_sum;
         saveParams.remark = this.state.remark;
-        
+
         let good_list = []
         this.state.chooseList.map((item) => {
             let gItem = {}
@@ -174,7 +182,6 @@ class AddDeliveryOrderEndPage extends React.Component {
         FetchManger.postUri('/mobileServiceManager/deliveryNotes/addDeliveryNotes.page', saveParams).then((responseData) => {
             this.setState({ showSpinner: false })
             if (responseData.status === '0' || responseData.status === 0) {
-
                 const navigationAction = NavigationActions.reset({
                     index: 1,
                     actions: [
@@ -261,15 +268,15 @@ class AddDeliveryOrderEndPage extends React.Component {
     //抹零开关
     _onChangePress() {
         if (!this.state.isOpenChange) {
-            this.setState({ paid_total_sum: NumberUtils.FloatSub(this.numberCarsh, this.small_change_sum) })
+            this.setState({ paid_total_sum: NumberUtils.FloatSub(this.total_sum, this.small_change_sum) })
         } else {
-            this.setState({ paid_total_sum: this.numberCarsh })
+            this.setState({ paid_total_sum: this.total_sum })
         }
         this.setState({ isOpenChange: !this.state.isOpenChange })
 
     }
     renderFooter() {
-        let total = this.state.isOpenChange ? NumberUtils.FloatSub(this.numberCarsh, this.small_change_sum) : this.numberCarsh
+        let total = this.state.isOpenChange ? NumberUtils.FloatSub(this.total_sum, this.small_change_sum) : this.total_sum
         return (
             <View style={{ padding: 12, backgroundColor: '#fff9f9' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -364,8 +371,8 @@ class AddDeliveryOrderEndPage extends React.Component {
                 <View style={{ width: WINDOW_WIDTH, height: 1, backgroundColor: '#c4c4c4' }} />
                 <View style={{ height: 50, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{ flex: 1 }} />
-                    <TouchableOpacity onPress={this.dosubmitAction} disabled={this.state.paid_total_sum +this.state.discount_sum > this.numberCarsh}>
-                        <View style={{ width: 160, height: 50, backgroundColor: this.state.paid_total_sum +this.state.discount_sum > this.numberCarsh  ? '#c4c4c4' : '#fe6732', justifyContent: 'center', alignItems: 'center' }}>
+                    <TouchableOpacity onPress={this.dosubmitAction} disabled={this.state.paid_total_sum + this.state.discount_sum > this.total_sum}>
+                        <View style={{ width: 160, height: 50, backgroundColor: this.state.paid_total_sum + this.state.discount_sum > this.total_sum ? '#c4c4c4' : '#fe6732', justifyContent: 'center', alignItems: 'center' }}>
                             <Text style={{ color: '#fff' }}>{`收款￥${this.state.paid_total_sum}`}</Text>
                         </View>
                     </TouchableOpacity>

@@ -12,6 +12,7 @@ import {
     Modal,
     TouchableHighlight
 } from 'react-native';
+import * as utils from './utils'
 import DatePicker from 'react-native-datepicker'
 import { Iconfont, LoadingView, Toast, LoginInfo } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
@@ -198,7 +199,7 @@ class AddDeliveryOrderPage extends React.Component {
             num += item.sale_quantity + item.gifts_quantity
             numberCarsh += item.price * item.sale_quantity
         })
-        numberCarsh = numberCarsh.toFixed(2)
+        numberCarsh = utils.fc(numberCarsh)
         let list = addDeliveryOrder.result ? this.state.good_list : [];
         list = list ? list : []
         return (

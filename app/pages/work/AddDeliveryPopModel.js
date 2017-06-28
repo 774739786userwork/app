@@ -12,6 +12,8 @@ import {
     Modal,
     TouchableHighlight
 } from 'react-native';
+
+import * as utils from './utils'
 import LoadingListView from '../../components/LoadingListView'
 import { Iconfont, LoadingView } from 'react-native-go';
 
@@ -73,6 +75,7 @@ export default class AddDeliveryPopModel extends React.Component {
             num += item.sale_quantity + item.gifts_quantity
             numberCarsh += item.price * item.sale_quantity
         })
+        numberCarsh = utils.fc(numberCarsh)
         let loading = true
         return (<Modal
             animationType={'slide'}

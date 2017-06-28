@@ -56,6 +56,7 @@ class AddLadingbillsPage extends React.Component {
     _onItemPress(item) {
         const { navigation } = this.props;
         navigation.navigate(item.target, {
+            loadingdate: valeMap.loadingbill_date[0],
             callback: (data) => {
                 item.data = data;
                 if (data.platenumber) {

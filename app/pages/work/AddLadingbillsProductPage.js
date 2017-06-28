@@ -14,7 +14,7 @@ import {
     ScrollView
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
-import { Iconfont, LoadingView, Toast } from 'react-native-go';
+import { Iconfont, LoadingView, Toast,LoginInfo } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 import SearchBar from '../../components/SearchBar';
@@ -151,7 +151,7 @@ class AddLadingbillsProductPage extends React.Component {
 
         let sbParam = {
             source_equipment: '1',
-            loadingbill_date: params.loadingbill_date[0],
+            loadingdate: params.loadingbill_date[0],
             car_number: params.car_id[0],
             car_id: params.car_id[1],
             store_house_id: params.storehouse_id[1],

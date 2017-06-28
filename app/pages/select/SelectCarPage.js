@@ -13,7 +13,7 @@ import {
     FlatList
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
-import { Iconfont, Toast,LoadingView } from 'react-native-go';
+import { Iconfont, Toast, LoadingView } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -24,12 +24,13 @@ class SelectCarPage extends React.Component {
         this._onItemPress = this._onItemPress.bind(this);
     }
     componentDidMount() {
+        const { loadingdate } = this.props.navigation.state.params
         const { action } = this.props;
         InteractionManager.runAfterInteractions(() => {
-            action.selectCar();
+            action.selectCar(loadingdate);
         });
     }
-     componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) {
         const { selectCar } = nextProps;
         if (selectCar.errMsg) {
             Toast.show(selectCar.errMsg);
@@ -37,8 +38,13 @@ class SelectCarPage extends React.Component {
     }
     _onItemPress(item) {
         const { navigation } = this.props;
-        navigation.state.params.callback(item);
-        navigation.goBack();
+        if (item.car_status === 0 || item.car_status === '0') {
+            Toast.show(item.car_msg);
+        } else {
+            navigation.state.params.callback(item);
+            navigation.goBack();
+        }
+
     }
     //carweight":"9000","platenumber":
     _renderItem = (item, index) => {
