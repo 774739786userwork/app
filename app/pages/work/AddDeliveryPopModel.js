@@ -61,7 +61,7 @@ export default class AddDeliveryPopModel extends React.Component {
                     </View>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
                         <Text style={{ color: '#666' }}>{'押金：'}</Text>
-                        <Text style={{ color: '#f80000' }}>{`0`}</Text>
+                        <Text style={{ color: '#f80000' }}>{`${ utils.fc(item.foregift*num)}`}</Text>
                     </View>
                 </View>
                 <View style={{ height: StyleSheet.hairlineWidth, marginTop: 12, flex: 1, backgroundColor: '#c4c4c4' }} />
@@ -73,7 +73,7 @@ export default class AddDeliveryPopModel extends React.Component {
         let numberCarsh = 0;
         chooseList.map((item) => {
             num += item.sale_quantity + item.gifts_quantity
-            numberCarsh += item.price * item.sale_quantity
+            numberCarsh += item.price * item.sale_quantity + item.foregift * item.sale_quantity + item.foregift * item.gifts_quantity
         })
         numberCarsh = utils.fc(numberCarsh)
         let loading = true

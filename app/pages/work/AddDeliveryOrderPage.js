@@ -15,9 +15,9 @@ import {
 import * as utils from './utils'
 import DatePicker from 'react-native-datepicker'
 import { Iconfont, LoadingView, Toast, LoginInfo } from 'react-native-go';
-import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 import ImageView from '../../components/ImageView'
+import * as NumberUtils from '../../utils/NumberUtils'
 
 import AddDeliveryEditeModel from './AddDeliveryEditeModel'
 import AddDeliveryPopModel from './AddDeliveryPopModel'
@@ -35,6 +35,11 @@ class AddDeliveryOrderPage extends React.Component {
         this._onItemPress = this._onItemPress.bind(this)
         this.onClear = this.onClear.bind(this)
         this.carbaseinfo_id = null;
+        //数量总计
+        this.num = 0;
+        //金额总计
+        this.numberCarsh = 0;
+
         this.state = {
             modalVisible: false,
             modalPopVisible: false,
@@ -152,7 +157,9 @@ class AddDeliveryOrderPage extends React.Component {
                 //产品赠送量
                 oldItem.gifts_quantity = newItem.gifts_quantity
                 //产品小计金额
-                oldItem.product_sum = newItem.product_sum
+                oldItem.product_sum = NumberUtils.fc(newItem.product_sum)
+                //单个产品的押金总额
+                oldItem.product_foregift_sum = NumberUtils.fc(newItem.product_foregift_sum)
                 //产品出售时单价
                 oldItem.price = newItem.price
                 //产品序列
@@ -188,18 +195,22 @@ class AddDeliveryOrderPage extends React.Component {
         params.chooseList = this.state.chooseList
         let selectCar = this.props.selectCar;
         params.selectCar = selectCar;
+
+        params.num = this.num
+        params.numberCarsh = this.numberCarsh
+
         navigate('AddDeliveryOrderEnd', { ...params, ...result });
     }
     render() {
         const { addDeliveryOrder } = this.props;
         let chooseList = this.state.chooseList;
-        let num = 0;
-        let numberCarsh = 0;
+        this.num = 0
+        this.numberCarsh = 0
         chooseList.map((item) => {
-            num += item.sale_quantity + item.gifts_quantity
-            numberCarsh += item.price * item.sale_quantity
+            this.num += item.sale_quantity + item.gifts_quantity
+            this.numberCarsh += item.price * item.sale_quantity + item.foregift * item.sale_quantity + item.foregift * item.gifts_quantity
         })
-        numberCarsh = utils.fc(numberCarsh)
+        this.numberCarsh = NumberUtils.fc(this.numberCarsh)
         let list = addDeliveryOrder.result ? this.state.good_list : [];
         list = list ? list : []
         return (
@@ -220,13 +231,13 @@ class AddDeliveryOrderPage extends React.Component {
                                 iconSize={30}
                             />
                             {
-                                num > 0 ?
-                                    <Text style={{ position: 'absolute', fontSize: 10, padding: 4, top: 6, right: 6, backgroundColor: '#fe6732', color: '#fff', borderRadius: 12 }}>{'' + num}</Text>
+                                this.num > 0 ?
+                                    <Text style={{ position: 'absolute', fontSize: 10, padding: 4, top: 6, right: 6, backgroundColor: '#fe6732', color: '#fff', borderRadius: 12 }}>{'' + this.num}</Text>
                                     : null
                             }
                         </View>
                     </TouchableHighlight>
-                    <Text style={{ color: '#f80000' }}>{'￥' + numberCarsh + '元'}</Text>
+                    <Text style={{ color: '#f80000' }}>{'￥' + this.numberCarsh + '元'}</Text>
                     <View style={{ flex: 1 }} />
                     {
                         this.state.chooseList.length > 0 ?

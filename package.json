@@ -10,6 +10,7 @@
     "react": "16.0.0-alpha.6",
     "react-native": "0.44.1",
     "react-native-camera": "^0.8.0",
+    "react-native-contact-picker": "github:doctadre/react-native-contact-picker",
     "react-native-datepicker": "^1.5.1",
     "react-native-device-info": "^0.10.2",
     "react-native-fast-image": "0.0.11",

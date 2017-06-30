@@ -19,6 +19,7 @@ import {
 import _ from 'underscore';
 import GMBluetooth from 'react-native-gm-bluetooth';
 const { ESC, TSC } = GMBluetooth;
+import * as NumberUtils from '../../utils/NumberUtils'
 
 import { Iconfont, LoginInfo, LineView, Toast, Spinner, FetchManger, LoadingView } from 'react-native-go';
 import dismissKeyboard from 'dismissKeyboard';
@@ -332,6 +333,7 @@ export default class BleManagerPage extends React.Component {
                 item.gifts_quantity = item.gifts_quantity ? item.gifts_quantity : 0
 
                 ESC.printAndNewLine();
+                ESC.alignLeft();
                 ESC.text(ESC.Util.leftRight('产品名称：' + item.product_name, '', 20));
                 ESC.printAndNewLine();
                 ESC.text(ESC.Util.leftRight('数量：' + item.sale_quantity, '', 20));
@@ -350,16 +352,15 @@ export default class BleManagerPage extends React.Component {
             ESC.text(_.times(Config.wordNumber, () => '-').join(''));
             ESC.printAndNewLine();
             ESC.printAndNewLine();
-            ESC.printAndNewLine();
-            var total = param.total_sum ? param.total_sum : 0.00
+            
             ESC.text(ESC.Util.leftRight(`数量总计：${param.num +''}`, '', 16));
-            ESC.text(ESC.Util.leftRight(`总计金额：￥${total.toFixed(2)}`, '', 16));
+            ESC.text(ESC.Util.leftRight(`总计金额：￥${param.total_sum ? param.total_sum : 0.00}`, '', 16));
             ESC.printAndNewLine();
-            ESC.text(ESC.Util.leftRight(`其中押金：￥${param.total_foregift ? param.total_foregift : 0.00}`, '', 16));
+            ESC.text(ESC.Util.leftRight(`其中押金：￥${param.foregift_sum ? param.foregift_sum : 0.00}`, '', 16));
             ESC.text(ESC.Util.leftRight(`本单实收：￥${param.paid_total_sum ? param.paid_total_sum : 0.00}`, '', 16));
             ESC.printAndNewLine();
             ESC.text(ESC.Util.leftRight(`本单未收：￥${param.unpaid_total_sum ? param.unpaid_total_sum : 0.00}`, '', 16));
-            ESC.text(ESC.Util.leftRight(`优惠金额：￥${param.total_discount_sum ? param.total_discount_sum : 0.00}`, '', 16));
+            ESC.text(ESC.Util.leftRight(`优惠金额：￥${param.discount_sum ? param.discount_sum : 0.00}`, '', 16));
             ESC.printAndNewLine();
             ESC.text(ESC.Util.leftRight('', '', 16));
             ESC.text(ESC.Util.leftRight(`铺货总额：￥${param.distribution_sum ? param.distribution_sum : 0.00}`, '', 16));
@@ -441,28 +442,25 @@ username:"zhangshijun"
                 item.gifts_quantity = item.gifts_quantity ? item.gifts_quantity : 0
                 let total = item.sale_quantity * item.price
                 ESC.printAndNewLine();
+                ESC.alignLeft();
                 ESC.text(ESC.Util.leftRight('产品名称：' + item.name, '', 20));
                 ESC.printAndNewLine();
                 ESC.text(ESC.Util.leftRight('数量：' + item.sale_quantity, '', 20));
                 ESC.printAndNewLine();
                 ESC.alignRight();
-                ESC.text(`￥${total.toFixed(2)}`);
+                ESC.text(`￥${NumberUtils.fc(total)}`);
                 ESC.printAndNewLine();
                 ESC.alignRight();
                 ESC.text('数量小计：' + (item.sale_quantity + item.gifts_quantity));
                 ESC.printAndNewLine();
-                ESC.text(_.times(Config.wordNumber, () => '-').join(''));
-                ESC.printAndNewLine();
-
             })
             // 商品结束
             ESC.text(_.times(Config.wordNumber, () => '-').join(''));
             ESC.printAndNewLine();
             ESC.printAndNewLine();
-            ESC.printAndNewLine();
             var total = param.total_sum ? param.total_sum : 0.00
             ESC.text(ESC.Util.leftRight(`数量总计：${param.num}`, '', 16));
-            ESC.text(ESC.Util.leftRight(`总计金额：￥${total.toFixed(2)}`, '', 16));
+            ESC.text(ESC.Util.leftRight(`总计金额：￥${NumberUtils.fc(total)}`, '', 16));
             ESC.printAndNewLine();
             ESC.text(ESC.Util.leftRight(`其中押金：￥${param.total_foregift ? param.total_foregift : 0.00}`, '', 16));
             ESC.text(ESC.Util.leftRight(`本单实收：￥${param.paid_total_sum ? param.paid_total_sum : 0.00}`, '', 16));

@@ -38,11 +38,11 @@ class SelectCarPage extends React.Component {
     }
     _onItemPress(item) {
         const { navigation } = this.props;
-        if (item.car_status === 0 || item.car_status === '0') {
-            Toast.show(item.car_msg);
-        } else {
+        if (item.status === 0 || item.status === '0') {
             navigation.state.params.callback(item);
             navigation.goBack();
+        } else {
+            Toast.show(item.msg);
         }
 
     }

@@ -13,7 +13,8 @@ import {
     FlatList,
     Alert,
     Linking,
-    TouchableOpacity
+    TouchableOpacity,
+    NativeModules
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
 import { Iconfont, LoadingView, Toast } from 'react-native-go';
@@ -24,6 +25,8 @@ import ImageView from '../../components/ImageView'
 import NavigationBar from '../../components/NavigationBar'
 import SelectContacts from 'react-native-select-contact-android'
 import * as ValidateUtils from '../../utils/ValidateUtils';
+var ContactPicker  =   NativeModules.ContactPicker;
+
 
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 let coords = {};
@@ -38,7 +41,7 @@ class ListCustomersPage extends React.Component {
         this._onItemPress = this._onItemPress.bind(this);
         this.onSearchAction = this.onSearchAction.bind(this);
         this.state = {
-            defaultValue:''
+            defaultValue: ''
         }
     }
     componentDidMount() {
@@ -64,7 +67,6 @@ class ListCustomersPage extends React.Component {
     }
     _onItemPress(item) {
         const { navigation } = this.props;
-        debugger
         navigation.navigate('AddDeliveryOrder', { ...item })
 
     }
@@ -165,6 +167,16 @@ class ListCustomersPage extends React.Component {
     }
     headerRightPress = () => {
         const { navigation } = this.props;
+        ContactPicker.pickContact().then((contact) => {
+            if (contact && contact.id) {
+              //  Toast.show(contact.phoneNumbers[0].number+"");
+                this.setState({ defaultValue: contact.phoneNumbers[0].number + '' })
+                this.onSearchAction(contact.phoneNumbers[0].number + '');
+            } else {
+                // either user hit cancel or the person they picked has no emails
+            }
+        });
+        /*
         SelectContacts.pickContact({ timeout: 45000 }, (err, contact) => {
             if (err) {
                 if (typeof err === 'object') {
@@ -179,11 +191,11 @@ class ListCustomersPage extends React.Component {
                 // log out err object
                 console.log(err)
             } else {
-                this.setState({defaultValue:contact.phoneNumbers[0].number + ''})
+                this.setState({ defaultValue: contact.phoneNumbers[0].number + '' })
                 this.onSearchAction(contact.phoneNumbers[0].number + '');
             }
 
-        })
+        })*/
     }
     renderRightView() {
         return (
@@ -197,18 +209,18 @@ class ListCustomersPage extends React.Component {
     }
     render() {
         const { params } = this.props.navigation.state;
-        
+
         const { listCustomers } = this.props;
         return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
-                <NavigationBar  title={'客户选择'} navigator={this.props.navigation} rightView={this.renderRightView} onRightButtonPress={this.headerRightPress} />
+                <NavigationBar title={'客户选择'} navigator={this.props.navigation} rightView={this.renderRightView} onRightButtonPress={this.headerRightPress} />
                 <SearchBar
                     defaultValue={this.state.defaultValue}
                     onSearchChange={(text) => {
-                        this.setState({defaultValue:''})
-                         if (ValidateUtils.checkMobile(text)) {
-                                this.onSearchAction(text);
-                         }
+                        this.setState({ defaultValue: '' })
+                        if (ValidateUtils.checkMobile(text)) {
+                            this.onSearchAction(text);
+                        }
                     }}
                     height={30}
                     onFocus={() => console.log('On Focus')}

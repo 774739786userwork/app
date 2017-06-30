@@ -151,6 +151,7 @@ dependencies {
     compile project(':react-native-select-contact-android')
     compile project(':react-native-smart-amap')
     compile project(':react-native-smart-amap-location')
+    compile project(':react-native-contact-picker')
 }
 
 // Run this once to be able to run the application with BUCK

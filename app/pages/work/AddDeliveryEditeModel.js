@@ -60,12 +60,15 @@ export default class AddDeliveryEditeModel extends React.Component {
 
     onConfirmPress() {
         let item = this.props.item;
+        let foregift = item.foregift ? item.foregift : 0
         //产品销售量
         item.sale_quantity = this.state.sale_quantity
         //产品赠送量
         item.gifts_quantity = this.state.gifts_quantity
         //产品出售时单价
-        item.price = parseFloat(this.state.price).toFixed(2)
+        item.price = this.state.price
+        item.product_foregift_sum = foregift *(this.state.sale_quantity + this.state.sale_quantity)
+        item.product_sum = this.state.price *  this.state.sale_quantity + foregift *(this.state.sale_quantity + this.state.sale_quantity)
         item.isDistribution = this.state.isDistribution
         if (this.state.isDistribution) {
             item.gifts_quantity = 0
@@ -147,7 +150,7 @@ export default class AddDeliveryEditeModel extends React.Component {
                             </View>
                             <View style={{ marginTop: 8, height: 34, flexDirection: 'row', alignItems: 'center' }}>
                                 <Text style={{ width: 40, textAlign: 'right', }}>押金:</Text>
-                                <Text style={{ marginLeft: 8, flex: 3, }}>{`0`}</Text>
+                                <Text style={{ marginLeft: 8, flex: 3, }}>{`￥${item.foregift}`}</Text>
                             </View>
                             <View style={{ height: 34, marginTop: 8, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                                 <Text style={{ width: 40, textAlign: 'right', }}>销量:</Text>
