@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -12,6 +13,7 @@
 		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* shengyibaoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* shengyibaoTests.m */; };
+		07EFC549F0C542D1822D55E4 /* libRCTAMap.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CCEF3BC9FCA04DD3840AC6BF /* libRCTAMap.a */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
@@ -33,15 +35,26 @@
 		2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E991DF850E9000B6D8A /* libRCTWebSocket-tvOS.a */; };
 		2D02E4C91E0B4AEC006451C7 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* shengyibaoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* shengyibaoTests.m */; };
+		38C36DF0A5F841098857C2FC /* libRCTAMapLocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 671F1E3E358345DDA9C6C0F7 /* libRCTAMapLocation.a */; };
 		3FD042CE43A2459C970FBFAE /* libRCTBluetoothSerial.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0C0EF3BBB444963A58BFF30 /* libRCTBluetoothSerial.a */; };
 		4BF681F19DEF4F4DA1BFA3E3 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EED6499DEE8B4CBFA097396D /* libRNDeviceInfo.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8D881E97B7324FF2BC767874 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C30948088AF942FC805CAA63 /* libRCTCamera.a */; };
+		9D9754DD1F07955B005046A7 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D9754DC1F07955B005046A7 /* libstdc++.6.0.9.tbd */; };
+		9D9754DF1F079570005046A7 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D9754DE1F079570005046A7 /* libc++.tbd */; };
+		9D9754E11F07957A005046A7 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D9754E01F07957A005046A7 /* libz.tbd */; };
+		9D9754E31F079583005046A7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D9754E21F079583005046A7 /* Security.framework */; };
+		9D9754E51F07958E005046A7 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D9754E41F07958E005046A7 /* CoreTelephony.framework */; };
+		9D9754E71F079598005046A7 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D9754E61F079598005046A7 /* JavaScriptCore.framework */; };
+		9D9754F61F079999005046A7 /* AMapFoundationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D9754F31F079999005046A7 /* AMapFoundationKit.framework */; };
+		9D9754F71F079999005046A7 /* AMapSearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D9754F41F079999005046A7 /* AMapSearchKit.framework */; };
+		9D9754F81F079999005046A7 /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D9754F51F079999005046A7 /* MAMapKit.framework */; };
+		9D9754FD1F0799A9005046A7 /* gpsStat1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D9754FA1F0799A9005046A7 /* gpsStat1@2x.png */; };
+		9D9754FE1F0799A9005046A7 /* icon_location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D9754FB1F0799A9005046A7 /* icon_location@2x.png */; };
+		9D9754FF1F0799A9005046A7 /* icon_location@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D9754FC1F0799A9005046A7 /* icon_location@3x.png */; };
 		9DB84A6B1ECA0D8C0071C581 /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9DB84A6A1ECA0D8C0071C581 /* iconfont.ttf */; };
 		DEBF345DA8D442C4B83FA5CA /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45123F1677C84BA99C41B632 /* libRNImagePicker.a */; };
-		91A438D1234C4EEBA44C5CDF /* libRCTAMapLocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 129E86A38FC44EC2AC8E7D05 /* libRCTAMapLocation.a */; };
-		4E50080380064C0B82C4B034 /* libRCTAMap.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2476B861A588458ABC820EE9 /* libRCTAMap.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -241,6 +254,20 @@
 			remoteGlobalIDString = 4107012F1ACB723B00C6AA39;
 			remoteInfo = RCTCamera;
 		};
+		9D9755041F079A66005046A7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D9755001F079A66005046A7 /* RCTAMap.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9F12EBC61DD30C6600029EAF;
+			remoteInfo = RCTAMap;
+		};
+		9D97550A1F079A74005046A7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D9755061F079A73005046A7 /* RCTAMapLocation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9F042C311DD56193001BA3C4;
+			remoteInfo = RCTAMapLocation;
+		};
 		9DF5BECE1EFB3DF900FFE6FD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 628648E762F54C75B41D0982 /* FastImage.xcodeproj */;
@@ -297,19 +324,31 @@
 		4A678E82521441339FC350D6 /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		628648E762F54C75B41D0982 /* FastImage.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = FastImage.xcodeproj; path = "../node_modules/react-native-fast-image/ios/FastImage.xcodeproj"; sourceTree = "<group>"; };
+		671F1E3E358345DDA9C6C0F7 /* libRCTAMapLocation.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTAMapLocation.a; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7D24E30BF63B4288A7B2009D /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		9D9754DC1F07955B005046A7 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
+		9D9754DE1F079570005046A7 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		9D9754E01F07957A005046A7 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		9D9754E21F079583005046A7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		9D9754E41F07958E005046A7 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		9D9754E61F079598005046A7 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		9D9754F31F079999005046A7 /* AMapFoundationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapFoundationKit.framework; sourceTree = "<group>"; };
+		9D9754F41F079999005046A7 /* AMapSearchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapSearchKit.framework; sourceTree = "<group>"; };
+		9D9754F51F079999005046A7 /* MAMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MAMapKit.framework; sourceTree = "<group>"; };
+		9D9754FA1F0799A9005046A7 /* gpsStat1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gpsStat1@2x.png"; sourceTree = "<group>"; };
+		9D9754FB1F0799A9005046A7 /* icon_location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_location@2x.png"; sourceTree = "<group>"; };
+		9D9754FC1F0799A9005046A7 /* icon_location@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_location@3x.png"; sourceTree = "<group>"; };
+		9D9755001F079A66005046A7 /* RCTAMap.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAMap.xcodeproj; path = "../node_modules/react-native-smart-amap/ios/RCTAMap/RCTAMap.xcodeproj"; sourceTree = "<group>"; };
+		9D9755061F079A73005046A7 /* RCTAMapLocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAMapLocation.xcodeproj; path = "../node_modules/react-native-smart-amap-location/ios/RCTAMapLocation/RCTAMapLocation.xcodeproj"; sourceTree = "<group>"; };
 		9DB84A6A1ECA0D8C0071C581 /* iconfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = iconfont.ttf; path = shengyibao/iconfont.ttf; sourceTree = "<group>"; };
 		9E71D09699194EC0A4BE3A92 /* RCTBluetoothSerial.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTBluetoothSerial.xcodeproj; path = "../node_modules/react-native-gm-bluetooth/ios/RCTBluetoothSerial.xcodeproj"; sourceTree = "<group>"; };
 		C30948088AF942FC805CAA63 /* libRCTCamera.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTCamera.a; sourceTree = "<group>"; };
+		CCEF3BC9FCA04DD3840AC6BF /* libRCTAMap.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTAMap.a; sourceTree = "<group>"; };
 		E0C0EF3BBB444963A58BFF30 /* libRCTBluetoothSerial.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTBluetoothSerial.a; sourceTree = "<group>"; };
 		ECE291A103AC4A6083C6AAF1 /* libFastImage.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libFastImage.a; sourceTree = "<group>"; };
 		EED6499DEE8B4CBFA097396D /* libRNDeviceInfo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNDeviceInfo.a; sourceTree = "<group>"; };
-		9F3FE24BCF43479998096346 /* RCTAMapLocation.xcodeproj */ = {isa = PBXFileReference; name = "RCTAMapLocation.xcodeproj"; path = "../node_modules/react-native-smart-amap-location/ios/RCTAMapLocation/RCTAMapLocation.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		129E86A38FC44EC2AC8E7D05 /* libRCTAMapLocation.a */ = {isa = PBXFileReference; name = "libRCTAMapLocation.a"; path = "libRCTAMapLocation.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
-		2E1CE2CD3283422E9032B870 /* RCTAMap.xcodeproj */ = {isa = PBXFileReference; name = "RCTAMap.xcodeproj"; path = "../node_modules/react-native-smart-amap/ios/RCTAMap/RCTAMap.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		2476B861A588458ABC820EE9 /* libRCTAMap.a */ = {isa = PBXFileReference; name = "libRCTAMap.a"; path = "libRCTAMap.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -325,12 +364,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D9754E71F079598005046A7 /* JavaScriptCore.framework in Frameworks */,
+				9D9754E51F07958E005046A7 /* CoreTelephony.framework in Frameworks */,
+				9D9754E31F079583005046A7 /* Security.framework in Frameworks */,
+				9D9754E11F07957A005046A7 /* libz.tbd in Frameworks */,
+				9D9754DF1F079570005046A7 /* libc++.tbd in Frameworks */,
+				9D9754DD1F07955B005046A7 /* libstdc++.6.0.9.tbd in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
+				9D9754F81F079999005046A7 /* MAMapKit.framework in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
@@ -339,10 +385,12 @@
 				8D881E97B7324FF2BC767874 /* libRCTCamera.a in Frameworks */,
 				4BF681F19DEF4F4DA1BFA3E3 /* libRNDeviceInfo.a in Frameworks */,
 				DEBF345DA8D442C4B83FA5CA /* libRNImagePicker.a in Frameworks */,
+				9D9754F71F079999005046A7 /* AMapSearchKit.framework in Frameworks */,
 				198184B18A68402FA6328EA8 /* libFastImage.a in Frameworks */,
 				3FD042CE43A2459C970FBFAE /* libRCTBluetoothSerial.a in Frameworks */,
-				91A438D1234C4EEBA44C5CDF /* libRCTAMapLocation.a in Frameworks */,
-				4E50080380064C0B82C4B034 /* libRCTAMap.a in Frameworks */,
+				38C36DF0A5F841098857C2FC /* libRCTAMapLocation.a in Frameworks */,
+				07EFC549F0C542D1822D55E4 /* libRCTAMap.a in Frameworks */,
+				9D9754F61F079999005046A7 /* AMapFoundationKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -458,6 +506,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				9DB84A6A1ECA0D8C0071C581 /* iconfont.ttf */,
+				9D9754F91F0799A9005046A7 /* AMapResources */,
 			);
 			name = shengyibao;
 			sourceTree = "<group>";
@@ -498,6 +547,8 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				9D9755061F079A73005046A7 /* RCTAMapLocation.xcodeproj */,
+				9D9755001F079A66005046A7 /* RCTAMap.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -514,8 +565,6 @@
 				7D24E30BF63B4288A7B2009D /* RNImagePicker.xcodeproj */,
 				628648E762F54C75B41D0982 /* FastImage.xcodeproj */,
 				9E71D09699194EC0A4BE3A92 /* RCTBluetoothSerial.xcodeproj */,
-				9F3FE24BCF43479998096346 /* RCTAMapLocation.xcodeproj */,
-				2E1CE2CD3283422E9032B870 /* RCTAMap.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -536,6 +585,7 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* shengyibaoTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
+				9D9754DB1F07955B005046A7 /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -556,6 +606,48 @@
 			isa = PBXGroup;
 			children = (
 				9D3BDAED1ED1EFFC00362456 /* libRCTCamera.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9D9754DB1F07955B005046A7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9D9754F31F079999005046A7 /* AMapFoundationKit.framework */,
+				9D9754F41F079999005046A7 /* AMapSearchKit.framework */,
+				9D9754F51F079999005046A7 /* MAMapKit.framework */,
+				9D9754E61F079598005046A7 /* JavaScriptCore.framework */,
+				9D9754E41F07958E005046A7 /* CoreTelephony.framework */,
+				9D9754E21F079583005046A7 /* Security.framework */,
+				9D9754E01F07957A005046A7 /* libz.tbd */,
+				9D9754DE1F079570005046A7 /* libc++.tbd */,
+				9D9754DC1F07955B005046A7 /* libstdc++.6.0.9.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9D9754F91F0799A9005046A7 /* AMapResources */ = {
+			isa = PBXGroup;
+			children = (
+				9D9754FA1F0799A9005046A7 /* gpsStat1@2x.png */,
+				9D9754FB1F0799A9005046A7 /* icon_location@2x.png */,
+				9D9754FC1F0799A9005046A7 /* icon_location@3x.png */,
+			);
+			path = AMapResources;
+			sourceTree = "<group>";
+		};
+		9D9755011F079A66005046A7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9D9755051F079A66005046A7 /* libRCTAMap.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9D9755071F079A73005046A7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9D97550B1F079A74005046A7 /* libRCTAMapLocation.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -710,6 +802,14 @@
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
 					ProjectRef = 00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */;
+				},
+				{
+					ProductGroup = 9D9755011F079A66005046A7 /* Products */;
+					ProjectRef = 9D9755001F079A66005046A7 /* RCTAMap.xcodeproj */;
+				},
+				{
+					ProductGroup = 9D9755071F079A73005046A7 /* Products */;
+					ProjectRef = 9D9755061F079A73005046A7 /* RCTAMapLocation.xcodeproj */;
 				},
 				{
 					ProductGroup = 5E91572E1DD0AC6500FF2AA8 /* Products */;
@@ -961,6 +1061,20 @@
 			remoteRef = 9D3BDAEC1ED1EFFC00362456 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		9D9755051F079A66005046A7 /* libRCTAMap.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTAMap.a;
+			remoteRef = 9D9755041F079A66005046A7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9D97550B1F079A74005046A7 /* libRCTAMapLocation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTAMapLocation.a;
+			remoteRef = 9D97550A1F079A74005046A7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		9DF5BECF1EFB3DF900FFE6FD /* libFastImage.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1003,7 +1117,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D9754FD1F0799A9005046A7 /* gpsStat1@2x.png in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				9D9754FF1F0799A9005046A7 /* icon_location@3x.png in Resources */,
+				9D9754FE1F0799A9005046A7 /* icon_location@2x.png in Resources */,
 				9DB84A6B1ECA0D8C0071C581 /* iconfont.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1124,14 +1241,18 @@
 					"$(SRCROOT)/../node_modules/react-native-bluetooth-serial/ios/RCTBluetoothSerial",
 					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
 					"$(SRCROOT)/../node_modules/react-native-gm-bluetooth/ios/RCTBluetoothSerial",
-					"$(SRCROOT)\..\node_modules\react-native-smart-amap-location\ios\RCTAMapLocation\RCTAMapLocation/**",
-					"$(SRCROOT)\..\node_modules\react-native-smart-amap\ios\RCTAMap\RCTAMap/**",
+					"$(SRCROOT)..\node_modules\neact-native-smart-amap-locationiosRCTAMapLocationRCTAMapLocation/**",
+					"$(SRCROOT)..\node_modules\neact-native-smart-amapiosRCTAMapRCTAMap/**",
+					"$(SRCROOT)/../node_modules/react-native-smart-amap-location/ios/RCTAMapLocation/RCTAMapLocation/**",
+					"$(SRCROOT)/../node_modules/react-native-smart-amap/ios/RCTAMap/RCTAMap/**",
 				);
 				INFOPLIST_FILE = shengyibaoTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1165,14 +1286,18 @@
 					"$(SRCROOT)/../node_modules/react-native-bluetooth-serial/ios/RCTBluetoothSerial",
 					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
 					"$(SRCROOT)/../node_modules/react-native-gm-bluetooth/ios/RCTBluetoothSerial",
-					"$(SRCROOT)\..\node_modules\react-native-smart-amap-location\ios\RCTAMapLocation\RCTAMapLocation/**",
-					"$(SRCROOT)\..\node_modules\react-native-smart-amap\ios\RCTAMap\RCTAMap/**",
+					"$(SRCROOT)..\node_modules\neact-native-smart-amap-locationiosRCTAMapLocationRCTAMapLocation/**",
+					"$(SRCROOT)..\node_modules\neact-native-smart-amapiosRCTAMapRCTAMap/**",
+					"$(SRCROOT)/../node_modules/react-native-smart-amap-location/ios/RCTAMapLocation/RCTAMapLocation/**",
+					"$(SRCROOT)/../node_modules/react-native-smart-amap/ios/RCTAMap/RCTAMap/**",
 				);
 				INFOPLIST_FILE = shengyibaoTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1199,6 +1324,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Frameworks",
+					"$(PROJECT_DIR)",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios",
@@ -1206,8 +1335,9 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
 					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
 					"$(SRCROOT)/../node_modules/react-native-gm-bluetooth/ios/RCTBluetoothSerial",
-					"$(SRCROOT)\..\node_modules\react-native-smart-amap-location\ios\RCTAMapLocation\RCTAMapLocation/**",
-					"$(SRCROOT)\..\node_modules\react-native-smart-amap\ios\RCTAMap\RCTAMap/**",
+					"$(SRCROOT)..",
+					"$(SRCROOT)/../node_modules/react-native-smart-amap-location/ios/RCTAMapLocation/RCTAMapLocation/**",
+					"$(SRCROOT)/../node_modules/react-native-smart-amap/ios/RCTAMap/RCTAMap/**",
 				);
 				INFOPLIST_FILE = shengyibao/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1227,6 +1357,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Frameworks",
+					"$(PROJECT_DIR)",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios",
@@ -1234,8 +1368,9 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
 					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
 					"$(SRCROOT)/../node_modules/react-native-gm-bluetooth/ios/RCTBluetoothSerial",
-					"$(SRCROOT)\..\node_modules\react-native-smart-amap-location\ios\RCTAMapLocation\RCTAMapLocation/**",
-					"$(SRCROOT)\..\node_modules\react-native-smart-amap\ios\RCTAMap\RCTAMap/**",
+					"$(SRCROOT)..",
+					"$(SRCROOT)/../node_modules/react-native-smart-amap-location/ios/RCTAMapLocation/RCTAMapLocation/**",
+					"$(SRCROOT)/../node_modules/react-native-smart-amap/ios/RCTAMap/RCTAMap/**",
 				);
 				INFOPLIST_FILE = shengyibao/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1270,13 +1405,17 @@
 					"$(SRCROOT)/../node_modules/react-native-bluetooth-serial/ios/RCTBluetoothSerial",
 					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
 					"$(SRCROOT)/../node_modules/react-native-gm-bluetooth/ios/RCTBluetoothSerial",
-					"$(SRCROOT)\..\node_modules\react-native-smart-amap-location\ios\RCTAMapLocation\RCTAMapLocation/**",
-					"$(SRCROOT)\..\node_modules\react-native-smart-amap\ios\RCTAMap\RCTAMap/**",
+					"$(SRCROOT)..\node_modules\neact-native-smart-amap-locationiosRCTAMapLocationRCTAMapLocation/**",
+					"$(SRCROOT)..\node_modules\neact-native-smart-amapiosRCTAMapRCTAMap/**",
+					"$(SRCROOT)/../node_modules/react-native-smart-amap-location/ios/RCTAMapLocation/RCTAMapLocation/**",
+					"$(SRCROOT)/../node_modules/react-native-smart-amap/ios/RCTAMap/RCTAMap/**",
 				);
 				INFOPLIST_FILE = "shengyibao-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1320,13 +1459,17 @@
 					"$(SRCROOT)/../node_modules/react-native-bluetooth-serial/ios/RCTBluetoothSerial",
 					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
 					"$(SRCROOT)/../node_modules/react-native-gm-bluetooth/ios/RCTBluetoothSerial",
-					"$(SRCROOT)\..\node_modules\react-native-smart-amap-location\ios\RCTAMapLocation\RCTAMapLocation/**",
-					"$(SRCROOT)\..\node_modules\react-native-smart-amap\ios\RCTAMap\RCTAMap/**",
+					"$(SRCROOT)..\node_modules\neact-native-smart-amap-locationiosRCTAMapLocationRCTAMapLocation/**",
+					"$(SRCROOT)..\node_modules\neact-native-smart-amapiosRCTAMapRCTAMap/**",
+					"$(SRCROOT)/../node_modules/react-native-smart-amap-location/ios/RCTAMapLocation/RCTAMapLocation/**",
+					"$(SRCROOT)/../node_modules/react-native-smart-amap/ios/RCTAMap/RCTAMap/**",
 				);
 				INFOPLIST_FILE = "shengyibao-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1373,6 +1516,8 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.shengyibao-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1397,6 +1542,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",

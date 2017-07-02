@@ -48,12 +48,12 @@ export function appUserlandDX(username, password, dxyzm) {
 //客户列表查询
 export function listCustomers(lat, lng, contactMobile) {
     const orgId = LoginInfo.getUserInfo().organization_id;//LoginInfo.getUserInfo().user_id;
-     const user_id = LoginInfo.getUserInfo().user_id;//LoginInfo.getUserInfo().user_id;
+    const user_id = LoginInfo.getUserInfo().user_id;//LoginInfo.getUserInfo().user_id;
     const token = LoginInfo.getUserInfo().token;
-    let param = {  token, orgId,user_id };
+    let param = { token, orgId, user_id };
     if (contactMobile) {
         param.contactMobile = contactMobile;
-    }else{
+    } else {
         param.lat = lat;
         param.lng = lng
     }
@@ -81,13 +81,13 @@ export function addDeliveryOrder(car_id, start = 0, rows = 10) {
         return {
             type: types.AddDeliveryOrdering_More_ACTION,
             api: types.AddDeliveryOrder_API,
-            param: { user_id,token,org_id, car_id }
+            param: { user_id, token, org_id, car_id }
         };
     } else {
         return {
             type: types.AddDeliveryOrdering_ACTION,
             api: types.AddDeliveryOrder_API,
-            param: { user_id,token,org_id, car_id }
+            param: { user_id, token, org_id, car_id }
         };
     }
 
@@ -247,11 +247,12 @@ export function getCarstockProductListDisburden(id, count) {
  */
 export function selectCar(loadingdate) {
     const token = LoginInfo.getUserInfo().token;
+    const user_id = LoginInfo.getUserInfo().user_id;
     const organization_id = LoginInfo.getUserInfo().organization_id;
     return {
         type: types.SelectCaring_ACTION,
         api: types.SelectCar_API,
-        param: { token, organization_id,loadingdate }
+        param: { token, organization_id, user_id,loadingdate }
     };
 
 }
@@ -351,7 +352,7 @@ export function saveLadingbillsProduct(param) {
     const organization_id = LoginInfo.getUserInfo().organization_id;
     const org_pinyin = LoginInfo.getUserInfo().org_pinyin;
 
-    let saveParam = { ...param, token, organization_id,org_pinyin, user_id };
+    let saveParam = { ...param, token, organization_id, org_pinyin, user_id };
     return {
         type: types.SaveLadingbillsProducting_ACTION,
         api: types.SaveLadingbillsProduct_API,

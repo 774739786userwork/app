@@ -36,7 +36,7 @@ class CustDetailContainer extends Component {
         AMapLocation.init(null)
         AMapLocation.getLocation()
         this.addAppEventListener(
-            NativeAppEventEmitter.addListener('amap.location.onLocationResult', this._onLocationResult),
+            NativeAppEventEmitter.addListener('amap.location.onLocationResult', this._onLocationResult)
         )
     }
 

@@ -294,7 +294,6 @@ export default class BleManagerPage extends React.Component {
     }
 
     printBody(param) {
-        debugger
         let title = '多邦建材打印送货单'
         // 一定要配置好
         const Config = { wordNumber: 32 };
@@ -404,7 +403,6 @@ username:"zhangshijun"
 
     printCreatorBody(param) {
         let title = '多邦建材打印送货单'
-        debugger
         // 一定要配置好
         const Config = { wordNumber: 32 };
         ESC.setConfig(Config);

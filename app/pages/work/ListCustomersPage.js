@@ -14,7 +14,8 @@ import {
     Alert,
     Linking,
     TouchableOpacity,
-    NativeModules
+    NativeModules,
+    NativeAppEventEmitter
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
 import { Iconfont, LoadingView, Toast } from 'react-native-go';
@@ -25,12 +26,16 @@ import ImageView from '../../components/ImageView'
 import NavigationBar from '../../components/NavigationBar'
 import SelectContacts from 'react-native-select-contact-android'
 import * as ValidateUtils from '../../utils/ValidateUtils';
-var ContactPicker  =   NativeModules.ContactPicker;
+import AMapLocation from 'react-native-smart-amap-location'
+import AMap from 'react-native-smart-amap'
+import AppEventListenerEnhance from 'react-native-smart-app-event-listener-enhance'
 
 
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 let coords = {};
 /**
+ * mac 6B:83:26:EB:85:8E:94:09:0E:92:EA:2B:0C:64:4E:B3:8E:4D:9E:8A
+ * win 19:9D:86:F9:FF:60:2A:9C:76:8B:79:31:CD:52:3C:02:0D:EB:41:C0
  * 开送货单 客户列表
  */
 class ListCustomersPage extends React.Component {
@@ -40,10 +45,43 @@ class ListCustomersPage extends React.Component {
         this._renderItem = this._renderItem.bind(this);
         this._onItemPress = this._onItemPress.bind(this);
         this.onSearchAction = this.onSearchAction.bind(this);
+     //   this._onLocationResult = this._onLocationResult.bind(this)
         this.state = {
             defaultValue: ''
         }
     }
+    // componentDidMount() {
+    //     const { action } = this.props;
+    //     AMapLocation.init(null)
+    //     AMapLocation.getLocation()
+    //     NativeAppEventEmitter.addListener('amap.location.onLocationResult', this._onLocationResult)
+    //     //111.683288   29.041073
+    //     action.listCustomers('28.160425', '113.003398');
+    // }
+    // _onLocationResult(result) {
+    //     const { action } = this.props;
+    //     if (result.error) {
+    //         console.log(`map-错误代码: ${result.error.code}, map-错误信息: ${result.error.localizedDescription}`)
+    //     }
+    //     else {
+    //         if (result.formattedAddress) {
+    //             console.log(`map-格式化地址 = ${result.formattedAddress}`)
+    //         }
+    //         else {
+    //             console.log(`map-纬度 = ${result.coordinate.latitude}, map-经度 = ${result.coordinate.longitude}`)
+    //             coords = {
+    //                 latitude: result.coordinate.latitude,
+    //                 longitude: result.coordinate.longitude,
+    //             }
+    //             action.listCustomers(coords.latitude, coords.longitude);
+    //         }
+    //     }
+    // }
+
+    // componentWillUnmount() {
+    //     //停止并销毁定位服务
+    //     AMapLocation.cleanUp()
+    // }
     componentDidMount() {
         const { action } = this.props;
         navigator.geolocation.getCurrentPosition(
@@ -52,6 +90,7 @@ class ListCustomersPage extends React.Component {
                 action.listCustomers(coords.latitude, coords.longitude);
             },
             (error) => {
+                // console.error(error)
                 Toast.show('请打开软件定位权限')
             }
         );
@@ -167,16 +206,16 @@ class ListCustomersPage extends React.Component {
     }
     headerRightPress = () => {
         const { navigation } = this.props;
-        ContactPicker.pickContact().then((contact) => {
-            if (contact && contact.id) {
-              //  Toast.show(contact.phoneNumbers[0].number+"");
-                this.setState({ defaultValue: contact.phoneNumbers[0].number + '' })
-                this.onSearchAction(contact.phoneNumbers[0].number + '');
-            } else {
-                // either user hit cancel or the person they picked has no emails
-            }
-        });
-        /*
+        /*  ContactPicker.pickContact().then((contact) => {
+             if (contact && contact.id) {
+               //  Toast.show(contact.phoneNumbers[0].number+"");
+                 this.setState({ defaultValue: contact.phoneNumbers[0].number + '' })
+                 this.onSearchAction(contact.phoneNumbers[0].number + '');
+             } else {
+                 // either user hit cancel or the person they picked has no emails
+             }
+         });
+        */
         SelectContacts.pickContact({ timeout: 45000 }, (err, contact) => {
             if (err) {
                 if (typeof err === 'object') {
@@ -195,7 +234,7 @@ class ListCustomersPage extends React.Component {
                 this.onSearchAction(contact.phoneNumbers[0].number + '');
             }
 
-        })*/
+        })
     }
     renderRightView() {
         return (

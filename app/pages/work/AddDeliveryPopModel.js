@@ -25,6 +25,7 @@ export default class AddDeliveryPopModel extends React.Component {
     constructor(props) {
         super(props)
         this.onCancelPress = this.onCancelPress.bind(this)
+        this.numberCarsh = 0
         this.state = {
             modalVisible: props.modalVisible,
             chooseList: [],
@@ -61,7 +62,7 @@ export default class AddDeliveryPopModel extends React.Component {
                     </View>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
                         <Text style={{ color: '#666' }}>{'押金：'}</Text>
-                        <Text style={{ color: '#f80000' }}>{`${ utils.fc(item.foregift*num)}`}</Text>
+                        <Text style={{ color: '#f80000' }}>{`${utils.fc(item.foregift * num)}`}</Text>
                     </View>
                 </View>
                 <View style={{ height: StyleSheet.hairlineWidth, marginTop: 12, flex: 1, backgroundColor: '#c4c4c4' }} />
@@ -70,12 +71,14 @@ export default class AddDeliveryPopModel extends React.Component {
     render() {
         let chooseList = this.state.chooseList;
         let num = 0;
-        let numberCarsh = 0;
+        this.numberCarsh = 0;
         chooseList.map((item) => {
             num += item.sale_quantity + item.gifts_quantity
-            numberCarsh += item.price * item.sale_quantity + item.foregift * item.sale_quantity + item.foregift * item.gifts_quantity
+            if (!item.isDistribution) {
+                this.numberCarsh += item.price * item.sale_quantity + item.foregift * item.sale_quantity + item.foregift * item.gifts_quantity
+            }
         })
-        numberCarsh = utils.fc(numberCarsh)
+        this.numberCarsh = utils.fc(this.numberCarsh)
         let loading = true
         return (<Modal
             animationType={'slide'}
@@ -93,7 +96,7 @@ export default class AddDeliveryPopModel extends React.Component {
                         <View style={{ flex: 1 }} />
                         <TouchableOpacity onPress={() => {
                             this.props.onClear && this.props.onClear()
-                            this.setState({chooseList:[]})
+                            this.setState({ chooseList: [] })
                         }}>
                             <Iconfont
                                 icon={'e6c6'} // 图标
@@ -129,7 +132,7 @@ export default class AddDeliveryPopModel extends React.Component {
                                 }
                             </View>
                         </TouchableHighlight>
-                        <Text style={{ color: '#f80000' }}>{'￥' + numberCarsh + '元'}</Text>
+                        <Text style={{ color: '#f80000' }}>{'￥' + this.numberCarsh + '元'}</Text>
                         <View style={{ flex: 1 }} />
                         <TouchableHighlight onPress={this.onCancelPress.bind(this)}>
                             <View style={{ width: 100, height: 50, backgroundColor: '#fe6732', justifyContent: 'center', alignItems: 'center' }}>

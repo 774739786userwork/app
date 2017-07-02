@@ -184,7 +184,7 @@ class SelectDeliveryOrderPage extends React.Component {
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#00548b' }}>{'优惠总计：'}</Text>
-                            <Text style={{ color: '#fff' }}>{selectDeliveryOrder.d_discount_sum + '张'}</Text>
+                            <Text style={{ color: '#fff' }}>{selectDeliveryOrder.d_discount_sum + '元'}</Text>
                         </View>
                     </View>
                 </View>

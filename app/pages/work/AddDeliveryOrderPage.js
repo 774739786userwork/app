@@ -208,7 +208,9 @@ class AddDeliveryOrderPage extends React.Component {
         this.numberCarsh = 0
         chooseList.map((item) => {
             this.num += item.sale_quantity + item.gifts_quantity
-            this.numberCarsh += item.price * item.sale_quantity + item.foregift * item.sale_quantity + item.foregift * item.gifts_quantity
+            if (!item.isDistribution) {
+                this.numberCarsh += item.price * item.sale_quantity + item.foregift * item.sale_quantity + item.foregift * item.gifts_quantity
+            }
         })
         this.numberCarsh = NumberUtils.fc(this.numberCarsh)
         let list = addDeliveryOrder.result ? this.state.good_list : [];

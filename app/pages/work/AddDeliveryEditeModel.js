@@ -12,7 +12,7 @@ import {
     Modal,
     TouchableHighlight
 } from 'react-native';
-
+import * as NumberUtils from '../../utils/NumberUtils'
 import { Iconfont, Toast } from 'react-native-go';
 const WINDOW_WIDTH = Dimensions.get('window').width;
 import ImageView from '../../components/ImageView'
@@ -27,8 +27,8 @@ export default class AddDeliveryEditeModel extends React.Component {
         let item = this.props.item;
         this.state = {
             modalVisible: this.props.modalVisible,
-            sale_quantity: item.sale_quantity,
-            gifts_quantity: item.gifts_quantity,
+            sale_quantity: item.sale_quantity ? item.sale_quantity : 0,
+            gifts_quantity: item.gifts_quantity ? item.gifts_quantity : 0,
             price: item.price,
             isDistribution: false,
         };
@@ -62,17 +62,21 @@ export default class AddDeliveryEditeModel extends React.Component {
         let item = this.props.item;
         let foregift = item.foregift ? item.foregift : 0
         //产品销售量
-        item.sale_quantity = this.state.sale_quantity
+        item.sale_quantity = parseInt(this.state.sale_quantity)
         //产品赠送量
-        item.gifts_quantity = this.state.gifts_quantity
-        //产品出售时单价
-        item.price = this.state.price
-        item.product_foregift_sum = foregift *(this.state.sale_quantity + this.state.sale_quantity)
-        item.product_sum = this.state.price *  this.state.sale_quantity + foregift *(this.state.sale_quantity + this.state.sale_quantity)
-        item.isDistribution = this.state.isDistribution
+        item.gifts_quantity = parseInt(this.state.gifts_quantity)
+
         if (this.state.isDistribution) {
             item.gifts_quantity = 0
         }
+         //产品出售时单价
+        item.price = NumberUtils.fc(this.state.price)
+
+        item.product_foregift_sum = NumberUtils.FloatMul(foregift, (item.gifts_quantity + item.sale_quantity))
+        
+        item.product_sum = item.price * item.sale_quantity + NumberUtils.FloatMul(NumberUtils.fc(foregift),(item.gifts_quantity  + item.sale_quantity))
+        item.isDistribution = this.state.isDistribution
+
         this.props.onConfirmPress && this.props.onConfirmPress(item)
         this.setState({ modalVisible: false });
     }

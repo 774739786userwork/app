@@ -50,15 +50,19 @@ class AddDeliveryOrderEndPage extends React.Component {
         //押金
         this.foregift_sum = 0;
         params.chooseList.map((item) => {
-            this.foregift_sum += item.product_foregift_sum
+
+            this.foregift_sum = NumberUtils.FloatAdd(this.foregift_sum, item.product_foregift_sum)
+
             if (item.isDistribution) {
                 this.distribution_sum += NumberUtils.FloatMul(item.price, item.sale_quantity)
             }
         })
         this.foregift_sum = NumberUtils.fc(this.foregift_sum)
-        //铺货总额
-        this.distribution_sum = NumberUtils.fc(this.distribution_sum)
 
+        let distribution = (this.distribution_sum + '').split('.');
+        //铺货总额
+        this.distribution_sum = distribution[0]
+        //抹零
         this.small_change_sum = 0.0
         var b = (this.total_sum + '').split(".");
         if (b.length > 1) {
@@ -68,9 +72,9 @@ class AddDeliveryOrderEndPage extends React.Component {
         this.small_change_sum = NumberUtils.fc(this.small_change_sum)
 
         //实收金额
-        this.paid_total_sum = this.total_sum - this.small_change_sum - this.distribution_sum
+        this.paid_total_sum = NumberUtils.FloatSub(this.total_sum,this.small_change_sum)
         this.paid_total_sum = NumberUtils.fc(this.paid_total_sum)
-
+        debugger
         this.state = {
             chooseList: params.chooseList,
             //实收金额
@@ -115,7 +119,6 @@ class AddDeliveryOrderEndPage extends React.Component {
         const { params } = this.props.navigation.state;
         var date = new Date();
         let month = date.getMonth() + 1;
-        var currentTime = date.getFullYear() + '-' + (month < 10 ? '0' + month : month) + '-' + date.getDate();
         let saveParams = {};
         saveParams.user_id = user_id;
         saveParams.organization_id = organization_id;
@@ -124,7 +127,6 @@ class AddDeliveryOrderEndPage extends React.Component {
         saveParams.customer_id = params.customersId
         saveParams.car_id = params.selectCar.carbaseinfo_id
         saveParams.car_number = params.selectCar.platenumber
-        saveParams.delivery_date = currentTime
         saveParams.contact_mobile = params.contacts[0].mobile1;
         saveParams.contact_name = params.contacts[0].name;
         saveParams.source_equipment = '1'
@@ -142,7 +144,7 @@ class AddDeliveryOrderEndPage extends React.Component {
         //优惠金额
         saveParams.discount_sum = this.state.discount_sum
 
-        let unpaid_sum = this.total_sum - this.state.discount_sum - this.state.paid_total_sum - (this.state.isOpenChange ? this.small_change_sum : 0)
+        let unpaid_sum = NumberUtils.FloatSub(NumberUtils.FloatSub(this.total_sum,this.state.discount_sum),NumberUtils.FloatAdd(this.state.paid_total_sum,(this.state.isOpenChange ? this.small_change_sum : 0)))
         saveParams.unpaid_sum = Math.abs(NumberUtils.fc(unpaid_sum))
         //铺货总额
         saveParams.distribution_sum = this.distribution_sum;
@@ -266,9 +268,9 @@ class AddDeliveryOrderEndPage extends React.Component {
     //抹零开关
     _onChangePress() {
         if (!this.state.isOpenChange) {
-            this.setState({ paid_total_sum: this.paid_total_sum  })
+            this.setState({ paid_total_sum: this.paid_total_sum })
         } else {
-            this.setState({ paid_total_sum: NumberUtils.FloatAdd(this.paid_total_sum, this.small_change_sum)})
+            this.setState({ paid_total_sum: NumberUtils.FloatAdd(this.paid_total_sum, this.small_change_sum) })
         }
         this.setState({ isOpenChange: !this.state.isOpenChange })
 
@@ -344,7 +346,7 @@ class AddDeliveryOrderEndPage extends React.Component {
     render() {
         const { params } = this.props.navigation.state;
 
-        let canSave = NumberUtils.FloatSub(NumberUtils.FloatAdd(NumberUtils.FloatAdd(this.state.paid_total_sum, this.state.discount_sum), NumberUtils.FloatAdd(this.distribution_sum,this.state.isOpenChange ? this.small_change_sum : 0)), this.total_sum) > 0
+        let canSave = NumberUtils.FloatSub(NumberUtils.FloatAdd(NumberUtils.FloatAdd(this.state.paid_total_sum, this.state.discount_sum), (this.state.isOpenChange ? this.small_change_sum : 0)), this.total_sum) > 0
         return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
                 <View style={{ backgroundColor: '#118cd7', paddingLeft: 12, paddingBottom: 6, paddingTop: 6 }}>

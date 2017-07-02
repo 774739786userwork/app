@@ -197,7 +197,7 @@ class DeliveryOrderDetailPage extends React.Component {
                                     renderRow={this._renderItem}
                                     renderFooter={() =>
                                         <View style={{ padding: 12, backgroundColor: '#fff9f9' }}>
-                                            <Text style={{ color: '#666' }}>{`总共${sum}件商品,共计￥${params.total_sum},其中押金￥${param.foregift_sum ? param.foregift_sum : 0.00}`}</Text>
+                                            <Text style={{ color: '#666' }}>{`总共${sum}件商品,共计￥${params.total_sum},其中押金￥${params.foregift_sum ? params.foregift_sum : 0.00}`}</Text>
                                             <View style={{ flexDirection: 'row', marginTop: 6 }}>
                                                 <Text style={{ color: '#666' }}>{`铺货总计/优惠总计/未收总计:`}</Text>
                                                 <Text style={{ color: '#f80000' }}>{`￥${params.distribution_sum}/￥${params.discount_sum}/￥${params.unpaid_total_sum}`}</Text>
