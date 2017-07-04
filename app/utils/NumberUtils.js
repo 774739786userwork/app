@@ -1,7 +1,7 @@
 //浮点数加法运算
 export function FloatAdd(arg1, arg2) {
-    arg1 = arg1 + ''
-    arg2 = arg2 + ''
+     arg1 = fc(arg1)
+    arg2 = fc(arg2)
     arg1 = arg1.toString().replace(/\$|\,/g, '');
     arg2 = arg2.toString().replace(/\$|\,/g, '');
 
@@ -14,8 +14,8 @@ export function FloatAdd(arg1, arg2) {
 
 //浮点数减法运算
 export function FloatSub(arg1, arg2) {
-    arg1 = arg1 + ''
-    arg2 = arg2 + ''
+    arg1 = fc(arg1)
+    arg2 = fc(arg2)
     arg1 = arg1.toString().replace(/\$|\,/g, '');
     arg2 = arg2.toString().replace(/\$|\,/g, '');
 
@@ -30,8 +30,8 @@ export function FloatSub(arg1, arg2) {
 
 //浮点数乘法运算
 export function FloatMul(arg1, arg2) {
-    arg1 = arg1 + ''
-    arg2 = arg2 + ''
+     arg1 = fc(arg1)
+    arg2 = fc(arg2)
     arg1 = arg1.toString().replace(/\$|\,/g, '');
     arg2 = arg2.toString().replace(/\$|\,/g, '');
 
@@ -55,7 +55,7 @@ export function fc(num) {
         cents = "0" + cents;
     }
     for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++) {
-        num = num.substring(0, num.length - (4 * i + 3)) + ',' +
+        num = num.substring(0, num.length - (4 * i + 3)) + '' +
             num.substring(num.length - (4 * i + 3));
     }
     return (((sign) ? '' : '-') + num + '.' + cents);

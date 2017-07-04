@@ -136,15 +136,15 @@ class AddDeliveryOrderEndPage extends React.Component {
         saveParams.ladingbill_id = params.ladingbill_id
         saveParams.ladingbill_serialnumber = params.ladingbill_serialnumber
 
-        saveParams.total_sum = this.total_sum;
-        saveParams.paid_total_sum = this.state.paid_total_sum;
+        saveParams.total_sum = NumberUtils.fc(this.total_sum);
+        saveParams.paid_total_sum = NumberUtils.fc(this.state.paid_total_sum);
         saveParams.foregift_sum = this.foregift_sum;
         //抹零
         saveParams.small_change_sum = this.state.isOpenChange ? this.small_change_sum : 0;
         //优惠金额
-        saveParams.discount_sum = this.state.discount_sum
-
-        let unpaid_sum = NumberUtils.FloatSub(NumberUtils.FloatSub(this.total_sum,this.state.discount_sum),NumberUtils.FloatAdd(this.state.paid_total_sum,(this.state.isOpenChange ? this.small_change_sum : 0)))
+        saveParams.discount_sum = NumberUtils.fc(this.state.discount_sum)
+        debugger
+        let unpaid_sum = NumberUtils.FloatSub(NumberUtils.FloatSub(saveParams.total_sum,saveParams.discount_sum),NumberUtils.FloatAdd(saveParams.paid_total_sum,(this.state.isOpenChange ? this.small_change_sum : 0)))
         saveParams.unpaid_sum = Math.abs(NumberUtils.fc(unpaid_sum))
         //铺货总额
         saveParams.distribution_sum = this.distribution_sum;
@@ -179,6 +179,7 @@ class AddDeliveryOrderEndPage extends React.Component {
         params.num = this.num
         params.creator = true
         params.print = true
+        debugger
         FetchManger.postUri('/mobileServiceManager/deliveryNotes/addDeliveryNotes.page', saveParams).then((responseData) => {
             this.setState({ showSpinner: false })
             if (responseData.status === '0' || responseData.status === 0) {
