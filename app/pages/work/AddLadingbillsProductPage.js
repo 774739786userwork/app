@@ -14,7 +14,7 @@ import {
     ScrollView
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
-import { Iconfont, LoadingView, Toast,LoginInfo } from 'react-native-go';
+import { Iconfont, LoadingView, Toast, LoginInfo } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 import SearchBar from '../../components/SearchBar';
@@ -23,6 +23,7 @@ import SaveModel from './components/SaveModel'
 import Spinner from 'react-native-loading-spinner-overlay';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { NavigationActions } from 'react-navigation'
+import AddLadingbillPopModel from './AddLadingbillPopModel'
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 /**
@@ -35,23 +36,28 @@ class AddLadingbillsProductPage extends React.Component {
         this.onUpdateGoogs = this.onUpdateGoogs.bind(this);
         this._onItemPress = this._onItemPress.bind(this);
         this.onCancelPress = this.onCancelPress.bind(this);
-        this.onConfirmPress = this.onConfirmPress.bind(this)
+        this.onConfirmPress = this.onConfirmPress.bind(this);
+
+        this._onCarPress = this._onCarPress.bind(this);
+        this.onClear = this.onClear.bind(this);
+        
         this.state = {
             good_list: [],
             totalNum: 0,
             totalWeight: 0,
             modalVisible: false,
             showSaving: false,
+            modalPopVisible:false,
         }
 
     }
     componentWillReceiveProps(nextProps) {
-        const { saveLadingbillsProduct } = nextProps;
+        const { addLadingbillsProduct } = nextProps;
         const { navigation } = this.props;
 
-        if (saveLadingbillsProduct.errMsg) {
-            Toast.show(saveLadingbillsProduct.errMsg);
-        } else if (!saveLadingbillsProduct.saving && saveLadingbillsProduct.seccued) {
+        if (addLadingbillsProduct.errMsg) {
+            Toast.show(addLadingbillsProduct.errMsg);
+        } else if (!addLadingbillsProduct.saving && addLadingbillsProduct.seccued) {
             if (this.state.good_list.length > 0) {
                 this.setState({
                     showSaving: false,
@@ -165,9 +171,26 @@ class AddLadingbillsProductPage extends React.Component {
         });
         this.setState({ modalVisible: false, showSaving: true });
     }
+    /*****  pop start * */
+    _onCarPress(){
+        this.setState({
+            modalPopVisible:true
+        })
+
+    }
+
+    onClear(){
+
+    }
+    onPopCancelPress(){
+        this.setState({
+            modalPopVisible:false
+        })
+    }
+    /**  pop end  */
     render() {
         const { params } = this.props.navigation.state;
-        const { addLadingbillsProduct, saveLadingbillsProduct } = this.props;
+        const { addLadingbillsProduct } = this.props;
 
         return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
@@ -216,13 +239,15 @@ class AddLadingbillsProductPage extends React.Component {
 
                 <View style={{ width: WINDOW_WIDTH, height: 1, backgroundColor: '#c4c4c4' }} />
                 <View style={{ height: 50, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{ width: 50, height: 50, padding: 6, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' }}>
-                        <Iconfont
-                            icon={'e6b5'} // 图标
-                            iconColor={'#999'}
-                            iconSize={30}
-                        />
-                    </View>
+                    <TouchableHighlight onPress={this._onCarPress.bind(this)}>
+                        <View style={{ width: 50, height: 50, padding: 6, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' }}>
+                            <Iconfont fontFamily={'OAIndexIcon'}
+                                icon={'e6b5'} // 图标
+                                iconColor={'#999'}
+                                iconSize={30}
+                            />
+                        </View>
+                    </TouchableHighlight>
                     <View style={{ flex: 1, justifyContent: 'center' }}>
                         <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }}>
                             <Text style={{ color: '#666' }}>{'总数量：'}</Text>
@@ -243,6 +268,8 @@ class AddLadingbillsProductPage extends React.Component {
                     }
                 </View>
                 <SaveModel modalVisible={this.state.modalVisible} onConfirmPress={this.onCancelPress} onCancelPress={this.onCancelPress} />
+                <AddLadingbillPopModel onClear={this.onClear} chooseList={this.state.good_list} modalVisible={this.state.modalPopVisible} onCancelPress={this.onPopCancelPress.bind(this)} />
+
             </View >
         );
     }
