@@ -25,6 +25,8 @@ class SelectUserPage extends React.Component {
         super(props);
         this._renderItem = this._renderItem.bind(this);
         this._onItemPress = this._onItemPress.bind(this);
+        this._onSectionselect = this._onSectionselect.bind(this);
+        this.sectionList = []
     }
     componentDidMount() {
         const { action } = this.props;
@@ -32,6 +34,27 @@ class SelectUserPage extends React.Component {
             action.selectName();
         });
     }
+    componentWillReceiveProps(nextProps) {
+        const { selectName } = nextProps;
+        selectName.data.sort((a, b) => {
+            return a.pinyin.charCodeAt(0) - b.pinyin.charCodeAt(0)
+        })
+        this.sectionList = [];
+        let preKey = null;
+        let section = {};
+        for (let i = 0; i < selectName.data.length; i++) {
+            let userItem = selectName.data[i];
+            if (preKey === userItem.pinyin.charAt(0)) {
+                section.data.push(userItem);
+            } else {
+                preKey = userItem.pinyin.charAt(0);
+                section = { data: [], key: preKey };
+                section.data.push(userItem);
+                this.sectionList.push(section);
+            }
+        }
+    }
+
     _onItemPress(item) {
         const { navigation } = this.props;
         navigation.state.params.callback(item);
@@ -70,8 +93,16 @@ class SelectUserPage extends React.Component {
         )
     }
     //这边返回的是A,0这样的数据
-    _onSectionselect = (section, index) => {
-        // this.refs.list.scrollToIndex({ animated: true, index: 0 })//this.state.sectionSize[index]})
+    _onSectionselect(section, index) {
+        let toIndex = -1;
+        for (let i = 0; i < this.sectionList.length; i++) {
+            if (this.sectionList[i].key.toUpperCase() === section) {
+                toIndex = i;
+            }
+        }
+        if (toIndex != -1) {
+            this.refs.list.scrollToLocation({ animated: true, itemIndex: 0, sectionIndex: toIndex - 1 })
+        }
     }
 
     _getItemLayout(data, index) {
@@ -80,23 +111,6 @@ class SelectUserPage extends React.Component {
     }
     render() {
         const { selectName } = this.props;
-        selectName.data.sort((a, b) => {
-            return a.pinyin.charCodeAt(0) - b.pinyin.charCodeAt(0)
-        })
-        let sectionList = [];
-        let preKey = null;
-        let section = null;
-        for (let i = 0; i < selectName.data.length; i++) {
-            let userItem = selectName.data[i];
-            if (preKey === userItem.pinyin.charAt(0)) {
-                section.data.push(userItem);
-            } else {
-                preKey = userItem.pinyin.charAt(0);
-                section = { data: [], key: preKey };
-                section.data.push(userItem);
-                sectionList.push(section);
-            }
-        }
         return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
                 <View style={{ flex: 1 }}>
@@ -115,8 +129,8 @@ class SelectUserPage extends React.Component {
                                         enableEmptySections
                                         renderItem={this._renderItem}
                                         renderSectionHeader={this._renderSectionHeader}
-                                        sections={sectionList}
-                                        keyExtractor={(item, index)=> `key_${index}`}
+                                        sections={this.sectionList}
+                                        keyExtractor={(item, index) => `key_${index}`}
                                         getItemLayout={this._getItemLayout} />
 
                                     <IndexSectionList

@@ -15,7 +15,8 @@ import {
     Linking,
     TouchableOpacity,
     NativeModules,
-    NativeAppEventEmitter
+    NativeAppEventEmitter,
+    DatePickerAndroid
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
 import { Iconfont, LoadingView, Toast } from 'react-native-go';
@@ -45,7 +46,7 @@ class ListCustomersPage extends React.Component {
         this._renderItem = this._renderItem.bind(this);
         this._onItemPress = this._onItemPress.bind(this);
         this.onSearchAction = this.onSearchAction.bind(this);
-     //   this._onLocationResult = this._onLocationResult.bind(this)
+        //   this._onLocationResult = this._onLocationResult.bind(this)
         this.state = {
             defaultValue: ''
         }
@@ -104,9 +105,26 @@ class ListCustomersPage extends React.Component {
             //action.listCustomers(25.005789, 102.770189, txt);
         });
     }
-    _onItemPress(item) {
+    async _onItemPress(item) {
         const { navigation } = this.props;
-        navigation.navigate('AddDeliveryOrder', { ...item })
+
+        try {
+            const { action, year, month, day } = await DatePickerAndroid.open({
+                // 要设置默认值为今天的话，使用`new Date()`即可。
+                // 下面显示的会是2020年5月25日。月份是从0开始算的。
+                date: new Date()
+            });
+            if (action !== DatePickerAndroid.dismissedAction) {
+                // 这里开始可以处理用户选好的年月日三个参数：year, month (0-11), day
+                item.ladingdate = `${year}-${month+1}-${day}`;
+                navigation.navigate('AddDeliveryOrder', { ...item })
+                
+            }
+        } catch ({ code, message }) {
+            console.warn('Cannot open date picker', message);
+        }
+
+        
 
     }
     onTelAction(type, title, customersName, telephone) {

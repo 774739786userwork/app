@@ -33,11 +33,11 @@ class LadProductItem extends React.Component {
     }
     render() {
         const { item } = this.props;
-        
+
         return (<View style={{ backgroundColor: '#fff' }}>
             <View style={{ flexDirection: 'row', paddingLeft: 12, }}>
                 <View style={{ alignItems: 'center', justifyContent: 'center', height: 110 }}>
-                    <ImageView source={ { uri: item.image }} style={{ width: 90, height: 90, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }}  />
+                    <ImageView source={{ uri: item.image }} style={{ width: 90, height: 90, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} />
                 </View>
                 <View style={{ flex: 1 }}>
                     <View style={{ height: 24, paddingLeft: 12, marginBottom: 4, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
@@ -66,38 +66,13 @@ class LadProductItem extends React.Component {
                             <Text style={{ color: '#999', fontSize: 12 }}>{'总数：'}</Text>
                             <Text style={{ color: '#999', fontSize: 12 }}>{`${item.loading_quantity ? item.loading_quantity : 0}`}</Text>
                         </View>
+                        <View style={{ flex: 1, flexDirection: 'row' }}>
+                            <Text style={{ color: '#999', fontSize: 12 }}>{'实提:'}</Text>
+                            <Text style={{ color: '#999', fontSize: 12 }}>{`${item.real_loading_count ? item.real_loading_count : 0}`}</Text>
+                        </View>
                     </View>
                 </View>
-                <View style={{ position: 'absolute', bottom: 0, right: 12, height: 26, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                    <Text style={{ flex: 2, textAlign: 'right', color: '#999', fontSize: 12 }}>实提</Text>
-                    <View style={{ flex: 3, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                        <TouchableOpacity style={{ marginLeft: 8, marginRight: 6 }} onPress={() => {
-                            this.updateNewCount(this.state.count - 1);
-                        }}>
-                            <Iconfont
-                                icon={'e6ba'} // 图标
-                                iconColor={'#0081d4'}
-                                iconSize={22} />
-                        </TouchableOpacity>
-                        <TextInput style={{ width: 40, height: 26, fontSize: 14, textAlign: 'center', color: '#666', borderRadius: 8, padding: 0, borderWidth: 1, borderColor: '#c4c4c4' }}
-                            underlineColorAndroid={'transparent'}
-                            value={'' + this.state.count}
-                            defaultValue={'' + this.state.count}
-                            onChangeText={(newCount) => {
-                                let num = parseInt(newCount);
-                                this.updateNewCount(isNaN(num) ? 0 : num);
-                            }}
-                        />
-                        <TouchableOpacity style={{ marginLeft: 6 }} onPress={() => {
-                            this.updateNewCount(this.state.count + 1);
-                        }}>
-                            <Iconfont
-                                icon={'e6b9'} // 图标
-                                iconColor={'#0081d4'}
-                                iconSize={22}
-                            /></TouchableOpacity>
-                    </View>
-                </View>
+              
             </View>
             <View style={{ height: StyleSheet.hairlineWidth, marginTop: 4, flex: 1, backgroundColor: '#c4c4c4' }} />
         </View>)

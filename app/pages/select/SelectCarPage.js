@@ -16,12 +16,16 @@ import DatePicker from 'react-native-datepicker'
 import { Iconfont, Toast, LoadingView } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
+import SearchBar from '../../components/SearchBar';
+
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 class SelectCarPage extends React.Component {
     constructor(props) {
         super(props);
         this._renderItem = this._renderItem.bind(this);
         this._onItemPress = this._onItemPress.bind(this);
+        this.onSearchAction = this.onSearchAction.bind(this);
+
     }
     componentDidMount() {
         const { loadingdate } = this.props.navigation.state.params
@@ -46,6 +50,13 @@ class SelectCarPage extends React.Component {
         }
 
     }
+    onSearchAction(text) {
+        const { loadingdate } = this.props.navigation.state.params
+        const { action } = this.props;
+        InteractionManager.runAfterInteractions(() => {
+            action.selectCar(loadingdate,text);
+        });
+    }
     //carweight":"9000","platenumber":
     _renderItem = (item, index) => {
         return (
@@ -67,6 +78,23 @@ class SelectCarPage extends React.Component {
         const { selectCar } = this.props;
         return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
+                <SearchBar
+                    onSearchChange={(text) => {
+                        this.searchText = text;
+                        if (text && text.length > 0) {
+                            this.onSearchAction(text);
+                        }
+                    }}
+                    height={30}
+                    onFocus={() => console.log('On Focus')}
+                    onClose={() => {
+                        this.onSearchAction();
+                    }}
+                    placeholder={'请输入车牌号查询'}
+                    autoCorrect={false}
+                    padding={8}
+                    returnKeyType={'search'}
+                />
                 <View style={{ flex: 1 }}>
                     {
                         selectCar.loading ?

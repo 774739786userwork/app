@@ -71,7 +71,7 @@ export function listCustomers(lat, lng, contactMobile) {
  * @param {*} rows 
  * ?user_id=100002&org_id=100002&car_id=149&token=p59tYTPlRBS59Xe
  */
-export function addDeliveryOrder(car_id, start = 0, rows = 10) {
+export function addDeliveryOrder(car_id,ladingdate, start = 0, rows = 10) {
     const token = LoginInfo.getUserInfo().token;
     const user_id = LoginInfo.getUserInfo().user_id;
     const org_id = LoginInfo.getUserInfo().organization_id;
@@ -81,13 +81,13 @@ export function addDeliveryOrder(car_id, start = 0, rows = 10) {
         return {
             type: types.AddDeliveryOrdering_More_ACTION,
             api: types.AddDeliveryOrder_API,
-            param: { user_id, token, org_id, car_id }
+            param: { user_id, token, org_id,ladingdate, car_id }
         };
     } else {
         return {
             type: types.AddDeliveryOrdering_ACTION,
             api: types.AddDeliveryOrder_API,
-            param: { user_id, token, org_id, car_id }
+            param: { user_id, token, org_id,ladingdate, car_id }
         };
     }
 
@@ -245,14 +245,18 @@ export function getCarstockProductListDisburden(id, count) {
  * @param {*产品ID} id 
  * @param {*卸货数量} count 
  */
-export function selectCar(loadingdate) {
+export function selectCar(loadingdate,car_number) {
     const token = LoginInfo.getUserInfo().token;
     const user_id = LoginInfo.getUserInfo().user_id;
     const organization_id = LoginInfo.getUserInfo().organization_id;
+    let param = {token, organization_id, user_id,loadingdate };
+    if(car_number){
+        param.car_number = car_number
+    }
     return {
         type: types.SelectCaring_ACTION,
         api: types.SelectCar_API,
-        param: { token, organization_id, user_id,loadingdate }
+        param: param
     };
 
 }
@@ -328,7 +332,7 @@ export function queryReturnDetail(return_id) {
 /**
  * 开提货单 产品列表查询
  */
-export function addLadingbillsProduct(product_spell) {
+export function addLadingbillsProduct(product_spell,start = 0, rows = 10) {
     const token = LoginInfo.getUserInfo().token;
     const user_id = LoginInfo.getUserInfo().user_id;
     const organization_id = LoginInfo.getUserInfo().organization_id;
@@ -336,11 +340,22 @@ export function addLadingbillsProduct(product_spell) {
     if (product_spell) {
         param.product_spell = product_spell;
     }
-    return {
-        type: types.AddLadingbillsProducting_ACTION,
-        api: types.AddLadingbillsProduct_API,
-        param: param
-    };
+   
+    let page = 1;
+    if (start) {
+        page = start / rows + 1;
+        return {
+            type: types.AddLadingbillsProducting_More_ACTION,
+            api: types.AddLadingbillsProduct_API,
+            param: { ...param, page, rows }
+        };
+    } else {
+        return {
+            type: types.AddLadingbillsProducting_ACTION,
+            api: types.AddLadingbillsProduct_API,
+            param: { ...param, page, rows }
+        };
+    }
 
 }
 /**

@@ -77,7 +77,7 @@ class DeliveryOrderDetailPage extends React.Component {
                             <View style={{ flex: 1, flexDirection: 'row' }}>
                                 <Text style={{ color: '#999' }}>{'总计金额：'}</Text>
                                 <Text style={{ color: '#f80000' }}>{'￥'}</Text>
-                                <Text style={{ color: '#f80000' }}>{`${item.product_sum}`}</Text>
+                                <Text style={{ color: '#f80000',marginLeft:8 }}>{`${item.product_sum}`}</Text>
                             </View>
                         </View>
                     </View>
@@ -120,7 +120,7 @@ class DeliveryOrderDetailPage extends React.Component {
                     sum += item.sale_quantity + item.gifts_quantity
                 })
             }
-            debugger
+            
             const { result } = deliveryOrderDetail;
             result.print = true
             result.num = sum

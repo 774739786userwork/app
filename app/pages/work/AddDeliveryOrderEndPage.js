@@ -74,7 +74,6 @@ class AddDeliveryOrderEndPage extends React.Component {
         //实收金额
         this.paid_total_sum = NumberUtils.FloatSub(this.total_sum,this.small_change_sum)
         this.paid_total_sum = NumberUtils.fc(this.paid_total_sum)
-        debugger
         this.state = {
             chooseList: params.chooseList,
             //实收金额
@@ -132,7 +131,7 @@ class AddDeliveryOrderEndPage extends React.Component {
         saveParams.source_equipment = '1'
         saveParams.lat = params.lat
         saveParams.lng = params.lng
-        saveParams.lading_date = params.lading_date
+        saveParams.ladingdate = params.lading_date
         saveParams.ladingbill_id = params.ladingbill_id
         saveParams.ladingbill_serialnumber = params.ladingbill_serialnumber
 
@@ -143,7 +142,6 @@ class AddDeliveryOrderEndPage extends React.Component {
         saveParams.small_change_sum = this.state.isOpenChange ? this.small_change_sum : 0;
         //优惠金额
         saveParams.discount_sum = NumberUtils.fc(this.state.discount_sum)
-        debugger
         let unpaid_sum = NumberUtils.FloatSub(NumberUtils.FloatSub(saveParams.total_sum,saveParams.discount_sum),NumberUtils.FloatAdd(saveParams.paid_total_sum,(this.state.isOpenChange ? this.small_change_sum : 0)))
         saveParams.unpaid_sum = Math.abs(NumberUtils.fc(unpaid_sum))
         //铺货总额
@@ -179,7 +177,6 @@ class AddDeliveryOrderEndPage extends React.Component {
         params.num = this.num
         params.creator = true
         params.print = true
-        debugger
         FetchManger.postUri('/mobileServiceManager/deliveryNotes/addDeliveryNotes.page', saveParams).then((responseData) => {
             this.setState({ showSpinner: false })
             if (responseData.status === '0' || responseData.status === 0) {

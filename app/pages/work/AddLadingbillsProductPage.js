@@ -8,10 +8,12 @@ import {
     ListView,
     Dimensions,
     TouchableHighlight,
+    TouchableOpacity,
     InteractionManager,
     FlatList,
     Alert,
-    ScrollView
+    ScrollView,
+    ActivityIndicator
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
 import { Iconfont, LoadingView, Toast, LoginInfo } from 'react-native-go';
@@ -24,7 +26,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { NavigationActions } from 'react-navigation'
 import AddLadingbillPopModel from './AddLadingbillPopModel'
-
+import AddLadingbillsEditeModel from './components/AddLadingbillsEditeModel'
 const WINDOW_WIDTH = Dimensions.get('window').width;
 /**
  * 提货单 产品列表
@@ -37,17 +39,23 @@ class AddLadingbillsProductPage extends React.Component {
         this._onItemPress = this._onItemPress.bind(this);
         this.onCancelPress = this.onCancelPress.bind(this);
         this.onConfirmPress = this.onConfirmPress.bind(this);
+        this.onEndReached = this.onEndReached.bind(this);
+        this._rowOnPress = this._rowOnPress.bind(this);
+        this.onEidteCancelPress = this.onEidteCancelPress.bind(this);
+        this.onEidteConfirmPress = this.onEidteConfirmPress.bind(this);
 
         this._onCarPress = this._onCarPress.bind(this);
         this.onClear = this.onClear.bind(this);
-        
+        this.searchText = '';
         this.state = {
             good_list: [],
             totalNum: 0,
             totalWeight: 0,
             modalVisible: false,
             showSaving: false,
-            modalPopVisible:false,
+            modalPopVisible: false,
+            editeModalVisible: false,
+            selectItem: {},
         }
 
     }
@@ -126,9 +134,12 @@ class AddLadingbillsProductPage extends React.Component {
             })
         }
         return (
-            <View style={{ backgroundColor: '#fff' }} key={`row_${index}`}>
+            <TouchableOpacity
+                onPress={this._rowOnPress.bind(this, item)}
+                key={`row_${index}`}
+            >
                 <LadProductItem item={item} onUpdate={this.onUpdateGoogs} />
-            </View>
+            </TouchableOpacity>
         );
     }
     /**
@@ -148,10 +159,6 @@ class AddLadingbillsProductPage extends React.Component {
 
     }
     onConfirmPress() {
-
-        this.setState({ modalVisible: false });
-    }
-    onCancelPress() {
         const { action } = this.props;
         const { params } = this.props.navigation.state;
 
@@ -170,24 +177,70 @@ class AddLadingbillsProductPage extends React.Component {
             action.saveLadingbillsProduct(sbParam);
         });
         this.setState({ modalVisible: false, showSaving: true });
+
+    }
+    onCancelPress() {
+        this.setState({ modalVisible: false });
     }
     /*****  pop start * */
-    _onCarPress(){
+    _onCarPress() {
         this.setState({
-            modalPopVisible:true
+            modalPopVisible: true
         })
 
     }
 
-    onClear(){
+    onClear() {
 
     }
-    onPopCancelPress(){
+    onPopCancelPress() {
         this.setState({
-            modalPopVisible:false
+            modalPopVisible: false
         })
     }
     /**  pop end  */
+
+    //加载更多
+    onEndReached() {
+        const { action, addLadingbillsProduct } = this.props;
+        const start = addLadingbillsProduct.listData._cachedRowCount;
+        InteractionManager.runAfterInteractions(() => {
+            if (start >= 10 && start % 10 === 0) {
+                action.addLadingbillsProduct(this.searchText, start);
+            }
+        });
+    }
+    _rowOnPress(selectItem) {
+        this.setState({ editeModalVisible: true, selectItem });
+    }
+    onEidteCancelPress() {
+        this.setState({ editeModalVisible: false });
+    }
+    onEidteConfirmPress(item) {
+        let good_list = this.state.good_list;
+        let oldItem = null;
+        for (let i = 0; i < good_list.length; i++) {
+            if (item.product_id == good_list[i].product_id) {
+                oldItem = good_list[i];
+            }
+        }
+        if (oldItem) {
+            oldItem.real_loading_count = item.real_loading_count
+            oldItem.loading_quantity = item.real_loading_count + item.remain_count
+        } else {
+            item.loading_quantity = item.real_loading_count + item.remain_count
+            good_list.push(item)
+        }
+        let totalWeight = 0;
+        let totalNum = 0;
+        if (good_list) {
+            good_list.map((a) => {
+                totalWeight += a.product_weight * a.real_loading_count;
+                totalNum += a.real_loading_count;
+            })
+        }
+        this.setState({ good_list, totalNum, totalWeight , editeModalVisible: false});
+    }
     render() {
         const { params } = this.props.navigation.state;
         const { addLadingbillsProduct } = this.props;
@@ -204,6 +257,7 @@ class AddLadingbillsProductPage extends React.Component {
                 </View>
                 <SearchBar
                     onSearchChange={(text) => {
+                        this.searchText = text;
                         if (text && text.length > 0) {
                             this.onSearchAction(text);
                         }
@@ -219,24 +273,35 @@ class AddLadingbillsProductPage extends React.Component {
                     returnKeyType={'search'}
                 />
                 <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#d9d9d9' }} />
-                <ScrollView>
-                    {
-                        addLadingbillsProduct.loading ?
-                            <LoadingView /> :
-                            (addLadingbillsProduct.listData._cachedRowCount == 0 ?
-                                <View style={{ alignItems: 'center', flex: 1, backgroundColor: '#fff', justifyContent: 'center' }}>
-                                    <Text> 暂无数据</Text>
-                                </View>
-                                :
-                                <ListView
-                                    dataSource={addLadingbillsProduct.listData}
-                                    renderRow={this._renderItem}
-                                />
-                            )
+                {
+                    addLadingbillsProduct.loading ?
+                        <LoadingView /> :
+                        (addLadingbillsProduct.listData._cachedRowCount == 0 ?
+                            <View style={{ alignItems: 'center', flex: 1, backgroundColor: '#fff', justifyContent: 'center' }}>
+                                <Text> 暂无数据</Text>
+                            </View>
+                            :
+                            <ListView
+                                dataSource={addLadingbillsProduct.listData}
+                                renderRow={this._renderItem}
+                                onEndReached={this.onEndReached}
+                                onEndReachedThreshold={38}
+                                renderFooter={() =>
+                                    addLadingbillsProduct.loadMore ? <View style={{
+                                        height: 44,
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        backgroundColor: 'white'
+                                    }}>
+                                        <ActivityIndicator
+                                            size="large"
+                                            color="#118cd7"
+                                        />
+                                    </View> : null}
+                            />
+                        )
 
-                    }
-                </ScrollView>
-
+                }
                 <View style={{ width: WINDOW_WIDTH, height: 1, backgroundColor: '#c4c4c4' }} />
                 <View style={{ height: 50, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
                     <TouchableHighlight onPress={this._onCarPress.bind(this)}>
@@ -267,8 +332,9 @@ class AddLadingbillsProductPage extends React.Component {
                             </TouchableHighlight> : null
                     }
                 </View>
-                <SaveModel modalVisible={this.state.modalVisible} onConfirmPress={this.onCancelPress} onCancelPress={this.onCancelPress} />
+                <SaveModel modalVisible={this.state.modalVisible} onConfirmPress={this.onConfirmPress} onCancelPress={this.onCancelPress} />
                 <AddLadingbillPopModel onClear={this.onClear} chooseList={this.state.good_list} modalVisible={this.state.modalPopVisible} onCancelPress={this.onPopCancelPress.bind(this)} />
+                <AddLadingbillsEditeModel modalVisible={this.state.editeModalVisible} onCancelPress={this.onEidteCancelPress} item={this.state.selectItem} onConfirmPress={this.onEidteConfirmPress} />
 
             </View >
         );

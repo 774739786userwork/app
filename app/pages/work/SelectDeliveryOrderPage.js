@@ -117,7 +117,7 @@ class SelectDeliveryOrderPage extends React.Component {
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#f80000' }}>{'总计金额：'}</Text>
-                            <Text style={{ color: '#f80000' }}>{item.total_sum ? item.total_sum : 0 + '元'}</Text>
+                            <Text style={{ color: '#f80000',marginLeft:8 }}>{item.total_sum ? item.total_sum : 0 + '元'}</Text>
                         </View>
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, marginTop: 12, flex: 1, backgroundColor: '#c4c4c4' }} />

@@ -57,11 +57,15 @@ export default class SaveModel extends React.Component {
                     <View style={{ height: StyleSheet.hairlineWidth, width: modelWidth, backgroundColor: '#c4c4c4' }} />
                     <View style={{ backgroundColor: '#fff', flexDirection: 'row', height: 44, width: modelWidth, borderBottomLeftRadius: 10, borderBottomRightRadius: 10, justifyContent: 'center', alignItems: 'center', }}>
                         <TouchableOpacity onPress={this.onCancelPress}>
-                            <View style={{ height: 44, width: modelWidth / 2, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: '#666' }}>{'数据暂存'}</Text></View>
+                            <View style={{ height: 44, width: modelWidth / 3, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: '#666' }}>{'取消保存'}</Text></View>
+                        </TouchableOpacity>
+                        <View style={{ width: StyleSheet.hairlineWidth, height: 44, backgroundColor: '#c4c4c4' }} />
+                        <TouchableOpacity onPress={this.onCancelPress}>
+                            <View style={{ height: 44, width: modelWidth / 3, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: '#666' }}>{'数据暂存'}</Text></View>
                         </TouchableOpacity>
                         <View style={{ width: StyleSheet.hairlineWidth, height: 44, backgroundColor: '#c4c4c4' }} />
                         <TouchableOpacity onPress={this.onConfirmPress}>
-                            <View style={{ height: 44, width: modelWidth / 2, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: '#fe6732' }}>{'直接保存'}</Text></View>
+                            <View style={{ height: 44, width: modelWidth / 3, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: '#fe6732' }}>{'直接保存'}</Text></View>
                         </TouchableOpacity>
                     </View>
                 </View>

@@ -55,12 +55,14 @@ class AddDeliveryOrderPage extends React.Component {
             Toast.show(addDeliveryOrder.errMsg);
             return;
         }
-        const { action } = this.props;
+        const { action,navigation } = this.props;
+        const { params } = navigation.state;
+        
         const selectCar = nextProps.selectCar
         if (selectCar.carbaseinfo_id && !addDeliveryOrder.loading && addDeliveryOrder.result.length == 0) {
-            action.addDeliveryOrder(selectCar.carbaseinfo_id)
+            action.addDeliveryOrder(selectCar.carbaseinfo_id,params.ladingdate)
         } else if (selectCar.carbaseinfo_id != this.carbaseinfo_id) {
-            action.addDeliveryOrder(selectCar.carbaseinfo_id)
+            action.addDeliveryOrder(selectCar.carbaseinfo_id,params.ladingdate)
         }
         this.carbaseinfo_id = selectCar.carbaseinfo_id
 
