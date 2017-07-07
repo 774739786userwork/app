@@ -441,7 +441,7 @@ username:"zhangshijun"
             // 商品开始
             param.chooseList.map((item) => {
                 item.gifts_quantity = item.gifts_quantity ? item.gifts_quantity : 0
-                let total = item.product_sum
+                let total = item.product_sum ? item.product_sum : 0.00
                 ESC.printAndNewLine();
                 ESC.alignLeft();
                 ESC.text(ESC.Util.leftRight('产品名称：' + item.name, '', 20));
