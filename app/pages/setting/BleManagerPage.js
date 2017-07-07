@@ -335,7 +335,8 @@ export default class BleManagerPage extends React.Component {
                 ESC.alignLeft();
                 ESC.text(ESC.Util.leftRight('产品名称：' + item.product_name, '', 20));
                 ESC.printAndNewLine();
-                ESC.text(ESC.Util.leftRight('数量：' + item.sale_quantity, '', 20));
+                ESC.text(ESC.Util.leftRight(`销量：${item.sale_quantity}`, '', 16));
+                ESC.text(ESC.Util.leftRight(`赠送：${item.gifts_quantity}`, '', 16));
                 ESC.printAndNewLine();
                 ESC.alignRight();
                 ESC.text(`￥${item.product_sum ? item.product_sum : 0.00}`);
@@ -351,8 +352,8 @@ export default class BleManagerPage extends React.Component {
             ESC.text(_.times(Config.wordNumber, () => '-').join(''));
             ESC.printAndNewLine();
             ESC.printAndNewLine();
-            
-            ESC.text(ESC.Util.leftRight(`数量总计：${param.num +''}`, '', 16));
+
+            ESC.text(ESC.Util.leftRight(`数量总计：${param.num + ''}`, '', 16));
             ESC.text(ESC.Util.leftRight(`总计金额：￥${param.total_sum ? param.total_sum : 0.00}`, '', 16));
             ESC.printAndNewLine();
             ESC.text(ESC.Util.leftRight(`其中押金：￥${param.foregift_sum ? param.foregift_sum : 0.00}`, '', 16));
@@ -417,7 +418,7 @@ username:"zhangshijun"
             ESC.printAndNewLine();
             ESC.init();
             //商品开始
-            ESC.text('开单时间：' + param.lading_date);
+            ESC.text('开单时间：' + param.ladingdate);
             ESC.printAndNewLine();
             ESC.text('店名：' + param.customersName);
             ESC.printAndNewLine();
@@ -443,7 +444,8 @@ username:"zhangshijun"
                 ESC.alignLeft();
                 ESC.text(ESC.Util.leftRight('产品名称：' + item.name, '', 20));
                 ESC.printAndNewLine();
-                ESC.text(ESC.Util.leftRight('数量：' + item.sale_quantity, '', 20));
+                ESC.text(ESC.Util.leftRight(`销量：${item.sale_quantity}`, '', 16));
+                ESC.text(ESC.Util.leftRight(`赠送：${item.gifts_quantity}`, '', 16));
                 ESC.printAndNewLine();
                 ESC.alignRight();
                 ESC.text(`￥${NumberUtils.fc(total)}`);

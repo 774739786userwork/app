@@ -115,7 +115,6 @@ class SelectLadingbillsPage extends React.Component {
                             <Text style={{ color: '#f80000' }}>{item.create_user_name}</Text>
                         </View>
                         <View style={{ flex: 2, flexDirection: 'row' }}>
-                            <Text style={{ color: '#f80000' }}>{'车牌:'}</Text>
                             <Text style={{ color: '#f80000',marginLeft:8 }}>{item.car_number}</Text>
                         </View>
                     </View>
