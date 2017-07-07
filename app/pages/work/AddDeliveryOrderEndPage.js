@@ -131,7 +131,7 @@ class AddDeliveryOrderEndPage extends React.Component {
         saveParams.source_equipment = '1'
         saveParams.lat = params.lat
         saveParams.lng = params.lng
-        saveParams.ladingdate = params.lading_date
+        saveParams.ladingdate = params.ladingdate
         saveParams.ladingbill_id = params.ladingbill_id
         saveParams.ladingbill_serialnumber = params.ladingbill_serialnumber
 
@@ -158,6 +158,7 @@ class AddDeliveryOrderEndPage extends React.Component {
             gItem.gifts_quantity = item.gifts_quantity
             gItem.foregift = item.foregift
             gItem.price = item.price
+            gItem.isDistribution = item.isDistribution ? 1 : 0;
             gItem.product_sum = item.product_sum
             gItem.product_foregift_sum = item.product_foregift_sum
             gItem.delivery_remember_person = item.delivery_remember_person

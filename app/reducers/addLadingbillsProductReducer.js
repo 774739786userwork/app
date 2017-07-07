@@ -4,13 +4,12 @@ import React, {
 
 import * as types from '../actions/ActionTypes';
 
-var dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 const initialState = {
     loading: false,
     loadMore: false,
     saving: false,
-    listData: dataSource.cloneWithRows([]),//数据源
+    listData: [],//数据源
     errMsg: undefined,
     result: [],
     seccued: false,
@@ -26,12 +25,12 @@ export default function addLadingbillsProductReducer(state = initialState, actio
                 errMsg: undefined,
                 seccued: false,
                 saving: false,
-                listData: dataSource.cloneWithRows([]),//数据源
+                listData: [],//数据源
             });
         case types.AddLadingbillsProductError_ACTION:
             return Object.assign({}, state, {
                 loading: false,
-                listData: dataSource.cloneWithRows([]),//数据源
+                listData: [],//数据源
                 errMsg: action.errMsg,
             });
         case types.AddLadingbillsProductSucceed_ACTION:
@@ -41,14 +40,14 @@ export default function addLadingbillsProductReducer(state = initialState, actio
                     loading: false,
                     loadMore: false,
                     result: list,
-                    listData: dataSource.cloneWithRows(list),//数据源
+                    listData: list,//数据源
                     errMsg: undefined,
                 });
             } else {
                 return Object.assign({}, state, {
                     loading: false,
                     result: action.result.data,
-                    listData: dataSource.cloneWithRows(action.result.data),//数据源
+                    listData: action.result.data,//数据源
                     errMsg: undefined,
                 });
             }

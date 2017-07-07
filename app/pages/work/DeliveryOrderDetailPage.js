@@ -74,7 +74,7 @@ class DeliveryOrderDetailPage extends React.Component {
                                 <Text style={{ color: '#999' }}>{'赠送：'}</Text>
                                 <Text style={{ color: '#999' }}>{`${item.gifts_quantity}`}</Text>
                             </View>
-                            <View style={{ flex: 1, flexDirection: 'row' }}>
+                            <View style={{ flex: 2, flexDirection: 'row' }}>
                                 <Text style={{ color: '#999' }}>{'总计金额：'}</Text>
                                 <Text style={{ color: '#f80000' }}>{'￥'}</Text>
                                 <Text style={{ color: '#f80000',marginLeft:8 }}>{`${item.product_sum}`}</Text>

@@ -28,6 +28,9 @@ import { NavigationActions } from 'react-navigation'
 import AddLadingbillPopModel from './AddLadingbillPopModel'
 import AddLadingbillsEditeModel from './components/AddLadingbillsEditeModel'
 const WINDOW_WIDTH = Dimensions.get('window').width;
+
+const dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+
 /**
  * 提货单 产品列表
  */
@@ -56,6 +59,7 @@ class AddLadingbillsProductPage extends React.Component {
             modalPopVisible: false,
             editeModalVisible: false,
             selectItem: {},
+            listData: []
         }
 
     }
@@ -83,6 +87,8 @@ class AddLadingbillsProductPage extends React.Component {
                 });
             }
         }
+
+        this.setState({ listData: addLadingbillsProduct.listData })
     }
     componentDidMount() {
         const { action } = this.props;
@@ -191,7 +197,11 @@ class AddLadingbillsProductPage extends React.Component {
     }
 
     onClear() {
-
+        this.state.listData.map((item) => {
+            item.real_loading_count = 0
+            item.loading_quantity = 0
+        })
+        this.setState({ good_list: [], totalNum: 0, totalWeight: 0 });
     }
     onPopCancelPress() {
         this.setState({
@@ -203,7 +213,7 @@ class AddLadingbillsProductPage extends React.Component {
     //加载更多
     onEndReached() {
         const { action, addLadingbillsProduct } = this.props;
-        const start = addLadingbillsProduct.listData._cachedRowCount;
+        const start = addLadingbillsProduct.listData.length;
         InteractionManager.runAfterInteractions(() => {
             if (start >= 10 && start % 10 === 0) {
                 action.addLadingbillsProduct(this.searchText, start);
@@ -239,7 +249,7 @@ class AddLadingbillsProductPage extends React.Component {
                 totalNum += a.real_loading_count;
             })
         }
-        this.setState({ good_list, totalNum, totalWeight , editeModalVisible: false});
+        this.setState({ good_list, totalNum, totalWeight, editeModalVisible: false });
     }
     render() {
         const { params } = this.props.navigation.state;
@@ -257,7 +267,7 @@ class AddLadingbillsProductPage extends React.Component {
                 </View>
                 <SearchBar
                     onSearchChange={(text) => {
-                        this.searchText = text;
+                        this.searchText = text.nativeEvent ? text.nativeEvent.text : text;
                         if (text && text.length > 0) {
                             this.onSearchAction(text);
                         }
@@ -276,13 +286,13 @@ class AddLadingbillsProductPage extends React.Component {
                 {
                     addLadingbillsProduct.loading ?
                         <LoadingView /> :
-                        (addLadingbillsProduct.listData._cachedRowCount == 0 ?
+                        (this.state.listData.length == 0 ?
                             <View style={{ alignItems: 'center', flex: 1, backgroundColor: '#fff', justifyContent: 'center' }}>
                                 <Text> 暂无数据</Text>
                             </View>
                             :
                             <ListView
-                                dataSource={addLadingbillsProduct.listData}
+                                dataSource={dataSource.cloneWithRows(this.state.listData)}
                                 renderRow={this._renderItem}
                                 onEndReached={this.onEndReached}
                                 onEndReachedThreshold={38}
