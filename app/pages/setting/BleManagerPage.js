@@ -336,7 +336,9 @@ export default class BleManagerPage extends React.Component {
                 ESC.text(ESC.Util.leftRight('产品名称：' + item.product_name, '', 20));
                 ESC.printAndNewLine();
                 ESC.text(ESC.Util.leftRight(`销量：${item.sale_quantity}`, '', 16));
-                ESC.text(ESC.Util.leftRight(`赠送：${item.gifts_quantity}`, '', 16));
+                if (item.gifts_quantity) {
+                    ESC.text(ESC.Util.leftRight(`赠送：${item.gifts_quantity}`, '', 16));
+                }
                 ESC.printAndNewLine();
                 ESC.alignRight();
                 ESC.text(`￥${item.product_sum ? item.product_sum : 0.00}`);
@@ -445,7 +447,9 @@ username:"zhangshijun"
                 ESC.text(ESC.Util.leftRight('产品名称：' + item.name, '', 20));
                 ESC.printAndNewLine();
                 ESC.text(ESC.Util.leftRight(`销量：${item.sale_quantity}`, '', 16));
-                ESC.text(ESC.Util.leftRight(`赠送：${item.gifts_quantity}`, '', 16));
+                if (item.gifts_quantity) {
+                    ESC.text(ESC.Util.leftRight(`赠送：${item.gifts_quantity}`, '', 16));
+                }
                 ESC.printAndNewLine();
                 ESC.alignRight();
                 ESC.text(`￥${NumberUtils.fc(total)}`);
