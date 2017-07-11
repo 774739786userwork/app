@@ -20,7 +20,7 @@ import _ from 'underscore';
 import GMBluetooth from 'react-native-gm-bluetooth';
 const { ESC, TSC } = GMBluetooth;
 import * as NumberUtils from '../../utils/NumberUtils'
-
+import * as DateUtils from '../../utils/DateUtils'
 import { Iconfont, LoginInfo, LineView, Toast, Spinner, FetchManger, LoadingView } from 'react-native-go';
 import dismissKeyboard from 'dismissKeyboard';
 const WINDOW_WIDTH = Dimensions.get('window').width;
@@ -309,7 +309,7 @@ export default class BleManagerPage extends React.Component {
             ESC.printAndNewLine();
             ESC.init();
             //商品开始
-            ESC.text('开单时间：' + param.delivery_date);
+            ESC.text('开单时间：' + DateUtils.show());
             ESC.printAndNewLine();
             ESC.text('店名：' + param.customer_name);
             ESC.printAndNewLine();
@@ -420,7 +420,7 @@ username:"zhangshijun"
             ESC.printAndNewLine();
             ESC.init();
             //商品开始
-            ESC.text('开单时间：' + param.ladingdate);
+            ESC.text('开单时间：' + DateUtils.show());
             ESC.printAndNewLine();
             ESC.text('店名：' + param.customersName);
             ESC.printAndNewLine();

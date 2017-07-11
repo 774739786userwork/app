@@ -18,6 +18,7 @@ import LoadingListView from '../../components/LoadingListView'
 import { Iconfont, LoadingView } from 'react-native-go';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
+const WINDOW_HEIGHT = Dimensions.get('window').height;
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 const modelWidth = WINDOW_WIDTH;
 /**
@@ -99,7 +100,7 @@ export default class AddLadingbillPopModel extends React.Component {
                                 iconSize={20} />
                         </TouchableOpacity>
                     </View>
-                    <View style={{ height: 160, width: WINDOW_WIDTH, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ height: WINDOW_HEIGHT*2/3-160, width: WINDOW_WIDTH, justifyContent: 'center', alignItems: 'center' }}>
                         {
                             totalNum > 0 ?
                                 <ListView
