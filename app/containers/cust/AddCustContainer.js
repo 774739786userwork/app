@@ -87,6 +87,7 @@ class AddCustContainer extends React.Component {
         );
     }
     headerRightPress() {
+        debugger
         const token = LoginInfo.getUserInfo().token;
         const user_id = LoginInfo.getUserInfo().user_id;
         const organization_id = LoginInfo.getUserInfo().organization_id;
@@ -134,7 +135,7 @@ class AddCustContainer extends React.Component {
             Toast.show('请选择行政区域')
             return;
         }
-         if (!saveParams.customerKindsId) {
+        if (!saveParams.customerKindsId) {
             Toast.show('请选择客户类型')
             return;
         }
@@ -142,7 +143,7 @@ class AddCustContainer extends React.Component {
             Toast.show('请选择销售区域')
             return;
         }
-        if (!this.state.buildingMaterial) {
+        if ("20004" === (saveParams.customerKindsId + "") && !this.state.buildingMaterial) {
             Toast.show('请选择建材市场')
             return;
         }
@@ -156,7 +157,9 @@ class AddCustContainer extends React.Component {
             Toast.show("首要联系人手机号码有误，请重填");
             return;
         }
-        saveParams.buildingMaterialId = this.state.buildingMaterial.buildingMaterialId;
+        if (this.state.buildingMaterial) {
+            saveParams.buildingMaterialId = this.state.buildingMaterial.buildingMaterialId;
+        }
         saveParams.cityId = this.state.cityId;
         saveParams.proviceId = this.state.proviceId;
         saveParams.districtId = this.state.regional.districtsId;
