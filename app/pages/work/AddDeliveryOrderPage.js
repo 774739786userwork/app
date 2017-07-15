@@ -93,14 +93,14 @@ class AddDeliveryOrderPage extends React.Component {
                             <ImageView style={{ width: 90, height: 90, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={{ uri: item.image }} />
                         </View>
                         <View style={{ flex: 1 }}>
-                            <View style={{ height: 34, paddingLeft: 12, marginBottom: 8, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
+                            <View style={{ height: 34, paddingLeft: 12, marginBottom: 8, marginTop: 5, flexDirection: 'row', alignItems: 'center' }}>
                                 <Text style={{ color: '#333', fontSize: 16 }}>{item.name}</Text>
                                 <View style={{ flex: 1 }} />
-                                <Text style={{ color: '#666', marginRight: 8, fontSize: 12 }}>{item.specifications ? item.specifications : ''}</Text>
+                                <Text style={{ color: '#666', marginRight: 8, fontSize: 12 }}></Text>
                             </View>
                             <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                                    <Text style={{ color: '#666' }}>{item.activity ? item.activity : ''}</Text>
+                                    <Text style={{ color: '#666' }}>{item.specifications ? item.specifications : ''}</Text>
                                 </View>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
                                     <Text style={{ color: '#666' }}>{'库存：'}</Text>
@@ -241,7 +241,7 @@ class AddDeliveryOrderPage extends React.Component {
                             }
                         </View>
                     </TouchableHighlight>
-                    <Text style={{ color: '#f80000' }}>{'￥' + this.numberCarsh + '元'}</Text>
+                    <Text style={{ color: '#f80000' }}>￥{this.numberCarsh + '元'}</Text>
                     <View style={{ flex: 1 }} />
                     {
                         this.state.chooseList.length > 0 ?

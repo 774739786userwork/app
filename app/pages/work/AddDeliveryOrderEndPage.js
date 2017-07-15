@@ -210,27 +210,25 @@ class AddDeliveryOrderEndPage extends React.Component {
                         <ImageView style={{ width: 90, height: 90, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={{ uri: item.image }} />
                     </View>
                     <View style={{ flex: 1 }}>
-                        <View style={{ height: 34, paddingLeft: 12, marginBottom: 8, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{ height: 34, paddingLeft: 10, marginBottom: 8, marginTop: 5, flexDirection: 'row', alignItems: 'center' }}>
                             <Text style={{ color: '#333', fontSize: 16 }}>{item.name}</Text>
-                            <View style={{ flex: 1 }} />
-                            <Text style={{ color: '#666', marginRight: 8, fontSize: 12 }}>{item.specifications ? item.specifications : ''}</Text>
                         </View>
-                        <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{ height: 30, paddingLeft: 10, flexDirection: 'row', alignItems: 'center' }}>
                             <View style={{ flex: 1, flexDirection: 'row' }}>
-                                <Text style={{ color: '#666' }}>{item.activity ? item.activity : ''}</Text>
+                                <Text style={{ color: '#666' }}>{'售价：'}</Text>
+                                <Text style={{ color: '#f80000' }}>¥{`${item.price}`}X{`${item.sale_quantity}`}</Text>
                             </View>
                             <View style={{ flex: 1, flexDirection: 'row' }}>
-                                <Text style={{ color: '#666' }}>{'库存：'}</Text>
-                                <Text style={{ color: '#f80000' }}>{`${item.stock}`}</Text>
+                                <Text style={{ color: '#f80000',marginLeft:20}}>¥{`${NumberUtils.fc(item.product_sum)}`}</Text>
                             </View>
                         </View>
-                        <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{ height: 30, paddingLeft: 10, flexDirection: 'row', alignItems: 'center' }}>
                             <View style={{ flex: 1, flexDirection: 'row' }}>
-                                <Text style={{ color: '#666' }}>{'单价：'}</Text>
-                                <Text style={{ color: '#f80000' }}>{`${item.price}`}</Text>
+                                <Text style={{ color: '#666' }}>{'赠送：'}</Text>
+                                <Text style={{ color: '#666'}}>{item.gifts_quantity ? item.gifts_quantity : 0}</Text>
                             </View>
                             <View style={{ flex: 1, flexDirection: 'row' }}>
-                                <Text style={{ color: '#666' }}>{'数量：'}</Text>
+                                <Text style={{ color: '#666' }}>{'数量小计：'}</Text>
                                 <Text style={{ color: '#f80000' }}>{`${num}`}</Text>
                             </View>
                         </View>
@@ -276,7 +274,7 @@ class AddDeliveryOrderEndPage extends React.Component {
     }
     renderFooter() {
         return (
-            <View style={{ padding: 12, backgroundColor: '#fff9f9' }}>
+            <View style={{ padding: 10, backgroundColor: '#fff9f9' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
                         <TouchableHighlight style={{ borderColor: '#f80000', borderWidth: StyleSheet.hairlineWidth, borderRadius: 4 }} onPress={this._onChangePress.bind(this)}>
@@ -284,11 +282,11 @@ class AddDeliveryOrderEndPage extends React.Component {
                                 <Text style={{ color: '#f80000' }}>{this.state.isOpenChange ? `取消抹零` : '抹零'}</Text>
                             </View>
                         </TouchableHighlight>
-                        <Text style={{ color: '#f80000', marginLeft: 4 }}>{`￥${this.small_change_sum}`}</Text>
+                        <Text style={{ color: '#f80000', marginLeft: 4 }}>¥{`${this.small_change_sum}`}</Text>
                     </View>
-                    <View style={{ flex: 1, height: 30, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
+                    <View style={{ flex: 1, height: 25, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                         <Text style={{ marginRight: 8, textAlign: 'right', }}>实收(元):</Text>
-                        <TextInput style={{ width: 100, height: 30, textAlign: 'center', color: '#666', borderRadius: 8, padding: 0, borderWidth: 1, borderColor: '#c4c4c4' }}
+                        <TextInput style={{ width: 100, height: 25, textAlign: 'center', color: '#666', borderRadius: 8, padding: 0, borderWidth: 1, borderColor: '#c4c4c4' }}
                             underlineColorAndroid={'transparent'}
                             value={this.state.paid_total_sum + ''}
                             keyboardType={'numeric'}
@@ -307,10 +305,10 @@ class AddDeliveryOrderEndPage extends React.Component {
                         />
                     </View>
                 </View>
-                <View style={{ flexDirection: 'row', marginTop: 8, alignItems: 'center' }}>
-                    <View style={{ flex: 1, height: 30, flexDirection: 'row', alignItems: 'center', }}>
+                <View style={{ flexDirection: 'row', marginTop: 5, alignItems: 'center' }}>
+                    <View style={{ flex: 1, height: 25, flexDirection: 'row', alignItems: 'center', }}>
                         <Text style={{ marginRight: 8, textAlign: 'right', }}>优惠金额(元):</Text>
-                        <TextInput style={{ width: 60, height: 30, textAlign: 'center', color: '#666', borderRadius: 8, padding: 0, borderWidth: 1, borderColor: '#c4c4c4' }}
+                        <TextInput style={{ width: 60, height: 25, textAlign: 'center', color: '#666', borderRadius: 8, padding: 0, borderWidth: 1, borderColor: '#c4c4c4' }}
                             underlineColorAndroid={'transparent'}
                             value={this.state.discount_sum + ''}
                             keyboardType={'numeric'}
@@ -330,13 +328,10 @@ class AddDeliveryOrderEndPage extends React.Component {
                     </View>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
                         <Text style={{ color: '#666' }}>{`铺货总额`}</Text>
-                        <Text style={{ color: '#666' }}>{`￥：${this.distribution_sum}`}</Text>
+                        <Text style={{ color: '#666' }}>¥{`：${this.distribution_sum}`}</Text>
                     </View>
                 </View>
-                <View style={{ flexDirection: 'row', marginTop: 8, alignItems: 'center' }}>
-                    <Text style={{ color: '#666' }}>{`共${this.num}件商品,总计${this.total_sum}元,押金总计${this.foregift_sum}元`}</Text>
-                </View>
-                <View style={{ flexDirection: 'row', marginTop: 8, alignItems: 'center' }}>
+                <View style={{ flexDirection: 'row', marginTop: 5, alignItems: 'center' }}>
                     <Text style={{ color: '#f80000' }}>{`备注:${this.state.remark}`}</Text>
                 </View>
             </View>)
@@ -370,10 +365,18 @@ class AddDeliveryOrderEndPage extends React.Component {
                 }
                 <View style={{ width: WINDOW_WIDTH, height: 1, backgroundColor: '#c4c4c4' }} />
                 <View style={{ height: 50, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{flexDirection:'column',height:50}}>
+                        <View style={{flexDirection:'row'}}>
+                            <Text style={{ color: '#666' }}>{`共${this.num}件商品,总计${this.total_sum}元`}</Text>
+                        </View>
+                        <View style={{flexDirection:'row',marginTop:3}}>
+                            <Text style={{ color: '#666'}}>{`押金总计${this.foregift_sum}元`}</Text>
+                        </View>
+                    </View>
                     <View style={{ flex: 1 }} />
                     <TouchableOpacity onPress={this.dosubmitAction} disabled={canSave}>
                         <View style={{ width: 160, height: 50, backgroundColor: canSave ? '#c4c4c4' : '#fe6732', justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ color: '#fff' }}>{`收款￥${this.state.paid_total_sum}`}</Text>
+                            <Text style={{ color: '#fff' }}>{`收款¥${this.state.paid_total_sum}`}</Text>
                         </View>
                     </TouchableOpacity>
                 </View>

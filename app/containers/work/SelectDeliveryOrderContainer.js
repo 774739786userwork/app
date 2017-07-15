@@ -1,5 +1,8 @@
 import React from 'react';
-
+import {
+  Text,
+  View
+} from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Iconfont } from 'react-native-go';
@@ -14,6 +17,7 @@ class SelectDeliveryOrderContainer extends React.Component {
   static navigationOptions = {
     title: '送货单查询',
   };
+
   render() {
     return <SelectDeliveryOrderPage {...this.props} />;
   }

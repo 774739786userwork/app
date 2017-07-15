@@ -20,7 +20,7 @@ import EditeModel from './EditeModel'
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-
+let ladingdate;
 class GetCarstockProductListPage extends React.Component {
     constructor(props) {
         super(props);
@@ -37,14 +37,17 @@ class GetCarstockProductListPage extends React.Component {
         const { getCarstockProductList } = nextProps;
         if (getCarstockProductList.errMsg) {
             Toast.show(getCarstockProductList.errMsg);
-        }
+        }        
     }
     componentDidMount() {
-        const { action } = this.props;
+        const { action} = this.props;
         InteractionManager.runAfterInteractions(() => {
             action.getCarstockProductList();
         });
     }
+
+    
+
     _rowOnPress(selectItem) {
         this.setState({ modalVisible: true,selectItem });
     }
@@ -59,26 +62,26 @@ class GetCarstockProductListPage extends React.Component {
             >
                 <View style={{ backgroundColor: '#fff' }} key={`row_${index}`}>
                     <View style={{ height: 34, paddingLeft: 12, marginBottom: 8, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{ color: '#333', fontSize: 16 }}>{`${item.name}`}</Text>
+                        <Text style={{ color: '#333', fontSize: 16 }}>{`${item.product_name}`}</Text>
                     </View>
                     <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
-                            <Text style={{ color: '#666' }}>{'车库存：'}</Text>
-                            <Text style={{ color: '#666' }}>{`${item.stock}`}</Text>
+                            <Text style={{ color: '#666' }}>{'提货量：'}</Text>
+                            <Text style={{ color: '#666' }}>{`${item.total_loading_quantity}`}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#666' }}>{'规格：'}</Text>
-                            <Text style={{ color: '#666' }}>{`${item.specifications}`}</Text>
+                            <Text style={{ color: '#666' }}>{`${item.product_specifications}`}</Text>
                         </View>
                     </View>
                     <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#666' }}>{'卸货：'}</Text>
-                            <Text style={{ color: '#666' }}>{`${item.disburden_quantity}`}</Text>
+                            <Text style={{ color: '#666' }}>{`${item.product_stock_quantity}`}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
-                            <Text style={{ color: '#666' }}>{'余货：'}</Text>
-                            <Text style={{ color: '#666' }}>{`${item.stock_quantity}`}</Text>
+                            <Text style={{ color: '#666' }}>{'车余货：'}</Text>
+                            <Text style={{ color: '#666' }}>{`${item.product_stock_quantity}`}</Text>
                         </View>
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, marginTop: 12, flex: 1, backgroundColor: '#c4c4c4' }} />

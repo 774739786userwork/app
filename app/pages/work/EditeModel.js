@@ -23,16 +23,16 @@ export default class EditeModel extends React.Component {
         let item = this.props.item;
         this.state = {
             modalVisible: this.props.modalVisible,
-            count: item.stock,
-            maxCount: item.stock,
+            count: item.product_stock_quantity,
+            maxCount: item.product_stock_quantity,
         };
     }
     componentWillReceiveProps(nextProps) {
         let item = nextProps.item;
         this.setState({
             modalVisible: nextProps.modalVisible,
-            count: item.stock,
-            maxCount: item.stock,
+            count: item.product_stock_quantity,
+            maxCount: item.product_stock_quantity,
         });
     }
 
@@ -70,11 +70,11 @@ export default class EditeModel extends React.Component {
                     backgroundColor: '#fff',
                 }}>
                     <View style={{ backgroundColor: '#0081d4', height: 36, width: modelWidth, borderTopLeftRadius: 10, borderTopRightRadius: 10, justifyContent: 'center', alignItems: 'center', }}>
-                        <Text style={{ color: '#fff' }}>{`${item.name}`}</Text>
+                        <Text style={{ color: '#fff' }}>{`${item.product_name}`}</Text>
                     </View>
                     <View style={{ marginTop: 12, height: 34, flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={{ flex: 2, textAlign: 'right', }}>库存:</Text>
-                        <Text style={{ marginLeft: 8, flex: 3, color: '#f80000' }}>{`${item.stock}${item.unit}`}</Text>
+                        <Text style={{ marginLeft: 8, flex: 3, color: '#f80000' }}>{`${item.product_stock_quantity}${item.product_unit}`}</Text>
                     </View>
                     <View style={{ height: 34, marginBottom: 12, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                         <Text style={{ flex: 2, textAlign: 'right', }}>卸货:</Text>

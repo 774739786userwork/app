@@ -18,7 +18,7 @@ class GetCarstockProductListContainer extends React.Component {
     const rightTitle = navigation.state.params ? navigation.state.params.rightTitle : '车辆选择';
     console.log(navigation.state.params)
     return {
-      title: '今日余货',
+      title: '车余货单',
       headerRight: (<TouchableOpacity onPress={() => {
         navigation.state.params.headerRightPress();
       }}>

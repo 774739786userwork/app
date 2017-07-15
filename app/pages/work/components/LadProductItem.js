@@ -42,8 +42,7 @@ class LadProductItem extends React.Component {
                 <View style={{ flex: 1 }}>
                     <View style={{ height: 24, paddingLeft: 12, marginBottom: 4, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={{ color: '#333', fontSize: 16 }}>{`${item.product_name}`}</Text>
-                        <View style={{ flex: 1 }} />
-                        <Text style={{ color: '#999', fontSize: 12, marginRight: 8 }}>{`${item.specifications}`}</Text>
+                        
                     </View>
                     <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
@@ -51,14 +50,17 @@ class LadProductItem extends React.Component {
                             <Text style={{ color: '#999', fontSize: 12 }}>{`${item.housestock}`}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
-                            <Text style={{ color: '#999', fontSize: 12 }}>{'订单数量：'}</Text>
-                            <Text style={{ color: '#999', fontSize: 12 }}>{`${item.purchase_count}`}</Text>
+                            <Text style={{ color: '#999', fontSize: 12, marginRight: 8 }}>{`${item.specifications}`}</Text>
                         </View>
                     </View>
                     <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#999', fontSize: 12 }}>{'余货：'}</Text>
                             <Text style={{ color: '#999', fontSize: 12 }}>{`${item.remain_count}`}</Text>
+                        </View>
+                        <View style={{ flex: 1, flexDirection: 'row' }}>
+                            <Text style={{ color: '#999', fontSize: 12 }}>{'订单数量：'}</Text>
+                            <Text style={{ color: '#999', fontSize: 12 }}>{`${item.purchase_count}`}</Text>
                         </View>
                     </View>
                     <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>

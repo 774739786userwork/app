@@ -260,8 +260,7 @@ class AddLadingbillsProductPage extends React.Component {
                 <View style={{ backgroundColor: '#118cd7', paddingLeft: 12, paddingBottom: 6, paddingTop: 6 }}>
                     <View style={{ height: 26, flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={{ color: '#fff', fontSize: 16 }}>{`${params.car_id[0]}`}</Text>
-                    </View>
-                    <View style={{ height: 26, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{marginLeft:20}}/>
                         <Text style={{ color: '#fff', fontSize: 16 }}>{`${params.storehouse_id[0]}`}</Text>
                     </View>
                 </View>
@@ -329,7 +328,7 @@ class AddLadingbillsProductPage extends React.Component {
                             <Text style={{ color: '#f80000' }}>{`${this.state.totalNum}`}</Text>
                         </View>
                         <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }}>
-                            <Text style={{ color: '#666' }}>{'总质量：'}</Text>
+                            <Text style={{ color: '#666' }}>{'总重量：'}</Text>
                             <Text style={{ color: '#f80000' }}>{`${this.state.totalWeight}KG`}</Text>
                         </View>
                     </View>

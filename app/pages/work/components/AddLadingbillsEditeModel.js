@@ -80,7 +80,7 @@ export default class AddLadingbillsEditeModel extends React.Component {
                         <View style={{ flex: 2 }}>
                             <View style={{ marginTop: 8, height: 34, flexDirection: 'row', alignItems: 'center' }}>
                                 <Text style={{ width: 40, textAlign: 'right', }}>余货:</Text>
-                                <Text style={{ marginLeft: 8, flex: 3, }}>{`￥${item.remain_count}`}</Text>
+                                <Text style={{ marginLeft: 8, flex: 3, }}>{`${item.remain_count}`}</Text>
                             </View>
                             <View style={{ height: 34, marginTop: 8, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                                 <Text style={{ width: 40, textAlign: 'right', }}>实提:</Text>
