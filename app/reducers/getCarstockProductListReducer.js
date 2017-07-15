@@ -17,6 +17,7 @@ export default function getCarstockProductListReducer(state = initialState, acti
                 loading: true,
                 errMsg: undefined,
                 result: []
+                
             });
         case types.GetCarstockProductListError_ACTION:
             return Object.assign({}, state, {
