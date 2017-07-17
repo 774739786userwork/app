@@ -30,9 +30,9 @@ function GetDateStr(AddDayCount) {
     return y + "-" + m + "-" + d;
 }
 /**
- * 结算单
+ * 卸货单
  */
-class AddBalanceAccoutsPage extends React.Component {
+class UnloadBillPage extends React.Component {
     constructor(props) {
         super(props);
         this._selectByDate = this._selectByDate.bind(this)
@@ -74,7 +74,7 @@ class AddBalanceAccoutsPage extends React.Component {
         const data = this.state.data
         let loadingdate = this.state.loadingdate;
         let car_id = this.state.car.carbaseinfo_id
-        let params = { ...userInfo,...data,source_equipment:1,loadingdate,car_id };
+        let params = { ...userInfo, ...data, source_equipment: 1, loadingdate, car_id };
         this.setState({ showSpinner: true })
         FetchManger.postUri('mobileServiceManager/balanceAccouts/addBalanceAccouts.page', params).then((responseData) => {
             this.setState({ showSpinner: false })
@@ -89,7 +89,7 @@ class AddBalanceAccoutsPage extends React.Component {
     }
 
     onSurePress() {
-        Alert.alert('','确定保存日结单?',
+        Alert.alert('', '确定保存日结单?',
             [
                 { text: '确定', onPress: this.onSave },
                 { text: '取消', onPress: () => console.log('Cancel Pressed!') }
@@ -200,7 +200,7 @@ class AddBalanceAccoutsPage extends React.Component {
                 </View>
                 <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#e6e6e6' }} />
                 <View style={{ height: 40, paddingLeft: 12, backgroundColor: '#f2f2f2', justifyContent: 'center' }} >
-                    <Text style={{ color: '#999' }}>{'结算产品信息'}</Text>
+                    <Text style={{ color: '#999' }}>{'卸货产品信息'}</Text>
                 </View>
                 <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#e6e6e6' }} />
                 {
@@ -218,45 +218,21 @@ class AddBalanceAccoutsPage extends React.Component {
 
                 }
                 <View style={{ width: WINDOW_WIDTH, height: 1, backgroundColor: '#c4c4c4' }} />
-                {
-                    this.state.data.settleProductlist.length > 0 ?
-                        <View style={{paddingLeft:8 , height: 50, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
-                            <View style={{ flex: 1, justifyContent: 'center' }}>
-                                <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }}>
-                                    <Text style={{ color: '#666' }}>{'应收金额：'}</Text>
-                                    <Text style={{ color: '#f80000' }}>{`${this.state.data.receivable_sum}`}</Text>
-                                </View>
-                                <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }}>
-                                    <Text style={{ color: '#666' }}>{'未收金额：'}</Text>
-                                    <Text style={{ color: '#f80000' }}>{`${this.state.data.unpaid_sum}`}</Text>
-                                </View>
-                                <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }}>
-                                    <Text style={{ color: '#666' }}>{'铺货金额：'}</Text>
-                                    <Text style={{ color: '#f80000' }}>{`${this.state.data.distribution_sum ? this.state.data.distribution_sum : 0}`}</Text>
-                                </View>
-                            </View>
-                            <View style={{ flex: 1, justifyContent: 'center' }}>
-                                <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }}>
-                                    <Text style={{ color: '#666' }}>{'实收金额：'}</Text>
-                                    <Text style={{ color: '#f80000' }}>{`${this.state.data.paid_sum}`}</Text>
-                                </View>
-                                <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }}>
-                                    <Text style={{ color: '#666' }}>{'抹零金额：'}</Text>
-                                    <Text style={{ color: '#f80000' }}>{`${this.state.data.small_change_sum}`}</Text>
-                                </View>
-                                <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }}>
-                                    <Text style={{ color: '#666' }}>{'优惠金额：'}</Text>
-                                    <Text style={{ color: '#f80000' }}>{`${this.state.data.favourable_sum ? this.state.data.favourable_sum : 0}`}</Text>
-                                </View>
-                            </View>
-                            <TouchableHighlight onPress={this.onSurePress.bind(this)}>
-                                <View style={{ width: 80, height: 50, backgroundColor: '#fe6732', justifyContent: 'center', alignItems: 'center' }}>
-                                    <Text style={{ color: '#fff' }}>{'确定'}</Text>
-                                </View>
-                            </TouchableHighlight>
+                <View style={{ height: 50, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
+                    <TouchableHighlight onPress={this.onSurePress.bind(this)}>
+                        <View style={{ width: 100, height: 50, backgroundColor: '#ccc', justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ color: '#fff' }}>{'取消'}</Text>
                         </View>
-                        : null
-                }
+                    </TouchableHighlight>
+
+                    <View style={{ flex: 1, justifyContent: 'center' }}>
+                    </View>
+                    <TouchableHighlight onPress={this.onSurePress.bind(this)}>
+                        <View style={{ width: 100, height: 50, backgroundColor: '#fe6732', justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ color: '#fff' }}>{'确定'}</Text>
+                        </View>
+                    </TouchableHighlight>
+                </View>
                 <View><Spinner visible={this.state.showSpinner} text={'提交中,请稍后...'} /></View>
 
             </View >
@@ -264,4 +240,4 @@ class AddBalanceAccoutsPage extends React.Component {
     }
 }
 
-export default AddBalanceAccoutsPage;
+export default UnloadBillPage;

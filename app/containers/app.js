@@ -6,6 +6,10 @@ import WorkContainer from '../containers/WorkContainer';
 //提货单查询
 import SelectLadingbillsContainer from './work/SelectLadingbillsContainer';
 import SelectLadingbillsDetailPage from '../pages/work/SelectLadingbillsDetailPage'
+//卸货单
+import UnloadBillContainer from './work/UnloadBillContainer';
+
+
 //订货单查询
 import PurchaseOrderInfoContainer from './work/PurchaseOrderInfoContainer';
 //送货单查询
@@ -182,6 +186,11 @@ const App = StackNavigator(
     AddBalanceAccouts: {
       screen: AddBalanceAccoutsContainer
     },
+    //卸货单
+    UnloadBill: {
+      screen: UnloadBillContainer
+    },
+    
 
 
   },
