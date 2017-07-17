@@ -29,7 +29,7 @@ const HomeItem = [
   { name: '开送货单', open:true,typeName: 'ListCustomers', image: require('../../imgs/home/add_songhuo_order.png') },
   { name: '开退货单', typeName: 'SelectLadingbills', image: require('../../imgs/home/add_tuihuo_order.png') },
   { name: '开订货单', typeName: 'SelectLadingbills', image: require('../../imgs/home/kaidinghuodan.png') },
-  { name: '结算单', typeName: 'SelectLadingbills', image: require('../../imgs/home/jiesuandan.png') },
+  { name: '结算单', open:true,typeName: 'AddBalanceAccouts', image: require('../../imgs/home/jiesuandan.png') },
   { name: '欠款单', typeName: 'SelectLadingbills', image: require('../../imgs/home/qiankuandan.png') },
 ];
 

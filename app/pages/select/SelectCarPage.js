@@ -42,7 +42,7 @@ class SelectCarPage extends React.Component {
     }
     _onItemPress(item) {
         const { navigation } = this.props;
-        if (item.status === 0 || item.status === '0') {
+        if (item.status === 0 || item.status === '0' || navigation.state.params.selectCar) {
             navigation.state.params.callback(item);
             navigation.goBack();
         } else {

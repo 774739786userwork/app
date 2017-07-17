@@ -36,7 +36,8 @@ import QueryReturnDetailContainer from './work/QueryReturnDetailContainer'
 //开提货单
 import AddLadingbillsContainer from './work/AddLadingbillsContainer'
 import AddLadingbillsProductContainer from './work/AddLadingbillsProductContainer'
-
+//开结算单
+import AddBalanceAccoutsContainer from './work/AddBalanceAccoutsContainer'
 //销售管理
 import SelasContainer from './SelasContainer';
 //客户管理
@@ -177,6 +178,9 @@ const App = StackNavigator(
     },
     CustDetail: {
       screen: CustDetailContainer
+    },
+    AddBalanceAccouts: {
+      screen: AddBalanceAccoutsContainer
     },
 
 
