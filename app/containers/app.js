@@ -190,9 +190,6 @@ const App = StackNavigator(
     UnloadBill: {
       screen: UnloadBillContainer
     },
-    
-
-
   },
   {
     headerMode: 'screen',

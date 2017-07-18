@@ -134,7 +134,8 @@ class AddDeliveryOrderEndPage extends React.Component {
         saveParams.ladingdate = params.ladingdate
         saveParams.ladingbill_id = params.ladingbill_id
         saveParams.ladingbill_serialnumber = params.ladingbill_serialnumber
-
+        saveParams.purchaseSerialnumber = params.purchaseSerialnumber
+        saveParams.purchaseSerialnumber = params.purchaseSerialnumber ? params.purchaseSerialnumber : '';
         saveParams.total_sum = NumberUtils.fc(this.total_sum);
         saveParams.paid_total_sum = NumberUtils.fc(this.state.paid_total_sum);
         saveParams.foregift_sum = this.foregift_sum;
