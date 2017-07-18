@@ -10,7 +10,6 @@ import {
     TouchableOpacity,
     InteractionManager,
     DatePickerAndroid,
-    Modal,
     TouchableHighlight
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
@@ -20,7 +19,18 @@ import LoadingListView from '../../components/LoadingListView'
 import EditeModel from './EditeModel'
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
+function GetDateStr(AddDayCount) {
+    var dd = new Date();
+    dd.setDate(dd.getDate() + AddDayCount);//获取AddDayCount天后的日期 
+    var y = dd.getFullYear();
+    var m = dd.getMonth() + 1;//获取当前月份的日期 
+    var d = dd.getDate();
+    return y + "-" + m + "-" + d;
+}
+
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+let carId = '';
+let carName = '';
 class GetCarstockProductListPage extends React.Component {
     constructor(props) {
         super(props);
@@ -28,11 +38,19 @@ class GetCarstockProductListPage extends React.Component {
         this._rowOnPress = this._rowOnPress.bind(this);
         this.onConfirmPress = this.onConfirmPress.bind(this)
         this.onCancelPress = this.onCancelPress.bind(this)
-        this.state = { 
+        this._selectByDate = this._selectByDate.bind(this)
+        this._selectCar = this._selectCar.bind(this)
+
+        let today = GetDateStr(0);
+        this.state = {
             modalVisible: false,
+            loadingdate: today,
+            car: {
+                platenumber: '请选择车牌号'
+            },
             selectItem:{},
-            data:[]
-        };
+            data: []
+        }
     }
     componentWillReceiveProps(nextProps) {
         const { getCarstockProductList } = nextProps;
@@ -41,30 +59,6 @@ class GetCarstockProductListPage extends React.Component {
             Toast.show(getCarstockProductList.errMsg);
         }     
         this.setState({data:getCarstockProductList.result})
-    }
-   componentDidMount() {
-        const { action} = this.props;
-        InteractionManager.runAfterInteractions(() => {
-           this.timer = setTimeout(
-            () => 
-            { 
-                try {
-                    const { action, year, month, day } =DatePickerAndroid.open({
-                        // 要设置默认值为今天的话，使用`new Date()`即可。
-                        // 下面显示的会是2020年5月25日。月份是从0开始算的。
-                        date: new Date()
-                    });
-                    if (action !== DatePickerAndroid.dismissedAction) {
-                        // 这里开始可以处理用户选好的年月日三个参数：year, month (0-11), day
-                        let ladingdate = `${year}-${month+1}-${day}`;   
-                    }
-                } catch ({ code, message }) {
-                    console.warn('Cannot open date picker', message);
-                }
-            },
-            500);
-            action.getCarstockProductList(186,DateUtils.getYearMonthDay());
-        });
     }
 
     _rowOnPress(selectItem) {
@@ -120,13 +114,80 @@ class GetCarstockProductListPage extends React.Component {
     onCancelPress() {
          this.setState({ modalVisible: false });
     }
+
+    //选日期
+    _selectByDate(dateValue) {
+        this.state.loadingdate = dateValue;
+        const { action} = this.props;
+        action.getCarstockProductList(carId,dateValue);
+    }
+
+    //选车牌
+    _selectCar() {
+        const { action,navigation } = this.props;
+        navigation.navigate('SelectCar', {
+            selectCar: true, callback: (data) => {
+                carId = data['carbaseinfo_id']
+                this.state.car.platenumber = data['platenumber']
+                action.getCarstockProductList(carId,this.state.loadingdate);
+            }
+        });
+    }
+
     render() {
         const { getCarstockProductList } = this.props;
         let list = getCarstockProductList.result ? this.state.data:[];
         list = list ? list:[]
         return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
+                <View style={{ height: 10, backgroundColor: '#f2f2f2' }} ></View>
                 <EditeModel modalVisible={this.state.modalVisible} onCancelPress={this.onCancelPress} item={this.state.selectItem} onConfirmPress={this.onConfirmPress} />
+                <TouchableOpacity onPress={this._selectCar}>
+                    <View style={{ backgroundColor: '#fff', flexDirection: 'row', paddingLeft: 10, paddingRight: 12, height: 50, justifyContent: 'center', alignItems: 'center' }}>
+                        <Text style={{ color: '#333', fontSize: 18 }}>{'车牌号'}</Text>
+                        <View style={{ flex: 1 }} />
+                        <Text style={{ color: '#999', fontSize: 14 }}>{this.state.car.platenumber}</Text>
+                        <View>
+                            <Iconfont
+                                icon={'e66e'} // 图标
+                                iconColor={'#999'}
+                                iconSize={22}
+                            />
+                        </View>
+                    </View>
+                </TouchableOpacity>
+                <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#e6e6e6' }} />
+                <View style={{ backgroundColor: '#fff', flexDirection: 'row', paddingLeft: 10, paddingRight: 12, height: 50, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={{ color: '#333', fontSize: 18 }}>{'提货日期'}</Text>
+                    <View style={{ flex: 1 }} />
+                    <DatePicker
+                        style={{ width: 100, }}
+                        date={this.state.loadingdate}
+                        customStyles={{
+                            dateInput: { borderWidth: 0 },
+                            dateText: { color: '#999', textAlign: 'left' }
+                        }}
+                        mode="date"
+                        showIcon={false}
+                        format="YYYY-MM-DD"
+                        confirmBtnText="确定"
+                        cancelBtnText="取消"
+                        onDateChange={(date) => { 
+                            this._selectByDate(date) 
+                        }}
+                    />
+                    <View>
+                        <Iconfont
+                            icon={'e66e'} // 图标
+                            iconColor={'#999'}
+                            iconSize={22}
+                        />
+                    </View>
+                </View>
+                <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#e6e6e6' }} />
+                <View style={{ height: 30, paddingLeft: 10, backgroundColor: '#f2f2f2', justifyContent: 'center' }} >
+                    <Text style={{ color: '#999' }}>{'余货产品信息'}</Text>
+                </View>
                 <LoadingListView
                     loading={getCarstockProductList.loading}
                     loadMore={getCarstockProductList.loadMore}
