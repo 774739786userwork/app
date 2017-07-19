@@ -77,7 +77,7 @@ class DeliveryCustomersContainer extends React.Component {
     }
     _onlistItemPress(item) {
         const { navigate } = this.props.navigation;
-        navigate('CustDetail');
+        navigate('CustDetail',item);
     }
     _extraUniqueKey(item, index) {
         return "index" + index + item;
