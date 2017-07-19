@@ -60,9 +60,9 @@ class AddDeliveryOrderPage extends React.Component {
         
         const selectCar = nextProps.selectCar
         if (selectCar.carbaseinfo_id && !addDeliveryOrder.loading && addDeliveryOrder.result.length == 0) {
-            action.addDeliveryOrder(selectCar.carbaseinfo_id,params.ladingdate)
+            action.addDeliveryOrder(selectCar.carbaseinfo_id,params.ladingdate,params.customersId)
         } else if (selectCar.carbaseinfo_id != this.carbaseinfo_id) {
-            action.addDeliveryOrder(selectCar.carbaseinfo_id,params.ladingdate)
+            action.addDeliveryOrder(selectCar.carbaseinfo_id,params.ladingdate,params.customersId)
         }
         this.carbaseinfo_id = selectCar.carbaseinfo_id
 
