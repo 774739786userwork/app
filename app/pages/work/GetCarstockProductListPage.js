@@ -13,10 +13,12 @@ import {
     TouchableHighlight
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
-import { Iconfont, LoadingView,Toast } from 'react-native-go';
+import { Iconfont, LoadingView, Toast, FetchManger, Spinner,LoginInfo } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 import EditeModel from './EditeModel'
+import { NavigationActions } from 'react-navigation'
+
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
 function GetDateStr(AddDayCount) {
@@ -43,26 +45,27 @@ class GetCarstockProductListPage extends React.Component {
 
         let today = GetDateStr(0);
         this.state = {
+            showSpinner: false,
             modalVisible: false,
             loadingdate: today,
             car: {
                 platenumber: '请选择车牌号'
             },
-            selectItem:{},
+            selectItem: {},
             data: []
         }
     }
     componentWillReceiveProps(nextProps) {
         const { getCarstockProductList } = nextProps;
-        
+
         if (getCarstockProductList.errMsg) {
             Toast.show(getCarstockProductList.errMsg);
-        }     
-        this.setState({data:getCarstockProductList.result})
+        }
+        this.setState({ data: getCarstockProductList.result })
     }
 
     _rowOnPress(selectItem) {
-        this.setState({ modalVisible: true,selectItem });
+        this.setState({ modalVisible: true, selectItem });
     }
     //disburden_quantity 卸货数量
     //stock_quantity 余货数量
@@ -89,7 +92,7 @@ class GetCarstockProductListPage extends React.Component {
                     <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#666' }}>{'卸货：'}</Text>
-                            <Text style={{ color: '#666' }}>{'0'}</Text>
+                            <Text style={{ color: '#666' }}>{`${item.disburden_quantity ? item.disburden_quantity : 0}`}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#666' }}>{'车余货：'}</Text>
@@ -100,44 +103,103 @@ class GetCarstockProductListPage extends React.Component {
                 </View>
             </TouchableHighlight>);
     }
-    _onItemPress() {
+    _onPrintPress() {
+        let params = { YH: true }
+        params.chooseList = this.state.data;
+        params.selectCar = this.state.car
+        const { navigation } = this.props;
+        const navigationAction = NavigationActions.reset({
+            index: 1,
+            actions: [
+                NavigationActions.navigate({ routeName: 'Home' }),
+                NavigationActions.navigate({ routeName: 'BleManager', params: params })
+            ]
+        })
+        navigation.dispatch(navigationAction)
+    }
+    _onSurePrintPress() {
+        let params = { XH: true }
+        let goods_list = [];
+        this.state.data.map((item) => {
+            if(item.disburden_quantity && item.disburden_quantity > 0){
+                goods_list.push(item)
+            }
+        })
+        if(goods_list.length == 0){
+            Toast.show('请选择卸货产品');
+            return;
+        }
+        params.chooseList = goods_list;
+        params.selectCar = this.state.car
 
+
+        const token = LoginInfo.getUserInfo().token;
+        const user_id = LoginInfo.getUserInfo().user_id;
+
+        let saveParams = {}
+        saveParams.user_id = user_id;
+        saveParams.token = token;
+        saveParams.carbaseinfo_id = params.selectCar.carbaseinfo_id
+        saveParams.platenumber = params.selectCar.platenumber
+        saveParams.loading_date = this.state.loadingdate
+        saveParams.goods_list = JSON.stringify(goods_list);
+        const { navigation } = this.props;
+        FetchManger.postUri('mobileServiceManager/unloadcar/addUnload.page', saveParams).then((responseData) => {
+            this.setState({ showSpinner: false })
+            if (responseData.status === '0' || responseData.status === 0) {
+                const navigationAction = NavigationActions.reset({
+                    index: 1,
+                    actions: [
+                        NavigationActions.navigate({ routeName: 'Home' }),
+                        NavigationActions.navigate({ routeName: 'BleManager', params: params })
+                    ]
+                })
+                navigation.dispatch(navigationAction)
+                Toast.show('保存成功')
+            } else {
+                Toast.show(responseData.msg)
+            }
+        }).catch((error) => {
+            console.log(error)
+            this.setState({ showSpinner: false })
+            Toast.show('保存失败')
+        })
     }
 
-    onConfirmPress(id,newCount) {
+    onConfirmPress(id, newCount) {
         const { action } = this.props;
-        InteractionManager.runAfterInteractions(() => {
-            action.getCarstockProductListDisburden(id,newCount);
-        });
-         this.setState({ modalVisible: false });
+        let selectItem = this.state.selectItem;
+        selectItem.disburden_quantity = newCount;
+        selectItem.product_stock_quantity = selectItem.product_stock_quantity - newCount
+        this.setState({ modalVisible: false, selectItem });
     }
     onCancelPress() {
-         this.setState({ modalVisible: false });
+        this.setState({ modalVisible: false });
     }
 
     //选日期
     _selectByDate(dateValue) {
         this.state.loadingdate = dateValue;
-        const { action} = this.props;
-        action.getCarstockProductList(carId,dateValue);
+        const { action } = this.props;
+        action.getCarstockProductList(carId, dateValue);
     }
 
     //选车牌
     _selectCar() {
-        const { action,navigation } = this.props;
+        const { action, navigation } = this.props;
         navigation.navigate('SelectCar', {
             selectCar: true, callback: (data) => {
                 carId = data['carbaseinfo_id']
-                this.state.car.platenumber = data['platenumber']
-                action.getCarstockProductList(carId,this.state.loadingdate);
+                this.state.car = data
+                action.getCarstockProductList(carId, this.state.loadingdate);
             }
         });
     }
 
     render() {
         const { getCarstockProductList } = this.props;
-        let list = getCarstockProductList.result ? this.state.data:[];
-        list = list ? list:[]
+        let list = getCarstockProductList.result ? this.state.data : [];
+        list = list ? list : []
         return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
                 <View style={{ height: 10, backgroundColor: '#f2f2f2' }} ></View>
@@ -172,8 +234,8 @@ class GetCarstockProductListPage extends React.Component {
                         format="YYYY-MM-DD"
                         confirmBtnText="确定"
                         cancelBtnText="取消"
-                        onDateChange={(date) => { 
-                            this._selectByDate(date) 
+                        onDateChange={(date) => {
+                            this._selectByDate(date)
                         }}
                     />
                     <View>
@@ -193,19 +255,25 @@ class GetCarstockProductListPage extends React.Component {
                     loadMore={getCarstockProductList.loadMore}
                     listData={dataSource.cloneWithRows(list)}
                     renderRowView={this._renderItem} />
-                <View style={{ height: 50, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
-                    <TouchableHighlight onPress={this._onItemPress.bind(this)}>
-                        <View style={{ width: 100, height: 50, backgroundColor: '#d6d6d6', justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ color: '#fff' }}>{'余货打印'}</Text>
+                {
+                    list.length > 0 ?
+                        <View style={{ height: 50, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
+                            <TouchableHighlight onPress={this._onPrintPress.bind(this)}>
+                                <View style={{ width: 100, height: 50, backgroundColor: '#d6d6d6', justifyContent: 'center', alignItems: 'center' }}>
+                                    <Text style={{ color: '#fff' }}>{'余货打印'}</Text>
+                                </View>
+                            </TouchableHighlight>
+                            <View style={{ flex: 1 }} />
+                            <TouchableHighlight onPress={this._onSurePrintPress.bind(this)}>
+                                <View style={{ width: 100, height: 50, backgroundColor: '#fe6732', justifyContent: 'center', alignItems: 'center' }}>
+                                    <Text style={{ color: '#fff' }}>{'卸货确认'}</Text>
+                                </View>
+                            </TouchableHighlight>
                         </View>
-                    </TouchableHighlight>
-                    <View style={{ flex: 1 }} />
-                    <TouchableHighlight onPress={this._onItemPress.bind(this)}>
-                        <View style={{ width: 100, height: 50, backgroundColor: '#fe6732', justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ color: '#fff' }}>{'卸货确认'}</Text>
-                        </View>
-                    </TouchableHighlight>
-                </View>
+                        : null
+                }
+                <View><Spinner visible={this.state.showSpinner} text={'提交中,请稍后...'} /></View>
+
             </View >
         );
     }

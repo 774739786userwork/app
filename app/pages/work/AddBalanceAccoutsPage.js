@@ -71,9 +71,10 @@ class AddBalanceAccoutsPage extends React.Component {
 
     onSave() {
         const userInfo = LoginInfo.getUserInfo();
-        const data = this.state.data
+        let data = this.state.data
         let loadingdate = this.state.loadingdate;
         let car_id = this.state.car.carbaseinfo_id
+        data.settleProductlist =  JSON.stringify(data.settleProductlist);
         let params = { ...userInfo,...data,source_equipment:1,loadingdate,car_id };
         this.setState({ showSpinner: true })
         FetchManger.postUri('mobileServiceManager/balanceAccouts/addBalanceAccouts.page', params).then((responseData) => {
