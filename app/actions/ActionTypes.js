@@ -28,8 +28,14 @@ export const SelectLadingbillsing_ACTION = 'SelectLadingbillsing_ACTION';
 export const SelectLadingbillsing_More_ACTION = 'SelectLadingbillsing_More_ACTION';  
 export const SelectLadingbillsError_ACTION = 'SelectLadingbillsError_ACTION'; //收到结果
 export const SelectLadingbillsSucceed_ACTION = 'SelectLadingbillsSucceed_ACTION'; //收到结果
+// 订货单查询
+export const UnLoadBillDetailList_API = "mobileServiceManager/unloadcar/queryListInfoUnLoadBill.page";
+export const UnLoadBillDetailListing_ACTION = 'UnLoadBillDetailListing_ACTION';  
+export const UnLoadBillDetailListing_More_ACTION = 'UnLoadBillDetailListing_More_ACTION';  
+export const UnLoadBillDetailListError_ACTION = 'UnLoadBillDetailListError_ACTION'; //收到结果
+export const UnLoadBillDetailListSucceed_ACTION = 'UnLoadBillDetailListSucceed_ACTION'; //收到结果
 // 订货单查询详细
-export const PurchaseOrderDetail_API = "mobile_interfaces/mobile_info/getPurchaseOrderInfo.page";
+export const PurchaseOrderDetail_API = "mobileServiceManager/purchaseOrders/queryListInfoPurchaseOrderss.page";
 export const PurchaseOrderDetailing_ACTION = 'PurchaseOrderDetailing_ACTION';  
 export const PurchaseOrderDetailing_More_ACTION = 'PurchaseOrderDetailing_More_ACTION';  
 export const PurchaseOrderDetailError_ACTION = 'PurchaseOrderDetailError_ACTION'; //收到结果

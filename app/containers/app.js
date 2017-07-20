@@ -8,7 +8,8 @@ import SelectLadingbillsContainer from './work/SelectLadingbillsContainer';
 import SelectLadingbillsDetailPage from '../pages/work/SelectLadingbillsDetailPage'
 //卸货单
 import UnloadBillContainer from './work/UnloadBillContainer';
-
+//卸货单查询
+import UnLoadBillDetailListContainer from './work/UnLoadBillDetailListContainer'
 
 //订货单查询
 import PurchaseOrderInfoContainer from './work/PurchaseOrderInfoContainer';
@@ -190,6 +191,9 @@ const App = StackNavigator(
     UnloadBill: {
       screen: UnloadBillContainer
     },
+    UnLoadBillDetailList: {
+      screen: UnLoadBillDetailListContainer
+    }
   },
   {
     headerMode: 'screen',

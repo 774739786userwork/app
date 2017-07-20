@@ -130,24 +130,50 @@ export function selectLadingbills(begin_date, end_date, start = 0, rows = 10) {
 
 }
 /**
+ * 提货单查询 详细
+ */
+export function unLoadBillDetailList(start = 0, rows = 10) {
+    const token = LoginInfo.getUserInfo().token;
+    const user_id = LoginInfo.getUserInfo().user_id;
+    const organization_id = LoginInfo.getUserInfo().organization_id;
+    let page = 1;
+    if (start) {
+        page = start / rows + 1;
+        return {
+            type: types.UnLoadBillDetailListing_More_ACTION,
+            api: types.UnLoadBillDetailList_API,
+            param: { token,organization_id, user_id, page, rows }
+        };
+    } else {
+        return {
+            type: types.UnLoadBillDetailListing_ACTION,
+            api: types.UnLoadBillDetailList_API,
+            param: { token,organization_id, user_id, page, rows }
+        };
+    }
+
+}
+
+/**
  * 订货单查询 详细
  */
 export function purchaseOrderDetail(start = 0, rows = 10) {
     const token = LoginInfo.getUserInfo().token;
     const user_id = LoginInfo.getUserInfo().user_id;
+    const organization_id = LoginInfo.getUserInfo().organization_id;
     let page = 1;
     if (start) {
         page = start / rows + 1;
         return {
             type: types.PurchaseOrderDetailing_More_ACTION,
             api: types.PurchaseOrderDetail_API,
-            param: { token, user_id, page, rows }
+            param: { token,organization_id, user_id, page, rows }
         };
     } else {
         return {
             type: types.PurchaseOrderDetailing_ACTION,
             api: types.PurchaseOrderDetail_API,
-            param: { token, user_id, page, rows }
+            param: { token,organization_id, user_id, page, rows }
         };
     }
 

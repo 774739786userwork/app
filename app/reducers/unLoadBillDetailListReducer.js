@@ -16,23 +16,23 @@ const initialState = {
 
 }
 
-export default function purchaseOrderDetailReducer(state = initialState, action) {
+export default function unLoadBillDetailListReducer(state = initialState, action) {
     switch (action.type) {
-        case types.PurchaseOrderDetailing_ACTION:
+        case types.UnLoadBillDetailListing_ACTION:
             return Object.assign({}, state, {
                 loading: true,
                 errMsg: undefined,
                 count: 0,
                 listData: dataSource.cloneWithRows([]),//数据源
             });
-        case types.PurchaseOrderDetailError_ACTION:
+        case types.UnLoadBillDetailListError_ACTION:
             return Object.assign({}, state, {
                 loading: false,
                 count: 0,
                 listData: dataSource.cloneWithRows([]),//数据源
                 errMsg: action.errMsg,
             });
-        case types.PurchaseOrderDetailSucceed_ACTION:
+        case types.UnLoadBillDetailListSucceed_ACTION:
             if (state.loadMore) {
                 let list = state.result.concat(action.result.purchase_order_list ? action.result.purchase_order_list : []);
                 return Object.assign({}, state, {
@@ -53,7 +53,7 @@ export default function purchaseOrderDetailReducer(state = initialState, action)
                 });
             }
 
-        case types.PurchaseOrderDetailing_More_ACTION:
+        case types.UnLoadBillDetailListing_More_ACTION:
             return Object.assign({}, state, {
                 loadMore: true,
             });
