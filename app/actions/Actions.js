@@ -359,11 +359,11 @@ export function queryReturnDetail(return_id) {
 /**
  * 开提货单 产品列表查询
  */
-export function addLadingbillsProduct(product_spell,start = 0, rows = 10) {
+export function addLadingbillsProduct(car_id,product_spell,start = 0, rows = 10) {
     const token = LoginInfo.getUserInfo().token;
     const user_id = LoginInfo.getUserInfo().user_id;
     const organization_id = LoginInfo.getUserInfo().organization_id;
-    let param = { token, organization_id, user_id };
+    let param = { token, organization_id,car_id, user_id };
     if (product_spell) {
         param.product_spell = product_spell;
     }
@@ -374,7 +374,7 @@ export function addLadingbillsProduct(product_spell,start = 0, rows = 10) {
         return {
             type: types.AddLadingbillsProducting_More_ACTION,
             api: types.AddLadingbillsProduct_API,
-            param: { ...param, page, rows }
+            param: { ...param,page, rows }
         };
     } else {
         return {

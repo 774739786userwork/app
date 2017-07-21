@@ -122,6 +122,7 @@ class GetCarstockProductListPage extends React.Component {
         let goods_list = [];
         this.state.data.map((item) => {
             if(item.disburden_quantity && item.disburden_quantity > 0){
+                item.product_stock_quantity = item.product_stock_quantity+item.disburden_quantity;
                 goods_list.push(item)
             }
         })

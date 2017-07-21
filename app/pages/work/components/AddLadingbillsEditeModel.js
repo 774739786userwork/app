@@ -83,7 +83,7 @@ export default class AddLadingbillsEditeModel extends React.Component {
                                 <Text style={{ marginLeft: 8, flex: 3, }}>{`${item.remain_count}`}</Text>
                             </View>
                             <View style={{ height: 34, marginTop: 8, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                                <Text style={{ width: 40, textAlign: 'right', }}>实提:</Text>
+                                <Text style={{ width: 40, textAlign: 'right', }}>总数:</Text>
                                 <View style={{ flex: 3, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                                     <TouchableOpacity style={{ marginLeft: 8, marginRight: 6 }} onPress={() => {
                                         this.updateNewCount(this.state.real_loading_count - 1);

@@ -93,15 +93,17 @@ class AddLadingbillsProductPage extends React.Component {
     componentDidMount() {
         const { action } = this.props;
         const { params } = this.props.navigation.state;
+        let car_id = params.car_id[1]
         InteractionManager.runAfterInteractions(() => {
-            action.addLadingbillsProduct();
+            action.addLadingbillsProduct(car_id);
         });
     }
     onSearchAction(txt) {
         const { action } = this.props;
         const { params } = this.props.navigation.state;
+        let car_id = params.car_id[1]
         InteractionManager.runAfterInteractions(() => {
-            action.addLadingbillsProduct(txt);
+            action.addLadingbillsProduct(car_id,txt);
         });
     }
     onUpdateGoogs(item) {
@@ -214,9 +216,11 @@ class AddLadingbillsProductPage extends React.Component {
     onEndReached() {
         const { action, addLadingbillsProduct } = this.props;
         const start = addLadingbillsProduct.listData.length;
+        const { params } = this.props.navigation.state;
+        let car_id = params.car_id[1]
         InteractionManager.runAfterInteractions(() => {
             if (start >= 10 && start % 10 === 0) {
-                action.addLadingbillsProduct(this.searchText, start);
+                action.addLadingbillsProduct(car_id,this.searchText, start);
             }
         });
     }
