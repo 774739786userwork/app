@@ -160,7 +160,7 @@ export function unLoadBillDetailList(start = 0, rows = 10) {
 export function purchaseOrderDetail(start = 0, rows = 10) {
     const token = LoginInfo.getUserInfo().token;
     const user_id = LoginInfo.getUserInfo().user_id;
-    const organization_id = LoginInfo.getUserInfo().organization_id;
+    const organization_id =LoginInfo.getUserInfo().organization_id;
     let page = 1;
     if (start) {
         page = start / rows + 1;

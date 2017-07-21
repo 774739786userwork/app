@@ -13,7 +13,7 @@ import {
     TouchableHighlight
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
-import { Iconfont, LoadingView, Toast, FetchManger, Spinner,LoginInfo } from 'react-native-go';
+import { Iconfont, LoadingView, Toast, FetchManger, Spinner, LoginInfo } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 import EditeModel from './EditeModel'
@@ -121,12 +121,12 @@ class GetCarstockProductListPage extends React.Component {
         let params = { XH: true }
         let goods_list = [];
         this.state.data.map((item) => {
-            if(item.disburden_quantity && item.disburden_quantity > 0){
-                item.product_stock_quantity = item.product_stock_quantity+item.disburden_quantity;
+            if (item.disburden_quantity && item.disburden_quantity > 0) {
+                item.product_stock_quantity = item.product_stock_quantity + item.disburden_quantity;
                 goods_list.push(item)
             }
         })
-        if(goods_list.length == 0){
+        if (goods_list.length == 0) {
             Toast.show('请选择卸货产品');
             return;
         }

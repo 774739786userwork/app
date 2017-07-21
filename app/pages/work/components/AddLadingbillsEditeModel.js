@@ -32,7 +32,7 @@ export default class AddLadingbillsEditeModel extends React.Component {
         let item = nextProps.item;
         this.setState({
             modalVisible: nextProps.modalVisible,
-            real_loading_count:item.real_loading_count ? item.real_loading_count : 0
+            real_loading_count: item.loading_quantity ? item.loading_quantity : 0
         });
     }
     updateNewCount(count) {
@@ -43,7 +43,9 @@ export default class AddLadingbillsEditeModel extends React.Component {
     }
     onConfirmPress() {
         let item = this.props.item;
-        item.real_loading_count = parseInt(this.state.real_loading_count)
+        let newCount = parseInt(this.state.real_loading_count)
+        item.real_loading_count = newCount - item.remain_count;
+        item.loading_quantity = newCount;
         this.props.onConfirmPress && this.props.onConfirmPress(item)
         this.setState({ modalVisible: false });
     }

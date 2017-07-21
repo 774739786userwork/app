@@ -10,7 +10,7 @@ import {
     TouchableHighlight,
     InteractionManager,
 } from 'react-native';
-import { Iconfont, LoadingView,Toast } from 'react-native-go';
+import { Iconfont, LoadingView, Toast } from 'react-native-go';
 import LoadingListView from '../../components/LoadingListView'
 const ic_peisong = require('../../imgs/ic_paisong.png');
 
@@ -20,7 +20,7 @@ class PurchaseOrderDetailPage extends React.Component {
         this.onEndReached = this.onEndReached.bind(this)
         this._renderItem = this._renderItem.bind(this);
     }
-     componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) {
         const { purchaseOrderDetail } = nextProps;
         if (purchaseOrderDetail.errMsg) {
             Toast.show(purchaseOrderDetail.errMsg);
@@ -53,13 +53,20 @@ class PurchaseOrderDetailPage extends React.Component {
                     <Text style={{ flex: 2, color: '#333', textAlign: 'left', fontSize: 16 }}>{item.customer_name}</Text>
                     <Text style={{ flex: 1, color: '#999', textAlign: 'right' }}>{item.customer_phone}</Text>
                 </View>
-                <View style={{ flex: 1, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={{ color: '#999' }}>{item.goodsStr}</Text>
-                </View>
+                {
+                    item.goodsList.map((goodsItem) => (
+                        <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
+                            <Text style={{ color: '#999' }}>{goodsItem.name}</Text>
+                            <Text style={{ color: '#999' }}>{': '}</Text>
+                            <Text style={{ color: '#999' }}>{goodsItem.quantity}</Text>
+                            <View style={{ width: 8 }} />
+                            <Text style={{ color: '#999' }}>{goodsItem.unit}</Text>
+                        </View>))
+                }
                 <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                     <Text style={{ color: '#999' }}>{item.customer_address}</Text>
                 </View>
-                <Image source={ic_peisong} style={{ justifyContent: 'center',paddingBottom:8, alignItems: 'center', position: 'absolute', width: 24, height: 54, top: 0, right: 14, }}>
+                <Image source={ic_peisong} style={{ justifyContent: 'center', paddingBottom: 8, alignItems: 'center', position: 'absolute', width: 24, height: 54, top: 0, right: 14, }}>
                     <Text style={{ fontSize: 12, color: '#fff', backgroundColor: '#fe6732' }}>{this.charatState(item.purchase_status)}</Text>
                 </Image>
                 <View style={{ height: StyleSheet.hairlineWidth, marginTop: 12, flex: 1, backgroundColor: '#c4c4c4' }} />

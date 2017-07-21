@@ -15,9 +15,6 @@ class LadProductItem extends React.Component {
     constructor(props) {
         super(props)
         this.updateNewCount = this.updateNewCount.bind(this);
-        this.state = {
-            count: props.item.real_loading_count ? props.item.real_loading_count : 0
-        }
     }
     updateNewCount(newCount) {
         const { onUpdate, item } = this.props
@@ -27,13 +24,14 @@ class LadProductItem extends React.Component {
         if (newCount > this.state.maxCount) {
             newCount = this.state.maxCount;
         }
-        this.setState({ count: newCount });
-        item.real_loading_count = newCount;
+        item.real_loading_count = newCount - item.remain_count;
+        item.loading_quantity = newCount;
         onUpdate && onUpdate(item);
     }
     render() {
         const { item } = this.props;
-
+        item.loading_quantity = item.loading_quantity ? item.loading_quantity : 0;
+        item.real_loading_count = item.loading_quantity - item.remain_count;
         return (<View style={{ backgroundColor: '#fff' }}>
             <View style={{ flexDirection: 'row', paddingLeft: 12, }}>
                 <View style={{ alignItems: 'center', justifyContent: 'center', height: 110 }}>
