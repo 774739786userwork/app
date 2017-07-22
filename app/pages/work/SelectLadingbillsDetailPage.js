@@ -70,10 +70,11 @@ class SelectLadingbillsDetailPage extends React.Component {
         let totalNum = 0;
         if (good_list) {
             good_list.map((a) => {
-                totalWeight += a.product_weight * a.real_loading_count;
-                totalNum += a.real_loading_count;
+                totalWeight += a.product_weight * a.product_total_count;
+                totalNum += a.product_total_count;
             })
         }
+        debugger
         this.setState({ good_list, totalNum, totalWeight });
     }
     _renderItem = (item, index) => {
@@ -95,10 +96,8 @@ class SelectLadingbillsDetailPage extends React.Component {
 
     _onItemPress() {
         this.setState({ modalVisible: true })
-
     }
     onConfirmPress() {
-
         this.setState({ modalVisible: false });
     }
     onCancelPress() {

@@ -72,8 +72,8 @@ export default class AddLadingbillPopModel extends React.Component {
         let totalNum = 0;
         let totalWeight = 0;
         chooseList.map((item) => {
-                totalWeight += item.product_weight * item.real_loading_count;
-                totalNum += item.real_loading_count;
+                totalWeight += item.product_weight * item.loading_quantity;
+                totalNum += item.loading_quantity;
         });
         let loading = true
         return (<Modal

@@ -249,8 +249,8 @@ class AddLadingbillsProductPage extends React.Component {
         let totalNum = 0;
         if (good_list) {
             good_list.map((a) => {
-                totalWeight += a.product_weight * a.real_loading_count;
-                totalNum += a.real_loading_count;
+                totalWeight += a.product_weight * a.loading_quantity;
+                totalNum += a.loading_quantity;
             })
         }
         this.setState({ good_list, totalNum, totalWeight, editeModalVisible: false });

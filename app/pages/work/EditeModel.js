@@ -23,8 +23,8 @@ export default class EditeModel extends React.Component {
         let item = this.props.item;
         this.state = {
             modalVisible: this.props.modalVisible,
-            count: item.product_stock_quantity,
-            maxCount: item.product_stock_quantity,
+            count: item.product_stock_quantity ? item.product_stock_quantity : 0,
+            maxCount:  item.product_stock_quantity ? item.product_stock_quantity : 0,
         };
     }
     componentWillReceiveProps(nextProps) {
