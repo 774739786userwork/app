@@ -90,10 +90,10 @@ export default class EditeModel extends React.Component {
                             <TextInput style={{ width: 80, height: 30, textAlign: 'center', color: '#666', borderRadius: 8, padding: 0, borderWidth: 1, borderColor: '#c4c4c4' }}
                                 underlineColorAndroid={'transparent'}
                                 value={'' + this.state.count}
-                                in
                                 defaultValue={'' + this.state.count}
                                 onChangeText={(newCount) => {
-                                    this.updateNewCount(parseInt(newCount));
+                                    let num = parseInt(newCount);
+                                    this.updateNewCount(isNaN(num) ? 0 : num);
                                 }}
                             />
                             <TouchableOpacity style={{ marginLeft: 12 }} onPress={() => {
@@ -121,3 +121,5 @@ export default class EditeModel extends React.Component {
         </Modal>)
     }
 }
+
+// in
