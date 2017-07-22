@@ -33,6 +33,7 @@ function GetDateStr(AddDayCount) {
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 let carId = '';
 let carName = '';
+  let a='';
 class GetCarstockProductListPage extends React.Component {
     constructor(props) {
         super(props);
@@ -69,7 +70,9 @@ class GetCarstockProductListPage extends React.Component {
     }
     //disburden_quantity 卸货数量
     //stock_quantity 余货数量
+  
     _renderItem = (item, index) => {
+        a = item.product_stock_quantity;
         return (
             <TouchableHighlight
                 onPress={this._rowOnPress.bind(this, item)}
@@ -92,11 +95,11 @@ class GetCarstockProductListPage extends React.Component {
                     <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#666' }}>{'卸货：'}</Text>
-                            <Text style={{ color: '#666' }}>{`${item.disburden_quantity ? item.disburden_quantity : 0}`}</Text>
+                            <Text style={{ color: '#f80000' }}>{`${item.disburden_quantity ? item.disburden_quantity : 0}`}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#666' }}>{'车余货：'}</Text>
-                            <Text style={{ color: '#666' }}>{`${item.product_stock_quantity}`}</Text>
+                            <Text style={{ color: '#f80000' }}>{`${item.product_stock_quantity}`}</Text>
                         </View>
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, marginTop: 12, flex: 1, backgroundColor: '#c4c4c4' }} />
@@ -171,7 +174,7 @@ class GetCarstockProductListPage extends React.Component {
         const { action } = this.props;
         let selectItem = this.state.selectItem;
         selectItem.disburden_quantity = newCount;
-        selectItem.product_stock_quantity = selectItem.product_stock_quantity - newCount
+        selectItem.product_stock_quantity = selectItem.product_stock_quantity - newCount; 
         this.setState({ modalVisible: false, selectItem });
     }
     onCancelPress() {
