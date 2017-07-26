@@ -105,7 +105,6 @@ class SettingPage extends React.Component {
     this.onAboutAction = this.onAboutAction.bind(this);
     this.onLoginOut = this.onLoginOut.bind(this);
     this.onUpdatePWDAction = this.onUpdatePWDAction.bind(this)
-    this.onBlueAction = this.onBlueAction.bind(this)
   }
 
   onAboutAction() {
@@ -117,7 +116,6 @@ class SettingPage extends React.Component {
     navigation.navigate('ForgetPassWord')
   }
   onLoginOut() {
-
     const token = LoginInfo.getUserInfo().token;
     const user_id = LoginInfo.getUserInfo().user_id;
     FetchManger.postUri('mobileServiceManager/user/signOut.page', { user_id, token })
@@ -126,13 +124,11 @@ class SettingPage extends React.Component {
       NavigationUtil.reset(this.props.navigation, 'Login');
     });
   }
+
   onUpdateAction() {
 
   }
-  onBlueAction() {
-    const { navigation } = this.props;
-    navigation.navigate('BleManager')
-  }
+  
 
   render() {
     return (
@@ -145,11 +141,6 @@ class SettingPage extends React.Component {
             iconColor='#f74171'
             onPress={this.onUpdatePWDAction}
             showText='密码修改' />
-          <ListItemSetting
-            icon='e6b6'
-            iconColor='#f9ae0f'
-            onPress={this.onBlueAction}
-            showText='蓝牙打印' />
           <ListItemSetting
             icon='e6b0'
             iconColor='#18c5c0'

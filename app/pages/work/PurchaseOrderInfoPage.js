@@ -29,7 +29,7 @@ class PurchaseOrderInfoPage extends React.Component {
     componentDidMount() {
         const { action } = this.props;
         InteractionManager.runAfterInteractions(() => {
-            action.purchaseOrderInfo();
+            // action.purchaseOrderInfo();
         });
     }
     _renderItem = (item, index) => {

@@ -61,7 +61,7 @@ class AddLadingbillsPage extends React.Component {
                 item.data = data;
                 if (data.platenumber) {
                     item.value = data.platenumber;
-                    valeMap[item.key] = [data.platenumber, data.carbaseinfo_id];
+                    valeMap[item.key] = [data.platenumber, data.carbaseinfo_id,data.carweight];
                 }
                 if (data.name) {
                     item.value = data.name;
