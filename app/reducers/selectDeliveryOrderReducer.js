@@ -18,6 +18,7 @@ const initialState = {
     d_count_small_change_sum: 0,
     delivery_note_number: 0,
     d_distribution_sum: 0,
+    day_saler_sum:0,
     d_discount_sum: 0,
 }
 
@@ -32,6 +33,7 @@ export default function selectDeliveryOrderReducer(state = initialState, action)
                 d_unpaid_total_sum: 0,
                 d_count_small_change_sum: 0,
                 delivery_note_number: 0,
+                day_saler_sum:0,
                 listData: dataSource.cloneWithRows([]),//数据源
             });
         case types.SelectDeliveryOrderError_ACTION:
@@ -57,6 +59,7 @@ export default function selectDeliveryOrderReducer(state = initialState, action)
                     d_unpaid_total_sum: action.result.d_unpaid_total_sum,
                     d_count_small_change_sum: action.result.d_count_small_change_sum,
                     delivery_note_number: action.result.delivery_note_number,
+                    day_saler_sum:action.result.day_saler_sum,
                     listData: dataSource.cloneWithRows(list),//数据源
                     errMsg: undefined,
                 });
@@ -73,6 +76,7 @@ export default function selectDeliveryOrderReducer(state = initialState, action)
                     d_unpaid_total_sum: action.result.d_unpaid_total_sum,
                     d_count_small_change_sum: action.result.d_count_small_change_sum,
                     delivery_note_number: action.result.delivery_note_number,
+                    day_saler_sum:action.result.day_saler_sum,
                     listData: dataSource.cloneWithRows(action.result.delivery_order_list ? action.result.delivery_order_list : []),//数据源
                     errMsg: undefined,
                 });
