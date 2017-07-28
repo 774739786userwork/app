@@ -30,7 +30,7 @@ import AddLadingbillsEditeModel from './components/AddLadingbillsEditeModel'
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
 const dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-
+let carWeight = '';
 /**
  * 提货单 产品列表
  */
@@ -46,7 +46,7 @@ class AddLadingbillsProductPage extends React.Component {
         this._rowOnPress = this._rowOnPress.bind(this);
         this.onEidteCancelPress = this.onEidteCancelPress.bind(this);
         this.onEidteConfirmPress = this.onEidteConfirmPress.bind(this);
-
+        this.savePopWindow = this.savePopWindow.bind(this);
         this._onCarPress = this._onCarPress.bind(this);
         this.onClear = this.onClear.bind(this);
         this.searchText = '';
@@ -94,6 +94,7 @@ class AddLadingbillsProductPage extends React.Component {
         const { action } = this.props;
         const { params } = this.props.navigation.state;
         let car_id = params.car_id[1]
+        carWeight = params.car_id[2]
         InteractionManager.runAfterInteractions(() => {
             action.addLadingbillsProduct(car_id);
         });
@@ -163,8 +164,21 @@ class AddLadingbillsProductPage extends React.Component {
     "source_equipment":"1",
      */
     _onItemPress() {
-        this.setState({ modalVisible: true })
+        
+        if(this.state.totalWeight > carWeight){
+            Alert.alert('你已超出该车的实际载重量','确认继续提货?',
+                [
+                    { text: '确定', onPress: this.savePopWindow },
+                    { text: '取消', onPress: () => console.log('Cancel Pressed!') }
+                ]
+            )
+        }else{
+            this.setState({ modalVisible: true })
+        }
+    }
 
+    savePopWindow(){
+        this.setState({ modalVisible: true })
     }
     onConfirmPress() {
         const { action } = this.props;

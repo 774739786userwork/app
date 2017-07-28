@@ -16,6 +16,7 @@ import {
 import { Iconfont, Toast, LoadingView, FetchManger, LoginInfo, Spinner } from 'react-native-go';
 import DatePicker from 'react-native-datepicker'
 import ImageView from '../../components/ImageView'
+import { NavigationActions } from 'react-navigation'
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 const WINDOW_WIDTH = Dimensions.get('window').width;
 import * as DateUtils from '../../utils/DateUtils'
@@ -70,18 +71,36 @@ class AddBalanceAccoutsPage extends React.Component {
     }
 
     onSave() {
+        const { navigation } = this.props;
         const userInfo = LoginInfo.getUserInfo();
-        let data = this.state.data
+        let data = this.state.data;
         let loadingdate = this.state.loadingdate;
-        let car_id = this.state.car.carbaseinfo_id
-        data.settleProductlist =  JSON.stringify(data.settleProductlist);
-        let params = { ...userInfo,...data,source_equipment:1,loadingdate,car_id };
+        let car_id = this.state.car.carbaseinfo_id;
+        let receivable_sum = data.receivable_sum;
+        let paid_sum = data.paid_sum;
+        let foregift_sum = data.foregift_sum;
+        let unpaid_sum = data.unpaid_sum;
+        let small_change_sum = data.small_change_sum;
+        let distribution_sum = data.distribution_sum;
+        let favourable_sum = data.favourable_sum;
+        let settleProductlistJSON =  JSON.stringify(data.settleProductlist);
+        let params = { ...userInfo,source_equipment:1,loadingdate,car_id,receivable_sum,paid_sum,foregift_sum,unpaid_sum,small_change_sum,distribution_sum,favourable_sum };
+        params.settleProductlist = settleProductlistJSON;
         this.setState({ showSpinner: true })
         FetchManger.postUri('mobileServiceManager/balanceAccouts/addBalanceAccouts.page', params).then((responseData) => {
             this.setState({ showSpinner: false })
             Toast.show(responseData.msg)
             if (responseData.status === '0' || responseData.status === 0) {
-                this.loadDataAction(this.state.loadingdate, this.state.car);
+                InteractionManager.runAfterInteractions(() => {
+                    this.loadDataAction(this.state.loadingdate, this.state.car);
+                    const navigationAction = NavigationActions.reset({
+                        index: 0,
+                        actions: [
+                            NavigationActions.navigate({ routeName: 'Home' }),
+                        ]
+                    })
+                    navigation.dispatch(navigationAction)
+                });
             }
         }).catch((error) => {
             this.setState({ showSpinner: false })

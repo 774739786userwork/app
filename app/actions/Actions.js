@@ -47,15 +47,17 @@ export function appUserlandDX(username, password, dxyzm) {
 }
 //客户列表查询
 export function listCustomers(lat, lng, contactMobile) {
-    const orgId = LoginInfo.getUserInfo().organization_id;//LoginInfo.getUserInfo().user_id;
-    const user_id = LoginInfo.getUserInfo().user_id;//LoginInfo.getUserInfo().user_id;
+    const orgId = LoginInfo.getUserInfo().organization_id;
+    const user_id = LoginInfo.getUserInfo().user_id;
     const token = LoginInfo.getUserInfo().token;
-    let param = { token, orgId, user_id };
+    let param = '';
     if (contactMobile) {
+        param = {token,user_id}
         param.contactMobile = contactMobile;
     } else {
+        param = {token,orgId,user_id}
         param.lat = lat;
-        param.lng = lng
+        param.lng = lng;
     }
     return {
         type: types.ListCustomersing_ACTION,

@@ -1,6 +1,8 @@
 import { StackNavigator, TabNavigator } from 'react-navigation';
 
 import SplashPage from '../pages/SplashPage';
+
+import SettingUrlPage from '../pages/SettingUrlPage';
 //工作台
 import WorkContainer from '../containers/WorkContainer';
 //提货单查询
@@ -134,6 +136,7 @@ const TabContainer = TabNavigator(
 const App = StackNavigator(
   {
     Splash: { screen: SplashPage },
+    SettingUrl:{ screen: SettingUrlPage},
     Login: { screen: LoginContainer },
     Login4Msg: { screen: Login4MsgContainer },
     Home: {

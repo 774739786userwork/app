@@ -41,8 +41,6 @@ class LoginPage extends React.Component {
         if (1 === login.code || '1' === login.code) {
             const { navigation } = this.props;
             InteractionManager.runAfterInteractions(() => {
-                console.log('-----')
-                console.log(navigation)
                 if (navigation.state.routeName === 'Login') {
                     navigation.navigate('Login4Msg', userInfo)
                 }
@@ -138,9 +136,9 @@ class LoginPage extends React.Component {
                     </View >
                     <View style={{ flex: 3 }} />
                 </View>
-                <View style={{ flex: 1 }} >
-                    <TouchableHighlight onPress={this.onIpSetting} underlayColor={'#999'} style={{ height: 22, marginTop: 8, alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={{ fontSize: 16, color: 'white', opacity: 0 }}>设置</Text>
+                <View style={{ flex: 1,backgroundColor: 'transparent',opacity: 0 }} >
+                    <TouchableHighlight onPress={this.onIpSetting} style={{ height: 22, marginTop: 8, alignItems: 'center', justifyContent: 'center' }}>
+                        <Text style={{ fontSize: 16, color: 'white'}}>设置</Text>
                     </TouchableHighlight >
                 </View>
             </View>
@@ -149,8 +147,8 @@ class LoginPage extends React.Component {
         </Image >);
     }
     onIpSetting() {
-
-
+        const { navigation } = this.props;
+        navigation.navigate('SettingUrl')
     }
     onForgetPwd() {
 

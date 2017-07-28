@@ -20,7 +20,7 @@ import { NavigationActions } from 'react-navigation'
 import AbortEditeModel from './AbortEditeModel'
 import Spinner from 'react-native-loading-spinner-overlay';
 
-let coords = {}
+// let coords = {}
 class DeliveryOrderDetailPage extends React.Component {
     constructor(props) {
         super(props);
@@ -44,13 +44,13 @@ class DeliveryOrderDetailPage extends React.Component {
         InteractionManager.runAfterInteractions(() => {
             action.deliveryOrderDetail(params.delivery_id);
         });
-        navigator.geolocation.getCurrentPosition(
-            (initialPosition) => {
-                coords = initialPosition.coords;
-            },
-            (error) => {
-            }
-        );
+        // navigator.geolocation.getCurrentPosition(
+        //     (initialPosition) => {
+        //         coords = initialPosition.coords;
+        //     },
+        //     (error) => {
+        //     }
+        // );
     }
     _renderItem = (item, index) => {
         return (
@@ -100,8 +100,8 @@ class DeliveryOrderDetailPage extends React.Component {
             custParam.contacts = [{ name: params.contact_name, mobile1: params.contact_mobile }]
             custParam.customersName = params.customer_name
             custParam.customersId = params.customer_id
-            custParam.lat = coords.latitude
-            custParam.lng = coords.longitude
+            // custParam.lat = coords.latitude
+            // custParam.lng = coords.longitude
 
             const navigationAction = NavigationActions.reset({
                 index: 1,
