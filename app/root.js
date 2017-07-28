@@ -6,8 +6,8 @@ import App from './containers/app';
 
 const store = configureStore();
 
-global.baseUrl = "http://112.74.47.41:1009/csbboss/";
-// global.baseUrl = "http://112.74.47.41:8080/bboss/";
+//global.baseUrl = "http://112.74.47.41:1009/csbboss/";
+global.baseUrl = "http://112.74.47.41:8080/bboss/";
 store.runSaga(rootSaga);
 
 const Root = () => (

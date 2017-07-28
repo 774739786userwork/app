@@ -22,6 +22,6 @@ public class MainActivity extends ReactActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UpdateBuilder.create().check();
+       // UpdateBuilder.create().check();
     }
 }
