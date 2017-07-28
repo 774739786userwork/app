@@ -27,8 +27,6 @@ import ImageView from '../../components/ImageView'
 import NavigationBar from '../../components/NavigationBar'
 import SelectContacts from 'react-native-select-contact-android'
 import * as ValidateUtils from '../../utils/ValidateUtils';
-import AMapLocation from 'react-native-smart-amap-location'
-import AMap from 'react-native-smart-amap'
 import AppEventListenerEnhance from 'react-native-smart-app-event-listener-enhance'
 
 

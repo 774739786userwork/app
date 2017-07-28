@@ -14,8 +14,6 @@ import {
     Platform,
 } from 'react-native'
 
-import AMapLocation from 'react-native-smart-amap-location'
-import AMap from 'react-native-smart-amap'
 import AppEventListenerEnhance from 'react-native-smart-app-event-listener-enhance'
 import TimerEnhance from 'react-native-smart-timer-enhance'
 import Button from 'react-native-smart-button'
@@ -42,6 +40,7 @@ class CustDetailContainer extends Component {
     }
 
     componentDidMount() {
+        /*
         AMapLocation.init(null)
         AMapLocation.getLocation()
         this.addAppEventListener(
@@ -60,7 +59,7 @@ class CustDetailContainer extends Component {
         }).catch((error) => {
             this.setState({ loading: false })
             Toast.show('获取失败')
-        })
+        })*/
     }
 
     render() {

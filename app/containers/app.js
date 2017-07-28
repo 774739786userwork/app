@@ -65,8 +65,45 @@ import BleManagerPage from '../pages/setting/BleManagerPage'
 import ScanManagerPage from '../pages/setting/ScanManagerPage'
 
 
+/**** 统计分析  *** */
+//首页
+import S_HomeContainer from './analysis/S_HomeContainer'
+//系列
+import S_SeriesContainer from './analysis/S_SeriesContainer'
+//产品
+import S_ProductContainer from './analysis/S_ProductContainer'
+//顾客
+import S_CustomerContainer from './analysis/S_CustomerContainer'
 
 import QRPage from '../pages/QRPage'
+
+const AnalysisTabContainer = TabNavigator(
+  {
+    S_Home: { screen: S_HomeContainer },
+    S_Series: { screen: S_SeriesContainer },
+    S_Product: { screen: S_ProductContainer },
+    S_Customer: { screen: S_CustomerContainer }
+  },
+  {
+    lazy: true,
+    tabBarPosition: 'bottom',
+    tabBarOptions: {
+      activeTintColor: '#0081d4',
+      inactiveTintColor: '#666666',
+      showIcon: true,
+      style: {
+        backgroundColor: '#fff'
+      },
+      indicatorStyle: {
+        opacity: 0
+      },
+      tabStyle: {
+        padding: 0
+      }
+    }
+  }
+);
+
 
 const TabContainer = TabNavigator(
   {
@@ -101,6 +138,12 @@ const App = StackNavigator(
     Login4Msg: { screen: Login4MsgContainer },
     Home: {
       screen: TabContainer,
+      navigationOptions: {
+        headerLeft: null
+      }
+    },
+    Analysis: {
+      screen: AnalysisTabContainer,
       navigationOptions: {
         headerLeft: null
       }

@@ -27,12 +27,15 @@ class SplashPage extends React.Component {
     let baseUrl = global.baseUrl;
     FetchManger.initConfig({ baseUrl, expiry: 0 });
     LoginInfo.loadUserInfo();
-    
+
     this.timer = setTimeout(() => {
       if (LoginInfo.getUserInfo() && LoginInfo.getUserInfo().user_id) {
-        NavigationUtil.reset(this.props.navigation, 'Home');
+       // NavigationUtil.reset(this.props.navigation, 'Home');
+        NavigationUtil.reset(this.props.navigation, 'Analysis');
       } else {
-        NavigationUtil.reset(this.props.navigation, 'Login');
+        //NavigationUtil.reset(this.props.navigation, 'Login');
+        NavigationUtil.reset(this.props.navigation, 'Analysis');
+
       }
     }, 1000);
 
