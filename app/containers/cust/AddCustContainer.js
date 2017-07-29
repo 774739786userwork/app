@@ -529,7 +529,7 @@ class AddCustContainer extends React.Component {
                             })
                         }
                     } />
-                <BuildingMaterialModel modalVisible={this.state.buildingMaterialShow} regionalid={this.state.cityId} onCancelPress={() => {
+                <BuildingMaterialModel modalVisible={this.state.buildingMaterialShow} regionalid={this.state.regional ? this.state.regional.districtsId : ''} onCancelPress={() => {
                     this.setState({
                         buildingMaterialShow: false,
                     })

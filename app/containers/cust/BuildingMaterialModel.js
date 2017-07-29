@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import { Iconfont } from 'react-native-go';
 import Picker from '../../components/Picker/Picker'
-import { FetchManger, LoginInfo, LoadingView } from 'react-native-go'
+import { FetchManger, LoginInfo, LoadingView,Toast } from 'react-native-go'
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 export default class BuildingMaterialModel extends React.Component {
@@ -44,10 +44,15 @@ export default class BuildingMaterialModel extends React.Component {
             FetchManger.getUri('mobileServiceManager/customers/getBuildingMaterialJson.page', { token, regionalid }).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data.buildingMaterialList;
-                    this.setState({
-                        dataList: data,
-                        loading: false,
-                    });
+                    if(data.length > 0){
+                        this.setState({
+                            dataList: data,
+                            loading: false,
+                        });
+                    }else{
+                        Toast.show('此区域无建材市场')
+                    }
+                    
                 }
             }).catch((error) => {
 
