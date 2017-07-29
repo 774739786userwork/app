@@ -12,7 +12,7 @@ import {
 } from 'react-native-go'
 
 import NavigationUtil from '../utils/NavigationUtil';
-
+import DeviceInfo from '../utils/DeviceInfo';
 const maxHeight = Dimensions.get('window').height;
 const maxWidth = Dimensions.get('window').width;
 const splashImg = require('../imgs/splash.png');
@@ -24,7 +24,13 @@ class SplashPage extends React.Component {
 
   componentDidMount() {
     const { navigate } = this.props.navigation;
-    let baseUrl = global.baseUrl;
+    let updateUrl = DeviceInfo.getInfo();
+    let baseUrl = "";
+    if(updateUrl == undefined){
+      baseUrl = global.baseUrl;
+    }else{
+      baseUrl = updateUrl;
+    }
     FetchManger.initConfig({ baseUrl, expiry: 0 });
     LoginInfo.loadUserInfo();
 
