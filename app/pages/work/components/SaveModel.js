@@ -61,11 +61,11 @@ export default class SaveModel extends React.Component {
                         </TouchableOpacity>
                         <View style={{ width: StyleSheet.hairlineWidth, height: 44, backgroundColor: '#c4c4c4' }} />
                         <TouchableOpacity onPress={this.onCancelPress}>
-                            <View style={{ height: 44, width: modelWidth / 3, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: '#666' }}>{'数据暂存'}</Text></View>
+                            <View style={{ height: 44, width: modelWidth / 3, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: '#666' }}>{'数据保存'}</Text></View>
                         </TouchableOpacity>
                         <View style={{ width: StyleSheet.hairlineWidth, height: 44, backgroundColor: '#c4c4c4' }} />
                         <TouchableOpacity onPress={this.onConfirmPress}>
-                            <View style={{ height: 44, width: modelWidth / 3, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: '#fe6732' }}>{'直接保存'}</Text></View>
+                            <View style={{ height: 44, width: modelWidth / 3, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: '#fe6732' }}>{'保存至文员打印'}</Text></View>
                         </TouchableOpacity>
                     </View>
                 </View>
