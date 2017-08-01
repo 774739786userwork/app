@@ -84,10 +84,12 @@ const AnalysisTabContainer = TabNavigator(
     S_Home: { screen: S_HomeContainer },
     S_Series: { screen: S_SeriesContainer },
     S_Product: { screen: S_ProductContainer },
-    S_Customer: { screen: S_CustomerContainer }
+    Cust: { screen: CustContainer },
+    Setting: { screen: SettingContainer }
   },
   {
     lazy: true,
+    animationEnabled:false,
     tabBarPosition: 'bottom',
     tabBarOptions: {
       activeTintColor: '#0081d4',
@@ -136,7 +138,7 @@ const TabContainer = TabNavigator(
 const App = StackNavigator(
   {
     Splash: { screen: SplashPage },
-    SettingUrl:{ screen: SettingUrlPage},
+    SettingUrl: { screen: SettingUrlPage },
     Login: { screen: LoginContainer },
     Login4Msg: { screen: Login4MsgContainer },
     Home: {

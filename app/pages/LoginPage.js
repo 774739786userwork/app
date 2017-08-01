@@ -51,7 +51,8 @@ class LoginPage extends React.Component {
             let data = login.data;
             LoginInfo.setUserInfo(data);
             InteractionManager.runAfterInteractions(() => {
-                NavigationUtil.reset(this.props.navigation, 'Home');
+                // NavigationUtil.reset(this.props.navigation, 'Home');
+                NavigationUtil.reset(this.props.navigation, 'Analysis');
             });
         }
     }
@@ -136,9 +137,9 @@ class LoginPage extends React.Component {
                     </View >
                     <View style={{ flex: 3 }} />
                 </View>
-                <View style={{ flex: 1,backgroundColor: 'transparent',opacity: 0 }} >
+                <View style={{ flex: 1, backgroundColor: 'transparent', opacity: 0 }} >
                     <TouchableHighlight onPress={this.onIpSetting} style={{ height: 22, marginTop: 8, alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={{ fontSize: 16, color: 'white'}}>设置</Text>
+                        <Text style={{ fontSize: 16, color: 'white' }}>设置</Text>
                     </TouchableHighlight >
                 </View>
             </View>

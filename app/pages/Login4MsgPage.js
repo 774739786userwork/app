@@ -32,8 +32,10 @@ class Login4MsgPage extends React.Component {
         } else if (sendMsg.data) {
             let data = sendMsg.data;
             LoginInfo.setUserInfo(data);
+            //NavigationUtil.reset(this.props.navigation, 'Analysis');
             InteractionManager.runAfterInteractions(() => {
-                NavigationUtil.reset(this.props.navigation, 'Home');
+                //NavigationUtil.reset(this.props.navigation, 'Home');
+                NavigationUtil.reset(this.props.navigation, 'Analysis');
             });
         }
     }

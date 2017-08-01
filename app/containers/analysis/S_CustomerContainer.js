@@ -25,7 +25,7 @@ class S_CustomerContainer extends React.Component {
     title: '客户',
     header: null,
     tabBarIcon: ({ tintColor }) => (
-      <Iconfont icon='e6aa' iconSize={24} iconColor={tintColor} />
+      <Iconfont icon='e60e' iconSize={24} iconColor={tintColor} />
     ),
   };
 

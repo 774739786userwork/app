@@ -7,6 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "native-echarts": "^0.3.0",
     "react": "16.0.0-alpha.6",
     "react-native": "0.44.1",
     "react-native-camera": "^0.8.0",
@@ -20,7 +21,7 @@
     "react-native-image-zoom-viewer": "^2.0.6",
     "react-native-keyboard-spacer": "^0.3.1",
     "react-native-loading-spinner-overlay": "^0.5.0",
-    "react-native-scrollable-tab-view": "^0.6.6",
+    "react-native-scrollable-tab-view": "^0.7.4",
     "react-native-select-contact-android": "^0.7.1",
     "react-native-smart-amap": "^1.0.7",
     "react-native-smart-amap-location": "^1.1.3",
