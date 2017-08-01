@@ -470,6 +470,7 @@ username:"zhangshijun"
             ESC.text(ESC.Util.leftRight(`数量总计：${param.num}`, '', 16));
             ESC.text(ESC.Util.leftRight(`总计金额：￥${NumberUtils.fc(total)}`, '', 16));
             ESC.printAndNewLine();
+
             ESC.text(ESC.Util.leftRight(`其中押金：￥${param.total_foregift ? param.total_foregift : 0.00}`, '', 16));
             ESC.text(ESC.Util.leftRight(`本单实收：￥${param.paid_total_sum ? param.paid_total_sum : 0.00}`, '', 16));
             ESC.printAndNewLine();
@@ -478,6 +479,7 @@ username:"zhangshijun"
             ESC.printAndNewLine();
             ESC.text(ESC.Util.leftRight('', '', 16));
             ESC.text(ESC.Util.leftRight(`铺货总额：￥${param.distribution_sum ? param.distribution_sum : 0.00}`, '', 16));
+            
             ESC.printAndNewLine();
             ESC.printAndNewLine();
             ESC.printAndNewLine();

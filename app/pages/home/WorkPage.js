@@ -14,22 +14,22 @@ import Swiper from 'react-native-swiper'
 import NavigationUtil from '../../utils/NavigationUtil';
 import GridView from '../../components/GridView';
 import HomeBar from '../../components/HomeBar'
-import { Iconfont,Toast } from 'react-native-go';
+import { Iconfont, Toast } from 'react-native-go';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
 const HomeItem = [
-  { name: '提货单',open:true, typeName: 'SelectLadingbills', image: require('../../imgs/home/tihuo_order.png') },
-  { name: '送货单', open:true,typeName: 'SelectDeliveryOrder', image: require('../../imgs/home/songhuo_order.png') },
-  { name: '订货单', open:true,typeName: 'PurchaseOrderInfo', image: require('../../imgs/home/dinghuo_order.png') },
-  { name: '车余货单', open:true,typeName: 'GetCarstockProductList', image: require('../../imgs/home/yuhuo_order.png') },
-  { name: '卸货单', open:true,typeName: 'UnLoadBillDetailList', image: require('../../imgs/home/xiehuo_order.png') },
-  { name: '退货单', open:false, typeName: 'QueryReturnLists', image: require('../../imgs/home/tuihuo_order.png') },
-  { name: '开提货单', open:true,typeName: 'AddLadingbills', image: require('../../imgs/home/add_tihuo_order.png') },
-  { name: '开送货单', open:true,typeName: 'ListCustomers', image: require('../../imgs/home/add_songhuo_order.png') },
+  { name: '提货单', open: true, typeName: 'SelectLadingbills', image: require('../../imgs/home/tihuo_order.png') },
+  { name: '送货单', open: true, typeName: 'SelectDeliveryOrder', image: require('../../imgs/home/songhuo_order.png') },
+  { name: '订货单', open: true, typeName: 'PurchaseOrderInfo', image: require('../../imgs/home/dinghuo_order.png') },
+  { name: '车余货单', open: true, typeName: 'GetCarstockProductList', image: require('../../imgs/home/yuhuo_order.png') },
+  { name: '卸货单', open: true, typeName: 'UnLoadBillDetailList', image: require('../../imgs/home/xiehuo_order.png') },
+  { name: '退货单', open: false, typeName: 'QueryReturnLists', image: require('../../imgs/home/tuihuo_order.png') },
+  { name: '开提货单', open: true, typeName: 'AddLadingbills', image: require('../../imgs/home/add_tihuo_order.png') },
+  { name: '开送货单', open: true, typeName: 'ListCustomers', image: require('../../imgs/home/add_songhuo_order.png') },
   { name: '开退货单', typeName: 'SelectLadingbills', image: require('../../imgs/home/add_tuihuo_order.png') },
   { name: '开订货单', typeName: 'SelectLadingbills', image: require('../../imgs/home/kaidinghuodan.png') },
-  { name: '结算单', open:false,typeName: 'AddBalanceAccouts', image: require('../../imgs/home/jiesuandan.png') },
+  { name: '结算单', open: false, typeName: 'AddBalanceAccouts', image: require('../../imgs/home/jiesuandan.png') },
   { name: '欠款单', typeName: 'SelectLadingbills', image: require('../../imgs/home/qiankuandan.png') },
 ];
 
@@ -107,8 +107,16 @@ class WorkPage extends React.Component {
         '',
         '',
       ],
-      loadQueue: [0, 0, 0, 0]
+      loadQueue: [0, 0, 0, 0],
+      swiperShow: false
     }
+  }
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        swiperShow: true
+      });
+    }, 0)
   }
   loadHandle(i) {
     let loadQueue = this.state.loadQueue
@@ -142,34 +150,36 @@ class WorkPage extends React.Component {
     return (
       <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
         <HomeBar title='多邦建筑装饰材料' onRightButtonPress={this.onRightButtonPress} rightView={() => (<Iconfont icon='e6a8' iconSize={24} label={'扫'} labelColor={'#0081d4'} />)} />
-        <Swiper
-          nextButton={<Text style={{
-            fontSize: 50,
-            color: '#c4c4c4',
-            fontFamily: 'Arial'
-          }}>›</Text>}
-          prevButton={<Text style={{
-            fontSize: 50,
-            color: '#c4c4c4',
-            fontFamily: 'Arial'
-          }}>‹</Text>}
-          loadMinimal
-          loadMinimalSize={1}
-          showsPagination={false}
-          style={styles.wrapper}
-          height={134}
-          loop={true}
-          showsButtons={true}
-          autoplay={true}>
-          {
-            this.state.imgList.map((item, i) => <Slide
-              loadHandle={this.loadHandle}
-              loaded={!!this.state.loadQueue[i]}
-              uri={item}
-              i={i}
-              key={i} />)
-          }
-        </Swiper>
+        {
+          this.state.swiperShow ? <Swiper
+            nextButton={<Text style={{
+              fontSize: 50,
+              color: '#c4c4c4',
+              fontFamily: 'Arial'
+            }}>›</Text>}
+            prevButton={<Text style={{
+              fontSize: 50,
+              color: '#c4c4c4',
+              fontFamily: 'Arial'
+            }}>‹</Text>}
+            loadMinimal
+            loadMinimalSize={1}
+            showsPagination={false}
+            style={styles.wrapper}
+            height={134}
+            loop={true}
+            showsButtons={true}
+            autoplay={true}>
+            {
+              this.state.imgList.map((item, i) => <Slide
+                loadHandle={this.loadHandle}
+                loaded={!!this.state.loadQueue[i]}
+                uri={item}
+                i={i}
+                key={i} />)
+            }
+          </Swiper> : null
+        }
         <View style={{ height: 12, backgroundColor: '#f2f2f2' }} />
         <GridView
           style={styles.gridview}

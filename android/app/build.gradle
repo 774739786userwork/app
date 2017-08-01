@@ -87,11 +87,11 @@ android {
     buildToolsVersion '23.0.1'
 
     defaultConfig {
-        applicationId "com.shengyibao.a"
+        applicationId "com.shengyibao"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 4
-        versionName "1.04"
+        versionCode 5
+        versionName "1.05"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
