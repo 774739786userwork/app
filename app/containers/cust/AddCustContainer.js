@@ -118,12 +118,6 @@ class AddCustContainer extends React.Component {
             return;
         }
         saveParams.customerPhone = this.customerPhone;
-        if (!/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/.test(this.customerPhone)) {
-            Toast.show('固定电话有误，请重填')
-            return;
-        }
-
-
         saveParams.secondaryContact = this.secondaryContact;
         saveParams.secondaryMobile = this.secondaryMobile;
 

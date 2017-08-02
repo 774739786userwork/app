@@ -340,7 +340,7 @@ class QRScannerRectView extends Component {
     }
 
     componentDidMount() {
-        this.scannerLineMove();
+      //  this.scannerLineMove();
     }
 
     scannerLineMove() {
@@ -387,7 +387,7 @@ export default class QRScannerView extends Component {
     constructor(props) {
         super(props);
         //通过这句代码屏蔽 YellowBox
-        console.disableYellowBox = true;
+        //console.disableYellowBox = true;
     }
 
     render() {

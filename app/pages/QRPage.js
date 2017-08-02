@@ -2,14 +2,18 @@ import React, { Component } from "react";
 import { Text, View } from "react-native";
 import QRScannerView from '../components/QRScannerView';
 import { NavigationActions } from 'react-navigation'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as actions from '../actions/Actions';
 
-export default class QRPage extends Component {
+class QRPage extends Component {
     static navigationOptions = {
         title: '二维码扫描',
     };
     constructor(props) {
         super(props)
         this.lastTime = 0;
+        this.barcodeReceived = this.barcodeReceived.bind(this);
     }
     render() {
         return (
@@ -21,7 +25,7 @@ export default class QRPage extends Component {
                 iscorneroffset={true}
                 cornerOffsetSize={0}
                 scanBarAnimateTime={3000}
-                onScanResultReceived={this.barcodeReceived.bind(this)}
+                onScanResultReceived={this.barcodeReceived}
             />
         )
     }
@@ -43,3 +47,20 @@ export default class QRPage extends Component {
 
     }
 }
+
+
+const mapStateToProps = (state) => {
+    const {read } = state;
+    return {
+       read
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    const action = bindActionCreators(actions, dispatch);
+    return {
+        action
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(QRPage);

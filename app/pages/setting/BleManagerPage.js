@@ -365,12 +365,22 @@ export default class BleManagerPage extends React.Component {
             ESC.text(ESC.Util.leftRight(`其中押金：￥${param.foregift_sum ? param.foregift_sum : 0.00}`, '', 16));
             ESC.text(ESC.Util.leftRight(`本单实收：￥${param.paid_total_sum ? param.paid_total_sum : 0.00}`, '', 16));
             ESC.printAndNewLine();
-            ESC.text(ESC.Util.leftRight(`本单未收：￥${param.unpaid_total_sum ? param.unpaid_total_sum : 0.00}`, '', 16));
-            ESC.text(ESC.Util.leftRight(`优惠金额：￥${param.discount_sum ? param.discount_sum : 0.00}`, '', 16));
-            ESC.printAndNewLine();
-            ESC.text(ESC.Util.leftRight('', '', 16));
-            ESC.text(ESC.Util.leftRight(`铺货总额：￥${param.distribution_sum ? param.distribution_sum : 0.00}`, '', 16));
-            ESC.printAndNewLine();
+            var arr = []
+            if (!this.isNull(param.unpaid_total_sum)) {
+                arr.push(`本单未收：￥${param.unpaid_total_sum}`)
+            }
+            if (!this.isNull(param.discount_sum)) {
+                arr.push(`优惠金额：￥${param.discount_sum}`)
+            }
+            if (!this.isNull(param.distribution_sum)) {
+                arr.push(`铺货总额：￥${param.distribution_sum}`)
+            }
+            for (var j = 0; j < arr.length; j++) {
+                ESC.text(ESC.Util.leftRight(arr[j], '', 16));
+                if (j / 3 == 0) {
+                    ESC.printAndNewLine();
+                }
+            }
             ESC.printAndNewLine();
             ESC.printAndNewLine();
 
@@ -470,17 +480,26 @@ username:"zhangshijun"
             ESC.text(ESC.Util.leftRight(`数量总计：${param.num}`, '', 16));
             ESC.text(ESC.Util.leftRight(`总计金额：￥${NumberUtils.fc(total)}`, '', 16));
             ESC.printAndNewLine();
-
             ESC.text(ESC.Util.leftRight(`其中押金：￥${param.total_foregift ? param.total_foregift : 0.00}`, '', 16));
             ESC.text(ESC.Util.leftRight(`本单实收：￥${param.paid_total_sum ? param.paid_total_sum : 0.00}`, '', 16));
             ESC.printAndNewLine();
-            ESC.text(ESC.Util.leftRight(`本单未收：￥${param.unpaid_total_sum ? param.unpaid_total_sum : 0.00}`, '', 16));
-            ESC.text(ESC.Util.leftRight(`优惠金额：￥${param.total_discount_sum ? param.total_discount_sum : 0.00}`, '', 16));
-            ESC.printAndNewLine();
-            ESC.text(ESC.Util.leftRight('', '', 16));
-            ESC.text(ESC.Util.leftRight(`铺货总额：￥${param.distribution_sum ? param.distribution_sum : 0.00}`, '', 16));
-            
-            ESC.printAndNewLine();
+            var arr = []
+            if (!this.isNull(param.unpaid_total_sum)) {
+                arr.push(`本单未收：￥${param.unpaid_total_sum}`)
+            }
+            if (!this.isNull(param.total_discount_sum)) {
+                arr.push(`优惠金额：￥${param.total_discount_sum}`)
+            }
+            if (!this.isNull(param.distribution_sum)) {
+                arr.push(`铺货总额：￥${param.distribution_sum}`)
+            }
+           for (var j = 0; j < arr.length; j++) {
+                ESC.text(ESC.Util.leftRight(arr[j], '', 16));
+                if (j / 3 == 0) {
+                    ESC.printAndNewLine();
+                }
+            }
+
             ESC.printAndNewLine();
             ESC.printAndNewLine();
 
@@ -501,6 +520,13 @@ username:"zhangshijun"
         }
         ESC.sound();
         ESC.init();
+    }
+    isNull(str) {
+        let rel = false;
+        if (!str || '0' === str + '' || '0.00' === str + '' || '' === str+'') {
+            rel = true
+        }
+        return rel;
     }
     /**
      * 余货打印
@@ -541,8 +567,23 @@ username:"zhangshijun"
                 ESC.alignLeft();
                 ESC.text(ESC.Util.leftRight(`余货数量：${item.product_stock_quantity}`, '', 20));
             })
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
             ESC.init();
             ESC.text('仓库签名：______________________');
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
             ESC.printAndNewLine();
             ESC.printAndNewLine();
             ESC.printAndNewLine();
@@ -586,9 +627,23 @@ username:"zhangshijun"
                 ESC.alignLeft();
                 ESC.text(ESC.Util.leftRight(`卸货数量：${item.disburden_quantity}`, '', 20));
             })
-
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
             ESC.init();
             ESC.text('仓库签名：______________________');
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
             ESC.printAndNewLine();
             ESC.printAndNewLine();
             ESC.printAndNewLine();
