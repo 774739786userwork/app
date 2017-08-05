@@ -11,10 +11,14 @@ import NavigationBar from '../../components/NavigationBar'
 import AddDeliveryOrderPage from '../../pages/work/AddDeliveryOrderPage';
 
 class AddDeliveryOrderContainer extends React.Component {
-
+  //title: ` ${navigation.state.params.customersName}`,
   static navigationOptions = ({ navigation }) => {
-    return { header: null };
+    const { state, setParams } = navigation;
+    return {
+      title: ` ${navigation.state.params.customersName}`,
+    }
   };
+  /*
   constructor(props) {
     super(props)
     this.updateRightView = this.updateRightView.bind(this);
@@ -29,7 +33,7 @@ class AddDeliveryOrderContainer extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { addDeliveryOrder } = nextProps;
     this.carList = addDeliveryOrder.carList
-    if (!this.state.selectCar.platenumber && this.carList.length >0 ) {
+    if (!this.state.selectCar.platenumber && this.carList.length > 0) {
       this.setState({ selectCar: addDeliveryOrder.carList[0] })
     }
   }
@@ -65,15 +69,22 @@ class AddDeliveryOrderContainer extends React.Component {
         />
       </View>)
   }
+    */
   render() {
     const { customersName } = this.props.navigation.state.params;
     return (
-      <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
-        <NavigationBar title={customersName} navigator={this.props.navigation} rightView={this.renderRightView} onRightButtonPress={this.headerRightPress} />
-        <AddDeliveryOrderPage {...this.props} selectCar={this.state.selectCar} />
-      </View>
+      <AddDeliveryOrderPage {...this.props} />
     );
   }
+  /* render() {
+     const { customersName } = this.props.navigation.state.params;
+     return (
+       <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
+         <NavigationBar title={customersName} navigator={this.props.navigation} rightView={this.renderRightView} onRightButtonPress={this.headerRightPress} />
+         <AddDeliveryOrderPage {...this.props} selectCar={this.state.selectCar} />
+       </View>
+     );
+   }*/
 }
 
 const mapStateToProps = (state) => {

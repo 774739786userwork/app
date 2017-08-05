@@ -12,6 +12,7 @@ import {
   ListView,
   TouchableOpacity,
   View,
+  Platform,
   InteractionManager
 } from 'react-native';
 
@@ -128,7 +129,7 @@ class SettingPage extends React.Component {
   onUpdateAction() {
 
   }
-  
+
 
   render() {
     return (
@@ -141,11 +142,14 @@ class SettingPage extends React.Component {
             iconColor='#f74171'
             onPress={this.onUpdatePWDAction}
             showText='密码修改' />
-          <ListItemSetting
-            icon='e6b0'
-            iconColor='#18c5c0'
-            onPress={this.onUpdateAction}
-            showText='检查更新' />
+          {
+            (Platform.OS === 'android') ?
+              <ListItemSetting
+                icon='e6b0'
+                iconColor='#18c5c0'
+                onPress={this.onUpdateAction}
+                showText='检查更新' /> : null
+          }
           <ListItemSetting
             icon='e693'
             iconColor='#3abaf8'

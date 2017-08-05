@@ -25,7 +25,7 @@ class S_ProductContainer extends React.Component {
     title: '产品',
     header: null,
     tabBarIcon: ({ tintColor }) => (
-      <Iconfont icon='e6aa' iconSize={24} iconColor={tintColor} />
+      <Iconfont icon='e6d0' iconSize={20} iconColor={tintColor} />
     ),
   };
 

@@ -24,7 +24,14 @@ import AddDeliveryPopModel from './AddDeliveryPopModel'
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-
+function GetDateStr(AddDayCount) {
+    var dd = new Date();
+    dd.setDate(dd.getDate() + AddDayCount);//获取AddDayCount天后的日期 
+    var y = dd.getFullYear();
+    var m = dd.getMonth() + 1;//获取当前月份的日期 
+    var d = dd.getDate();
+    return y + "-" + m + "-" + d;
+}
 class AddDeliveryOrderPage extends React.Component {
     constructor(props) {
         super(props);
@@ -34,6 +41,9 @@ class AddDeliveryOrderPage extends React.Component {
         this.onCancelPress = this.onCancelPress.bind(this)
         this._onItemPress = this._onItemPress.bind(this)
         this.onClear = this.onClear.bind(this)
+        this.renderHeader = this.renderHeader.bind(this)
+        this._selectByDate = this._selectByDate.bind(this)
+        this.selectCarAction = this.selectCarAction.bind(this)
         this.carbaseinfo_id = null;
         //数量总计
         this.num = 0;
@@ -43,6 +53,8 @@ class AddDeliveryOrderPage extends React.Component {
         this.state = {
             modalVisible: false,
             modalPopVisible: false,
+            selectCar: {},
+            ladingdate: GetDateStr(0),
             selectItem: {},
             chooseList: [],
             good_list: []
@@ -51,23 +63,53 @@ class AddDeliveryOrderPage extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         const { addDeliveryOrder } = nextProps;
+        const { action, navigation } = this.props;
+        const { params } = navigation.state;
+
         if (addDeliveryOrder.errMsg) {
             Toast.show(addDeliveryOrder.errMsg);
             return;
         }
-        const { action,navigation } = this.props;
-        const { params } = navigation.state;
-        
-        const selectCar = nextProps.selectCar
-        if (selectCar.carbaseinfo_id && !addDeliveryOrder.loading && addDeliveryOrder.result.length == 0) {
-            action.addDeliveryOrder(selectCar.carbaseinfo_id,params.ladingdate,params.customersId)
-        } else if (selectCar.carbaseinfo_id != this.carbaseinfo_id) {
-            action.addDeliveryOrder(selectCar.carbaseinfo_id,params.ladingdate,params.customersId)
+        let selectCar = {}
+        let ladingdate = this.state.ladingdate
+        if (addDeliveryOrder.carList && !this.state.selectCar.platenumber && addDeliveryOrder.carList.length > 0) {
+            selectCar = addDeliveryOrder.carList[0];
+            this.setState({ selectCar })
         }
-        this.carbaseinfo_id = selectCar.carbaseinfo_id
+        if (selectCar.carbaseinfo_id && !addDeliveryOrder.loading && addDeliveryOrder.result.length == 0) {
+            this.carbaseinfo_id = selectCar.carbaseinfo_id
+            action.addDeliveryOrder(selectCar.carbaseinfo_id, ladingdate, params.customersId)
+        } else if (selectCar.carbaseinfo_id && selectCar.carbaseinfo_id != this.carbaseinfo_id) {
+            this.carbaseinfo_id = selectCar.carbaseinfo_id
+            action.addDeliveryOrder(selectCar.carbaseinfo_id, ladingdate, params.customersId)
+        }
+        
 
         this.setState({ good_list: addDeliveryOrder.result.good_list })
 
+    }
+    _selectByDate(ladingdate) {
+        const { action, navigation } = this.props;
+        const { params } = navigation.state;
+        action.addDeliveryOrder(this.carbaseinfo_id, ladingdate, params.customersId)
+        this.setState({ ladingdate: ladingdate })
+    }
+    selectCarAction() {
+        const { action, navigation,addDeliveryOrder } = this.props;
+        const { params } = navigation.state;
+        if (addDeliveryOrder.carList.length === 0) {
+            Toast.show('暂无车辆')
+        } else if (addDeliveryOrder.carList.length === 1) {
+            Toast.show('当前只有该辆车')
+        } else {
+            navigation.navigate('ShowSelectCar', {
+                carList: addDeliveryOrder.carList, callback: (data) => {
+                    this.carbaseinfo_id = data.carbaseinfo_id
+                    action.addDeliveryOrder(this.carbaseinfo_id, this.state.ladingdate, params.customersId)
+                    this.setState({ selectCar: data })
+                }
+            })
+        }
     }
     componentDidMount() {
         const { action, navigation } = this.props;
@@ -195,13 +237,60 @@ class AddDeliveryOrderPage extends React.Component {
         const { params } = this.props.navigation.state;
         const { result } = this.props.addDeliveryOrder;
         params.chooseList = this.state.chooseList
-        let selectCar = this.props.selectCar;
+        let selectCar = this.state.selectCar;
         params.selectCar = selectCar;
 
         params.num = this.num
         params.numberCarsh = this.numberCarsh
 
         navigate('AddDeliveryOrderEnd', { ...params, ...result });
+    }
+    renderHeader() {
+        return <View>
+            <TouchableOpacity onPress={this.selectCarAction}>
+                <View style={{ backgroundColor: '#fff', flexDirection: 'row', paddingLeft: 10, paddingRight: 12, height: 50, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={{ color: '#333', fontSize: 18 }}>{'车牌号'}</Text>
+                    <View style={{ flex: 1 }} />
+                    <Text style={{ color: '#999', fontSize: 14 }}>{this.state.selectCar.platenumber ? this.state.selectCar.platenumber : '暂无车辆'}</Text>
+                    <View>
+                        <Iconfont
+                            icon={'e66e'} // 图标
+                            iconColor={'#999'}
+                            iconSize={22}
+                        />
+                    </View>
+                </View>
+            </TouchableOpacity>
+            <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#e6e6e6' }} />
+            <View style={{ backgroundColor: '#fff', flexDirection: 'row', paddingLeft: 10, paddingRight: 12, height: 50, justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ color: '#333', fontSize: 18 }}>{'提货日期'}</Text>
+                <View style={{ flex: 1 }} />
+                <DatePicker
+                    style={{ width: 100, }}
+                    date={this.state.ladingdate}
+                    customStyles={{
+                        dateInput: { borderWidth: 0 },
+                        dateText: { color: '#999', textAlign: 'left' }
+                    }}
+                    mode="date"
+                    showIcon={false}
+                    format="YYYY-MM-DD"
+                    confirmBtnText="确定"
+                    cancelBtnText="取消"
+                    onDateChange={(date) => {
+                        this._selectByDate(date)
+                    }}
+                />
+                <View>
+                    <Iconfont
+                        icon={'e66e'} // 图标
+                        iconColor={'#999'}
+                        iconSize={22}
+                    />
+                </View>
+            </View>
+            <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#e6e6e6' }} />
+        </View>
     }
     render() {
         const { addDeliveryOrder } = this.props;
@@ -221,11 +310,16 @@ class AddDeliveryOrderPage extends React.Component {
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
                 <AddDeliveryPopModel onClear={this.onClear} onEndAction={this.onEndAction.bind(this)} chooseList={this.state.chooseList} modalVisible={this.state.modalPopVisible} onCancelPress={this.onPopCancelPress.bind(this)} />
                 <AddDeliveryEditeModel modalVisible={this.state.modalVisible} onCancelPress={this.onCancelPress} item={this.state.selectItem} onConfirmPress={this.onConfirmPress} />
+                {
+                    this.renderHeader()
+                }
                 <LoadingListView
                     loading={addDeliveryOrder.loading}
                     loadMore={addDeliveryOrder.loadMore}
                     listData={dataSource.cloneWithRows(list)}
                     renderRowView={this._renderItem} />
+
+                <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#e6e6e6' }} />
                 <View style={{ height: 50, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
                     <TouchableHighlight onPress={this._onItemPress.bind(this)}>
                         <View style={{ width: 50, height: 50, padding: 6, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' }}>

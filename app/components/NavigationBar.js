@@ -98,7 +98,22 @@ class NavigationBar extends React.Component {
 					flexDirection: 'row',
 					width: width,
 				}}>
-
+					{
+						iosTop ? <TouchableOpacity
+						accessibilityComponentType="button"
+						accessibilityTraits="button"
+						delayPressIn={0}
+						pressColor={'rgba(0, 0, 0, .32)'}
+						borderless
+						onPress={this._onLeftButtonPressHandle.bind(this)}>
+						<View style={styles.leftButton}>
+							{this._renderLeftIcon()}
+							<Text style={[styles.leftButtonTitle, { color: this.props.leftButtonTitleColor }]}>
+								{this.props.leftButtonTitle}
+							</Text>
+						</View>
+					</TouchableOpacity>
+					:
 					<TouchableNativeFeedback
 						accessibilityComponentType="button"
 						accessibilityTraits="button"
@@ -113,6 +128,8 @@ class NavigationBar extends React.Component {
 							</Text>
 						</View>
 					</TouchableNativeFeedback>
+					}
+					
 
 					<View style={styles.title}>
 						<Text style={[styles.titleText, { color: this.props.titleColor }]} numberOfLines={1}>
@@ -174,7 +191,7 @@ let styles = StyleSheet.create({
 		alignItems: Platform.OS === 'ios' ? 'center' : 'flex-start',
 	},
 	titleText: {
-		fontSize: Platform.OS === 'ios' ? 17 : 18,
+		fontSize: Platform.OS === 'ios' ? 18 : 18,
 		fontWeight: Platform.OS === 'ios' ? '600' : '500',
 		color: 'rgba(0, 0, 0, .9)',
 		textAlign: Platform.OS === 'ios' ? 'center' : 'left',

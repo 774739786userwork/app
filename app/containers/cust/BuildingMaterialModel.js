@@ -103,11 +103,11 @@ export default class BuildingMaterialModel extends React.Component {
                 <View style={{ flex: 1 }} />
                 <View style={{ backgroundColor: '#fff', flexDirection: 'row', height: 36, width: WINDOW_WIDTH, justifyContent: 'center', alignItems: 'center', }}>
                     <TouchableOpacity onPress={this.onCancelPress}>
-                        <View style={{ height: 36, width: 40, paddingLeft: 12, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: '#666' }}>{'取消'}</Text></View>
+                        <View style={{ height: 36,  paddingLeft: 12, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: '#666' }}>{'取消'}</Text></View>
                     </TouchableOpacity>
                     <Text style={{ color: '#666', flex: 1, textAlign: 'center' }}>{this.state.title}</Text>
                     <TouchableOpacity onPress={this.onConfirmPress}>
-                        <View style={{ height: 36, width: 40, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: '#fe6732', paddingRight: 12, }}>{'确定'}</Text></View>
+                        <View style={{ height: 36, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: '#fe6732', paddingRight: 12, }}>{'确定'}</Text></View>
                     </TouchableOpacity>
                 </View>
                 <View style={{ height: StyleSheet.hairlineWidth, width: WINDOW_WIDTH, backgroundColor: '#d9d9d9' }} />

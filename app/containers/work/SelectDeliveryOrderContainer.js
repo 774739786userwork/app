@@ -13,34 +13,30 @@ import SelectDeliveryOrderPage from '../../pages/work/SelectDeliveryOrderPage';
 /**
  * 送货单列表查询
  */
-let daySalerSum = '';
+let day_saler_sum = 0
 class SelectDeliveryOrderContainer extends React.Component {
   static navigationOptions = ({ navigation }) => {
-    return { header: null };
-  };
-
-  renderRightView(){
-    return(
-      <View>
-        <Text style={{color:'#fff'}}>¥{`${daySalerSum}`}</Text>
-      </View>
-    )
+    const { state, setParams } = navigation;
+    return {
+      title: '送货单查询',
+      headerRight: (<View>
+        <Text style={{ color: '#fff',marginRight:12 }}>¥{`${navigation.state.params ? navigation.state.params.day_saler_sum : 0}`}</Text>
+      </View>)
+    }
   }
-
+  componentWillReceiveProps(nextProps) {
+    if (day_saler_sum != nextProps.selectDeliveryOrder.day_saler_sum) {
+      day_saler_sum = nextProps.selectDeliveryOrder.day_saler_sum;
+      this.props.navigation.setParams({ day_saler_sum })
+    }
+  }
   render() {
-    return (
-      <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
-        <NavigationBar title={'送货单查询'} navigator={this.props.navigation} rightView={this.renderRightView}/>
-        <SelectDeliveryOrderPage {...this.props} />
-      </View>
-    );
-    
+    return (<SelectDeliveryOrderPage {...this.props} />);
   }
 }
 
 const mapStateToProps = (state) => {
   const { selectDeliveryOrder } = state;
-  daySalerSum = selectDeliveryOrder.day_saler_sum;
   return {
     selectDeliveryOrder
   };

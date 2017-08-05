@@ -85,6 +85,7 @@ class AddCustContainer extends React.Component {
                 Toast.show('请打开软件定位权限')
             }
         );
+
     }
     headerRightPress() {
         debugger

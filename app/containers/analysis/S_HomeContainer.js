@@ -17,6 +17,8 @@ import MonthPicker from '../../components/MonthPicker'
 import * as DateUtils from '../../utils/DateUtils'
 import Echarts from 'native-echarts';
 import { FetchManger, LoginInfo, LoadingView, Toast } from 'react-native-go'
+import LeftTabComponet from './LeftTabComponet'
+import TableRow from './TableRow'
 
 class S_HomePage extends React.Component {
   constructor(props) {
@@ -476,7 +478,7 @@ class S_DayPage extends React.Component {
     return (
       <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#fff' }}>
         <View style={{ width: 100, justifyContent: 'center', alignItems: 'center' }}>
-          <LeftRegional
+          <LeftTabComponet
             data={listData}
             sectionAction={(item) => {
               this.setState({ selectItem: item.salerList[0] })
@@ -506,63 +508,8 @@ class S_DayPage extends React.Component {
   }
 }
 
-class TableRow extends React.Component {
-  render() {
-    let bg = this.props.bg;
-    let tColor = this.props.tColor;
-    let t0 = this.props.t0;
-    let t1 = this.props.t1;
-    let t2 = this.props.t2;
-    return <View>
-      <View style={{ flexDirection: 'row', backgroundColor: bg }}>
-        <Text style={{ padding: 10, flex: 1, color: tColor }}>{t0}</Text>
-        <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-        <Text style={{ padding: 10, flex: 1, color: tColor }}>{t1}</Text>
-        <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-        <Text style={{ padding: 10, flex: 1, color: tColor }}>{t2}</Text>
-      </View>
-      <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-    </View>
-  }
-}
 
-class LeftRegional extends React.Component {
-  constructor(props) {
-    super(props)
-    this.renderSectionListItem = this.renderSectionListItem.bind(this);
-    this.state = {
-      preSelect: undefined
-    }
-    this.preSelect = undefined
-  }
-  sectionAction(item) {
-    this.props.sectionAction && this.props.sectionAction(item)
-    this.setState({ preSelect: item.factoryName })
-  }
-  renderSectionListItem(item) {
-    let factoryName = item.factoryName
-    let preSelect = this.state.preSelect
-    if (!this.preSelect) {
-      this.preSelect = factoryName
-    }
-    preSelect = preSelect ? preSelect : this.preSelect
-    return <TouchableOpacity onPress={this.sectionAction.bind(this, item)} key={`index_${factoryName}`}>
-      <View>
-        <View style={{ width: 100, padding: 12, backgroundColor: preSelect != factoryName ? '#fff' : '#f9f9f9' }}>
-          <Text style={{ color: preSelect != factoryName ? '#333' : '#0081d4' }}>{item.factoryName}</Text>
-        </View>
-        <View style={{ height: StyleSheet.hairlineWidth, width: 100, backgroundColor: '#f9f9f9' }} />
-      </View>
-    </TouchableOpacity>
-  }
-  render() {
-    return <ScrollView>
-      {
-        this.props.data.map((item) => this.renderSectionListItem(item))
-      }
-    </ScrollView>
-  }
-}
+
 class S_HomeContainer extends React.Component {
   static navigationOptions = {
     title: '首页',
