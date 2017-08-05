@@ -8,7 +8,8 @@
  */
 
 #import "AppDelegate.h"
-
+#import <Bugly/Bugly.h>
+#import <AMapFoundationKit/AMapFoundationKit.h> //引入高德地图核心包
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 
@@ -16,7 +17,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-//  [AMapServices sharedServices].apiKey = @"cdf355f6a224da6a4a8bacd3ae91c1f3	"; //设置高德地图SDK服务key
+  [Bugly startWithAppId:@"fd74a0b563"];
+  [AMapServices sharedServices].apiKey = @"cdf355f6a224da6a4a8bacd3ae91c1f3	"; //设置高德地图SDK服务key
   NSURL *jsCodeLocation;
 
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];

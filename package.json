@@ -7,6 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "ele-react-native-location": "^0.2.2",
     "native-echarts": "^0.3.0",
     "react": "16.0.0-alpha.6",
     "react-native": "0.44.1",
@@ -23,8 +24,6 @@
     "react-native-loading-spinner-overlay": "^0.5.0",
     "react-native-scrollable-tab-view": "^0.7.4",
     "react-native-select-contact-android": "^0.7.1",
-    "react-native-smart-amap": "^1.0.7",
-    "react-native-smart-amap-location": "^1.1.3",
     "react-native-smart-app-event-listener-enhance": "^1.1.1",
     "react-native-smart-button": "^2.0.0",
     "react-native-smart-timer-enhance": "^1.0.3",

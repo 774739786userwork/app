@@ -138,6 +138,11 @@ class SettingPage extends React.Component {
         <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
           <View style={styles.emptyview}></View>
           <ListItemSetting
+            icon='e6b1'
+            iconColor='#f74171'
+            showText='姓名'
+            value={LoginInfo.getUserInfo().user_real_name} />
+          <ListItemSetting
             icon='e6ae'
             iconColor='#f74171'
             onPress={this.onUpdatePWDAction}

@@ -37,6 +37,10 @@
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8D881E97B7324FF2BC767874 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C30948088AF942FC805CAA63 /* libRCTCamera.a */; };
+		9D6C84C51F35F6AE0077DC4F /* AMapFoundationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6C84C31F35F6AE0077DC4F /* AMapFoundationKit.framework */; };
+		9D6C84C61F35F6AE0077DC4F /* AMapLocationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6C84C41F35F6AE0077DC4F /* AMapLocationKit.framework */; };
+		9D6C84C81F35F6F70077DC4F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6C84C71F35F6F70077DC4F /* CoreLocation.framework */; };
+		9D6C84CA1F3645E20077DC4F /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6C84C91F3645E20077DC4F /* Bugly.framework */; };
 		9D9754DD1F07955B005046A7 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D9754DC1F07955B005046A7 /* libstdc++.6.0.9.tbd */; };
 		9D9754DF1F079570005046A7 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D9754DE1F079570005046A7 /* libc++.tbd */; };
 		9D9754E11F07957A005046A7 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D9754E01F07957A005046A7 /* libz.tbd */; };
@@ -45,6 +49,7 @@
 		9D9754E71F079598005046A7 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D9754E61F079598005046A7 /* JavaScriptCore.framework */; };
 		9DB84A6B1ECA0D8C0071C581 /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9DB84A6A1ECA0D8C0071C581 /* iconfont.ttf */; };
 		9DDD87961F263BC900240EEC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DDD87951F263BC900240EEC /* SystemConfiguration.framework */; };
+		ACE6F6FBF48C49F9B1D0D6D2 /* libELMRNLocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6789E35024274F87A51A805B /* libELMRNLocation.a */; };
 		DEBF345DA8D442C4B83FA5CA /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45123F1677C84BA99C41B632 /* libRNImagePicker.a */; };
 /* End PBXBuildFile section */
 
@@ -238,6 +243,13 @@
 			remoteGlobalIDString = 4107012F1ACB723B00C6AA39;
 			remoteInfo = RCTCamera;
 		};
+		9D6C84A41F35F5CA0077DC4F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D00DB1ECA044E6F99D4309E /* ELMRNLocation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B37986F61DDC0DFA006E2A3C;
+			remoteInfo = ELMRNLocation;
+		};
 		9DF5BECE1EFB3DF900FFE6FD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 628648E762F54C75B41D0982 /* FastImage.xcodeproj */;
@@ -286,6 +298,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = shengyibao/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = shengyibao/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		1D00DB1ECA044E6F99D4309E /* ELMRNLocation.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ELMRNLocation.xcodeproj; path = "../node_modules/ele-react-native-location/ios/ELMRNLocation.xcodeproj"; sourceTree = "<group>"; };
 		262DA25D3264411DB49F8FA9 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* shengyibao-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "shengyibao-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* shengyibao-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "shengyibao-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -293,9 +306,14 @@
 		4A678E82521441339FC350D6 /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		628648E762F54C75B41D0982 /* FastImage.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = FastImage.xcodeproj; path = "../node_modules/react-native-fast-image/ios/FastImage.xcodeproj"; sourceTree = "<group>"; };
+		6789E35024274F87A51A805B /* libELMRNLocation.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libELMRNLocation.a; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7D24E30BF63B4288A7B2009D /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		9D6C84C31F35F6AE0077DC4F /* AMapFoundationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapFoundationKit.framework; sourceTree = "<group>"; };
+		9D6C84C41F35F6AE0077DC4F /* AMapLocationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapLocationKit.framework; sourceTree = "<group>"; };
+		9D6C84C71F35F6F70077DC4F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		9D6C84C91F3645E20077DC4F /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bugly.framework; path = shengyibao/Bugly.framework; sourceTree = "<group>"; };
 		9D9754DC1F07955B005046A7 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		9D9754DE1F079570005046A7 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		9D9754E01F07957A005046A7 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -324,6 +342,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D6C84C81F35F6F70077DC4F /* CoreLocation.framework in Frameworks */,
 				9D9754E71F079598005046A7 /* JavaScriptCore.framework in Frameworks */,
 				9DDD87961F263BC900240EEC /* SystemConfiguration.framework in Frameworks */,
 				9D9754E51F07958E005046A7 /* CoreTelephony.framework in Frameworks */,
@@ -337,6 +356,8 @@
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
+				9D6C84C51F35F6AE0077DC4F /* AMapFoundationKit.framework in Frameworks */,
+				9D6C84CA1F3645E20077DC4F /* Bugly.framework in Frameworks */,
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
@@ -344,8 +365,10 @@
 				8D881E97B7324FF2BC767874 /* libRCTCamera.a in Frameworks */,
 				4BF681F19DEF4F4DA1BFA3E3 /* libRNDeviceInfo.a in Frameworks */,
 				DEBF345DA8D442C4B83FA5CA /* libRNImagePicker.a in Frameworks */,
+				9D6C84C61F35F6AE0077DC4F /* AMapLocationKit.framework in Frameworks */,
 				198184B18A68402FA6328EA8 /* libFastImage.a in Frameworks */,
 				3FD042CE43A2459C970FBFAE /* libRCTBluetoothSerial.a in Frameworks */,
+				ACE6F6FBF48C49F9B1D0D6D2 /* libELMRNLocation.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,6 +475,9 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				9DB84A6A1ECA0D8C0071C581 /* iconfont.ttf */,
+				9D6C84C91F3645E20077DC4F /* Bugly.framework */,
+				9D6C84C31F35F6AE0077DC4F /* AMapFoundationKit.framework */,
+				9D6C84C41F35F6AE0077DC4F /* AMapLocationKit.framework */,
 			);
 			name = shengyibao;
 			sourceTree = "<group>";
@@ -507,6 +533,7 @@
 				7D24E30BF63B4288A7B2009D /* RNImagePicker.xcodeproj */,
 				628648E762F54C75B41D0982 /* FastImage.xcodeproj */,
 				9E71D09699194EC0A4BE3A92 /* RCTBluetoothSerial.xcodeproj */,
+				1D00DB1ECA044E6F99D4309E /* ELMRNLocation.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -552,9 +579,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		9D6C84A11F35F5C90077DC4F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9D6C84A51F35F5CA0077DC4F /* libELMRNLocation.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		9D9754DB1F07955B005046A7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9D6C84C71F35F6F70077DC4F /* CoreLocation.framework */,
 				9DDD87951F263BC900240EEC /* SystemConfiguration.framework */,
 				9D9754E61F079598005046A7 /* JavaScriptCore.framework */,
 				9D9754E41F07958E005046A7 /* CoreTelephony.framework */,
@@ -713,6 +749,10 @@
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = 9D6C84A11F35F5C90077DC4F /* Products */;
+					ProjectRef = 1D00DB1ECA044E6F99D4309E /* ELMRNLocation.xcodeproj */;
+				},
 				{
 					ProductGroup = 9DF5BECB1EFB3DF900FFE6FD /* Products */;
 					ProjectRef = 628648E762F54C75B41D0982 /* FastImage.xcodeproj */;
@@ -960,6 +1000,13 @@
 			remoteRef = 9D3BDAEC1ED1EFFC00362456 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		9D6C84A51F35F5CA0077DC4F /* libELMRNLocation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libELMRNLocation.a;
+			remoteRef = 9D6C84A41F35F5CA0077DC4F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		9DF5BECF1EFB3DF900FFE6FD /* libFastImage.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1127,12 +1174,14 @@
 					"$(SRCROOT)..\node_modules\neact-native-smart-amapiosRCTAMapRCTAMap/**",
 					"$(SRCROOT)/../node_modules/react-native-smart-amap-location/ios/RCTAMapLocation/RCTAMapLocation/**",
 					"$(SRCROOT)/../node_modules/react-native-smart-amap/ios/RCTAMap/RCTAMap/**",
+					"$(SRCROOT)/../node_modules/ele-react-native-location/ios/ELMRNLocation/**",
 				);
 				INFOPLIST_FILE = shengyibaoTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1172,12 +1221,14 @@
 					"$(SRCROOT)..\node_modules\neact-native-smart-amapiosRCTAMapRCTAMap/**",
 					"$(SRCROOT)/../node_modules/react-native-smart-amap-location/ios/RCTAMapLocation/RCTAMapLocation/**",
 					"$(SRCROOT)/../node_modules/react-native-smart-amap/ios/RCTAMap/RCTAMap/**",
+					"$(SRCROOT)/../node_modules/ele-react-native-location/ios/ELMRNLocation/**",
 				);
 				INFOPLIST_FILE = shengyibaoTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1211,6 +1262,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/Frameworks",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/shengyibao",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1221,6 +1273,7 @@
 					"$(SRCROOT)/../node_modules/react-native-gm-bluetooth/ios/RCTBluetoothSerial",
 					"$(SRCROOT)..",
 					"$(SRCROOT)/../../../react-native/React/**",
+					"$(SRCROOT)/../node_modules/ele-react-native-location/ios/ELMRNLocation/**",
 				);
 				INFOPLIST_FILE = shengyibao/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1246,6 +1299,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/Frameworks",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/shengyibao",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1256,6 +1310,7 @@
 					"$(SRCROOT)/../node_modules/react-native-gm-bluetooth/ios/RCTBluetoothSerial",
 					"$(SRCROOT)..",
 					"$(SRCROOT)/../../../react-native/React/**",
+					"$(SRCROOT)/../node_modules/ele-react-native-location/ios/ELMRNLocation/**",
 				);
 				INFOPLIST_FILE = shengyibao/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1295,11 +1350,13 @@
 					"$(SRCROOT)..\node_modules\neact-native-smart-amapiosRCTAMapRCTAMap/**",
 					"$(SRCROOT)/../node_modules/react-native-smart-amap-location/ios/RCTAMapLocation/RCTAMapLocation/**",
 					"$(SRCROOT)/../node_modules/react-native-smart-amap/ios/RCTAMap/RCTAMap/**",
+					"$(SRCROOT)/../node_modules/ele-react-native-location/ios/ELMRNLocation/**",
 				);
 				INFOPLIST_FILE = "shengyibao-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1349,11 +1406,13 @@
 					"$(SRCROOT)..\node_modules\neact-native-smart-amapiosRCTAMapRCTAMap/**",
 					"$(SRCROOT)/../node_modules/react-native-smart-amap-location/ios/RCTAMapLocation/RCTAMapLocation/**",
 					"$(SRCROOT)/../node_modules/react-native-smart-amap/ios/RCTAMap/RCTAMap/**",
+					"$(SRCROOT)/../node_modules/ele-react-native-location/ios/ELMRNLocation/**",
 				);
 				INFOPLIST_FILE = "shengyibao-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1404,6 +1463,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.shengyibao-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1428,6 +1488,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",

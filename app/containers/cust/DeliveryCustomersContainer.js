@@ -22,10 +22,48 @@ import SaleAreaModel from './SaleAreaModel'
 import CustomerKindsModel from './CustomerKindsModel'
 import BuildingMaterialModel from './BuildingMaterialModel'
 import ImageView from '../../components/ImageView'
-
-
-var WINDOW_WIDTH = Dimensions.get('window').width;
 import { Iconfont, FetchManger, LoginInfo, LoadingView } from 'react-native-go';
+var WINDOW_WIDTH = Dimensions.get('window').width;
+
+
+
+
+class LeftRegional extends React.Component {
+    constructor(props) {
+        super(props)
+        this.renderSectionListItem = this.renderSectionListItem.bind(this);
+        this.state = {
+            preSelect: undefined
+        }
+        this.preSelect = undefined
+    }
+    sectionAction(item) {
+        this.setState({ preSelect: item.regionalId })
+    }
+    renderSectionListItem(item) {
+        let regionalId = item.regionalId
+        let preSelect = this.state.preSelect
+        if (!this.preSelect) {
+            this.preSelect = regionalId
+        }
+        preSelect = preSelect ? preSelect : this.preSelect
+        return <TouchableOpacity onPress={this.sectionAction.bind(this, item)} key={`index_${regionalId}`}>
+            <View style={{ padding: 10, backgroundColor: preSelect != regionalId ? '#f9f9f9' : '#fff' }}>
+                <Text style={{ color: preSelect != regionalId ? '#999' : '#0081d4' }}>{item.regionalName}</Text>
+            </View>
+        </TouchableOpacity>
+    }
+    render() {
+        return <ScrollView>
+            {
+                this.props.data.map((item) => {
+                    return this.renderSectionListItem(item)
+                })
+            }
+        </ScrollView>
+    }
+}
+
 let preSelect = 0;
 class DeliveryCustomersContainer extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -40,6 +78,7 @@ class DeliveryCustomersContainer extends React.Component {
         this.state = {
             selectIndex: 0,
             selectSection: 0,
+            loading: false,
             regionaldictionary_list: []
         }
 
@@ -60,11 +99,12 @@ class DeliveryCustomersContainer extends React.Component {
                 params.mycustomer_type = 'vipcustomer';
             }
         }
+        this.setState({ loading: true })
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('mobileServiceManager/customers/getDeliveryCustomers.page',
                 params).then((responseData) => {
                     if (responseData.status === '0' || responseData.status === 0) {
-                        this.setState({ regionaldictionary_list: responseData.data.regionaldictionary_list ? responseData.data.regionaldictionary_list : [] })
+                        this.setState({ loading: false, regionaldictionary_list: responseData.data.regionaldictionary_list ? responseData.data.regionaldictionary_list : [] })
                     }
                 }).catch((error) => {
 
@@ -77,13 +117,13 @@ class DeliveryCustomersContainer extends React.Component {
     }
     _onlistItemPress(item) {
         const { navigate } = this.props.navigation;
-        navigate('CustDetail',item);
+        navigate('CustDetail', item);
     }
     _extraUniqueKey(item, index) {
         return "index" + index + item;
     }
     _renderSectionHeader = ({ section }) => (
-        <View key={`section_${section.key}`} style={{ flex: 1, height: 40, justifyContent: 'center', borderStyle: 'dashed', borderBottomColor: '#efefef', borderBottomWidth: StyleSheet.hairlineWidth, borderTopColor: '#efefef', borderTopWidth: StyleSheet.hairlineWidth }}>
+        <View key={`section_${section.key}`} style={{ flex: 1, height: 40, justifyContent: 'center', borderBottomColor: '#efefef', borderBottomWidth: StyleSheet.hairlineWidth, borderTopColor: '#efefef', borderTopWidth: StyleSheet.hairlineWidth }}>
             <Text style={{ marginLeft: 12 }} >{section.key}</Text>
         </View>
     )
@@ -154,24 +194,30 @@ class DeliveryCustomersContainer extends React.Component {
                         <View style={{ height: 1, backgroundColor: index === 2 ? '#0081d4' : '#c4c4c4', width: WINDOW_WIDTH / 3 }} />
                     </View>
                 </View>
+                {
+                    this.state.loading ?
+                        <LoadingView />
+                        :
+                        (regionaldictionary_list.length > 0 ? <View style={{ flex: 1, flexDirection: 'row' }}>
+                            <View style={{ width: 80, justifyContent: 'center', alignItems: 'center' }}>
+                                <LeftRegional
+                                    data={regionaldictionary_list}
+                                />
+                            </View>
+                            <SectionList
+                                style={{ flex: 1 }}
+                                renderItem={this._renderItem}
+                                renderSectionHeader={this._renderSectionHeader}
+                                keyExtractor={this._extraUniqueKey}// 每个item的key
+                                sections={sectionList}
+                            />
+                        </View>
+                            :
+                            <View style={{ alignItems: 'center', flex: 1, backgroundColor: '#fff', justifyContent: 'center' }}>
+                                <Text> 暂无数据</Text>
+                            </View>)
 
-                <View style={{ flex: 1, flexDirection: 'row' }}>
-                    <View style={{ width: 80, justifyContent: 'center', alignItems: 'center' }}>
-                        <LeftRegional
-                            data={regionaldictionary_list}
-                        />
-                    </View>
-                    <SectionList
-                        style={{ flex: 1 }}
-                        renderItem={this._renderItem}
-                        renderSectionHeader={this._renderSectionHeader}
-                        keyExtractor={this._extraUniqueKey}// 每个item的key
-                        sections={sectionList}
-                    />
-                </View>
-
-
-
+                }
             </View >
         );
     }
@@ -179,39 +225,3 @@ class DeliveryCustomersContainer extends React.Component {
 
 export default DeliveryCustomersContainer;
 
-
-class LeftRegional extends React.Component {
-    constructor(props) {
-        super(props)
-        this.renderSectionListItem = this.renderSectionListItem.bind(this);
-        this.state = {
-            preSelect: undefined
-        }
-        this.preSelect = undefined
-    }
-    sectionAction(item) {
-        this.setState({ preSelect: item.regionalId })
-    }
-    renderSectionListItem(item) {
-        let regionalId = item.regionalId
-        let preSelect = this.state.preSelect
-        if (!this.preSelect) {
-            this.preSelect = regionalId
-        }
-        preSelect = preSelect ? preSelect : this.preSelect
-        return <TouchableOpacity onPress={this.sectionAction.bind(this, item)} key={`index_${regionalId}`}>
-            <View style={{ padding: 10, backgroundColor: preSelect != regionalId ? '#f9f9f9' : '#fff' }}>
-                <Text style={{ color: preSelect != regionalId ? '#999' : '#0081d4' }}>{item.regionalName}</Text>
-            </View>
-        </TouchableOpacity>
-    }
-    render() {
-        return <ScrollView>
-            {
-                this.props.data.map((item) => {
-                    return this.renderSectionListItem(item)
-                })
-            }
-        </ScrollView>
-    }
-}

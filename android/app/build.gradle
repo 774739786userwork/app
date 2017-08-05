@@ -135,6 +135,7 @@ android {
 }
 
 dependencies {
+    compile project(':ele-react-native-location')
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.android.support:support-v4:19.1.0'
@@ -152,8 +153,7 @@ dependencies {
     compile project(':react-native-gm-bluetooth')
     compile project(':react-native-image-picker')
     compile project(':react-native-select-contact-android')
-    compile project(':react-native-smart-amap')
-    compile project(':react-native-smart-amap-location')
+    compile project(':ele-react-native-location')
     compile project(':react-native-contact-picker')
 }
 

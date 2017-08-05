@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>基本地图展示</title>
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css" />
+    <style type="text/css">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script src="http://webapi.amap.com/maps?v=1.3&key=ffefed0eeb52dc6507ebe61ace501922"></script>
+</head>
+
+<body>
+    <div id="container"></div>
+
+    <script>
+        var map = new AMap.Map('container', {
+            resizeEnable: true,
+            zoom: 14,
+            center: [104.065794, 30.657483]
+        });
+
+        //提供JS方法，让webview调用，添加marker
+        function addMarker(lng, lat) {
+            map.setZoomAndCenter(14, [lng, lat]);
+            marker = new AMap.Marker({
+                //指定 Marker 的样式
+                icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+                position: [lng, lat]
+            });
+            marker.setMap(map);
+        }
+
+    </script>
+</body>
+
+</html>
