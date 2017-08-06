@@ -39,7 +39,7 @@ class CustDetailContainer extends Component {
         }
     }
 
-   
+
     componentDidMount() {
         const { action } = this.props;
         let options = {
@@ -58,7 +58,7 @@ class CustDetailContainer extends Component {
             options = {
                 accuracy: 'kCLLocationAccuracyHundredMeters', // kCLLocationAccuracyHundredMeters, kCLLocationAccuracyBest, kCLLocationAccuracyNearestTenMeters,kCLLocationAccuracyKilometer,kCLLocationAccuracyThreeKilometers
                 onceLocation: true, // 是否只定位一次,
-                locatingWithReGeocode:true,
+                locatingWithReGeocode: true,
                 pausesLocationUpdatesAutomatically: true,//指定定位是否会被系统自动暂停。默认为YES
                 allowsBackgroundLocationUpdates: false,//是否允许后台定位。默认为NO。只在iOS 9.0及之后起作用。设置为YES的时候必须保证 Background Modes 中的 Location updates 处于选中状态，否则会抛出异常
                 locationTimeout: 10,//指定单次定位超时时间,默认为10s。最小值是2s。注意单次定位请求前设置
@@ -72,11 +72,11 @@ class CustDetailContainer extends Component {
         EleRNLocation.startLocation(options);
         //开启定位监听
         EleRNLocation.addEventListener((coordinate) => {
-             this.setState({coordinate})
+            this.setState({ coordinate })
         });
 
         let preParams = this.props.navigation.state.params
-        let customersId = preParams.customersId
+        let customersId = preParams.customer_id
         const token = LoginInfo.getUserInfo().token;
         let params = { token, customersId };
         FetchManger.getUri('mobileServiceManager/customers/getCustomersDetailInfos.page', params).then((responseData) => {
@@ -177,7 +177,7 @@ class CustDetailContainer extends Component {
         )
     }
 
-     componentWillUnmount() {
+    componentWillUnmount() {
         //停止并销毁定位服务
         EleRNLocation.stopLocation();
         EleRNLocation.destroyLocation();
