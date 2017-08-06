@@ -12,8 +12,6 @@ import android.util.Log;
 import com.facebook.react.ReactApplication;
 import me.ele.dodo.AMapLocationReactPackage;
 import com.doctadre.contactpicker.ContactPickerPackage;
-import com.reactnativecomponent.amap.RCTAMapPackage;
-import com.reactnativecomponent.amaplocation.RCTAMapLocationPackage;
 import com.rhaker.reactnativeselectcontacts.ReactNativeSelectContacts;
 import com.imagepicker.ImagePickerPackage;
 import com.gm.RCTGMBluetooth.RCTGMBluetoothPackage;

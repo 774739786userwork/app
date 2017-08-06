@@ -4,7 +4,7 @@ import {
 } from 'react-native'
 
 class WebMapView extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props)
         this.injectJS = this.injectJS.bind(this)
     }
@@ -21,10 +21,16 @@ class WebMapView extends React.Component {
         //coordinate
         //latitude: result.coordinate.latitude,
         //longitude: result.coordinate.longitude,
+        let source;
+        if (__DEV__) {
+            source = require('./map.html');
+        } else {
+            source = Platform.OS === 'ios' ? require('./map.html') : { uri: 'file:///android_asset/map.html' };
+        }
         return <WebView
             ref={webview => { this.webview = webview; }}
             style={{ flex: 1 }}
-            source={require('./map.html')}
+            source={source}
             domStorageEnabled={true}
             javaScriptEnabled={true}
             startInLoadingState={true}
