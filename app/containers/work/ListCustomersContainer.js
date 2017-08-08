@@ -28,7 +28,7 @@ import LoadingListView from '../../components/LoadingListView'
 import SearchBar from '../../components/SearchBar';
 import ImageView from '../../components/ImageView'
 import NavigationBar from '../../components/NavigationBar'
-import SelectContacts from 'react-native-select-contact-android'
+import ContactsWrapper from 'react-native-contacts-wrapper';
 import * as ValidateUtils from '../../utils/ValidateUtils';
 import EleRNLocation from 'ele-react-native-location';
 
@@ -115,7 +115,7 @@ class ListCustomersContainer extends React.Component {
     EleRNLocation.addEventListener((_coords) => {
       coords = _coords
       action.listCustomers(coords.latitude, coords.longitude);
-     // action.listCustomers(25.005789, 102.770189);
+      // action.listCustomers(25.005789, 102.770189);
     });
   }
 
@@ -228,26 +228,43 @@ class ListCustomersContainer extends React.Component {
   }
   headerRightPress = () => {
     const { navigation } = this.props;
-    SelectContacts.pickContact({ timeout: 45000 }, (err, contact) => {
-      if (err) {
-        if (typeof err === 'object') {
-          if (err.message == "user canceled") {
-            console.log("user hit back button in contact picker");
-          } else if (err.message == "timed out") {
-            Toast.show("选择超时");
-          } else if (err.message == "android version not supported") {
-            Toast.show("当前版本不支持");
-          }
-        }
-        console.log(err)
-      } else {
-        this.setState({ defaultValue: contact.phoneNumbers[0].number + '' })
-        this.onSearchAction(contact.phoneNumbers[0].number + '');
-      }
+    if (!this.importingContactInfo) {
+      this.importingContactInfo = true;
+      ContactsWrapper.getContact()
+        .then((contact) => {
+          console.log(contact)
+          this.importingContactInfo = false;
+          this.setState({ defaultValue: contact.phone + '' })
+          this.onSearchAction(contact.phone + '');
+        })
+        .catch((error) => {
+          Toast.show("没有选择联系人");
+          this.importingContactInfo = false;
+          console.log("ERROR CODE: ", error.code);
+          console.log("ERROR MESSAGE: ", error.message);
+        });
+    }
+    /*
+SelectContacts.pickContact({ timeout: 45000 }, (err, contact) => {
+if (err) {
+if (typeof err === 'object') {
+if (err.message == "user canceled") {
+  console.log("user hit back button in contact picker");
+} else if (err.message == "timed out") {
+  Toast.show("选择超时");
+} else if (err.message == "android version not supported") {
+  Toast.show("当前版本不支持");
+}
+}
+console.log(err)
+} else {
+this.setState({ defaultValue: contact.phoneNumbers[0].number + '' })
+this.onSearchAction(contact.phoneNumbers[0].number + '');
+}
 
-    })
+})*/
   }
-  
+
   render() {
     const { params } = this.props.navigation.state;
 

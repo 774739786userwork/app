@@ -10,9 +10,8 @@ import android.content.pm.PackageManager;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
+import com.lynxit.contactswrapper.ContactsWrapperPackage;
 import me.ele.dodo.AMapLocationReactPackage;
-import com.doctadre.contactpicker.ContactPickerPackage;
-import com.rhaker.reactnativeselectcontacts.ReactNativeSelectContacts;
 import com.imagepicker.ImagePickerPackage;
 import com.gm.RCTGMBluetooth.RCTGMBluetoothPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
@@ -23,7 +22,6 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.tencent.bugly.Bugly;
-import com.tencent.bugly.crashreport.CrashReport;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,9 +47,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ContactsWrapperPackage(),
             new AMapLocationReactPackage(),
-            new ContactPickerPackage(),
-            new ReactNativeSelectContacts(),
             new ImagePickerPackage(),
             new RCTGMBluetoothPackage(),
             new FastImageViewPackage(),

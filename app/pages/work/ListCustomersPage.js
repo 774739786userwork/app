@@ -26,9 +26,9 @@ import LoadingListView from '../../components/LoadingListView'
 import SearchBar from '../../components/SearchBar';
 import ImageView from '../../components/ImageView'
 import NavigationBar from '../../components/NavigationBar'
-import SelectContacts from 'react-native-select-contact-android'
 import * as ValidateUtils from '../../utils/ValidateUtils';
 import EleRNLocation from 'ele-react-native-location';
+import ContactsWrapper from 'react-native-contacts-wrapper';
 
 
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -73,7 +73,7 @@ class ListCustomersPage extends React.Component {
             options = {
                 accuracy: 'kCLLocationAccuracyHundredMeters', // kCLLocationAccuracyHundredMeters, kCLLocationAccuracyBest, kCLLocationAccuracyNearestTenMeters,kCLLocationAccuracyKilometer,kCLLocationAccuracyThreeKilometers
                 onceLocation: true, // 是否只定位一次,
-                locatingWithReGeocode:true,
+                locatingWithReGeocode: true,
                 pausesLocationUpdatesAutomatically: true,//指定定位是否会被系统自动暂停。默认为YES
                 allowsBackgroundLocationUpdates: false,//是否允许后台定位。默认为NO。只在iOS 9.0及之后起作用。设置为YES的时候必须保证 Background Modes 中的 Location updates 处于选中状态，否则会抛出异常
                 locationTimeout: 10,//指定单次定位超时时间,默认为10s。最小值是2s。注意单次定位请求前设置
@@ -201,16 +201,22 @@ class ListCustomersPage extends React.Component {
     }
     headerRightPress = () => {
         const { navigation } = this.props;
-        /*  ContactPicker.pickContact().then((contact) => {
-             if (contact && contact.id) {
-               //  Toast.show(contact.phoneNumbers[0].number+"");
-                 this.setState({ defaultValue: contact.phoneNumbers[0].number + '' })
-                 this.onSearchAction(contact.phoneNumbers[0].number + '');
-             } else {
-                 // either user hit cancel or the person they picked has no emails
-             }
-         });
-        */
+        if (!this.importingContactInfo) {
+            this.importingContactInfo = true;
+            ContactsWrapper.getContact()
+                .then((contact) => {
+                    this.importingContactInfo = false;
+                    this.setState({ defaultValue: contact.number + '' })
+                    this.onSearchAction(contact.number + '');
+                })
+                .catch((error) => {
+                    Toast.show("没有选择联系人");
+                    this.importingContactInfo = false;
+                    console.log("ERROR CODE: ", error.code);
+                    console.log("ERROR MESSAGE: ", error.message);
+                });
+        }
+        /*
         SelectContacts.pickContact({ timeout: 45000 }, (err, contact) => {
             if (err) {
                 if (typeof err === 'object') {
@@ -229,7 +235,7 @@ class ListCustomersPage extends React.Component {
                 this.onSearchAction(contact.phoneNumbers[0].number + '');
             }
 
-        })
+        })*/
     }
     renderRightView() {
         return (

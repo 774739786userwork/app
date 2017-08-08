@@ -75,12 +75,12 @@ class AddCustContainer extends React.Component {
         this.secondaryMobile = ''
         this.coords = {};
     }
-    
+
     componentDidMount() {
         this.props.navigation.setParams({
             headerRightPress: this.headerRightPress,
         })
-        
+
         const { action } = this.props;
         let options = {
             accuracy: 'HighAccuracy', // BatterySaving(低功耗定位模式), DeviceSensors(仅设备定位模式), HighAccuracy(高精度模式)

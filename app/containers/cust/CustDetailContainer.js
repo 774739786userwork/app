@@ -12,12 +12,13 @@ import {
     Dimensions,
     Alert,
     Platform,
+    TouchableOpacity
 } from 'react-native'
 
 import EleRNLocation from 'ele-react-native-location';
 import { Iconfont, LoadingView, Toast, FetchManger, LoginInfo } from 'react-native-go';
 import ImageView from '../../components/ImageView'
-
+import Spinner from 'react-native-loading-spinner-overlay';
 import ListItemSetting from '../../components/ListItemSetting';
 import WebMapView from './WebMapView'
 
@@ -33,9 +34,11 @@ class CustDetailContainer extends Component {
 
     constructor(props) {
         super(props);
+        this.locationAction = this.locationAction.bind(this)
         this.state = {
             coordinate: {},
-            data: {}
+            data: {},
+            showSpinner: false,
         }
     }
 
@@ -91,7 +94,28 @@ class CustDetailContainer extends Component {
             Toast.show('获取失败')
         })
     }
-
+//latitude: result.coordinate.latitude,
+        //longitude: result.coordinate.longitude,
+    locationAction() {
+        this.setState({ showSpinner: true })
+        const token = LoginInfo.getUserInfo().token;
+        let preParams = this.props.navigation.state.params
+        let customersId = preParams.customer_id
+        let lng = this.state.coordinate.longitude
+        let lat = this.state.coordinate.latitude
+        let saveParams = {token,customersId,lng,lat}//customersId lng lat
+        FetchManger.postUri('mobileServiceManager/customers/locationPosition.page', saveParams).then((responseData) => {
+            this.setState({ showSpinner: false })
+            if (responseData.status === '0' || responseData.status === 0) {
+                Toast.show('标记成功')
+            } else {
+                Toast.show(responseData.msg)
+            }
+        }).catch((error) => {
+            this.setState({ showSpinner: false })
+            Toast.show('标记失败')
+        })
+    }
     render() {
         let item = this.state.data
         let contacts = item.contacts;
@@ -159,20 +183,33 @@ class CustDetailContainer extends Component {
                         <Iconfont fontFamily={'OAIndexIcon'}
                             icon={'e679'} // 图标
                             iconColor={'#666'}
-                            iconSize={22}
+                            iconSize={22}//address
                         />
                     </View>
-                    <Text style={{ flex: 1, color: '#666' }}>{'长沙'}</Text>
-                    <View style={{ width: 100, backgroundColor: '#fe6732', alignItems: 'center', justifyContent: 'center', }}>
-                        <Iconfont fontFamily={'OAIndexIcon'}
-                            icon={'e679'} // 图标
-                            iconColor={'#fff'}
-                            label={'确认标注'}
-                            labelColor={'#fff'}
-                            iconSize={22}
-                        />
-                    </View>
+                    <Text style={{ flex: 1, color: '#666' }}>{this.state.coordinate.address ? this.state.coordinate.address : ''}</Text>
+                    {
+                        this.state.coordinate.latitude ?
+                            <View style={{ width: 120, backgroundColor: '#fe6732', alignItems: 'center', justifyContent: 'center', }}>
+                                <TouchableHighlight underlayColor='#fe6732' onPress={this.locationAction}>
+                                    <View>
+                                        <Iconfont fontFamily={'OAIndexIcon'}
+                                            icon={'e679'} // 图标
+                                            iconColor={'#fff'}
+                                            label={'确认标注'}
+                                            labelColor={'#fff'}
+                                            iconSize={22}
+                                            labelSize={16}
+                                        />
+                                    </View>
+                                </TouchableHighlight>
+                            </View>
+                            : null
+                    }
+
+
                 </View>
+                <View><Spinner visible={this.state.showSpinner} textContent={''} /></View>
+
             </View>
         )
     }

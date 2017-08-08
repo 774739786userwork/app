@@ -1,10 +1,8 @@
 rootProject.name = 'shengyibao'
+include ':react-native-contacts-wrapper'
+project(':react-native-contacts-wrapper').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-contacts-wrapper/android/app')
 include ':ele-react-native-location'
 project(':ele-react-native-location').projectDir = new File(rootProject.projectDir, '../node_modules/ele-react-native-location/android')
-include ':react-native-contact-picker'
-project(':react-native-contact-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-contact-picker/android')
-include ':react-native-select-contact-android'
-project(':react-native-select-contact-android').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-select-contact-android/android')
 include ':react-native-image-picker'
 project(':react-native-image-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-image-picker/android')
 include ':react-native-gm-bluetooth'

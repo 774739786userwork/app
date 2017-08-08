@@ -113,20 +113,6 @@ android {
         }
     }
     buildTypes {
-        debug {
-            // debug模式下，显示log
-            buildConfigField("boolean", "LOG_DEBUG", "true")
-            //为已经存在的applicationId添加后缀
-            applicationIdSuffix ".debug"
-            // 为版本名添加后缀
-            versionNameSuffix "-debug"
-            // 不开启混淆
-            minifyEnabled false
-            // 不开启ZipAlign优化
-            zipAlignEnabled false
-            // 不移除无用的resource文件
-            shrinkResources false
-        }
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
@@ -150,6 +136,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-contacts-wrapper')
     compile project(':ele-react-native-location')
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:23.0.1'
@@ -167,9 +154,7 @@ dependencies {
     compile project(':react-native-fast-image')
     compile project(':react-native-gm-bluetooth')
     compile project(':react-native-image-picker')
-    compile project(':react-native-select-contact-android')
     compile project(':ele-react-native-location')
-    compile project(':react-native-contact-picker')
 }
 
 // Run this once to be able to run the application with BUCK
