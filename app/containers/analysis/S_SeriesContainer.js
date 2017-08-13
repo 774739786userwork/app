@@ -9,7 +9,10 @@ import {
   Text,
   Platform,
   InteractionManager,
-  ScrollView
+  ScrollView,
+  TouchableOpacity,
+  ListView,
+  RecyclerViewBackedScrollView
 } from 'react-native';
 
 import { FetchManger, LoginInfo, LoadingView, Toast } from 'react-native-go'
@@ -17,7 +20,7 @@ import LeftTabComponet from './LeftTabComponet'
 
 import TableRow from './TableRow'
 
-
+var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 class S_SeriesPage extends React.Component {
   constructor(props) {
     super(props);
@@ -79,6 +82,9 @@ class S_SeriesPage extends React.Component {
     );
 
   }
+  onItemAction() {
+
+  }
   render() {
     let iosTop = Platform.OS === 'ios' ? 20 : 0;
 
@@ -110,59 +116,119 @@ class S_SeriesPage extends React.Component {
           />
         </View>
         <ScrollView style={{ flex: 1, backgroundColor: '#f9f9f9', flexDirection: 'column' }}>
-          <View style={{ backgroundColor: '#fff', margin: 12, padding: 12 }}>
-            <Text style={{ color: '#666', fontSize: 12 }}>{'总销售额'}</Text>
-            <Text style={{ color: '#000', marginTop: 4, marginBottom: 10 }}>{`${selectItem.totalSum} 未收 ${selectItem.unReceiverSum}`}</Text>
-            <Text style={{ color: '#666', fontSize: 12 }}>{'当日销售冠军'}</Text>
-            <Text style={{ color: '#000', marginTop: 4, marginBottom: 10 }}>{`${selectItem.dayFirstName} ${selectItem.daySalerSum} 未收 ${selectItem.dayUnReceiverSum}`}</Text>
-            <Text style={{ color: '#666', fontSize: 12 }}>{'当日最大客户'}</Text>
-            <Text style={{ color: '#000', marginTop: 4, marginBottom: 10 }}>{`${selectItem.dayFirstCustomer}(${selectItem.cusPhone}) ${selectItem.cusSalerSum} 未收 ${selectItem.cusUnReceiverSum}`}</Text>
+          <View style={{ backgroundColor: '#fff', margin: 12, flexDirection: 'row' }}>
+            <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onItemAction}>
+              <View style={{ flex: 1, flexDirection: 'row' }}>
+                <Text style={{ padding: 12, }}>{'全部产品'}</Text>
+                <View style={{ flex: 1 }} />
+                <Iconfont icon='e686' iconSize={16} iconColor={'#333'} />
+              </View>
+            </TouchableOpacity>
+            <View style={{ width: 12, backgroundColor: '#f9f9f9', }} />
+            <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onItemAction}>
+              <View style={{ flex: 1, flexDirection: 'row' }}>
+                <Text style={{ padding: 12, }}>{'全部'}</Text>
+                <View style={{ flex: 1 }} />
+                <Iconfont icon='e686' iconSize={16} iconColor={'#333'} />
+              </View>
+            </TouchableOpacity>
           </View>
           <View style={{ backgroundColor: '#fff', margin: 12, padding: 12 }}>
-            <Text style={{ color: '#666', fontSize: 12 }}>{'总销售额'}</Text>
-            <Text style={{ color: '#000', marginTop: 4, marginBottom: 10 }}>{`${selectItem.totalSum} 未收 ${selectItem.unReceiverSum}`}</Text>
-            <Text style={{ color: '#666', fontSize: 12 }}>{'当日销售冠军'}</Text>
-            <Text style={{ color: '#000', marginTop: 4, marginBottom: 10 }}>{`${selectItem.dayFirstName} ${selectItem.daySalerSum} 未收 ${selectItem.dayUnReceiverSum}`}</Text>
-            <Text style={{ color: '#666', fontSize: 12 }}>{'当日最大客户'}</Text>
-            <Text style={{ color: '#000', marginTop: 4, marginBottom: 10 }}>{`${selectItem.dayFirstCustomer}(${selectItem.cusPhone}) ${selectItem.cusSalerSum} 未收 ${selectItem.cusUnReceiverSum}`}</Text>
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+              <Text style={{ color: '#666', fontSize: 12, width: 80 }}>{'本月目标任务'}</Text>
+              <Text style={{ color: '#000', fontSize: 12 }}>{`200万`}</Text>
+            </View>
+            <View style={{ flex: 1, marginTop: 8, flexDirection: 'row' }}>
+              <Text style={{ color: '#666', fontSize: 12, width: 80 }}>{'当前完成'}</Text>
+              <Text style={{ color: '#000', fontSize: 12 }}>{`200万`}</Text>
+            </View>
+            <View style={{ flex: 1, marginTop: 8, flexDirection: 'row' }}>
+              <Text style={{ color: '#666', fontSize: 12, width: 80 }}>{'完成销量'}</Text>
+              <Text style={{ color: '#000', fontSize: 12 }}>{`200万`}</Text>
+            </View>
           </View>
-          <View style={{ backgroundColor: '#fff', margin: 12, padding: 12 }}>
-            <Text style={{ color: '#666', fontSize: 12 }}>{'总销售额'}</Text>
-            <Text style={{ color: '#000', marginTop: 4, marginBottom: 10 }}>{`${selectItem.totalSum} 未收 ${selectItem.unReceiverSum}`}</Text>
-            <Text style={{ color: '#666', fontSize: 12 }}>{'当日销售冠军'}</Text>
-            <Text style={{ color: '#000', marginTop: 4, marginBottom: 10 }}>{`${selectItem.dayFirstName} ${selectItem.daySalerSum} 未收 ${selectItem.dayUnReceiverSum}`}</Text>
-            <Text style={{ color: '#666', fontSize: 12 }}>{'当日最大客户'}</Text>
-            <Text style={{ color: '#000', marginTop: 4, marginBottom: 10 }}>{`${selectItem.dayFirstCustomer}(${selectItem.cusPhone}) ${selectItem.cusSalerSum} 未收 ${selectItem.cusUnReceiverSum}`}</Text>
-          </View>
-          <View style={{ backgroundColor: '#fff', margin: 12, padding: 12 }}>
-            <Text style={{ color: '#666', fontSize: 12 }}>{'总销售额'}</Text>
-            <Text style={{ color: '#000', marginTop: 4, marginBottom: 10 }}>{`${selectItem.totalSum} 未收 ${selectItem.unReceiverSum}`}</Text>
-            <Text style={{ color: '#666', fontSize: 12 }}>{'当日销售冠军'}</Text>
-            <Text style={{ color: '#000', marginTop: 4, marginBottom: 10 }}>{`${selectItem.dayFirstName} ${selectItem.daySalerSum} 未收 ${selectItem.dayUnReceiverSum}`}</Text>
-            <Text style={{ color: '#666', fontSize: 12 }}>{'当日最大客户'}</Text>
-            <Text style={{ color: '#000', marginTop: 4, marginBottom: 10 }}>{`${selectItem.dayFirstCustomer}(${selectItem.cusPhone}) ${selectItem.cusSalerSum} 未收 ${selectItem.cusUnReceiverSum}`}</Text>
-          </View>
-          <View style={{ backgroundColor: '#fff', margin: 12, padding: 12 }}>
-            <Text style={{ color: '#666', fontSize: 12 }}>{'总销售额'}</Text>
-            <Text style={{ color: '#000', marginTop: 4, marginBottom: 10 }}>{`${selectItem.totalSum} 未收 ${selectItem.unReceiverSum}`}</Text>
-            <Text style={{ color: '#666', fontSize: 12 }}>{'当日销售冠军'}</Text>
-            <Text style={{ color: '#000', marginTop: 4, marginBottom: 10 }}>{`${selectItem.dayFirstName} ${selectItem.daySalerSum} 未收 ${selectItem.dayUnReceiverSum}`}</Text>
-            <Text style={{ color: '#666', fontSize: 12 }}>{'当日最大客户'}</Text>
-            <Text style={{ color: '#000', marginTop: 4, marginBottom: 10 }}>{`${selectItem.dayFirstCustomer}(${selectItem.cusPhone}) ${selectItem.cusSalerSum} 未收 ${selectItem.cusUnReceiverSum}`}</Text>
-          </View>
-          <Text style={{ color: '#666', marginLeft: 12, marginTop: 12, fontSize: 12 }}>{'未带新品情况'}</Text>
           <View style={{ backgroundColor: '#fff', margin: 12 }}>
             <TableRow bg={'#17c6c1'} tColor={'#fff'} t0={'工厂'} t1={'人数'} t2={'占比'} />
             {
               factoryList.map((item) => <TableRow bg={'#fff'} tColor={'#666'} t0={item.orgName} t1={item.personNumber} t2={item.proportion} />)
             }
           </View>
+          <View style={{ backgroundColor: '#fff', margin: 12 }}>
+            <DetailList />
+          </View>
         </ScrollView>
       </View >
     </View >
     );
   }
+
+  renderList() {
+
+  }
 }
+//详细列表
+class DetailList extends React.Component {
+  constructor(props) {
+    super(props)
+    this.onItemAction = this.onItemAction.bind(this);
+    this._renderSeperator = this._renderSeperator.bind(this);
+    this._renderRow = this._renderRow.bind(this);
+    this.state = {
+      selectItem: 0
+    }
+  }
+  onItemAction(item, index) {
+    this.setState({ selectItem: index })
+  }
+  _renderRow(rowData, rowID) {
+    return <View style={{ padding: 12 }}>
+      <Text>{`${rowData}`}</Text>
+    </View>;
+  }
+  _renderSeperator(sectionID, rowID, adjacentRowHighlighted) {
+    return (
+      <View
+        key={`${sectionID}-${rowID}`}
+        style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#d9d9d9' }}
+      />
+    );
+  }
+  render() {
+    let data = ['广东体彩','广东体彩','广东体彩','广东体彩','广东体彩'];
+    let itemArr = ['产品', '客户', '业务员'];
+    let selectIndex = this.state.selectItem;
+    return <View>
+      <View style={{ backgroundColor: '#fff', margin: 12, flexDirection: 'row' }}>
+        {
+          itemArr.map((item, index) => <TouchableOpacity onPress={this.onItemAction.bind(this, item, index)}>
+            <View style={{ width: 60, flexDirection: 'row' }} key={`index_${index}`}>
+              <Text style={{ color: index === selectIndex ? '#0081d4' : '#222' }}>{`${item}`}</Text>
+            </View>
+          </TouchableOpacity>)
+        }
+        <View style={{ flex: 1, backgroundColor: '#fff', }} />
+      </View>
+      <View style={{ backgroundColor: '#fff', flexDirection: 'row' }}>
+        {
+          itemArr.map((item, index) => <View
+            style={{
+              width: 60,
+              height: 1,
+              backgroundColor: index === selectIndex ? '#0081d4' : '#d9d9d9'
+            }} key={`index_sub_${index}`} />)
+        }
+        <View style={{ flex: 1, height: 1, backgroundColor: '#d9d9d9', }} />
+      </View>
+      <ListView
+        dataSource={ds.cloneWithRows(data)}
+        renderRow={this._renderRow}
+        renderSeparator={this._renderSeperator}
+        showsVerticalScrollIndicator={false}
+      />
+    </View>;
+  }
+}
+
 
 class S_SeriesContainer extends React.Component {
   static navigationOptions = {

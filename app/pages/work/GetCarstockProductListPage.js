@@ -261,7 +261,7 @@ class GetCarstockProductListPage extends React.Component {
                     list.length > 0 ?
                         <View style={{ height: 50, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
                             <TouchableHighlight onPress={this._onPrintPress.bind(this)}>
-                                <View style={{ width: 100, height: 50, backgroundColor: '#d6d6d6', justifyContent: 'center', alignItems: 'center' }}>
+                                <View style={{ width: 100, height: 50, backgroundColor: '#fe6732', justifyContent: 'center', alignItems: 'center' }}>
                                     <Text style={{ color: '#fff' }}>{'余货打印'}</Text>
                                 </View>
                             </TouchableHighlight>

@@ -12,7 +12,12 @@ import SelectLadingbillsDetailPage from '../pages/work/SelectLadingbillsDetailPa
 import UnloadBillContainer from './work/UnloadBillContainer';
 //卸货单查询
 import UnLoadBillDetailListContainer from './work/UnLoadBillDetailListContainer'
+//开退货单
+import NewReturnGoodContainer from './work/returnGood/NewReturnGoodContainer'
+//退货单产品列表
+import ReturnGoodListContainer from './work/returnGood/ReturnGoodListContainer'
 
+import ReturnGoodComfirmContainer from './work/returnGood/ReturnGoodComfirmContainer'
 //订货单查询
 import PurchaseOrderInfoContainer from './work/PurchaseOrderInfoContainer';
 //送货单查询
@@ -30,7 +35,8 @@ import GetCarstockProductListContainer from './work/GetCarstockProductListContai
 import SelectCarContainer from './select/SelectCarContainer'
 //车辆选择  不需要请求数据
 import ShowSelectCarPage from '../pages/select/ShowSelectCarPage'
-
+//客户选择
+import SelectCustomersContainer from './select/SelectCustomersContainer'
 //业务员 选择
 import SelectNameContainer from './select/SelectNameContainer'
 //计量人 选择
@@ -66,14 +72,18 @@ import ForgetPassWordContainer from './setting/ForgetPassWordContainer'
 import BleManagerPage from '../pages/setting/BleManagerPage'
 import ScanManagerPage from '../pages/setting/ScanManagerPage'
 
-
+import WebViewContainer from './WebViewContainer'
 /**** 统计分析  *** */
 //首页
 import S_HomeContainer from './analysis/S_HomeContainer'
+//统计分析 日 各厂详情
+import S_DayDetailPage from './analysis/home/S_DayDetailPage'
+import S_HomeDetailPage from './analysis/home/S_HomeDetailPage'
 //系列
 import S_SeriesContainer from './analysis/S_SeriesContainer'
 //产品
 import S_ProductContainer from './analysis/S_ProductContainer'
+import S_ProductDetailContainer from './analysis/product/S_ProductDetailContainer'
 //顾客
 import S_CustomerContainer from './analysis/S_CustomerContainer'
 
@@ -89,7 +99,7 @@ const AnalysisTabContainer = TabNavigator(
   },
   {
     lazy: true,
-    animationEnabled:false,
+    animationEnabled: false,
     tabBarPosition: 'bottom',
     tabBarOptions: {
       activeTintColor: '#0081d4',
@@ -241,7 +251,32 @@ const App = StackNavigator(
     },
     UnLoadBillDetailList: {
       screen: UnLoadBillDetailListContainer
+    },
+    NewReturnGood: {
+      screen: NewReturnGoodContainer
+    },
+    SelectCustomers: {
+      screen: SelectCustomersContainer
+    },
+    ReturnGoodList: {
+      screen: ReturnGoodListContainer
+    },
+    ReturnGoodComfirm: {
+      screen: ReturnGoodComfirmContainer
+    },
+    WebView: {
+      screen: WebViewContainer
+    },
+    S_DayDetail: {
+      screen: S_DayDetailPage
+    },
+    S_HomeDetail: {
+      screen: S_HomeDetailPage
+    },
+    S_ProductDetail: {
+      screen: S_ProductDetailContainer
     }
+
   },
   {
     headerMode: 'screen',

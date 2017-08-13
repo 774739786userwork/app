@@ -177,7 +177,7 @@ class DeliveryCustomersContainer extends React.Component {
                 <View style={{ height: 44, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', height: 44 }}>
                         <TouchableOpacity style={{ flex: 1, height: 44, alignItems: 'center', justifyContent: 'center' }} onPress={this._onItemPress.bind(this, 0)}>
-                            <Text style={{ color: index === 0 ? '#0081d4' : '#222' }}>{'所以客户'}</Text>
+                            <Text style={{ color: index === 0 ? '#0081d4' : '#222' }}>{'所有客户'}</Text>
                         </TouchableOpacity>
                         <View style={{ height: 1, backgroundColor: index === 0 ? '#0081d4' : '#c4c4c4', width: WINDOW_WIDTH / 3 }} />
                     </View>

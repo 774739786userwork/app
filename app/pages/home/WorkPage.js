@@ -7,7 +7,8 @@ import {
   TouchableHighlight,
   Image,
   StyleSheet,
-  InteractionManager
+  InteractionManager,
+  TouchableOpacity
 } from 'react-native';
 
 import Swiper from 'react-native-swiper'
@@ -22,15 +23,15 @@ const HomeItem = [
   { name: '提货单', open: true, typeName: 'SelectLadingbills', image: require('../../imgs/home/tihuo_order.png') },
   { name: '送货单', open: true, typeName: 'SelectDeliveryOrder', image: require('../../imgs/home/songhuo_order.png') },
   { name: '订货单', open: true, typeName: 'PurchaseOrderInfo', image: require('../../imgs/home/dinghuo_order.png') },
-  { name: '车余货单', open: true, typeName: 'GetCarstockProductList', image: require('../../imgs/home/yuhuo_order.png') },
+  { name: '车存货单', open: true, typeName: 'GetCarstockProductList', image: require('../../imgs/home/yuhuo_order.png') },
   { name: '卸货单', open: true, typeName: 'UnLoadBillDetailList', image: require('../../imgs/home/xiehuo_order.png') },
-  { name: '退货单', open: false, typeName: 'QueryReturnLists', image: require('../../imgs/home/tuihuo_order.png') },
+  // { name: '退货单', open: false, typeName: 'QueryReturnLists', image: require('../../imgs/home/tuihuo_order.png') },
   { name: '开提货单', open: true, typeName: 'AddLadingbills', image: require('../../imgs/home/add_tihuo_order.png') },
   { name: '开送货单', open: true, typeName: 'ListCustomers', image: require('../../imgs/home/add_songhuo_order.png') },
-  { name: '开退货单', typeName: 'SelectLadingbills', image: require('../../imgs/home/add_tuihuo_order.png') },
-  { name: '开订货单', typeName: 'SelectLadingbills', image: require('../../imgs/home/kaidinghuodan.png') },
-  { name: '结算单', open: false, typeName: 'AddBalanceAccouts', image: require('../../imgs/home/jiesuandan.png') },
-  { name: '欠款单', typeName: 'SelectLadingbills', image: require('../../imgs/home/qiankuandan.png') },
+  { name: '开退货单', open: true, typeName: 'NewReturnGood', image: require('../../imgs/home/add_tuihuo_order.png') },
+  //  { name: '开订货单', typeName: 'SelectLadingbills', image: require('../../imgs/home/kaidinghuodan.png') },
+  //  { name: '结算单', open: false, typeName: 'AddBalanceAccouts', image: require('../../imgs/home/jiesuandan.png') },
+  //  { name: '欠款单', typeName: 'SelectLadingbills', image: require('../../imgs/home/qiankuandan.png') },
 ];
 
 const styles = {
@@ -83,13 +84,18 @@ const styles = {
     marginTop: 8,
   },
 }
-
 const Slide = props => {
-  return (<View style={styles.slide}>
-    <Image onLoad={props.loadHandle.bind(null, props.i)} style={styles.image} source={require('../../imgs/ic_default.png')} />
-    {
-      !props.loaded && <View style={styles.loadingView} />
-    }
+  return (<View style={styles.slide} key={'b_image_' + props.i}>
+    <TouchableOpacity
+      activeOpacity={1}
+      style={{ flex: 1 }}
+      onPress={props.onSlideAction}
+    >
+      <Image onLoad={props.loadHandle.bind(null, props.i)} style={styles.image} source={require('../../imgs/ic_default.png')} />
+      {
+        !props.loaded && <View style={styles.loadingView} />
+      }
+    </TouchableOpacity>
   </View>)
 }
 
@@ -118,6 +124,13 @@ class WorkPage extends React.Component {
       });
     }, 0)
   }
+
+  onSlideAction() {
+    const { navigate } = this.props.navigation;
+    navigate('WebView');
+  }
+
+
   loadHandle(i) {
     let loadQueue = this.state.loadQueue
     this.setState({
@@ -173,6 +186,7 @@ class WorkPage extends React.Component {
             {
               this.state.imgList.map((item, i) => <Slide
                 loadHandle={this.loadHandle}
+                onSlideAction={this.onSlideAction.bind(this)}
                 loaded={!!this.state.loadQueue[i]}
                 uri={item}
                 i={i}

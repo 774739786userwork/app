@@ -14,7 +14,7 @@ import GetCarstockProductListPage from '../../pages/work/GetCarstockProductListP
 class GetCarstockProductListContainer extends React.Component {
 
   static navigationOptions = {
-    title: '车余货单',
+    title: '车存货单',
   };
   render() {
     return <GetCarstockProductListPage {...this.props} />;
