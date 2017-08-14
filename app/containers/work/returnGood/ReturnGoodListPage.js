@@ -23,8 +23,10 @@ import SearchBar from '../../../components/SearchBar';
 import LadProductItem from './LadProductItem'
 import Spinner from 'react-native-loading-spinner-overlay';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
-import { NavigationActions } from 'react-navigation'
-import EditeReturnNumModel from './EditeReturnNumModel'
+import { NavigationActions } from 'react-navigation';
+import EditeReturnNumModel from './EditeReturnNumModel';
+import * as NumberUtils from '../../../utils/NumberUtils';
+
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
 const dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -213,6 +215,7 @@ class ReturnGoodListPage extends React.Component {
                 numberCarsh += item.returnQuantity * item.realPrice
             }
         })
+        numberCarsh = NumberUtils.fc(numberCarsh);
 
         return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>

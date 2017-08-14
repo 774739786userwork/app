@@ -48,7 +48,8 @@ class ReturnGoodComfirmPage extends React.Component {
         this.totalSum += item.returnQuantity * item.realPrice
       }
     })
-
+    this.totalSum = NumberUtils.fc(this.totalSum)
+    
     //退货金额
     this.realReturnSum = 0;
     //抹零金额
@@ -177,6 +178,8 @@ class ReturnGoodComfirmPage extends React.Component {
 
   _renderItem = (item, index) => {
     item.productSum = item.returnQuantity * item.realPrice
+    item.productSum = NumberUtils.fc(item.productSum)
+    
     return (
       <View style={{ backgroundColor: '#fff' }} key={`row_${index}`} >
         <View style={{ flexDirection: 'row', paddingLeft: 12, }}>
@@ -238,7 +241,7 @@ class ReturnGoodComfirmPage extends React.Component {
 
   render() {
     const { params } = this.props.navigation.state;
-    let canSave = NumberUtils.FloatSub(NumberUtils.FloatAdd(NumberUtils.FloatAdd(this.state.paid_total_sum, this.state.discount_sum), (this.state.isOpenChange ? this.small_change_sum : 0)), this.total_sum) > 0
+
     return (
       <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
         <View style={{ backgroundColor: '#118cd7', paddingLeft: 12, paddingBottom: 6, paddingTop: 6 }}>
