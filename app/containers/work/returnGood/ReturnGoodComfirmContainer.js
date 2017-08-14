@@ -107,8 +107,8 @@ class ReturnGoodComfirmPage extends React.Component {
     const token = LoginInfo.getUserInfo().token;
     saveParams.token = token;
 
-    const user_id = LoginInfo.getUserInfo().user_id;
-    saveParams.user_id = user_id;
+    const userId = LoginInfo.getUserInfo().user_id;
+    saveParams.userId = userId;
 
     const organizationId = LoginInfo.getUserInfo().organization_id;
     saveParams.organizationId = organizationId;
@@ -146,7 +146,7 @@ class ReturnGoodComfirmPage extends React.Component {
     let realReturnSum = this.realReturnSum;//实退金额
     saveParams.realReturnSum = realReturnSum;
 
-    let returnReason = this.returnReason;//退货原因
+    let returnReason = this.state.returnReason;//退货原因
     saveParams.returnReason = returnReason;
 
     let good_list = this.state.good_list; //产品列表
