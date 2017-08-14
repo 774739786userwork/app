@@ -402,6 +402,80 @@ export default class BleManagerPage extends React.Component {
         ESC.sound();
         ESC.init();
     }
+    //通用打印表单
+    commPrintBody(param) {
+        //标题
+        let title = param.title
+        // 一定要配置好
+        const Config = { wordNumber: 32 };
+        ESC.setConfig(Config);
+        ESC.init();
+        for (var i = 0; i < this.state.selectItem + 1; i++) {
+            ESC.alignCenter();
+            ESC.fontBold();
+            ESC.printAndNewLine();
+            ESC.text(title);
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.init();
+            //头部信息
+            param.headerList.map((item) => {
+                ESC.text(item.text + '');
+                ESC.printAndNewLine();
+            })
+            ESC.text(_.times(Config.wordNumber, () => '-').join(''));
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            //详细信息
+            param.detailList.map((item) => {
+                item.sub.map((subItem) => {
+                    if (subItem.right) {//靠右对齐
+                        ESC.alignRight();
+                        ESC.text(subItem.text);
+                        ESC.printAndNewLine();
+                    } else {//靠左对齐
+                        ESC.alignLeft();
+                        ESC.text(ESC.Util.leftRight(subItem.text, '', 20));
+                        ESC.printAndNewLine();
+                    }
+                });
+                ESC.text(_.times(Config.wordNumber, () => '-').join(''));
+                ESC.printAndNewLine();
+                ESC.printAndNewLine();
+            })
+
+            ESC.text(_.times(Config.wordNumber, () => '-').join(''));
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            //footer
+            param.footerList.map((item) => {
+                ESC.text(ESC.Util.leftRight(item.text ? item.text : '', '', 16));
+                ESC.text(ESC.Util.leftRight(item.text1 ? item.text1 : '', '', 16));
+                ESC.printAndNewLine();
+            });
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.init();
+            ESC.text('客户签名：______________________');
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.alignCenter();
+            ESC.text('客服热线');
+            ESC.printAndNewLine();
+            ESC.alignCenter();
+            ESC.text('400-602-2228');
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+        }
+        ESC.sound();
+        ESC.init();
+    }
     /**
 "100003"
 dxyzm:""
@@ -493,7 +567,7 @@ username:"zhangshijun"
             if (!this.isNull(param.distribution_sum)) {
                 arr.push(`铺货总额：￥${param.distribution_sum}`)
             }
-           for (var j = 0; j < arr.length; j++) {
+            for (var j = 0; j < arr.length; j++) {
                 ESC.text(ESC.Util.leftRight(arr[j], '', 16));
                 if (j / 3 == 0) {
                     ESC.printAndNewLine();
@@ -523,7 +597,7 @@ username:"zhangshijun"
     }
     isNull(str) {
         let rel = false;
-        if (!str || '0' === str + '' || '0.00' === str + '' || '' === str+'') {
+        if (!str || '0' === str + '' || '0.00' === str + '' || '' === str + '') {
             rel = true
         }
         return rel;
