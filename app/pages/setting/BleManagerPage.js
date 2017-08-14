@@ -280,7 +280,7 @@ export default class BleManagerPage extends React.Component {
             </View >);
     }
     componentDidUnMount() {
-        GMBluetooth.disconnect();
+       // GMBluetooth.disconnect();
     }
 
 
