@@ -205,9 +205,13 @@ class ListCustomersPage extends React.Component {
             this.importingContactInfo = true;
             ContactsWrapper.getContact()
                 .then((contact) => {
+                    let number = contact.number+'';
+                    number = number.replace('+86','');
+                    number = number.replace('-','');
+                    number = number.trim();
                     this.importingContactInfo = false;
-                    this.setState({ defaultValue: contact.number + '' })
-                    this.onSearchAction(contact.number + '');
+                    this.setState({ defaultValue: number + '' })
+                    this.onSearchAction(number + '');
                 })
                 .catch((error) => {
                     Toast.show("没有选择联系人");

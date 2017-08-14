@@ -138,7 +138,7 @@ class SelectCustomersContainer extends React.Component {
   _renderItem = (item, index) => {
     let contactName = item.contactName;
     let contactPhone = item.mobile1;
-    
+
 
     return (
       <TouchableHighlight
@@ -195,9 +195,13 @@ class SelectCustomersContainer extends React.Component {
       ContactsWrapper.getContact()
         .then((contact) => {
           console.log(contact)
+          let number = contact.number + '';
+          number = number.replace('+86', '');
+          number = number.replace('-', '');
+          number = number.trim();
           this.importingContactInfo = false;
-          this.setState({ defaultValue: contact.phone + '' })
-          this.onSearchAction(contact.phone + '');
+          this.setState({ defaultValue: number + '' })
+          this.onSearchAction(number + '');
         })
         .catch((error) => {
           Toast.show("没有选择联系人");
