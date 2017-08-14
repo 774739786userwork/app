@@ -292,7 +292,10 @@ export default class BleManagerPage extends React.Component {
             this.printYHBody(params)
         } else if (params.XH) {
             this.printXHBody(params)
-        } else {
+        } else if (params.CXXH){
+            this.printCXXHBody(params)
+        }
+        else {
             this.printBody(params)
         }
     }
@@ -617,7 +620,7 @@ username:"zhangshijun"
             ESC.alignCenter();
             ESC.fontBold();
             ESC.printAndNewLine();
-            ESC.text('余货详情如下');
+            ESC.text('车存货详情如下');
             ESC.printAndNewLine();
             ESC.printAndNewLine();
             ESC.printAndNewLine();
@@ -694,6 +697,67 @@ username:"zhangshijun"
             ESC.printAndNewLine();
             // 商品开始
             param.chooseList.map((item) => {
+                ESC.printAndNewLine();
+                ESC.alignLeft();
+                ESC.text(ESC.Util.leftRight('产品名称：' + item.product_name, '', 20));
+                ESC.printAndNewLine();
+                ESC.alignLeft();
+                ESC.text(ESC.Util.leftRight(`卸货数量：${item.disburden_quantity}`, '', 20));
+            })
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.init();
+            ESC.text('仓库签名：______________________');
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+        }
+        ESC.sound();
+        ESC.init();
+    }
+
+
+    /**
+    * 重新打印卸货
+    */
+    printCXXHBody(param) {
+        // 一定要配置好
+        const Config = { wordNumber: 32 };
+        ESC.setConfig(Config);
+        ESC.init();
+        for (var i = 0; i < this.state.selectItem + 1; i++) {
+            ESC.alignCenter();
+            ESC.fontBold();
+            ESC.printAndNewLine();
+            ESC.text('卸货详情如下');
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.init();
+            //商品开始
+            ESC.text('卸货时间：' + DateUtils.show());
+            ESC.printAndNewLine();
+            ESC.text('操作人：' + LoginInfo.getUserInfo().user_real_name);
+            ESC.printAndNewLine();
+            ESC.text('车牌号：' + param.data.platenumber);
+            ESC.printAndNewLine();
+            ESC.text(_.times(Config.wordNumber, () => '-').join(''));
+            ESC.printAndNewLine();
+            // 商品开始
+            param.data.goodsList.map((item) => {
                 ESC.printAndNewLine();
                 ESC.alignLeft();
                 ESC.text(ESC.Util.leftRight('产品名称：' + item.product_name, '', 20));
