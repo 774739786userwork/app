@@ -16,7 +16,7 @@ import {
 import DatePicker from 'react-native-datepicker'
 import { Iconfont, LoadingView, Toast, FetchManger, LoginInfo } from 'react-native-go';
 import Spinner from 'react-native-loading-spinner-overlay';
-
+import * as DateUtils from '../../../utils/DateUtils'
 import RemarkEditeModel from './RemarkEditeModel'
 import ImageView from '../../../components/ImageView'
 import { NavigationActions } from 'react-navigation'
@@ -41,7 +41,7 @@ class ReturnGoodComfirmPage extends React.Component {
     this.num = 0
     //退款总计金额
     this.totalSum = 0
-   
+
     params.good_list.map((item) => {
       if (item.returnQuantity && item.returnQuantity > 0) {
         this.num += item.returnQuantity;
@@ -49,7 +49,7 @@ class ReturnGoodComfirmPage extends React.Component {
       }
     })
     this.totalSum = NumberUtils.fc(this.totalSum)
-    
+
     //退货金额
     this.realReturnSum = 0;
     //抹零金额
@@ -158,10 +158,29 @@ class ReturnGoodComfirmPage extends React.Component {
     FetchManger.postUri('mobileServiceManager/returnmanage/addReturnLists.page', saveParams).then((responseData) => {
       this.setState({ showSpinner: false })
       if (responseData.status === '0' || responseData.status === 0) {
+        let bleParams = { title: '退货单', name: '仓管签字' };//打印信息
+        bleParams.headerList = [
+          { text: `退货时间:${DateUtils.show()}` },
+          { text: `店名:${params.contactId[0]}` },
+          { text: `地址:${params.contactId[4]}` },
+          { text: `联系人:${params.contactId[2]}` },
+          { text: `电话:${params.contactId[3]}` },
+          { text: `退货人:${LoginInfo.getUserInfo().user_real_name}` },
+          { text: `联系方式:${LoginInfo.getUserInfo().mobile_number}` },
+          { text: `车牌号:${carNumber}` }];
+
+        bleParams.detailList = [];
+        good_list.map((_Item) => {
+          let printItem = [{ title: true, text: `${_Item.productName}` }, { text: `退货数:${_Item.returnQuantity}`, text1: `￥${_Item.realPrice}` }];
+          bleParams.detailList.push(printItem);
+        })
+        bleParams.footerList = [{ text: `数量总计:${this.num}`, text1: `应退金额:${totalSum}` }, { text: `实退金额:${realReturnSum}`, text1: `抹零金额:${smallChangeSum}` }];
+
         const navigationAction = NavigationActions.reset({
-          index: 0,
+          index: 1,
           actions: [
             NavigationActions.navigate({ routeName: 'Home' }),
+            NavigationActions.navigate({ routeName: 'BleManager', params: bleParams })
           ]
         })
         navigation.dispatch(navigationAction)
@@ -179,7 +198,7 @@ class ReturnGoodComfirmPage extends React.Component {
   _renderItem = (item, index) => {
     item.productSum = item.returnQuantity * item.realPrice
     item.productSum = NumberUtils.fc(item.productSum)
-    
+
     return (
       <View style={{ backgroundColor: '#fff' }} key={`row_${index}`} >
         <View style={{ flexDirection: 'row', paddingLeft: 12, }}>

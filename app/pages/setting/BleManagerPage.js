@@ -280,7 +280,7 @@ export default class BleManagerPage extends React.Component {
             </View >);
     }
     componentDidUnMount() {
-       // GMBluetooth.disconnect();
+        // GMBluetooth.disconnect();
     }
 
 
@@ -292,10 +292,11 @@ export default class BleManagerPage extends React.Component {
             this.printYHBody(params)
         } else if (params.XH) {
             this.printXHBody(params)
-        } else if (params.CXXH){
+        } else if (params.CXXH) {
             this.printCXXHBody(params)
-        }
-        else {
+        } else if (params.headerList) {
+            this.commPrintBody(params);
+        } else {
             this.printBody(params)
         }
     }
@@ -432,16 +433,16 @@ export default class BleManagerPage extends React.Component {
             ESC.printAndNewLine();
             //详细信息
             param.detailList.map((item) => {
-                item.sub.map((subItem) => {
-                    if (subItem.right) {//靠右对齐
-                        ESC.alignRight();
-                        ESC.text(subItem.text);
-                        ESC.printAndNewLine();
-                    } else {//靠左对齐
+                item.map((subItem) => {
+                    if (subItem.title) {//靠右对齐
                         ESC.alignLeft();
-                        ESC.text(ESC.Util.leftRight(subItem.text, '', 20));
-                        ESC.printAndNewLine();
+                        ESC.text(subItem.text);
+                    } else {//靠左对齐
+                        ESC.text(ESC.Util.leftRight(subItem.text ? subItem.text : '', '', 16));
+                        ESC.text(ESC.Util.leftRight(subItem.text1 ? subItem.text1 : '', '', 16));
+
                     }
+                    ESC.printAndNewLine();
                 });
                 ESC.text(_.times(Config.wordNumber, () => '-').join(''));
                 ESC.printAndNewLine();
@@ -462,7 +463,7 @@ export default class BleManagerPage extends React.Component {
             ESC.printAndNewLine();
             ESC.printAndNewLine();
             ESC.init();
-            ESC.text('客户签名：______________________');
+            ESC.text(params.name + '：______________________');
             ESC.printAndNewLine();
             ESC.printAndNewLine();
             ESC.printAndNewLine();
