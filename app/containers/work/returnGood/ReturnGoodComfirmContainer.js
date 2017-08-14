@@ -149,7 +149,7 @@ class ReturnGoodComfirmPage extends React.Component {
     let returnReason = this.returnReason;//退货原因
     saveParams.returnReason = returnReason;
 
-    let good_list //产品列表
+    let good_list = this.state.good_list; //产品列表
     saveParams.good_list = JSON.stringify(good_list);
     this.setState({ showSpinner: true })
 
