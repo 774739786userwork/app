@@ -108,8 +108,8 @@ class ReturnGoodComfirmPage extends React.Component {
     const token = LoginInfo.getUserInfo().token;
     saveParams.token = token;
 
-    const user_id = LoginInfo.getUserInfo().user_id;
-    saveParams.user_id = user_id;
+    const userId = LoginInfo.getUserInfo().user_id;
+    saveParams.userId = userId;
 
     const organizationId = LoginInfo.getUserInfo().organization_id;
     saveParams.organizationId = organizationId;
