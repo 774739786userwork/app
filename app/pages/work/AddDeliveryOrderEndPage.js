@@ -26,6 +26,7 @@ let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 
 import ImageView from '../../components/ImageView'
 import { NavigationActions } from 'react-navigation'
 import * as NumberUtils from '../../utils/NumberUtils'
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 /**
@@ -381,6 +382,10 @@ class AddDeliveryOrderEndPage extends React.Component {
                         </View>
                     </TouchableOpacity>
                 </View>
+                {
+                    Platform.OS === 'iOS' ?
+                    <KeyboardSpacer /> : null
+                }
                 <RemarkEditeModel content={this.state.remark} modalVisible={this.state.modalVisible} onCancelPress={this.onCancelPress} onConfirmPress={this.onConfirmPress} />
                 <View><Spinner visible={this.state.showSpinner} text={'提交中,请稍后...'} /></View>
 

@@ -23,7 +23,7 @@ import BuildingMaterialModel from './BuildingMaterialModel'
 import Spinner from 'react-native-loading-spinner-overlay';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { Iconfont, LoadingView, Toast, FetchManger, LoginInfo } from 'react-native-go';
-
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import EleRNLocation from 'ele-react-native-location';
 
 var WINDOW_WIDTH = Dimensions.get('window').width;
@@ -516,6 +516,10 @@ class AddCustContainer extends React.Component {
                     <View style={{ height: StyleSheet.hairlineWidth, width: WINDOW_WIDTH, backgroundColor: '#d9d9d9' }} />
 
                 </ScrollView>
+                {
+                    Platform.OS === 'iOS' ?
+                    <KeyboardSpacer /> : null
+                }
                 <SelectEARModel modalVisible={this.state.regionalShow} onCancelPress={() => {
                     this.setState({
                         regionalShow: false,

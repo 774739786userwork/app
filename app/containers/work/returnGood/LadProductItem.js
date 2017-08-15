@@ -14,8 +14,11 @@ import { Iconfont, LoadingView } from 'react-native-go';
 class LadProductItem extends React.Component {
 
     render() {
-        const { item } = this.props;
-        item.returnQuantity = item.returnQuantity ? item.returnQuantity : 0;
+        const { item,selectItem } = this.props;
+        let d_returnQuantity = item.returnQuantity ? item.returnQuantity : 0;
+        let returnQuantity  = selectItem.returnQuantity ? selectItem.returnQuantity : d_returnQuantity;
+        let realPrice = selectItem.realPrice ? selectItem.realPrice : item.realPrice;
+
         return (<View style={{ backgroundColor: '#fff' }}>
             <View style={{ flexDirection: 'row', paddingLeft: 12, }}>
                 <View style={{ alignItems: 'center', justifyContent: 'center', height: 110 }}>
@@ -39,11 +42,11 @@ class LadProductItem extends React.Component {
                     <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#999', fontSize: 12 }}>{'实际单价：'}</Text>
-                            <Text style={{ color: '#999', fontSize: 12 }}>{`${item.realPrice}`}</Text>
+                            <Text style={{ color: '#999', fontSize: 12 }}>{`${realPrice}`}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#999', fontSize: 12 }}>{'退货数：'}</Text>
-                            <Text style={{ color: '#999', fontSize: 12 }}>{`${item.returnQuantity}`}</Text>
+                            <Text style={{ color: '#999', fontSize: 12 }}>{`${returnQuantity}`}</Text>
                         </View>
                     </View>
                 </View>

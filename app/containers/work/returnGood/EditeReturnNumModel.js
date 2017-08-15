@@ -45,10 +45,11 @@ export default class EditeReturnNumModel extends React.Component {
     }
     onConfirmPress() {
         let item = this.props.item;
+        let newItem = {...item};
         let newCount = parseInt(this.state.returnQuantity)
-        item.returnQuantity = newCount;
-        item.realPrice = this.state.realPrice
-        this.props.onConfirmPress && this.props.onConfirmPress(item)
+        newItem.returnQuantity = newCount;
+        newItem.realPrice = this.state.realPrice
+        this.props.onConfirmPress && this.props.onConfirmPress(newItem)
         this.setState({ modalVisible: false });
     }
     onCancelPress() {
