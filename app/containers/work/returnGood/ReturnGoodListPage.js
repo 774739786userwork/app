@@ -248,7 +248,7 @@ class ReturnGoodListPage extends React.Component {
             if (item.returnQuantity && item.returnQuantity > 0) {
                 num += item.returnQuantity;
                 let foregift = item.foregift ? item.foregift : 0;
-                numberCarsh += NumberUtils.FloatAdd(item.returnQuantity,foregift) * item.realPrice
+                numberCarsh += NumberUtils.FloatMul(NumberUtils.FloatAdd(item.realPrice,foregift) , item.returnQuantity)
             }
         })
         numberCarsh = NumberUtils.fc(numberCarsh);

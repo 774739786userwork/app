@@ -46,7 +46,7 @@ class ReturnGoodComfirmPage extends React.Component {
       if (item.returnQuantity && item.returnQuantity > 0) {
         this.num += item.returnQuantity;
         let foregift = item.foregift ? item.foregift : 0;
-        this.totalSum += NumberUtils.FloatAdd(item.returnQuantity,foregift) * item.realPrice
+        this.totalSum += NumberUtils.FloatMul(NumberUtils.FloatAdd(item.realPrice,foregift) , item.returnQuantity)
       }
     })
     this.totalSum = NumberUtils.fc(this.totalSum)
@@ -156,8 +156,8 @@ class ReturnGoodComfirmPage extends React.Component {
     old_good_list.map((item) => {
 
       let foregift = item.foregift ? item.foregift : 0;
-      item.productSum = NumberUtils.FloatAdd(item.returnQuantity,foregift) * item.realPrice
-      item.foregift =  foregift * item.realPrice
+      item.productSum = NumberUtils.FloatMul(NumberUtils.FloatAdd(item.realPrice,foregift) , item.returnQuantity)
+      item.foregift =  NumberUtils.FloatMul(foregift, item.returnQuantity)
       good_list.push(item)
     });
 
@@ -207,7 +207,7 @@ class ReturnGoodComfirmPage extends React.Component {
 
   _renderItem = (item, index) => {
     let foregift = item.foregift ? item.foregift : 0;
-    item.productSum = NumberUtils.FloatAdd(item.returnQuantity,foregift) * item.realPrice
+    item.productSum = NumberUtils.FloatMul(NumberUtils.FloatAdd(item.realPrice,foregift) , item.returnQuantity)
     item.productSum = NumberUtils.fc(item.productSum)
 
     return (

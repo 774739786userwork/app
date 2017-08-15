@@ -46,9 +46,8 @@ export default class ReturnGoodPopModel extends React.Component {
         this.setState({ modalVisible: false });
     }
     renderRowView = (item, index) => {
-        let num = (item.sale_quantity ? parseInt(item.sale_quantity) : 0) + (item.gifts_quantity ? parseInt(item.gifts_quantity) : 0)
         let foregift = item.foregift ? item.foregift : 0;
-        let total = NumberUtils.fc((item.realPrice+foregift) * item.returnQuantity)
+        let total = NumberUtils.FloatMul(NumberUtils.FloatAdd(item.realPrice,foregift) , item.returnQuantity)
         return (
             <View style={{ backgroundColor: '#fff', width: WINDOW_WIDTH }} key={`row_${index}`}>
                 <View style={{ height: 34, paddingLeft: 12, marginBottom: 8, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
@@ -79,7 +78,7 @@ export default class ReturnGoodPopModel extends React.Component {
             if (item.returnQuantity && item.returnQuantity > 0) {
                 num += item.returnQuantity;
                 let foregift = item.foregift ? item.foregift : 0;
-                numberCarsh += NumberUtils.FloatAdd(item.returnQuantity,foregift) * item.realPrice
+                numberCarsh += NumberUtils.FloatMul(NumberUtils.FloatAdd(item.realPrice,foregift) , item.returnQuantity)
             }
         })
         numberCarsh = NumberUtils.fc(numberCarsh);
