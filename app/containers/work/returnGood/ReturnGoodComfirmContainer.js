@@ -45,7 +45,8 @@ class ReturnGoodComfirmPage extends React.Component {
     params.good_list.map((item) => {
       if (item.returnQuantity && item.returnQuantity > 0) {
         this.num += item.returnQuantity;
-        this.totalSum += item.returnQuantity * item.realPrice
+        let foregift = item.foregift ? item.foregift : 0;
+        this.totalSum += NumberUtils.FloatAdd(item.returnQuantity,foregift) * item.realPrice
       }
     })
     this.totalSum = NumberUtils.fc(this.totalSum)
@@ -150,7 +151,16 @@ class ReturnGoodComfirmPage extends React.Component {
     let returnReason = this.state.returnReason;//退货原因
     saveParams.returnReason = returnReason;
 
-    let good_list = this.state.good_list; //产品列表
+    let old_good_list = this.state.good_list; //产品列表
+    let good_list = [];
+    old_good_list.map((item) => {
+
+      let foregift = item.foregift ? item.foregift : 0;
+      item.productSum = NumberUtils.FloatAdd(item.returnQuantity,foregift) * item.realPrice
+      item.foregift =  foregift * item.realPrice
+      good_list.push(item)
+    });
+
     saveParams.good_list = JSON.stringify(good_list);
     this.setState({ showSpinner: true })
 
@@ -171,7 +181,7 @@ class ReturnGoodComfirmPage extends React.Component {
 
         bleParams.detailList = [];
         good_list.map((_Item) => {
-          let printItem = [{ title: true, text: `${_Item.productName}` }, { text: `退货数:${_Item.returnQuantity}`, text1: `￥${_Item.realPrice}` }];
+          let printItem = [{ title: true, text: `${_Item.productName}` }, { text: `退货数:${_Item.returnQuantity}`, text1: `￥${_Item.productSum}` }];
           bleParams.detailList.push(printItem);
         })
         bleParams.footerList = [{ text: `数量总计:${this.num}`, text1: `应退金额:${totalSum}` }, { text: `实退金额:${realReturnSum}`, text1: `抹零金额:${smallChangeSum}` }];
@@ -196,7 +206,8 @@ class ReturnGoodComfirmPage extends React.Component {
   }
 
   _renderItem = (item, index) => {
-    item.productSum = item.returnQuantity * item.realPrice
+    let foregift = item.foregift ? item.foregift : 0;
+    item.productSum = NumberUtils.FloatAdd(item.returnQuantity,foregift) * item.realPrice
     item.productSum = NumberUtils.fc(item.productSum)
 
     return (

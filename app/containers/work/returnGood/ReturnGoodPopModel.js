@@ -47,6 +47,8 @@ export default class ReturnGoodPopModel extends React.Component {
     }
     renderRowView = (item, index) => {
         let num = (item.sale_quantity ? parseInt(item.sale_quantity) : 0) + (item.gifts_quantity ? parseInt(item.gifts_quantity) : 0)
+        let foregift = item.foregift ? item.foregift : 0;
+        let total = NumberUtils.fc((item.realPrice+foregift) * item.returnQuantity)
         return (
             <View style={{ backgroundColor: '#fff', width: WINDOW_WIDTH }} key={`row_${index}`}>
                 <View style={{ height: 34, paddingLeft: 12, marginBottom: 8, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
@@ -63,7 +65,7 @@ export default class ReturnGoodPopModel extends React.Component {
                     </View>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
                         <Text style={{ color: '#666' }}>{'总计：'}</Text>
-                        <Text style={{ color: '#f80000' }}>{`${NumberUtils.fc(item.realPrice * item.returnQuantity)}`}</Text>
+                        <Text style={{ color: '#f80000' }}>{`${total}`}</Text>
                     </View>
                 </View>
                 <View style={{ height: StyleSheet.hairlineWidth, marginTop: 12, flex: 1, backgroundColor: '#c4c4c4' }} />
@@ -76,7 +78,8 @@ export default class ReturnGoodPopModel extends React.Component {
         chooseList.map((item) => {
             if (item.returnQuantity && item.returnQuantity > 0) {
                 num += item.returnQuantity;
-                numberCarsh += item.returnQuantity * item.realPrice
+                let foregift = item.foregift ? item.foregift : 0;
+                numberCarsh += NumberUtils.FloatAdd(item.returnQuantity,foregift) * item.realPrice
             }
         })
         numberCarsh = NumberUtils.fc(numberCarsh);
@@ -137,7 +140,7 @@ export default class ReturnGoodPopModel extends React.Component {
                         <View style={{ flex: 1 }} />
                         <TouchableHighlight onPress={this.onCancelPress.bind(this)}>
                             <View style={{ width: 100, height: 50, backgroundColor: '#fe6732', justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={{ color: '#fff' }}>{'结算'}</Text>
+                                <Text style={{ color: '#fff' }}>{'退货'}</Text>
                             </View>
                         </TouchableHighlight>
                     </View>

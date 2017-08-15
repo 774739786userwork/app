@@ -92,14 +92,19 @@ class ReturnGoodListPage extends React.Component {
         }
 
         InteractionManager.runAfterInteractions(() => {
-            FetchManger.getUri('mobileServiceManager/returnmanage/getReturnGoodList.page', reqParams).then((responseData) => {
+            FetchManger.postUri('mobileServiceManager/returnmanage/getReturnGoodList.page', reqParams).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
                     if (loadMore) {
-                        let list = this.state.listData.concat(data);
-                        this.setState({ listData: list, loadMore: false });
+                        if(data){
+                            let list = this.state.listData.concat(data);
+                            this.setState({ listData: list, loadMore: false });
+                        }else{
+                            this.setState({ loadMore: false });
+                        }
+                       
                     } else {
-                        this.setState({ listData: data, loading: false });
+                        this.setState({ listData: data ? data : [], loading: false });
                     }
                 } else {
                     if (loadMore) {
@@ -242,7 +247,8 @@ class ReturnGoodListPage extends React.Component {
         this.state.good_list.map((item) => {
             if (item.returnQuantity && item.returnQuantity > 0) {
                 num += item.returnQuantity;
-                numberCarsh += item.returnQuantity * item.realPrice
+                let foregift = item.foregift ? item.foregift : 0;
+                numberCarsh += NumberUtils.FloatAdd(item.returnQuantity,foregift) * item.realPrice
             }
         })
         numberCarsh = NumberUtils.fc(numberCarsh);
@@ -270,7 +276,7 @@ class ReturnGoodListPage extends React.Component {
                 {
                     this.state.loading ?
                         <LoadingView /> :
-                        (this.state.listData.length == 0 ?
+                        (!this.state.listData || this.state.listData.length == 0 ?
                             <View style={{ alignItems: 'center', flex: 1, backgroundColor: '#fff', justifyContent: 'center' }}>
                                 <Text> 暂无数据</Text>
                             </View>
@@ -323,7 +329,7 @@ class ReturnGoodListPage extends React.Component {
                             </TouchableHighlight> : null
                     }
                 </View>
-                <EditeReturnNumModel modalVisible={this.state.editeModalVisible} onCancelPress={this.onEidteCancelPress} item={this.state.selectItem} onConfirmPress={this.onEidteConfirmPress} />
+                <EditeReturnNumModel modalVisible={this.state.editeModalVisible} onCancelPress={this.onEidteCancelPress} item={this.state.selectItem} chooseList={this.state.good_list} onConfirmPress={this.onEidteConfirmPress} />
                 <ReturnGoodPopModel onClear={this.onClear} onEndAction={this.onEndAction.bind(this)} chooseList={this.state.good_list} modalVisible={this.state.modalPopVisible} onCancelPress={this.onPopCancelPress.bind(this)} />
             </View >
         );

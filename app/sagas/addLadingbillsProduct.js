@@ -6,7 +6,7 @@ import mock from './mock'
 
 export function* addLadingbillsProduct(action) {
   try {
-    let responseData = yield call(FetchManger.getUri, action.api, action.param);
+    let responseData = yield call(FetchManger.postUri, action.api, action.param);
     if (responseData.status === '0' || responseData.status === 0) {
       yield put({ type: types.AddLadingbillsProductSucceed_ACTION, result: responseData });
     } else {

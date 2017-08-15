@@ -29,6 +29,7 @@ import SearchBar from '../../components/SearchBar';
 import ImageView from '../../components/ImageView'
 import ContactsWrapper from 'react-native-contacts-wrapper';
 import * as ValidateUtils from '../../utils/ValidateUtils';
+import EleRNLocation from 'ele-react-native-location';
 
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 let coords = {};
@@ -73,7 +74,44 @@ class SelectCustomersContainer extends React.Component {
     this.props.navigation.setParams({
       headerRightPress: this.headerRightPress,
     })
-    this.listCustomers()
+    const { action } = this.props;
+    let options = {
+      accuracy: 'HighAccuracy', // BatterySaving(低功耗定位模式), DeviceSensors(仅设备定位模式), HighAccuracy(高精度模式)
+      needAddress: true, // 设置是否返回地址信息
+      onceLocation: true, // 是否只定位一次
+      onceLocationLatest: false,//获取最近3s内精度最高的一次定位结果
+      wifiActiveScan: true, // 设置是否强制刷新WIFI，默认为强制刷新,模式为仅设备模式(Device_Sensors)时无效
+      mockEnable: false, // 设置是否允许模拟位置,默认为false，不允许模拟位置,模式为低功耗模式(Battery_Saving)时无效
+      interval: 2000, // 设置定位间隔,单位毫秒,默认为2000ms
+      httpTimeOut: 30000, // 设置联网超时时间(ms), 模式为仅设备模式(Device_Sensors)时无效,默认30000毫秒，建议超时时间不要低于8000毫秒,
+      protocol: 'http', //用于设定网络定位时所采用的协议，提供http/https两种协议,默认值http
+      locationCacheEnable: false //true表示使用定位缓存策略；false表示不使用。默认是false
+    }
+    if (Platform.OS == 'ios') {
+      options = {
+        accuracy: 'kCLLocationAccuracyHundredMeters', // kCLLocationAccuracyHundredMeters, kCLLocationAccuracyBest, kCLLocationAccuracyNearestTenMeters,kCLLocationAccuracyKilometer,kCLLocationAccuracyThreeKilometers
+        onceLocation: true, // 是否只定位一次,
+        locatingWithReGeocode: true,
+        pausesLocationUpdatesAutomatically: true,//指定定位是否会被系统自动暂停。默认为YES
+        allowsBackgroundLocationUpdates: false,//是否允许后台定位。默认为NO。只在iOS 9.0及之后起作用。设置为YES的时候必须保证 Background Modes 中的 Location updates 处于选中状态，否则会抛出异常
+        locationTimeout: 10,//指定单次定位超时时间,默认为10s。最小值是2s。注意单次定位请求前设置
+        reGeocodeTimeout: 5,//指定单次定位逆地理超时时间,默认为5s。最小值是2s。注意单次定位请求前设置
+        locatingWithReGeocode: false,//连续定位是否返回逆地理信息，默认NO
+        distanceFilter: 'kCLDistanceFilterNone'//设定定位的最小更新距离。默认为 kCLDistanceFilterNone 
+      }
+    }
+
+    //开启定位服务
+    EleRNLocation.startLocation(options);
+    //开启定位监听
+    EleRNLocation.addEventListener((_coords) => {
+      coords = _coords
+     // action.listCustomers(coords.latitude, coords.longitude);
+      this.listCustomers()
+      // action.listCustomers(25.005789, 102.770189);
+    });
+
+    
   }
   //请求数据
   //mobileServiceManager/customers/selectContacts.page?token=2n1aWglKVo&user_id=100012&page=1&rows=1&orgId=100002&contactMobile=
@@ -81,23 +119,38 @@ class SelectCustomersContainer extends React.Component {
     const token = LoginInfo.getUserInfo().token;
     const user_id = LoginInfo.getUserInfo().user_id;
     const orgId = LoginInfo.getUserInfo().organization_id;
-    let params = { token, user_id, orgId };
-    params.page = 1;
-    params.rows = 20;
+    let params = { token, user_id };
+    
     if (contactMobile) {
       params.contactMobile = contactMobile;
+    }else{
+      params.orgId = orgId;
+      params.lat = coords.latitude;
+      params.lng = coords.longitude;
     }
     this.setState({ loading: true });
     InteractionManager.runAfterInteractions(() => {
-      FetchManger.getUri('mobileServiceManager/customers/selectContacts.page', params).then((responseData) => {
+      FetchManger.getUri('mobileServiceManager/customers/selectListCustomers.page', params).then((responseData) => {
+
+        if(responseData.data && responseData.data.status === 0){
+          responseData.status = responseData.data.status ;
+        }
         if (responseData.status === '0' || responseData.status === 0) {
-          let data = responseData.data.contactLists;
+          let data = responseData.data.customerLists;
           this.setState({
             data: data,
             loading: false,
           });
         } else {
-          Toast.show(responseData.msg);
+          if(responseData.msg){
+            Toast.show(responseData.msg);
+          }else{
+            this.setState({
+              data: [],
+              loading: false,
+            });
+          }
+         
         }
       }).catch((error) => {
         console.log(error)
@@ -136,9 +189,12 @@ class SelectCustomersContainer extends React.Component {
     )
   }
   _renderItem = (item, index) => {
-    let contactName = item.contactName;
-    let contactPhone = item.mobile1;
-
+    let contactName = "";
+    let contactPhone = "";
+    if (item.contacts && item.contacts.length > 0) {
+      contactName = item.contacts[0].name;
+      contactPhone = item.contacts[0].mobile1;
+    }
 
     return (
       <TouchableHighlight
@@ -152,7 +208,7 @@ class SelectCustomersContainer extends React.Component {
             </View>
             <View style={{ flex: 1, paddingLeft: 12, }}>
               <View style={{ height: 34, marginBottom: 8, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={{ color: '#333', fontSize: 16 }}>{`${item.customerName}`}</Text>
+                <Text style={{ color: '#333', fontSize: 16 }}>{`${item.customersName}`}</Text>
               </View>
               <Text style={{ color: '#666' }}>{`${contactName}`}</Text>
               <Text style={{ color: '#666' }}>{`${contactPhone}`}</Text>
@@ -180,14 +236,13 @@ class SelectCustomersContainer extends React.Component {
             </View>
           </View>
           <View style={{ paddingLeft: 12 }}>
-            <Text style={{ color: '#999' }}>{`${item.customerAddress}`}</Text>
+            <Text style={{ color: '#999' }}>{`${item.address}`}</Text>
           </View>
           <View style={{ height: StyleSheet.hairlineWidth, marginTop: 12, flex: 1, backgroundColor: '#c4c4c4' }} />
         </View>
       </TouchableHighlight>
     );
   }
-
   headerRightPress = () => {
     const { navigation } = this.props;
     if (!this.importingContactInfo) {
@@ -195,10 +250,10 @@ class SelectCustomersContainer extends React.Component {
       ContactsWrapper.getContact()
         .then((contact) => {
           console.log(contact)
-          let number = contact.number + '';
+          let number = contact.phone + '';
           number = number.replace('+86', '');
-          number = number.replace('-', '');
-          number = number.trim();
+          number = number.replace(new RegExp(/(-)/g),'');
+          number = number.replace(/(^\s*)|(\s*$)/g,'');
           this.importingContactInfo = false;
           this.setState({ defaultValue: number + '' })
           this.onSearchAction(number + '');

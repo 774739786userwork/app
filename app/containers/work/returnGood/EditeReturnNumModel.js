@@ -26,15 +26,28 @@ export default class EditeReturnNumModel extends React.Component {
         this.state = {
             modalVisible: this.props.modalVisible,
             returnQuantity: 0,
-            realPrice:0,
+            realPrice: 0,
         };
     }
     componentWillReceiveProps(nextProps) {
         let item = nextProps.item;
+        let chooseList = nextProps.chooseList;
+
+        let returnQuantity = item.returnQuantity ? item.returnQuantity : 0;
+        let realPrice = item.realPrice;
+        let selectItem = {};
+        chooseList.map((_item) => {
+            if (_item.productId === item.productId) {
+                selectItem = _item
+                returnQuantity = selectItem.returnQuantity ? selectItem.returnQuantity : 0;
+                realPrice = selectItem.realPrice;
+            }
+        })
+
         this.setState({
             modalVisible: nextProps.modalVisible,
-            returnQuantity: item.returnQuantity ? item.returnQuantity : 0,
-            realPrice:item.realPrice
+            returnQuantity: returnQuantity,
+            realPrice: realPrice
         });
     }
     updateNewCount(count) {
@@ -45,7 +58,7 @@ export default class EditeReturnNumModel extends React.Component {
     }
     onConfirmPress() {
         let item = this.props.item;
-        let newItem = {...item};
+        let newItem = { ...item };
         let newCount = parseInt(this.state.returnQuantity)
         newItem.returnQuantity = newCount;
         newItem.realPrice = this.state.realPrice
@@ -59,6 +72,7 @@ export default class EditeReturnNumModel extends React.Component {
     render() {
         let modelWidth = WINDOW_WIDTH - 40;
         let item = this.props.item;
+
         return (<Modal
             animationType={'slide'}
             transparent={true}
@@ -79,7 +93,7 @@ export default class EditeReturnNumModel extends React.Component {
                             <ImageView style={{ width: 90, height: 90, marginTop: 12, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={{ uri: item.productImage }} />
                         </View>
                         <View style={{ flex: 2 }}>
-                             <View style={{ marginTop: 4, height: 34, flexDirection: 'row', alignItems: 'center' }}>
+                            <View style={{ marginTop: 4, height: 34, flexDirection: 'row', alignItems: 'center' }}>
                                 <Text style={{ width: 80, textAlign: 'right', }}>实际价格:</Text>
                                 <TextInput style={{ width: 100, height: 30, textAlign: 'center', color: '#666', borderRadius: 8, padding: 0, borderWidth: 1, borderColor: '#c4c4c4' }}
                                     underlineColorAndroid={'transparent'}

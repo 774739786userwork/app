@@ -67,9 +67,16 @@ class NewReturnGoodPage extends React.Component {
                     item.value = data.platenumber;
                     valeMap[item.key] = [data.platenumber, data.carbaseinfo_id,data.carweight];
                 }
-                if (data.customerName) {
-                    item.value = data.customerName;
-                    valeMap[item.key] = [data.customerName, data.customerId,data.contactName,data.mobile1,data.customerAddress];
+                if (data.customersName) {
+                    item.value = data.customersName;
+                    let contactName = "";
+                    let contactPhone = "";
+                    if (data.contacts && data.contacts.length > 0) {
+                      contactName = data.contacts[0].name;
+                      contactPhone = data.contacts[0].mobile1;
+                    }
+
+                    valeMap[item.key] = [data.customersName, data.customersId,contactName,contactPhone,data.address];
                 }
                 if (data.STORE_HOUSE_NAME) {
                     item.value = data.STORE_HOUSE_NAME

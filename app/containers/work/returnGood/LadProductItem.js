@@ -15,6 +15,7 @@ class LadProductItem extends React.Component {
 
     render() {
         const { item,selectItem } = this.props;
+        
         let d_returnQuantity = item.returnQuantity ? item.returnQuantity : 0;
         let returnQuantity  = selectItem.returnQuantity ? selectItem.returnQuantity : d_returnQuantity;
         let realPrice = selectItem.realPrice ? selectItem.realPrice : item.realPrice;
