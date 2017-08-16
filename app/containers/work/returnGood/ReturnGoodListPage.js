@@ -225,6 +225,7 @@ class ReturnGoodListPage extends React.Component {
                 oldItem = good_list[i];
             }
         }
+        item.realPrice = NumberUtils.fc(item.realPrice);
         if (oldItem) {
             oldItem.returnQuantity = item.returnQuantity
             oldItem.realPrice = item.realPrice
