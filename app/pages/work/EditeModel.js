@@ -72,7 +72,7 @@ export default class EditeModel extends React.Component {
                         <Text style={{ color: '#fff' }}>{`${item.product_name}`}</Text>
                     </View>
                     <View style={{ marginTop: 12, height: 34, flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{ flex: 2, textAlign: 'right', }}>车余货:</Text>
+                        <Text style={{ flex: 2, textAlign: 'right', }}>车存货:</Text>
                         <Text style={{ marginLeft: 8, flex: 3, color: '#f80000' }}>{`${item.product_stock_quantity}${item.product_unit}`}</Text>
                     </View>
                     <View style={{ height: 34, marginBottom: 12, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>

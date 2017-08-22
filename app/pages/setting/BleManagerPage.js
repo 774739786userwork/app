@@ -65,7 +65,7 @@ export default class BleManagerPage extends React.Component {
             print: props.navigation.state.params != undefined,
             devices: [],
             showSpinner: false,
-            selectItem: 0,
+            selectItem: 1,
             isEnabled: false,
             discovering: false,
             unpairedDevices: [],
