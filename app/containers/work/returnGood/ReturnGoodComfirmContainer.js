@@ -171,6 +171,7 @@ class ReturnGoodComfirmPage extends React.Component {
         let bleParams = { title: '退货单', name: '仓管签字' };//打印信息
         bleParams.headerList = [
           { text: `退货时间:${DateUtils.show()}` },
+          { text: `退货流水号:${responseData.returnNumber}`},
           { text: `店名:${params.contactId[0]}` },
           { text: `地址:${params.contactId[4]}` },
           { text: `联系人:${params.contactId[2]}` },
