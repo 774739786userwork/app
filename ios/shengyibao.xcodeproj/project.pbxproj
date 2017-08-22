@@ -40,7 +40,6 @@
 		9D6C84C51F35F6AE0077DC4F /* AMapFoundationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6C84C31F35F6AE0077DC4F /* AMapFoundationKit.framework */; };
 		9D6C84C61F35F6AE0077DC4F /* AMapLocationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6C84C41F35F6AE0077DC4F /* AMapLocationKit.framework */; };
 		9D6C84C81F35F6F70077DC4F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6C84C71F35F6F70077DC4F /* CoreLocation.framework */; };
-		9D6C84CA1F3645E20077DC4F /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6C84C91F3645E20077DC4F /* Bugly.framework */; };
 		9D9754DD1F07955B005046A7 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D9754DC1F07955B005046A7 /* libstdc++.6.0.9.tbd */; };
 		9D9754DF1F079570005046A7 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D9754DE1F079570005046A7 /* libc++.tbd */; };
 		9D9754E11F07957A005046A7 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D9754E01F07957A005046A7 /* libz.tbd */; };
@@ -321,7 +320,6 @@
 		9D6C84C31F35F6AE0077DC4F /* AMapFoundationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapFoundationKit.framework; sourceTree = "<group>"; };
 		9D6C84C41F35F6AE0077DC4F /* AMapLocationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapLocationKit.framework; sourceTree = "<group>"; };
 		9D6C84C71F35F6F70077DC4F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		9D6C84C91F3645E20077DC4F /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bugly.framework; path = shengyibao/Bugly.framework; sourceTree = "<group>"; };
 		9D9754DC1F07955B005046A7 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		9D9754DE1F079570005046A7 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		9D9754E01F07957A005046A7 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -367,7 +365,6 @@
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
 				9D6C84C51F35F6AE0077DC4F /* AMapFoundationKit.framework in Frameworks */,
-				9D6C84CA1F3645E20077DC4F /* Bugly.framework in Frameworks */,
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
@@ -486,7 +483,6 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				9DB84A6A1ECA0D8C0071C581 /* iconfont.ttf */,
-				9D6C84C91F3645E20077DC4F /* Bugly.framework */,
 				9D6C84C31F35F6AE0077DC4F /* AMapFoundationKit.framework */,
 				9D6C84C41F35F6AE0077DC4F /* AMapLocationKit.framework */,
 			);
@@ -1294,6 +1290,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = ZZX8YW7DKA;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/Frameworks",
 					"$(PROJECT_DIR)",
@@ -1312,6 +1309,7 @@
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
 				);
 				INFOPLIST_FILE = shengyibao/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1332,6 +1330,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ZZX8YW7DKA;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/Frameworks",
 					"$(PROJECT_DIR)",
@@ -1350,6 +1349,7 @@
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
 				);
 				INFOPLIST_FILE = shengyibao/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",

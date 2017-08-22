@@ -33,7 +33,7 @@ class ReturnGoodListContainer extends React.Component {
                 tabBarInactiveTextColor="#aaaaaa"
             >
                 <ReturnGoodListPage key={'0'} tabLabel={'退货管理'} {...this.props} />
-                <ReturnEmptyGoodListPage key={'1'} tabLabel={'退空管管理'} {...this.props} />
+                <ReturnEmptyGoodListPage key={'1'} tabLabel={'退空桶管理'} {...this.props} />
             </ScrollableTabView>
         </View>);
     }

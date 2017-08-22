@@ -514,10 +514,9 @@ class AddCustContainer extends React.Component {
                             }} />
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, width: WINDOW_WIDTH, backgroundColor: '#d9d9d9' }} />
-
                 </ScrollView>
                 {
-                    Platform.OS === 'iOS' ?
+                    Platform.OS === 'ios' ?
                     <KeyboardSpacer /> : null
                 }
                 <SelectEARModel modalVisible={this.state.regionalShow} onCancelPress={() => {

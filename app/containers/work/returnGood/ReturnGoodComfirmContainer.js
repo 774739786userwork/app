@@ -156,8 +156,8 @@ class ReturnGoodComfirmPage extends React.Component {
     old_good_list.map((item) => {
 
       let foregift = item.foregift ? item.foregift : 0;
-      item.productSum = NumberUtils.FloatMul(NumberUtils.FloatAdd(item.realPrice,foregift) , item.returnQuantity)
       item.foregift =  NumberUtils.FloatMul(foregift, item.returnQuantity)
+      item.productSum = NumberUtils.FloatAdd(NumberUtils.FloatMul(item.realPrice , item.returnQuantity),item.foregift)
       good_list.push(item)
     });
 
@@ -180,8 +180,10 @@ class ReturnGoodComfirmPage extends React.Component {
           { text: `车牌号:${carNumber}` }];
 
         bleParams.detailList = [];
+
         good_list.map((_Item) => {
-          let printItem = [{ title: true, text: `${_Item.productName}` }, { text: `退货数:${_Item.returnQuantity}`, text1: `￥${_Item.productSum}` }];
+          let total =  NumberUtils.FloatAdd(NumberUtils.FloatMul(_Item.realPrice , _Item.returnQuantity),_Item.foregift);
+          let printItem = [{ title: true, text: `${_Item.productName}` }, { text: `退货数:${_Item.returnQuantity}`, text1: `￥${total}` }];
           bleParams.detailList.push(printItem);
         })
         bleParams.footerList = [{ text: `数量总计:${this.num}`, text1: `应退金额:${totalSum}` }, { text: `实退金额:${realReturnSum}`, text1: `抹零金额:${smallChangeSum}` }];

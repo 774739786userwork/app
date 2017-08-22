@@ -25,7 +25,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>7</string>
+	<string>10</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
@@ -43,16 +43,18 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>使用蓝牙</string>
 	<key>NSCameraUsageDescription</key>
-	<string></string>
+	<string>使用相机</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string></string>
+	<string>使用定位</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>使用定位</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string></string>
+	<string>使用相册</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>iconfont.ttf</string>

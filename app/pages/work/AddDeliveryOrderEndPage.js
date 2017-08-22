@@ -383,7 +383,7 @@ class AddDeliveryOrderEndPage extends React.Component {
                     </TouchableOpacity>
                 </View>
                 {
-                    Platform.OS === 'iOS' ?
+                    Platform.OS === 'ios' ?
                     <KeyboardSpacer /> : null
                 }
                 <RemarkEditeModel content={this.state.remark} modalVisible={this.state.modalVisible} onCancelPress={this.onCancelPress} onConfirmPress={this.onConfirmPress} />
