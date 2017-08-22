@@ -33,10 +33,10 @@ export default class S_MonthPage extends React.Component {
   componentDidMount() {
     this.loadData(this.state.selY, this.state.selM)
   }
-  loadData(year, month) {
-    let yearMonth = year + '-' + (month < 10 ? '0' + month : month)
+  loadData(_year, _month) {
+    let month = _year + '-' + (_month < 10 ? '0' + _month : _month)
     InteractionManager.runAfterInteractions(() => {
-      FetchManger.getUri('dataCenter/appHomePage/getMonthAll.page', { yearMonth }).then((responseData) => {
+      FetchManger.getUri('dataCenter/appHomePage/getMonthAll.page', { month }).then((responseData) => {
         if (responseData.status === '0' || responseData.status === 0) {
           let data = responseData.data;
           this.setState({ ...data })
@@ -46,7 +46,7 @@ export default class S_MonthPage extends React.Component {
       })
     });
     InteractionManager.runAfterInteractions(() => {
-      FetchManger.getUri('dataCenter/appHomePage/getMonthFactory.page', { yearMonth }).then((responseData) => {
+      FetchManger.getUri('dataCenter/appHomePage/getMonthFactory.page', { month }).then((responseData) => {
         if (responseData.status === '0' || responseData.status === 0) {
           let data = responseData.data;
           this.setState({ yearFactory: data })
@@ -56,7 +56,7 @@ export default class S_MonthPage extends React.Component {
       })
     });
     InteractionManager.runAfterInteractions(() => {
-      FetchManger.getUri('dataCenter/appHomePage/getMonthFactoryChart.page', { yearMonth }).then((responseData) => {
+      FetchManger.getUri('dataCenter/appHomePage/getMonthFactoryChart.page', { month }).then((responseData) => {
         if (responseData.status === '0' || responseData.status === 0) {
           let data = responseData.data;
           this.setState({ charList: data })
@@ -69,7 +69,7 @@ export default class S_MonthPage extends React.Component {
   //点击更多查看
   onMoreAction() {
     const { navigation } = this.props;
-    navigation.navigate('S_HomeDetail')
+   // navigation.navigate('S_HomeDetail')
   }
 
   render() {
@@ -84,10 +84,11 @@ export default class S_MonthPage extends React.Component {
     let charList = this.state.charList
     let seriesData = [];
     let xData = []
+    let legend = [];
     charList.map((item) => {
       let chartItem = {};
       chartItem.type = 'line';
-      chartItem.name = item.orgId;
+      chartItem.name = item.orgName;
       chartItem.data = [];
       let init = xData.length === 0
       item.dayList.map((monthListItem) => {
@@ -97,9 +98,13 @@ export default class S_MonthPage extends React.Component {
           xData.push(monthListItem.dayname);
         }
       })
+      legend.push(item.orgName);
       seriesData.push(chartItem)
     })
     const option = {
+      legend: {
+        data:legend
+    },
       xAxis: {
         type: 'category',
         boundaryGap: false,
@@ -188,11 +193,11 @@ export default class S_MonthPage extends React.Component {
           }}>
             <View style={{ flex: 1, justifyContent: 'center', flexDirection: 'row' }}>
               <Text style={{ lineHeight: 24, color: '#666', fontSize: 12 }}>{'总销售额'}</Text>
-              <Text style={{ lineHeight: 24, marginLeft: 4, color: '#17c6c1', fontSize: 20 }}>{`${this.state.yearTotalSum}万`}</Text>
+              <Text style={{ lineHeight: 24, marginLeft: 4, color: '#17c6c1', fontSize: 20 }}>{`${this.state.monthTotalSum}万`}</Text>
             </View>
             <View style={{ flex: 1, justifyContent: 'center', flexDirection: 'row' }}>
               <Text style={{ lineHeight: 24, color: '#666', fontSize: 12 }}>{'未收'}</Text>
-              <Text style={{ lineHeight: 24, marginLeft: 4, color: '#f80000', fontSize: 20 }}>{`${this.state.yearUnReceiveSum}万`}</Text>
+              <Text style={{ lineHeight: 24, marginLeft: 4, color: '#f80000', fontSize: 20 }}>{`${this.state.monthUnReceiveSum}万`}</Text>
             </View>
           </View>
           <View style={{
@@ -202,13 +207,13 @@ export default class S_MonthPage extends React.Component {
           }}>
             <View style={{ borderWidth: StyleSheet.hairlineWidth, borderColor: '#dedede' }}>
               {
-                yearData.map((item) => <View >
+                yearData.map((item) => <View key={`row_${item.orgName}`}>
                   <View style={{
                     alignContent: 'center',
                     justifyContent: 'center',
                     flexDirection: 'row',
                     padding: 12
-                  }} key={`row_${item}`}>
+                  }} >
                     <Text style={{ color: '#333', flex: 1 }}>{item.orgName}</Text>
 
                     <Text style={{ color: '#666' }}>{'总销售额'}</Text>

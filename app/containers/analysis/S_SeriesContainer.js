@@ -150,7 +150,7 @@ class S_SeriesPage extends React.Component {
           <View style={{ backgroundColor: '#fff', margin: 12 }}>
             <TableRow bg={'#17c6c1'} tColor={'#fff'} t0={'工厂'} t1={'人数'} t2={'占比'} />
             {
-              factoryList.map((item) => <TableRow bg={'#fff'} tColor={'#666'} t0={item.orgName} t1={item.personNumber} t2={item.proportion} />)
+              factoryList.map((item) => <TableRow bg={'#fff'} tColor={'#666'} t0={item.orgName} t1={item.personNumber} t2={item.proportion} key={`index_${item.orgName}`}/>)
             }
           </View>
           <View style={{ backgroundColor: '#fff', margin: 12 }}>
@@ -200,7 +200,7 @@ class DetailList extends React.Component {
     return <View>
       <View style={{ backgroundColor: '#fff', margin: 12, flexDirection: 'row' }}>
         {
-          itemArr.map((item, index) => <TouchableOpacity onPress={this.onItemAction.bind(this, item, index)}>
+          itemArr.map((item, index) => <TouchableOpacity onPress={this.onItemAction.bind(this, item, index)} key={`index_${index}`}>
             <View style={{ width: 60, flexDirection: 'row' }} key={`index_${index}`}>
               <Text style={{ color: index === selectIndex ? '#0081d4' : '#222' }}>{`${item}`}</Text>
             </View>

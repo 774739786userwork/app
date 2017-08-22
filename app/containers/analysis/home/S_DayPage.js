@@ -77,7 +77,7 @@ export default class S_DayPage extends React.Component {
             <View style={{ backgroundColor: '#fff', margin: 12 }}>
               <TableRowHeader bg={'#17c6c1'} tColor={'#fff'} t0={'工厂'} t1={'人数'} t2={'占比'} />
               {
-                factoryList.map((item) => <TableRow onPress={this.onItemPress} bg={'#fff'} tColor={'#666'} t0={item.orgName} t1={item.personNumber} t2={item.proportion} />)
+                factoryList.map((item) => <TableRow key={`index_${item.orgName}`} onPress={this.onItemPress} bg={'#fff'} tColor={'#666'} t0={item.orgName} t1={item.personNumber} t2={item.proportion} />)
               }
             </View>
           </View>

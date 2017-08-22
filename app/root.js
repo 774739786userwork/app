@@ -6,8 +6,8 @@ import App from './containers/app';
 
 const store = configureStore();
 
-//global.baseUrl = "http://app.duobangjc.com:1009/csbboss/";
-global.baseUrl = "http://app.duobangjc.com:8080/bboss/";
+global.baseUrl = "http://app.duobangjc.com:1009/csbboss/";
+//global.baseUrl = "http://app.duobangjc.com:8080/bboss/";
 store.runSaga(rootSaga);
 
 const Root = () => (

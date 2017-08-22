@@ -197,7 +197,7 @@ class DetailList extends React.Component {
 
 class S_ProductContainer extends React.Component {
   static navigationOptions = {
-    title: '系列',
+    title: '产品',
     header: null,
     tabBarIcon: ({ tintColor }) => (
       <Iconfont icon='e724' iconSize={24} iconColor={tintColor} />

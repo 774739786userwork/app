@@ -68,7 +68,7 @@ export default class S_YearyPage extends React.Component {
     //点击更多查看
     onMoreAction() {
         const { navigation } = this.props;
-        navigation.navigate('S_HomeDetail')
+       // navigation.navigate('S_HomeDetail')
     }
     render() {
         let yearData = [];
@@ -79,13 +79,14 @@ export default class S_YearyPage extends React.Component {
                 yearData.push(item)
             }
         }
+        let legend = [];
         let charList = this.state.charList
         let seriesData = [];
         let xData = []
         charList.map((item) => {
             let chartItem = {};
             chartItem.type = 'line';
-            chartItem.name = item.orgId;
+            chartItem.name = item.orgName;
             chartItem.data = [];
             let init = xData.length === 0
             item.monthList.map((monthListItem) => {
@@ -95,9 +96,13 @@ export default class S_YearyPage extends React.Component {
                     xData.push(monthListItem.monthname);
                 }
             })
+            legend.push(item.orgName);
             seriesData.push(chartItem)
         })
         const option = {
+            legend: {
+                data:legend
+            },
             xAxis: {
                 type: 'category',
                 boundaryGap: false,
@@ -112,7 +117,12 @@ export default class S_YearyPage extends React.Component {
                 //x轴数据
                 data: xData
             },
-            yAxis: {},
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            },
             color: ['#ee5f8f', '#e8ba00', '#33cc99'],//自定义线条颜色，你可以设置多个颜色，使用时默认从第一个开始   如果不设置color则有它默认颜色
             // series里面的数据  如果是固定的线条 你只需要改变data数据就ok  
             // 如果不是确定有多少折线  建议吧整个serise数据替换掉   例如：series:[{...}{...}{...},...]配置项和下面一样
@@ -200,7 +210,7 @@ export default class S_YearyPage extends React.Component {
                     }}>
                         <View style={{ borderWidth: StyleSheet.hairlineWidth, borderColor: '#dedede' }}>
                             {
-                                yearData.map((item) => <View >
+                                yearData.map((item) => <View key={`row_${item.orgName}`}>
                                     <View style={{
                                         alignContent: 'center',
                                         justifyContent: 'center',
@@ -233,7 +243,7 @@ export default class S_YearyPage extends React.Component {
                         </TouchableOpacity>
                         <View style={{ flex: 1 }} />
                     </View>
-                    <Echarts option={option} height={300} />
+                    <Echarts option={option}/>
                 </View >
             </ScrollView>
         );
