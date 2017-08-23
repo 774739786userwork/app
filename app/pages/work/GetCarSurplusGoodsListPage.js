@@ -16,13 +16,13 @@ import DatePicker from 'react-native-datepicker'
 import { Iconfont, LoadingView, Toast, FetchManger, Spinner, LoginInfo } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
-import EditeModel from './EditeModel'
+import SurplusEditeModel from './SurplusEditeModel'
 import { NavigationActions } from 'react-navigation'
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
 /**
- * 车存货单查询及卸货处理页面
+ * 车余货单查询及余货打印
  * @param {*} AddDayCount 
  */
 function GetDateStr(AddDayCount) {
@@ -36,8 +36,7 @@ function GetDateStr(AddDayCount) {
 
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 let carId = '';
-let carName = '';
-class GetCarstockProductListPage extends React.Component {
+class GetCarSurplusGoodsListPage extends React.Component {
     constructor(props) {
         super(props);
         this._renderItem = this._renderItem.bind(this);
@@ -71,12 +70,11 @@ class GetCarstockProductListPage extends React.Component {
     _rowOnPress(selectItem) {
         this.setState({ modalVisible: true, selectItem });
     }
-    //disburden_quantity 卸货数量
-    //stock_quantity 余货数量
+    //product_stock_quantity 后台返回的车余货数量
+    //remainCount 填入的余货数量
 
     _renderItem = (item, index) => {
-        let disburden_quantity = item.disburden_quantity ? item.disburden_quantity : 0
-        let product_stock_quantity = item.product_stock_quantity - disburden_quantity
+        let remainCount = item.remainCount ? item.remainCount : 0
         return (
             <TouchableHighlight
                 onPress={this._rowOnPress.bind(this, item)}
@@ -84,12 +82,14 @@ class GetCarstockProductListPage extends React.Component {
             >
                 <View style={{ backgroundColor: '#fff' }} key={`row_${index}`}>
                     <View style={{ height: 34, paddingLeft: 12, marginBottom: 8, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{ color: '#333', fontSize: 16 }}>{`${item.product_name}`}</Text>
+                        <View style={{ flex:1, flexDirection:'row'}}>
+                            <Text style={{ color: '#333', fontSize: 16 }}>{`${item.product_name}`}</Text>
+                        </View>
                     </View>
                     <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
-                        <View style={{ flex: 1, flexDirection: 'row' }}>
-                            <Text style={{ color: '#666' }}>{'提货量：'}</Text>
-                            <Text style={{ color: '#666' }}>{`${item.total_loading_quantity}`}</Text>
+                        <View style={{ flex:1, flexDirection:'row'}}>
+                            <Text style={{ color: '#666' }}>{'单位：'}</Text>
+                            <Text style={{ color: '#666' }}>{`${item.product_unit}`}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#666' }}>{'规格：'}</Text>
@@ -98,48 +98,39 @@ class GetCarstockProductListPage extends React.Component {
                     </View>
                     <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
-                            <Text style={{ color: '#666' }}>{'卸货：'}</Text>
-                            <Text style={{ color: '#f80000' }}>{`${ disburden_quantity }`}</Text>
+                            <Text style={{ color: '#666' }}>{'车余货：'}</Text>
+                            <Text style={{ color: '#f80000' }}>{`${ item.product_stock_quantity}`}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
-                            <Text style={{ color: '#666' }}>{'车存货：'}</Text>
-                            <Text style={{ color: '#f80000' }}>{`${ product_stock_quantity}`}</Text>
+                            <Text style={{ color: '#666' }}>{'余：'}</Text>
+                            <Text style={{ color: '#f80000' }}>{`${ remainCount}`}</Text>
                         </View>
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, marginTop: 12, flex: 1, backgroundColor: '#c4c4c4' }} />
                 </View>
             </TouchableHighlight>);
     }
-    _onPrintPress() {
-        let params = { CH: true }
-        params.chooseList = this.state.data;
-        params.selectCar = this.state.car
-        const { navigation } = this.props;
-        const navigationAction = NavigationActions.reset({
-            index: 1,
-            actions: [
-                NavigationActions.navigate({ routeName: 'Home' }),
-                NavigationActions.navigate({ routeName: 'BleManager', params: params })
-            ]
-        })
-        navigation.dispatch(navigationAction)
-    }
+    
     _onSurePrintPress() {
-        let params = { CH: true }
+        let params = { YH: true }
         let goods_list = [];
         this.state.data.map((item) => {
-            if (item.disburden_quantity && item.disburden_quantity > 0) {
-                goods_list.push(item)
+            let gItem = {}
+            if (item.remainCount && item.remainCount > 0) {
+                gItem.product_id = item.product_id
+                gItem.product_name = item.product_name
+                gItem.product_unit = item.product_unit
+                gItem.remainCount = item.remainCount
+                goods_list.push(gItem)
             }
         })
-        if (goods_list.length == 0) {
-            Toast.show('请选择卸货产品');
+        
+        if(goods_list.length == 0){
+            Toast.show("请选择余货产品！");
             return;
         }
-        params.chooseList = goods_list;
+        params.chooseList = goods_list
         params.selectCar = this.state.car
-
-
         const token = LoginInfo.getUserInfo().token;
         const user_id = LoginInfo.getUserInfo().user_id;
 
@@ -152,7 +143,7 @@ class GetCarstockProductListPage extends React.Component {
         saveParams.goods_list = JSON.stringify(goods_list);
         const { navigation } = this.props;
         this.setState({ showSpinner: true })
-        FetchManger.postUri('mobileServiceManager/unloadcar/addUnload.page', saveParams).then((responseData) => {
+        FetchManger.postUri('mobileServiceManager/carmanager/addCarRemain.page', saveParams).then((responseData) => {
             if (responseData.status === '0' || responseData.status === 0) {
                 const navigationAction = NavigationActions.reset({
                     index: 1,
@@ -177,7 +168,7 @@ class GetCarstockProductListPage extends React.Component {
     onConfirmPress(id, newCount) {
         const { action } = this.props;
         let selectItem = this.state.selectItem;
-        selectItem.disburden_quantity = newCount;
+        selectItem.remainCount = newCount;
         this.setState({ modalVisible: false, selectItem });
     }
     onCancelPress() {
@@ -210,7 +201,7 @@ class GetCarstockProductListPage extends React.Component {
         return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
                 <View style={{ height: 10, backgroundColor: '#f2f2f2' }} ></View>
-                <EditeModel modalVisible={this.state.modalVisible} onCancelPress={this.onCancelPress} item={this.state.selectItem} onConfirmPress={this.onConfirmPress} />
+                <SurplusEditeModel modalVisible={this.state.modalVisible} onCancelPress={this.onCancelPress} item={this.state.selectItem} onConfirmPress={this.onConfirmPress} />
                 <TouchableOpacity onPress={this._selectCar}>
                     <View style={{ backgroundColor: '#fff', flexDirection: 'row', paddingLeft: 10, paddingRight: 12, height: 50, justifyContent: 'center', alignItems: 'center' }}>
                         <Text style={{ color: '#333', fontSize: 18 }}>{'车牌号'}</Text>
@@ -255,7 +246,7 @@ class GetCarstockProductListPage extends React.Component {
                 </View>
                 <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#e6e6e6' }} />
                 <View style={{ height: 30, paddingLeft: 10, backgroundColor: '#f2f2f2', justifyContent: 'center' }} >
-                    <Text style={{ color: '#999' }}>{'车存货产品信息'}</Text>
+                    <Text style={{ color: '#999' }}>{'车余货产品信息'}</Text>
                 </View>
                 <LoadingListView
                     loading={getCarstockProductList.loading}
@@ -265,15 +256,11 @@ class GetCarstockProductListPage extends React.Component {
                 {
                     list.length > 0 ?
                         <View style={{ height: 50, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
-                            <TouchableHighlight onPress={this._onPrintPress.bind(this)}>
-                                <View style={{ width: 100, height: 50, backgroundColor: '#fe6732', justifyContent: 'center', alignItems: 'center' }}>
-                                    <Text style={{ color: '#fff' }}>{'车存货打印'}</Text>
-                                </View>
-                            </TouchableHighlight>
+                            
                             <View style={{ flex: 1 }} />
                             <TouchableHighlight onPress={this._onSurePrintPress.bind(this)}>
                                 <View style={{ width: 100, height: 50, backgroundColor: '#fe6732', justifyContent: 'center', alignItems: 'center' }}>
-                                    <Text style={{ color: '#fff' }}>{'卸货确认'}</Text>
+                                    <Text style={{ color: '#fff' }}>{'车余货打印'}</Text>
                                 </View>
                             </TouchableHighlight>
                         </View>
@@ -286,4 +273,4 @@ class GetCarstockProductListPage extends React.Component {
     }
 }
 
-export default GetCarstockProductListPage;
+export default GetCarSurplusGoodsListPage;
