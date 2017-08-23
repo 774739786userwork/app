@@ -296,17 +296,19 @@ export default class BleManagerPage extends React.Component {
     _onPrintPress() {
         const { params } = this.props.navigation.state;
         if (params.creator) {
-            this.printCreatorBody(params)
-        } else if (params.YH) {
-            this.printYHBody(params)
-        } else if (params.XH) {
-            this.printXHBody(params)
+            this.printCreatorBody(params)  //送货单打印
+        } else if (params.CH) {
+            this.printCHBody(params) //车存货打印
+        } else if (params.YH){
+            this.printYHBody(params)                        //车余货打印
+        }else if (params.XH) {
+            this.printXHBody(params) //卸货打印
         } else if (params.CXXH) {
-            this.printCXXHBody(params)
+            this.printCXXHBody(params) //重新卸货打印
         } else if (params.headerList) {
-            this.commPrintBody(params);
-        } else {
-            this.printBody(params)
+            this.commPrintBody(params); //退货打印
+        } else { 
+            this.printBody(params)     //送货单重新打印
         }
     }
 
@@ -616,12 +618,9 @@ username:"zhangshijun"
         return rel;
     }
     /**
-     * 余货打印
+     * 车存货打印
      */
-    /**
-     * 卸货打印
-     */
-    printYHBody(param) {
+    printCHBody(param) {
         // 一定要配置好
         const Config = { wordNumber: 32 };
         ESC.setConfig(Config);
@@ -636,6 +635,66 @@ username:"zhangshijun"
             ESC.printAndNewLine();
             ESC.init();
             //商品开始
+            ESC.text('存货时间：' + DateUtils.show());
+            ESC.printAndNewLine();
+            ESC.text('操作人：' + LoginInfo.getUserInfo().user_real_name);
+            ESC.printAndNewLine();
+            ESC.text('车牌号：' + param.selectCar.platenumber);
+            ESC.printAndNewLine();
+            ESC.text(_.times(Config.wordNumber, () => '-').join(''));
+            ESC.printAndNewLine();
+            // 商品开始
+
+            param.chooseList.map((item) => {
+                ESC.printAndNewLine();
+                ESC.alignLeft();
+                ESC.text(ESC.Util.leftRight('产品名称：' + item.product_name, '', 20));
+                ESC.printAndNewLine();
+                ESC.alignLeft();
+                ESC.text(ESC.Util.leftRight(`存货数量：${item.product_stock_quantity}`, '', 20));
+            })
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.init();
+            ESC.text('仓库签名：______________________');
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+        }
+        ESC.sound();
+        ESC.init();
+    }
+
+    /**
+     * 车余货打印
+     */
+    printYHBody(param) {
+        // 一定要配置好
+        const Config = { wordNumber: 32 };
+        ESC.setConfig(Config);
+        ESC.init();
+        for (var i = 0; i < this.state.selectItem + 1; i++) {
+            ESC.alignCenter();
+            ESC.fontBold();
+            ESC.printAndNewLine();
+            ESC.text('车余货详情如下');
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.init();
             ESC.text('余货时间：' + DateUtils.show());
             ESC.printAndNewLine();
             ESC.text('操作人：' + LoginInfo.getUserInfo().user_real_name);
@@ -652,7 +711,7 @@ username:"zhangshijun"
                 ESC.text(ESC.Util.leftRight('产品名称：' + item.product_name, '', 20));
                 ESC.printAndNewLine();
                 ESC.alignLeft();
-                ESC.text(ESC.Util.leftRight(`余货数量：${item.product_stock_quantity}`, '', 20));
+                ESC.text(ESC.Util.leftRight(`余货数量：${item.remainCount}`, '', 20));
             })
             ESC.printAndNewLine();
             ESC.printAndNewLine();

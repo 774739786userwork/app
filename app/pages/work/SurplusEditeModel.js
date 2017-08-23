@@ -16,9 +16,9 @@ import { Iconfont } from 'react-native-go';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 /**
- * 车存货弹出框
+ * 车余货弹出框
  */
-export default class EditeModel extends React.Component {
+export default class SurplusEditeModel extends React.Component {
     constructor(props) {
         super(props)
         this.onConfirmPress = this.onConfirmPress.bind(this)
@@ -43,9 +43,9 @@ export default class EditeModel extends React.Component {
         if (newCount < 0) {
             newCount = 0;
         }
-        if (newCount > this.state.maxCount) {
-            newCount = this.state.maxCount;
-        }
+        // if (newCount > this.state.maxCount) {
+        //     newCount = this.state.maxCount;
+        // }
         this.setState({ count: newCount });
     }
     onConfirmPress() {
@@ -75,11 +75,11 @@ export default class EditeModel extends React.Component {
                         <Text style={{ color: '#fff' }}>{`${item.product_name}`}</Text>
                     </View>
                     <View style={{ marginTop: 12, height: 34, flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{ flex: 2, textAlign: 'right', }}>车存货:</Text>
+                        <Text style={{ flex: 2, textAlign: 'right', }}>车余货:</Text>
                         <Text style={{ marginLeft: 8, flex: 3, color: '#f80000' }}>{`${item.product_stock_quantity}${item.product_unit}`}</Text>
                     </View>
                     <View style={{ height: 34, marginBottom: 12, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                        <Text style={{ flex: 2, textAlign: 'right', }}>卸货:</Text>
+                        <Text style={{ flex: 2, textAlign: 'right', }}>余:</Text>
                         <View style={{ flex: 3, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                             <TouchableOpacity style={{ marginLeft: 8, marginRight: 12 }} onPress={() => {
                                 this.updateNewCount(this.state.count - 1);

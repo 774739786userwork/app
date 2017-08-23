@@ -29,8 +29,10 @@ import AddDeliveryOrderContainer from './work/AddDeliveryOrderContainer'
 import AddDeliveryOrderEndPageContainer from './work/AddDeliveryOrderEndPageContainer'
 
 import DeliveryOrderDetailContainer from './work/DeliveryOrderDetailContainer'
-//车余货
+//车存货
 import GetCarstockProductListContainer from './work/GetCarstockProductListContainer'
+//车余货
+import GetCarSurplusGoodsListContainer from './work/GetCarSurplusGoodsListContainer';
 //车辆选择
 import SelectCarContainer from './select/SelectCarContainer'
 //车辆选择  不需要请求数据
@@ -177,6 +179,9 @@ const App = StackNavigator(
     },
     GetCarstockProductList: {
       screen: GetCarstockProductListContainer
+    },
+    GetCarSurplusGoodsList:{
+      screen:GetCarSurplusGoodsListContainer
     },
     SelectCar: {
       screen: SelectCarContainer
