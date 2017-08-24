@@ -23,7 +23,7 @@ const HomeItem = [
   { name: '提货单', open: true, typeName: 'SelectLadingbills', image: require('../../imgs/home/tihuo_order.png') },
   { name: '送货单', open: true, typeName: 'SelectDeliveryOrder', image: require('../../imgs/home/songhuo_order.png') },
   { name: '订货单', open: true, typeName: 'PurchaseOrderInfo', image: require('../../imgs/home/dinghuo_order.png') },
-  { name: '车存货单', open: true, typeName: 'GetCarstockProductList', image: require('../../imgs/home/yuhuo_order.png') },
+  { name: '车存货单', open: true, typeName: 'GetCarstockProductList', image: require('../../imgs/home/cunhuo.png') },
   { name: '车余货单', open: true, typeName: 'GetCarSurplusGoodsList', image: require('../../imgs/home/yuhuo_order.png') },
   { name: '卸货单', open: true, typeName: 'UnLoadBillDetailList', image: require('../../imgs/home/xiehuo_order.png') },
   { name: '退货单', open: true, typeName: 'QueryReturnLists', image: require('../../imgs/home/tuihuo_order.png') },

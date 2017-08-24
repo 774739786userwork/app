@@ -37,19 +37,7 @@ export default class RemarkEditeModel extends React.Component {
 
 
     onConfirmPress() {
-        let radio_props = [
-            { label: '报错货品', value: 0 },
-            { label: '增加货品', value: 1 },
-            { label: '录错单据', value: 2 },
-            { label: '减少货品', value: 3 }
-        ];
-
-        let content = this.content;
-        let selectContext =  "";
-        if(this.state.isSelected != -1){
-            selectContext = radio_props[this.state.isSelected].label+",";
-        }
-        this.props.onConfirmPress && this.props.onConfirmPress(selectContext+this.content)
+        this.props.onConfirmPress && this.props.onConfirmPress(this.content)
         this.setState({ modalVisible: false });
     }
     onCancelPress() {
@@ -79,82 +67,6 @@ export default class RemarkEditeModel extends React.Component {
                 }}>
                     <View style={{ backgroundColor: '#0081d4', height: 40, width: modelWidth, borderTopLeftRadius: 10, borderTopRightRadius: 10, justifyContent: 'center', alignItems: 'center', }}>
                         <Text style={{ color: '#fff' }}>{`写退货原因`}</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', marginTop: 8 }}>
-                        <View style={{ flex: 1 }}>
-                            <RadioButton
-                                isSelected={this.state.isSelected === 0}
-                                obj={radio_props[0]}
-                                index={0}
-                                buttonSize={14}
-                                labelHorizontal={true}
-                                buttonColor={'#2196f3'}
-                                labelColor={'#000'}
-                                onPress={(value, index) => {
-                                    if(this.state.isSelected === 0){
-                                        this.setState({isSelected:-1})
-                                    }else{
-                                        this.setState({isSelected:0})
-                                    }
-                                }}
-                            />
-                        </View>
-                        <View style={{ flex: 1 }}>
-                            <RadioButton
-                                isSelected={this.state.isSelected === 1}
-                                obj={radio_props[1]}
-                                index={1}
-                                buttonSize={14}
-                                labelHorizontal={true}
-                                buttonColor={'#2196f3'}
-                                labelColor={'#000'}
-                                onPress={(value, index) => {
-                                    if(this.state.isSelected === 1){
-                                        this.setState({isSelected:-1})
-                                    }else{
-                                        this.setState({isSelected:1})
-                                    }
-                                }}
-                            />
-                        </View>
-                    </View>
-                    <View style={{ flexDirection: 'row' }}>
-                        <View style={{ flex: 1 }}>
-                            <RadioButton
-                                isSelected={this.state.isSelected === 2}
-                                obj={radio_props[2]}
-                                index={2}
-                                buttonSize={14}
-                                labelHorizontal={true}
-                                buttonColor={'#2196f3'}
-                                labelColor={'#000'}
-                                onPress={(value, index) => {
-                                    if(this.state.isSelected === 2){
-                                        this.setState({isSelected:-1})
-                                    }else{
-                                        this.setState({isSelected:2})
-                                    }
-                                }}
-                            />
-                        </View>
-                        <View style={{ flex: 1 }}>
-                            <RadioButton
-                                isSelected={this.state.isSelected === 3}
-                                obj={radio_props[3]}
-                                index={3}
-                                buttonSize={14}
-                                labelHorizontal={true}
-                                buttonColor={'#2196f3'}
-                                labelColor={'#000'}
-                                onPress={(value, index) => {
-                                    if(this.state.isSelected === 3){
-                                        this.setState({isSelected:-1})
-                                    }else{
-                                        this.setState({isSelected:3})
-                                    }
-                                }}
-                            />
-                        </View>
                     </View>
                     <View style={{ flexDirection: 'row', backgroundColor: '#fff', height: 100, width: modelWidth, justifyContent: 'center', alignItems: 'center', }}>
                         <TextInput style={{
