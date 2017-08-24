@@ -21,6 +21,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.shengyibao.update.UpdateManagerPackage;
 import com.tencent.bugly.Bugly;
 
 import org.json.JSONException;
@@ -53,7 +54,8 @@ public class MainApplication extends Application implements ReactApplication {
             new RCTGMBluetoothPackage(),
             new FastImageViewPackage(),
             new RNDeviceInfo(),
-            new RCTCameraPackage()
+            new RCTCameraPackage(),
+              new UpdateManagerPackage()
       );
     }
   };

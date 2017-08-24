@@ -13,15 +13,16 @@ import {
   TouchableOpacity,
   View,
   Platform,
-  InteractionManager
+  InteractionManager,
+  ReactNative
 } from 'react-native';
 
 import NavigationUtil from '../../utils/NavigationUtil';
-
-
 import ListItemSetting from '../../components/ListItemSetting';
 import HomeBar from '../../components/HomeBar'
 import { Iconfont, LoginInfo, FetchManger } from 'react-native-go';
+//ReactNative.NativeModules.ContactsWrapper
+
 
 var WINDOW_WIDTH = Dimensions.get('window').width;
 
@@ -127,7 +128,7 @@ class SettingPage extends React.Component {
   }
 
   onUpdateAction() {
-
+    ReactNative.NativeModules.UpdateManager.check();
   }
 
 
