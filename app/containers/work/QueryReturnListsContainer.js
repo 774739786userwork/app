@@ -1,9 +1,13 @@
 import React from 'react';
-
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import {
+  View,
+  Text,
+} from 'react-native';
 import { Iconfont } from 'react-native-go';
-import * as actions from '../../actions/Actions';
+
+import ScrollableTabView, {
+  DefaultTabBar
+} from 'react-native-scrollable-tab-view';
 
 import QueryReturnListsPage from '../../pages/work/QueryReturnListsPage';
 
@@ -14,23 +18,22 @@ class QueryReturnListsContainer extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     title: '退货单查询',
   });
+
   render() {
-    return <QueryReturnListsPage {...this.props} />;
+    return (<View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
+      <ScrollableTabView
+        renderTabBar={() => (
+          <DefaultTabBar tabStyle={{ paddingBottom: 0 }} textStyle={{ fontSize: 16 }} style={{ height: 40 }} />
+        )}
+        tabBarBackgroundColor="#fcfcfc"
+        tabBarUnderlineStyle={{ backgroundColor: '#3e9ce9', height: 2 }}
+        tabBarActiveTextColor="#3e9ce9"
+        tabBarInactiveTextColor="#aaaaaa"
+      >
+        <QueryReturnListsPage key={'0'} tabLabel={'退货管理'} {...this.props} />
+        <QueryReturnListsPage key={'1'} tabLabel={'退空桶管理'} {...this.props} />
+      </ScrollableTabView>
+    </View>);
   }
 }
-
-const mapStateToProps = (state) => {
-  const { queryReturnLists } = state;
-  return {
-    queryReturnLists
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  const action = bindActionCreators(actions, dispatch);
-  return {
-    action
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(QueryReturnListsContainer);
+export default QueryReturnListsContainer;

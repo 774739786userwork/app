@@ -51,13 +51,8 @@ class LoginPage extends React.Component {
             let data = login.data;
             LoginInfo.setUserInfo(data);
             InteractionManager.runAfterInteractions(() => {
-<<<<<<< HEAD
                 NavigationUtil.reset(this.props.navigation, 'Home');
             //    NavigationUtil.reset(this.props.navigation, 'Analysis');
-=======
-               NavigationUtil.reset(this.props.navigation, 'Home');
-                // NavigationUtil.reset(this.props.navigation, 'Analysis');
->>>>>>> 3e36f6a4a4b1f16daf76adf27ddbacbb0580ee29
             });
         }
     }
