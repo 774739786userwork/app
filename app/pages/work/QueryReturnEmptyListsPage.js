@@ -19,7 +19,7 @@ var dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 
 /**
  * 退货单查询
  */
-class QueryReturnListsPage extends React.Component {
+class QueryReturnEmptyListsPage extends React.Component {
     constructor(props) {
         super(props);
         this._selectByDate = this._selectByDate.bind(this);
@@ -47,17 +47,17 @@ class QueryReturnListsPage extends React.Component {
     queryReturnLists(startDate, endDate, page = 1) {
         const token = LoginInfo.getUserInfo().token;
         const userId = LoginInfo.getUserInfo().user_id;
-        let returnType = '0';
+        let returnType = '1';
         let reqParams = { token, userId, returnType };
         reqParams.page = page;
         reqParams.rows = 10;
         let loadMore = page > 1
-        if (loadMore){
-            this.setState({loadMore:true});
-        }else{
-            this.setState({loading:true});
+        if (loadMore) {
+            this.setState({ loadMore: true });
+        } else {
+            this.setState({ loading: true });
         }
-        
+
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('mobileServiceManager/returnmanage/queryListInfoReturnLists.page', reqParams).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
@@ -74,7 +74,7 @@ class QueryReturnListsPage extends React.Component {
                         }
 
                     } else {
-                        this.setState({smallChangeTotalSum,returnTotalSum, listData: returnList ? returnList : [], loading: false });
+                        this.setState({ smallChangeTotalSum, returnTotalSum, listData: returnList ? returnList : [], loading: false });
                     }
                 } else {
                     if (loadMore) {
@@ -117,7 +117,7 @@ class QueryReturnListsPage extends React.Component {
     }
     _rowOnPress(rowData) {
         const { navigate } = this.props.navigation;
-        rowData.returnType = '0';
+        rowData.returnType = '1';
         navigate('QueryReturnDetail', rowData);
     }
     _renderItem = (item, index) => {
@@ -148,9 +148,9 @@ class QueryReturnListsPage extends React.Component {
                     </View>
                     {
                         item.goodsList.map((goodsItem) => (
-                            <View style={{ height: 30, paddingLeft: 12,paddingRight: 12, flexDirection: 'row', alignItems: 'center' }}>
-                                <Text style={{flex: 1,textAlign: 'left', color: '#999' }}>{goodsItem.name + ': '}</Text>
-                                <Text style={{flex: 1,textAlign: 'left',color: '#999' }}>{goodsItem.quantity + goodsItem.unit}</Text>
+                            <View style={{ height: 30, paddingLeft: 12, paddingRight: 12, flexDirection: 'row', alignItems: 'center' }}>
+                                <Text style={{ flex: 1, textAlign: 'left', color: '#999' }}>{goodsItem.name + ': '}</Text>
+                                <Text style={{ flex: 1, textAlign: 'left', color: '#999' }}>{goodsItem.quantity + goodsItem.unit}</Text>
                             </View>))
                     }
                     <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
@@ -226,11 +226,11 @@ class QueryReturnListsPage extends React.Component {
                         </Text>
                     </View>
                     <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
-                        <View style={{flex:1,flexDirection: 'row',}}>
+                        <View style={{ flex: 1, flexDirection: 'row', }}>
                             <Text style={{ color: '#999' }}>{'退货总计：'}</Text>
                             <Text style={{ color: '#f80000' }}>{`${this.state.returnTotalSum}`}</Text>
-                            </View>
-                        <View style={{flex:1,flexDirection: 'row',}}>
+                        </View>
+                        <View style={{ flex: 1, flexDirection: 'row', }}>
                             <Text style={{ color: '#999' }}>{'抹零总计：'}</Text>
                             <Text style={{ color: '#f80000' }}>{`${this.state.smallChangeTotalSum}`}</Text>
                         </View>
@@ -249,4 +249,4 @@ class QueryReturnListsPage extends React.Component {
     }
 }
 
-export default QueryReturnListsPage;
+export default QueryReturnEmptyListsPage;

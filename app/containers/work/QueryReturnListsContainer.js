@@ -10,7 +10,7 @@ import ScrollableTabView, {
 } from 'react-native-scrollable-tab-view';
 
 import QueryReturnListsPage from '../../pages/work/QueryReturnListsPage';
-
+import QueryReturnEmptyListsPage from '../../pages/work/QueryReturnEmptyListsPage'
 /**
  * 退货单列表查询
  */
@@ -30,8 +30,8 @@ class QueryReturnListsContainer extends React.Component {
         tabBarActiveTextColor="#3e9ce9"
         tabBarInactiveTextColor="#aaaaaa"
       >
-        <QueryReturnListsPage key={'0'} tabLabel={'退货管理'} {...this.props} />
-        <QueryReturnListsPage key={'1'} tabLabel={'退空桶管理'} {...this.props} />
+        <QueryReturnListsPage key={'0'} item={'0'} tabLabel={'退货管理'} {...this.props} />
+        <QueryReturnEmptyListsPage key={'1'} item={'0'} tabLabel={'退空桶管理'} {...this.props} />
       </ScrollableTabView>
     </View>);
   }

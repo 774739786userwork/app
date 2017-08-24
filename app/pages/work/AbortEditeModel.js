@@ -11,6 +11,7 @@ import {
     Modal,
     TouchableHighlight
 } from 'react-native';
+import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 
 import { Iconfont, Toast } from 'react-native-go';
 const WINDOW_WIDTH = Dimensions.get('window').width;
