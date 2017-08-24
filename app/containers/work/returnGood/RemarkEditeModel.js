@@ -37,9 +37,19 @@ export default class RemarkEditeModel extends React.Component {
 
 
     onConfirmPress() {
-        let content = this.content;
+        let radio_props = [
+            { label: '报错货品', value: 0 },
+            { label: '增加货品', value: 1 },
+            { label: '录错单据', value: 2 },
+            { label: '减少货品', value: 3 }
+        ];
 
-        this.props.onConfirmPress && this.props.onConfirmPress(this.content)
+        let content = this.content;
+        let selectContext =  "";
+        if(this.state.isSelected != -1){
+            selectContext = radio_props[this.state.isSelected].label+",";
+        }
+        this.props.onConfirmPress && this.props.onConfirmPress(selectContext+this.content)
         this.setState({ modalVisible: false });
     }
     onCancelPress() {
