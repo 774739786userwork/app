@@ -14,7 +14,7 @@ import {
   View,
   Platform,
   InteractionManager,
-  ReactNative
+  NativeModules
 } from 'react-native';
 
 import NavigationUtil from '../../utils/NavigationUtil';
@@ -128,7 +128,7 @@ class SettingPage extends React.Component {
   }
 
   onUpdateAction() {
-    ReactNative.NativeModules.UpdateManager.check();
+    NativeModules.UpdateManager.check();
   }
 
 
