@@ -133,18 +133,18 @@ class CustDetailContainer extends Component {
                             <ImageView style={{ width: 90, height: 90, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={{ uri: item.image }} />
                         </View>
                         <View style={{ flex: 1 }}>
-                            <View style={{ height: 34, paddingLeft: 10, marginBottom: 4, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
+                            <View style={{ height: 34, paddingLeft: 10, marginBottom: 4, marginTop: 5, flexDirection: 'row', alignItems: 'center' }}>
                                 <Text style={{ color: '#333', fontSize: 16 }}>{item.customerName}</Text>
                             </View>
-                            <View style={{ paddingLeft: 10, marginBottom: 4, flexDirection: 'row', alignItems: 'center' }}>
+                            <View style={{ paddingLeft: 10, marginBottom: 2, flexDirection: 'row', alignItems: 'center' }}>
                                 <Text style={{ color: '#666', width: 40 }}>{'编码'}</Text>
                                 <Text style={{ color: '#666' }}>{`${item.customerCode ? item.customerCode : ''}`}</Text>
                             </View>
-                            <View style={{ paddingLeft: 10, marginBottom: 4, flexDirection: 'row', alignItems: 'center' }}>
+                            <View style={{ paddingLeft: 10, marginBottom: 2, flexDirection: 'row', alignItems: 'center' }}>
                                 <Text style={{ color: '#666', width: 40 }}>{'分类'}</Text>
                                 <Text style={{ color: '#666' }}>{`${item.remain_count ? item.remain_count : ''}`}</Text>
                             </View>
-                            <View style={{ paddingLeft: 10, marginBottom: 4, flexDirection: 'row', alignItems: 'center' }}>
+                            <View style={{ paddingLeft: 10, marginBottom: 2, flexDirection: 'row', alignItems: 'center' }}>
                                 <Text style={{ color: '#666', width: 40 }}>{'区域'}</Text>
                                 <Text style={{ color: '#666' }}>{`${item.regionalName ? item.regionalName : ''}`}</Text>
                             </View>

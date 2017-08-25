@@ -51,6 +51,8 @@ class QueryReturnListsPage extends React.Component {
         let reqParams = { token, userId, returnType };
         reqParams.page = page;
         reqParams.rows = 10;
+        reqParams.beginDate = startDate;
+        reqParams.endDate = endDate;
         let loadMore = page > 1
         if (loadMore){
             this.setState({loadMore:true});
@@ -63,8 +65,8 @@ class QueryReturnListsPage extends React.Component {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
                     let returnList = data.returnList;
-                    let smallChangeTotalSum = data.smallChangeTotalSum;
-                    let returnTotalSum = data.returnTotalSum;
+                    let smallChangeTotalSum = data.smallChangeTotalSum ? data.smallChangeTotalSum :0;
+                    let returnTotalSum = data.returnTotalSum ? data.returnTotalSum :0;
                     if (loadMore) {
                         if (data) {
                             let list = this.state.listData.concat(returnList);
@@ -167,11 +169,11 @@ class QueryReturnListsPage extends React.Component {
                         <Text style={{ color: '#f80000' }}>{'退款原因：'}</Text>
                         <Text style={{ color: '#f80000' }}>{item.returnReason}</Text>
                     </View>
-
                     <View style={{ height: StyleSheet.hairlineWidth, marginTop: 12, flex: 1, backgroundColor: '#c4c4c4' }} />
                 </View>
             </TouchableHighlight>);
     }
+
     //加载更多
     onEndReached() {
         const { startDate, endDate, listData } = this.state;
