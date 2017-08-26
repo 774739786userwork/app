@@ -125,7 +125,7 @@ class GetCarstockProductListPage extends React.Component {
         navigation.dispatch(navigationAction)
     }
     _onSurePrintPress() {
-        let params = { CH: true }
+        let params = { XH: true }
         let goods_list = [];
         this.state.data.map((item) => {
             if (item.disburden_quantity && item.disburden_quantity > 0) {

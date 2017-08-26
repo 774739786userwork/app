@@ -300,7 +300,7 @@ export default class BleManagerPage extends React.Component {
         } else if (params.CH) {
             this.printCHBody(params) //车存货打印
         } else if (params.YH){
-            this.printYHBody(params)                        //车余货打印
+            this.printYHBody(params)  //车余货打印
         }else if (params.XH) {
             this.printXHBody(params) //卸货打印
         } else if (params.CXXH) {
