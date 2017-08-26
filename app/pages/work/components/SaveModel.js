@@ -10,8 +10,11 @@ import {
     TouchableOpacity,
     InteractionManager,
     Modal,
-    TouchableHighlight
+    TouchableHighlight,
+    Platform
 } from 'react-native';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
+
 import { Iconfont } from 'react-native-go';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
@@ -69,6 +72,10 @@ export default class SaveModel extends React.Component {
                         </TouchableOpacity>
                     </View>
                 </View>
+                {
+                    Platform.OS === 'ios' ?
+                        <KeyboardSpacer /> : null
+                }
             </View>
         </Modal>)
     }

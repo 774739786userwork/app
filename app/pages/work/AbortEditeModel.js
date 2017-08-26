@@ -9,10 +9,11 @@ import {
     TouchableOpacity,
     InteractionManager,
     Modal,
-    TouchableHighlight
+    TouchableHighlight,
+    Platform
 } from 'react-native';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
-
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { Iconfont, Toast } from 'react-native-go';
 const WINDOW_WIDTH = Dimensions.get('window').width;
 let radio_props = [
@@ -186,6 +187,10 @@ export default class AbortEditeModel extends React.Component {
                         </TouchableOpacity>
                     </View>
                 </View>
+                {
+                        Platform.OS === 'ios' ?
+                            <KeyboardSpacer /> : null
+                }
             </View>
         </Modal>)
     }

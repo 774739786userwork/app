@@ -10,8 +10,11 @@ import {
     TouchableOpacity,
     InteractionManager,
     Modal,
-    TouchableHighlight
+    TouchableHighlight,
+    Platform
 } from 'react-native';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
+
 import * as NumberUtils from '../../utils/NumberUtils'
 import { Iconfont, Toast } from 'react-native-go';
 const WINDOW_WIDTH = Dimensions.get('window').width;
@@ -254,6 +257,10 @@ export default class AddDeliveryEditeModel extends React.Component {
                         </TouchableOpacity>
                     </View>
                 </View>
+                {
+                    Platform.OS === 'ios' ?
+                        <KeyboardSpacer /> : null
+                }
             </View>
         </Modal>)
     }

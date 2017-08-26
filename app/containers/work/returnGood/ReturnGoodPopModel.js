@@ -10,8 +10,10 @@ import {
     TouchableOpacity,
     InteractionManager,
     Modal,
-    TouchableHighlight
+    TouchableHighlight,
+    Platform
 } from 'react-native';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 import * as NumberUtils from '../../../utils/NumberUtils';
 import LoadingListView from '../../../components/LoadingListView'
@@ -144,6 +146,10 @@ export default class ReturnGoodPopModel extends React.Component {
                         </TouchableHighlight>
                     </View>
                 </View>
+                {
+                    Platform.OS === 'ios' ?
+                        <KeyboardSpacer /> : null
+                }
             </View>
         </Modal>)
     }
