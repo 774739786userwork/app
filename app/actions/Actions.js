@@ -295,13 +295,17 @@ export function selectCar(loadingdate,car_number) {
  * @param {*产品ID} id 
  * @param {*卸货数量} count 
  */
-export function selectName() {
+export function selectName(employee_name) {
     const token = LoginInfo.getUserInfo().token;
     const organization_id = LoginInfo.getUserInfo().organization_id;
+    let param = { token, organization_id };
+    if(employee_name){
+        param.employee_name = employee_name
+    }
     return {
         type: types.SelectNameing_ACTION,
         api: types.SelectName_API,
-        param: { token, organization_id }
+        param: param
     };
 
 }

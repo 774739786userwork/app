@@ -157,6 +157,7 @@ class GetCarSurplusGoodsListPage extends React.Component {
                 this.setState({ showSpinner: false })
             } else {
                 Toast.show(responseData.msg)
+                this.setState({ showSpinner: false })
             }
         }).catch((error) => {
             console.log(error)
