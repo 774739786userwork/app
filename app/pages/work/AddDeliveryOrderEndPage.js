@@ -11,6 +11,7 @@ import {
     TouchableOpacity,
     InteractionManager,
     FlatList,
+    Platform,
     Alert
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'

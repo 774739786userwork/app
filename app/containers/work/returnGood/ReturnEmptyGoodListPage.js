@@ -13,7 +13,8 @@ import {
     FlatList,
     Alert,
     ScrollView,
-    ActivityIndicator
+    ActivityIndicator,
+    Platform
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
 import { Iconfont, LoadingView, Toast, LoginInfo, FetchManger } from 'react-native-go';
