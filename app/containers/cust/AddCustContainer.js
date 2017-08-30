@@ -52,6 +52,7 @@ class AddCustContainer extends React.Component {
         super(props)
         this.pickerImage = this.pickerImage.bind(this);
         this.headerRightPress = this.headerRightPress.bind(this)
+        this.uploadImage = this.uploadImage.bind(this)
         this.state = {
             imgs: [],
             regional: undefined,
@@ -122,6 +123,7 @@ class AddCustContainer extends React.Component {
     }
 
     headerRightPress() {
+        
         const token = LoginInfo.getUserInfo().token;
         const user_id = LoginInfo.getUserInfo().user_id;
         const organization_id = LoginInfo.getUserInfo().organization_id;
@@ -196,17 +198,55 @@ class AddCustContainer extends React.Component {
 
         this.setState({ showSpinner: true })
         FetchManger.postUri('/mobileServiceManager/customers/toAddCustomers.page', saveParams).then((responseData) => {
-            this.setState({ showSpinner: false })
+            
             if (responseData.status === '0' || responseData.status === 0) {
-                Toast.show('保存成功')
-                navigation.goBack();
+                //Toast.show('保存成功')
+                //navigation.goBack();
+                this.uploadImage()
+                
             } else {
+                this.setState({ showSpinner: false })
                 Toast.show(responseData.msg)
             }
         }).catch((error) => {
             this.setState({ showSpinner: false })
             Toast.show('保存失败')
         })
+    }
+    uploadImage() {
+        const { navigation } = this.props;
+        const { imgs } = this.state;
+        let formData = new FormData();
+        const token = LoginInfo.getUserInfo().token;
+        const user_id = LoginInfo.getUserInfo().user_id;
+        const organization_id = LoginInfo.getUserInfo().organization_id;
+        formData.append("customer_id", "1");
+        formData.append("token", token);
+        for (var i = 0; i < imgs.length; i++) {
+            let file = { uri: imgs[i].url, type: 'multipart/form-data', name: imgs[i].fileName };
+            formData.append("files", file);
+        }
+        this.setState({ showSpinner: true })
+        fetch(global.baseUrl+'mobileServiceManager/customers/uploadImage.page?token='+token, {
+            method: 'POST',
+            headers: {'Content-Type': 'multipart/form-data'},
+            body: formData,
+        }).then((response) => response.json())
+            .then((responseData) => {
+                console.log('图片：：：：：：' + JSON.stringify(formData));
+                console.log('======' + JSON.stringify(responseData));
+                if (responseData.status === "0" || responseData.status === 0) {
+                    this.setState({ showSpinner: false })
+                    Toast.show(responseData.msg)
+                    navigation.goBack();
+                } else {
+                    this.setState({ showSpinner: false })
+                    Toast.show(responseData.msg)
+                }
+            }).catch((error) => {
+                this.setState({ showSpinner: false })
+                console.error('error', error)
+            });
     }
     pickerImage() {
         var options = {
@@ -239,7 +279,7 @@ class AddCustContainer extends React.Component {
                 console.log('User tapped custom button: ', response.customButton);
             }
             else {
-                let source = { url: response.uri };
+                let source = { url: response.uri,fileName:response.fileName };
                 let imgs = this.state.imgs;
                 if (imgs.length < 3) {
                     imgs.push(source);
@@ -517,7 +557,7 @@ class AddCustContainer extends React.Component {
                 </ScrollView>
                 {
                     Platform.OS === 'ios' ?
-                    <KeyboardSpacer /> : null
+                        <KeyboardSpacer /> : null
                 }
                 <SelectEARModel modalVisible={this.state.regionalShow} onCancelPress={() => {
                     this.setState({
@@ -590,3 +630,4 @@ class AddCustContainer extends React.Component {
 }
 
 export default AddCustContainer;
+
