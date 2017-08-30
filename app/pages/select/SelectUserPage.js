@@ -15,6 +15,7 @@ import {
 import { Iconfont, LoadingView } from 'react-native-go';
 import LoadingListView from '../../components/LoadingListView'
 import IndexSectionList from './IndexSectionList'
+import SearchBar from '../../components/SearchBar';
 
 const ITEM_HEIGHT = 50; //item的高度
 const HEADER_HEIGHT = 24;  //分组头部的高度
@@ -26,7 +27,12 @@ class SelectUserPage extends React.Component {
         this._renderItem = this._renderItem.bind(this);
         this._onItemPress = this._onItemPress.bind(this);
         this._onSectionselect = this._onSectionselect.bind(this);
+        this.onSearchAction = this.onSearchAction.bind(this);
         this.sectionList = []
+
+        this.state = {
+            defaultValue: ''
+        }
     }
     componentDidMount() {
         const { action } = this.props;
@@ -53,6 +59,13 @@ class SelectUserPage extends React.Component {
                 this.sectionList.push(section);
             }
         }
+    }
+
+    onSearchAction(txt) {
+        const { action } = this.props;
+        InteractionManager.runAfterInteractions(() => {
+            action.selectName(txt);
+        });
     }
 
     _onItemPress(item) {
@@ -113,6 +126,23 @@ class SelectUserPage extends React.Component {
         const { selectName } = this.props;
         return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
+                <SearchBar
+                    defaultValue={this.state.defaultValue}
+                    onSearchChange={(text) => {
+                        this.setState({ defaultValue: '' })
+                        this.onSearchAction(text);
+                    }}
+                    height={30}
+                    onFocus={() => console.log('On Focus')}
+                    onClose={() => {
+                        this.onSearchAction();
+                    }}
+                    placeholder={'请输入名字查询'}
+                    autoCorrect={false}
+                    padding={8}
+                    returnKeyType={'search'}
+                />
+                <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#d9d9d9' }} />
                 <View style={{ flex: 1 }}>
                     {
                         selectName.loading ?
