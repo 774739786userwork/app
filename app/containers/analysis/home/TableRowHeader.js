@@ -12,14 +12,11 @@ class TableRowHeader extends React.Component {
     let tColor = this.props.tColor;
     let t0 = this.props.t0;
     let t1 = this.props.t1;
-    let t2 = this.props.t2;
     return <View>
       <View style={{ flexDirection: 'row', backgroundColor: bg }}>
-        <Text style={{ padding: 10, flex: 1, color: tColor }}>{t0}</Text>
+        <Text style={{ padding: 5, flex: 1, color: tColor }}>{t0}</Text>
         <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-        <Text style={{ padding: 10, flex: 1, color: tColor }}>{t1}</Text>
-        <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-        <Text style={{ padding: 10, flex: 1, color: tColor }}>{t2}</Text>
+        <Text style={{ padding: 5, flex: 1, color: tColor}}>{t1}</Text>
       </View>
       <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
     </View>
