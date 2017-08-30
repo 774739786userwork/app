@@ -215,11 +215,10 @@ export default class S_MonthPage extends React.Component {
                     padding: 12
                   }} >
                     <Text style={{ color: '#333', flex: 1 }}>{item.orgName}</Text>
-
                     <Text style={{ color: '#666' }}>{'总销售额'}</Text>
                     <Text style={{ marginLeft: 4, width: 68, color: '#17c6c1' }}>{`${item.factoryTotalSum}万`}</Text>
                     <Text style={{ color: '#666' }}>{'未收'}</Text>
-                    <Text style={{ marginLeft: 4, width: 50, color: '#f80000' }}>{`${item.factoryUnReceiveSum}万`}</Text>
+                    <Text style={{ marginLeft: 4, width: 68, color: '#f80000' }}>{`${item.factoryUnReceiveSum}万`}</Text>
                   </View>
                   <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#dedede' }}></View>
                 </View>)

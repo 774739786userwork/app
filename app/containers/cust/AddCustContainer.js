@@ -113,6 +113,8 @@ class AddCustContainer extends React.Component {
         //开启定位监听
         EleRNLocation.addEventListener((_coords) => {
             this.coords = _coords;
+
+            console.log('定位中：：：' + this.coords.longitude+"------------->"+this.coords.latitude);
         });
     }
 
@@ -198,11 +200,8 @@ class AddCustContainer extends React.Component {
 
         this.setState({ showSpinner: true })
         FetchManger.postUri('/mobileServiceManager/customers/toAddCustomers.page', saveParams).then((responseData) => {
-            
             if (responseData.status === '0' || responseData.status === 0) {
-                //Toast.show('保存成功')
-                //navigation.goBack();
-                let customer_id = "1"
+                let customer_id = responseData.customer_id;
                 this.uploadImage(customer_id)
                 
             } else {
@@ -219,10 +218,7 @@ class AddCustContainer extends React.Component {
         const { imgs } = this.state;
         let formData = new FormData();
         const token = LoginInfo.getUserInfo().token;
-        const user_id = LoginInfo.getUserInfo().user_id;
-        const organization_id = LoginInfo.getUserInfo().organization_id;
         formData.append("customer_id",customer_id);
-        formData.append("token", token);
         for (var i = 0; i < imgs.length; i++) {
             let file = { uri: imgs[i].url, type: 'multipart/form-data', name: imgs[i].fileName };
             formData.append("files", file);
@@ -234,8 +230,6 @@ class AddCustContainer extends React.Component {
             body: formData,
         }).then((response) => response.json())
             .then((responseData) => {
-                console.log('图片：：：：：：' + JSON.stringify(formData));
-                console.log('======' + JSON.stringify(responseData));
                 if (responseData.status === "0" || responseData.status === 0) {
                     this.setState({ showSpinner: false })
                     Toast.show(responseData.msg)
