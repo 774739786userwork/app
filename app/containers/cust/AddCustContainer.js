@@ -202,7 +202,8 @@ class AddCustContainer extends React.Component {
             if (responseData.status === '0' || responseData.status === 0) {
                 //Toast.show('保存成功')
                 //navigation.goBack();
-                this.uploadImage()
+                let customer_id = "1"
+                this.uploadImage(customer_id)
                 
             } else {
                 this.setState({ showSpinner: false })
@@ -213,14 +214,14 @@ class AddCustContainer extends React.Component {
             Toast.show('保存失败')
         })
     }
-    uploadImage() {
+    uploadImage(customer_id) {
         const { navigation } = this.props;
         const { imgs } = this.state;
         let formData = new FormData();
         const token = LoginInfo.getUserInfo().token;
         const user_id = LoginInfo.getUserInfo().user_id;
         const organization_id = LoginInfo.getUserInfo().organization_id;
-        formData.append("customer_id", "1");
+        formData.append("customer_id",customer_id);
         formData.append("token", token);
         for (var i = 0; i < imgs.length; i++) {
             let file = { uri: imgs[i].url, type: 'multipart/form-data', name: imgs[i].fileName };
