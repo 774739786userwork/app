@@ -35,7 +35,6 @@ class LoginPage extends React.Component {
         this.onForgetPwd = this.onForgetPwd.bind(this);
         this.onIpSetting = this.onIpSetting.bind(this);
     }
-    //NavigationUtil.reset(this.props.navigation, 'Home');
     componentWillReceiveProps(nextProps) {
         const { login } = nextProps;
         if (1 === login.code || '1' === login.code) {

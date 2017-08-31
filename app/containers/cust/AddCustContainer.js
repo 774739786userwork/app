@@ -114,7 +114,6 @@ class AddCustContainer extends React.Component {
         EleRNLocation.addEventListener((_coords) => {
             this.coords = _coords;
 
-            console.log('定位中：：：' + this.coords.longitude+"------------->"+this.coords.latitude);
         });
     }
 
@@ -230,6 +229,7 @@ class AddCustContainer extends React.Component {
             body: formData,
         }).then((response) => response.json())
             .then((responseData) => {
+
                 if (responseData.status === "0" || responseData.status === 0) {
                     this.setState({ showSpinner: false })
                     Toast.show(responseData.msg)

@@ -61,6 +61,7 @@ import CustContainer from './CustContainer';
 import AddCustContainer from './cust/AddCustContainer'
 import DeliveryCustomersContainer from './cust/DeliveryCustomersContainer'
 import CustDetailContainer from './cust/CustDetailContainer'
+import CustContactContainer from './cust/CustContactContainer'
 //设置
 import SettingContainer from './SettingContainer';
 //登录
@@ -246,6 +247,10 @@ const App = StackNavigator(
     },
     CustDetail: {
       screen: CustDetailContainer
+    },
+
+    CustContact:{
+      screen: CustContactContainer
     },
     AddBalanceAccouts: {
       screen: AddBalanceAccoutsContainer

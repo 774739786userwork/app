@@ -22,7 +22,7 @@ const HomeItem = [//DeliveryCustomers
   //{ name: '客户关系', type: '', classType: null, icon: 'e6b7', iconColor: '#8855fa', iconSize: 24 },
   { name: '我的客户', type: 'DeliveryCustomers', classType: null, icon: 'e6be', iconColor: '#fc2e9d', iconSize: 24 },
   { name: '新增客户', type: 'AddCust', classType: null, icon: 'e6b8', iconColor: '#18c5c1', iconSize: 24 },
- // { name: '客户联系人', type: '', classType: null, icon: 'e70e', iconColor: '#f8ae0f', iconSize: 24 },
+ { name: '客户联系人', type: 'CustContact', classType: null, icon: 'e70e', iconColor: '#f8ae0f', iconSize: 24 },
  // { name: '客户进货记录', type: '', classType: null, icon: 'e6a9', iconColor: '#3abaf9', iconSize: 24 },
 ];
 

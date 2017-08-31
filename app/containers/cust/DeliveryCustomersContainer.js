@@ -131,6 +131,10 @@ class DeliveryCustomersContainer extends React.Component {
     _renderItem = ({ item, index }) => {
 
         let { contact_name, mobile1 } = item.contacts[0] ? item.contacts[0] : {};
+        let img = "";
+        if(item.images && item.images.length > 0){
+            img = item.images[0].imgUrl;
+        }
         return (
             <TouchableHighlight
                 onPress={this._onlistItemPress.bind(this, item)}
@@ -139,7 +143,7 @@ class DeliveryCustomersContainer extends React.Component {
                 <View style={{ backgroundColor: '#fff' }} >
                     <View style={{ flexDirection: 'row', paddingLeft: 8, }}>
                         <View style={{ alignItems: 'center', justifyContent: 'center', height: 100 }}>
-                            <ImageView style={{ width: 80, height: 80, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={{ uri: item.image }} />
+                            <ImageView style={{ width: 80, height: 80, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={{ uri: img }} />
                         </View>
                         <View style={{ flex: 1 }}>
                             <View style={{ height: 32, paddingLeft: 8, marginTop: 4, flexDirection: 'row', alignItems: 'center' }}>
