@@ -127,15 +127,16 @@ class CustDetailContainer extends Component {
         }
 
         let img = "";
-        if(item.imgList && item.imgList.length > 0){
-            img = item.imgList[0].imgUrl;
+        if(item.images && item.images.length > 0){
+            img = item.images[0].img_url;
         }
+        console.log("=========>"+img)
         return (
             <View style={{ flex: 1, }}>
                 <View style={{ backgroundColor: '#fff' }} >
                     <View style={{ flexDirection: 'row', paddingLeft: 12, }}>
                         <View style={{ alignItems: 'center', justifyContent: 'center', height: 110 }}>
-                            <ImageView style={{ width: 90, height: 90, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={{ uri: img }} />
+                            <ImageView style={{ width: 80, height: 80, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={{ uri: img }} />
                         </View>
                         <View style={{ flex: 1 }}>
                             <View style={{ height: 34, paddingLeft: 10, marginBottom: 4, marginTop: 5, flexDirection: 'row', alignItems: 'center' }}>

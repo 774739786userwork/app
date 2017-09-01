@@ -133,7 +133,7 @@ class DeliveryCustomersContainer extends React.Component {
         let { contact_name, mobile1 } = item.contacts[0] ? item.contacts[0] : {};
         let img = "";
         if(item.images && item.images.length > 0){
-            img = item.images[0].imgUrl;
+            img = item.images[0].img_url;
         }
         return (
             <TouchableHighlight
