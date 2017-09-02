@@ -136,7 +136,6 @@ class DeliveryOrderDetailPage extends React.Component {
         saveParams.value_date = content
         saveParams.token = token
         FetchManger.postUri('/mobileServiceManager/deliveryNotes/toAbortInfo.page', saveParams).then((responseData) => {
-            this.setState({ showSpinner: false })
             if (responseData.status === '0' || responseData.status === 0) {
                 const navigationAction = NavigationActions.reset({
                     index: 0,
@@ -146,8 +145,10 @@ class DeliveryOrderDetailPage extends React.Component {
                 })
                 navigation.dispatch(navigationAction)
                 Toast.show('作废成功')
+                this.setState({ showSpinner: false })
             } else {
                 Toast.show(responseData.msg)
+                this.setState({ showSpinner: false })
             }
         }).catch((error) => {
             console.log(error)
