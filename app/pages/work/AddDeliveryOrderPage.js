@@ -248,8 +248,8 @@ class AddDeliveryOrderPage extends React.Component {
     renderHeader() {
         return <View>
             <TouchableOpacity onPress={this.selectCarAction}>
-                <View style={{ backgroundColor: '#fff', flexDirection: 'row', paddingLeft: 10, paddingRight: 12, height: 50, justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ color: '#333', fontSize: 18 }}>{'车牌号'}</Text>
+                <View style={{ backgroundColor: '#fff', flexDirection: 'row', paddingLeft: 10, paddingRight: 12, height: 40, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={{ color: '#333', fontSize: 16 }}>{'车牌号'}</Text>
                     <View style={{ flex: 1 }} />
                     <Text style={{ color: '#999', fontSize: 14 }}>{this.state.selectCar.platenumber ? this.state.selectCar.platenumber : '暂无车辆'}</Text>
                     <View>
@@ -262,8 +262,8 @@ class AddDeliveryOrderPage extends React.Component {
                 </View>
             </TouchableOpacity>
             <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#e6e6e6' }} />
-            <View style={{ backgroundColor: '#fff', flexDirection: 'row', paddingLeft: 10, paddingRight: 12, height: 50, justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ color: '#333', fontSize: 18 }}>{'提货日期'}</Text>
+            <View style={{ backgroundColor: '#fff', flexDirection: 'row', paddingLeft: 10, paddingRight: 12, height: 40, justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ color: '#333', fontSize: 16 }}>{'提货日期'}</Text>
                 <View style={{ flex: 1 }} />
                 <DatePicker
                     style={{ width: 100, }}
@@ -290,6 +290,19 @@ class AddDeliveryOrderPage extends React.Component {
                 </View>
             </View>
             <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#e6e6e6' }} />
+            <View style={{ backgroundColor: '#fff', flexDirection: 'row', paddingLeft: 10, paddingRight: 12, height: 40, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={{ color: '#333', fontSize: 16 }}>{'搬运工'}</Text>
+                    <View style={{ flex: 1 }} />
+                    <Text style={{ color: '#999', fontSize: 14 }}>{'刘亚飞'}</Text>
+                    <View>
+                        <Iconfont
+                            icon={'e66e'} // 图标
+                            iconColor={'#999'}
+                            iconSize={22}
+                        />
+                    </View>
+             </View>
+             <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#e6e6e6' }} />
         </View>
     }
     render() {
