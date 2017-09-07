@@ -74,7 +74,7 @@ class AddDeliveryOrderEndPage extends React.Component {
         this.small_change_sum = NumberUtils.fc(this.small_change_sum)
 
         //实收金额
-        this.paid_total_sum = NumberUtils.FloatSub(this.total_sum,this.small_change_sum)
+        this.paid_total_sum = NumberUtils.FloatSub(this.total_sum, this.small_change_sum)
         this.paid_total_sum = NumberUtils.fc(this.paid_total_sum)
         this.state = {
             chooseList: params.chooseList,
@@ -106,8 +106,8 @@ class AddDeliveryOrderEndPage extends React.Component {
         this.setState({ modalVisible: false, remark: content });
     }
 
-    sureBtnClick(){
-        
+    sureBtnClick() {
+
     }
 
     dosubmitAction() {
@@ -143,9 +143,9 @@ class AddDeliveryOrderEndPage extends React.Component {
         saveParams.ladingbill_id = params.ladingbill_id
         saveParams.ladingbill_serialnumber = params.ladingbill_serialnumber
         saveParams.downEmployeeIds = params.downEmployeeIds;
-        if(!params.purchaseSerialnumber){
+        if (!params.purchaseSerialnumber) {
             saveParams.purchaseSerialnumber = ''
-        }else{
+        } else {
             saveParams.purchaseSerialnumber = params.purchaseSerialnumber
         }
         saveParams.salesman_id = params.salesman_id
@@ -156,7 +156,7 @@ class AddDeliveryOrderEndPage extends React.Component {
         saveParams.small_change_sum = this.state.isOpenChange ? this.small_change_sum : 0;
         //优惠金额
         saveParams.discount_sum = NumberUtils.fc(this.state.discount_sum)
-        let unpaid_sum = NumberUtils.FloatSub(NumberUtils.FloatSub(saveParams.total_sum,saveParams.discount_sum),NumberUtils.FloatAdd(saveParams.paid_total_sum,(this.state.isOpenChange ? this.small_change_sum : 0)))
+        let unpaid_sum = NumberUtils.FloatSub(NumberUtils.FloatSub(saveParams.total_sum, saveParams.discount_sum), NumberUtils.FloatAdd(saveParams.paid_total_sum, (this.state.isOpenChange ? this.small_change_sum : 0)))
         saveParams.unpaid_sum = Math.abs(NumberUtils.fc(unpaid_sum))
         //铺货总额
         saveParams.distribution_sum = this.distribution_sum;
@@ -233,13 +233,13 @@ class AddDeliveryOrderEndPage extends React.Component {
                                 <Text style={{ color: '#f80000' }}>¥{`${item.price}`}X{`${item.sale_quantity}`}</Text>
                             </View>
                             <View style={{ flex: 1, flexDirection: 'row' }}>
-                                <Text style={{ color: '#f80000',marginLeft:20}}>¥{`${NumberUtils.fc(item.product_sum)}`}</Text>
+                                <Text style={{ color: '#f80000', marginLeft: 20 }}>¥{`${NumberUtils.fc(item.product_sum)}`}</Text>
                             </View>
                         </View>
                         <View style={{ height: 30, paddingLeft: 10, flexDirection: 'row', alignItems: 'center' }}>
                             <View style={{ flex: 1, flexDirection: 'row' }}>
                                 <Text style={{ color: '#666' }}>{'赠送：'}</Text>
-                                <Text style={{ color: '#666'}}>{item.gifts_quantity ? item.gifts_quantity : 0}</Text>
+                                <Text style={{ color: '#666' }}>{item.gifts_quantity ? item.gifts_quantity : 0}</Text>
                             </View>
                             <View style={{ flex: 1, flexDirection: 'row' }}>
                                 <Text style={{ color: '#666' }}>{'数量小计：'}</Text>
@@ -248,15 +248,19 @@ class AddDeliveryOrderEndPage extends React.Component {
                         </View>
                     </View>
                 </View>
-                <View style={{ height: 40, paddingRight: 12, backgroundColor: '#f9f9f9', flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{ flex: 1 }} />
-                    <Text style={{ color: '#999', marginRight: 12 }}>{`计量人`}</Text>
-                    <TouchableHighlight style={{ borderColor: '#0081d4', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} onPress={this._onSelectUser.bind(this, item)}>
-                        <View style={{ flexDirection: 'row', width: 70, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff', borderColor: '#0081d4', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
-                            <Text style={{ color: '#0081d4' }}>{item.delivery_remember_person_name ? item.delivery_remember_person_name : `请选择`}</Text>
+                {
+                    global.userStyle ? null :
+                        <View style={{ height: 40, paddingRight: 12, backgroundColor: '#f9f9f9', flexDirection: 'row', alignItems: 'center' }}>
+                            <View style={{ flex: 1 }} />
+                            <Text style={{ color: '#999', marginRight: 12 }}>{`计量人`}</Text>
+                            <TouchableHighlight style={{ borderColor: '#0081d4', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} onPress={this._onSelectUser.bind(this, item)}>
+                                <View style={{ flexDirection: 'row', width: 70, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff', borderColor: '#0081d4', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
+                                    <Text style={{ color: '#0081d4' }}>{item.delivery_remember_person_name ? item.delivery_remember_person_name : `请选择`}</Text>
+                                </View>
+                            </TouchableHighlight>
                         </View>
-                    </TouchableHighlight>
-                </View>
+                }
+
                 <View style={{ height: StyleSheet.hairlineWidth, flex: 1, backgroundColor: '#c4c4c4' }} />
             </View>)
     }
@@ -379,12 +383,12 @@ class AddDeliveryOrderEndPage extends React.Component {
                 }
                 <View style={{ width: WINDOW_WIDTH, height: 1, backgroundColor: '#c4c4c4' }} />
                 <View style={{ height: 50, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{flexDirection:'column',height:50}}>
-                        <View style={{flexDirection:'row'}}>
+                    <View style={{ flexDirection: 'column', height: 50 }}>
+                        <View style={{ flexDirection: 'row' }}>
                             <Text style={{ color: '#666' }}>{`共${this.num}件商品,总计${this.total_sum}元`}</Text>
                         </View>
-                        <View style={{flexDirection:'row',marginTop:3}}>
-                            <Text style={{ color: '#666'}}>{`押金总计${this.foregift_sum}元`}</Text>
+                        <View style={{ flexDirection: 'row', marginTop: 3 }}>
+                            <Text style={{ color: '#666' }}>{`押金总计${this.foregift_sum}元`}</Text>
                         </View>
                     </View>
                     <View style={{ flex: 1 }} />
@@ -396,7 +400,7 @@ class AddDeliveryOrderEndPage extends React.Component {
                 </View>
                 {
                     Platform.OS === 'ios' ?
-                    <KeyboardSpacer /> : null
+                        <KeyboardSpacer /> : null
                 }
                 <RemarkEditeModel content={this.state.remark} modalVisible={this.state.modalVisible} onCancelPress={this.onCancelPress} onConfirmPress={this.onConfirmPress} />
                 <View><Spinner visible={this.state.showSpinner} text={'提交中,请稍后...'} /></View>
