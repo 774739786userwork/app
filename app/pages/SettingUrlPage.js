@@ -10,7 +10,7 @@ import {
 
 import { NavigationActions } from 'react-navigation';
 import dismissKeyboard from 'dismissKeyboard';
-import { Iconfont,FetchManger,LoginInfo } from 'react-native-go';
+import { Iconfont,FetchManger,LoginInfo,Toast } from 'react-native-go';
 import DeviceInfo from '../utils/DeviceInfo';
 let inputUrl = undefined;
 class SettingUrlPage extends React.Component {
@@ -35,7 +35,7 @@ class SettingUrlPage extends React.Component {
     constructor(props){
         super(props)
         this.onSaveAction = this.onSaveAction.bind(this);
-        inputUrl = DeviceInfo.getInfo() ? DeviceInfo.getInfo() : "http://app.duobangjc.com:8080/csbboss/";
+        inputUrl = DeviceInfo.getInfo() ? DeviceInfo.getInfo() : "http://app.duobangjc.com:8081/csbboss/";
     }
 
     componentDidMount() {

@@ -58,7 +58,7 @@ export default class ReturnGoodPopModel extends React.Component {
                 </View>
                 <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
-                        <Text style={{ color: '#666' }}>{'实际单价：'}</Text>
+                        <Text style={{ color: '#666' }}>{'单价：'}</Text>
                         <Text style={{ color: '#f80000' }}>{`${item.product_price}`}</Text>
                     </View>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
@@ -80,9 +80,10 @@ export default class ReturnGoodPopModel extends React.Component {
         let numberCarsh = 0;
         chooseList.map((item) => {
             if ((item.sale_quantity && item.sale_quantity > 0) || (item.gifts_quantity && item.gifts_quantity > 0)) {
-                num += (item.sale_quantity ? parseInt(item.sale_quantity) : 0) + (item.gifts_quantity ? parseInt(item.gifts_quantity) : 0);
-                let itemForegift = NumberUtils.FloatMul(item.product_foregift, num);
+                let itemSum = (item.sale_quantity ? parseInt(item.sale_quantity) : 0) + (item.gifts_quantity ? parseInt(item.gifts_quantity) : 0);
+                let itemForegift = NumberUtils.FloatMul(item.product_foregift, itemSum);
                 let itemCarsh = NumberUtils.FloatAdd(NumberUtils.FloatMul(item.product_price, item.sale_quantity), itemForegift);
+                num += itemSum;
                 numberCarsh = NumberUtils.FloatAdd(numberCarsh, itemCarsh);
                 numberForegift = NumberUtils.FloatAdd(itemForegift, numberForegift);
 
@@ -144,7 +145,7 @@ export default class ReturnGoodPopModel extends React.Component {
                         </TouchableHighlight>
                         <View>
                             <Text style={{ color: '#999' }}>总计金额:￥{numberCarsh + '元'}</Text>
-                            <Text style={{ color: '#999' }}>总计押金:￥{numberForegift + '元'}</Text>
+                            <Text style={{ color: '#999' }}>其中押金:￥{numberForegift + '元'}</Text>
                         </View>
                         <View style={{ flex: 1 }} />
                         <TouchableHighlight onPress={this.onCancelPress.bind(this)}>

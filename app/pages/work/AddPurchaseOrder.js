@@ -40,7 +40,8 @@ class AddPurchaseOrder extends React.Component {
         this.renderRightView = this.renderRightView.bind(this);
         valeMap = {};
         let today = GetDateStr(0);
-        valeMap.loadingbill_date = [today];
+        valeMap.order_date = [today];
+        valeMap.saler_date = [today];
         listViewData = [
             { title: '客户', key: 'customer_id', value: '请选择客户', target: 'SelectCustomers' },
             { title: '订单日期', key: 'order_date', date: true, value: today },
@@ -58,27 +59,14 @@ class AddPurchaseOrder extends React.Component {
     _onItemPress(item) {
         const { navigation } = this.props;
         navigation.navigate(item.target, {
-            loadingdate: valeMap.loadingbill_date[0],
             item:item,
             callback: (data) => {
                 item.data = data;
-
-                if (data.platenumber) {
-                    item.value = data.platenumber;
-                    valeMap[item.key] = [data.platenumber, data.carbaseinfo_id, data.carweight];
+                if (data.customersName) {
+                    item.value = data.customersName;
+                    valeMap[item.key] = [data.customersName, data.customersId];
                 }
-                if (data.name) {
-                    item.value = data.name;
-                    valeMap[item.key] = [data.name, data.id];
-                }
-                if (data.STORE_HOUSE_NAME) {
-                    item.value = data.STORE_HOUSE_NAME
-                    valeMap[item.key] = [data.STORE_HOUSE_NAME, data.STORE_HOUSE_ID];
-                }
-
-                if(data.input){
-                    item.value = data.value;
-                }
+                
                 this.setState({ listData: dataSource.cloneWithRows(listViewData) });
             }
         });
@@ -108,8 +96,8 @@ class AddPurchaseOrder extends React.Component {
                     <DatePicker
                         style={{ width: 100, }}
                         date={item.value}
-                        minDate={GetDateStr(0)}
-                        maxDate={GetDateStr(1)}
+                        /*minDate={GetDateStr(0)}
+                        maxDate={GetDateStr(1)}*/
                         customStyles={{
                             dateInput: { borderWidth: 0 },
                             dateText: { color: '#999', textAlign: 'left' }

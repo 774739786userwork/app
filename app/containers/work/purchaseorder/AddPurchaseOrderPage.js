@@ -40,7 +40,6 @@ class AddPurchaseOrderPage extends React.Component {
     constructor(props) {
         super(props);
         this._renderItem = this._renderItem.bind(this);
-        this._onItemPress = this._onItemPress.bind(this);
         this.onCancelPress = this.onCancelPress.bind(this);
         this.onConfirmPress = this.onConfirmPress.bind(this);
         this.onEndReached = this.onEndReached.bind(this);
@@ -51,9 +50,6 @@ class AddPurchaseOrderPage extends React.Component {
         this.onClear = this.onClear.bind(this);
         this.getReturnGoodList = this.getReturnGoodList.bind(this)
 
-        this.total_sum = '';
-        this.foregift_sum = '';
-        this.paid_total_sum = '';
         this.unpaid_total_sum = '';
 
         this.searchText = '';
@@ -61,7 +57,9 @@ class AddPurchaseOrderPage extends React.Component {
             loading: false,
             loadMore: false,
             good_list: [],
-            paid_total_sum: 0,
+            total_sum:0,
+            foregift_sum:0,
+            paid_total_sum:0,
             modalVisible: false,
             showSpinner: false,
             modalPopVisible: false,
@@ -87,7 +85,7 @@ class AddPurchaseOrderPage extends React.Component {
         reqParams.page = page;
         reqParams.rows = 10;
         if (productName) {
-            reqParams.productName = productName;
+            reqParams.product_name = productName;
         }
         if (loadMore) {
             this.setState({ loadMore: true });
@@ -152,40 +150,33 @@ class AddPurchaseOrderPage extends React.Component {
             </TouchableOpacity>
         );
     }
-    //保存按钮
-    _onItemPress() {
-        const { navigate } = this.props.navigation;
-        const { params } = this.props.navigation.state;
-        params.good_list = this.state.good_list
-        params.returnType = 0;
-        navigate('ReturnGoodComfirm', { ...params });
-    }
-
 
     savePopWindow() {
         this.setState({ modalPopVisible: true })
     }
+
+    //保存按钮
     onConfirmPress() {
         const { navigation } = this.props;
         const { params } = this.props.navigation.state;
         const token = LoginInfo.getUserInfo().token;
         const user_id = LoginInfo.getUserInfo().user_id;
-        const organizationId = LoginInfo.getUserInfo().organization_id;
+        const organization_id = LoginInfo.getUserInfo().organization_id;
 
 
-        let total_sum = this.total_sum;
-        let foregift_sum = this.foregift_sum;
-        let paid_total_sum = this.paid_total_sum;
+        let total_sum = this.state.total_sum;
+        let foregift_sum = this.state.foregift_sum;
+        let paid_total_sum = this.state.paid_total_sum;
         let unpaid_total_sum = NumberUtils.FloatSub(total_sum,paid_total_sum);
-        if(NumberUtils.FloatSub(paid_total_sum,foregift_sum) < 0){
-            Toast.show('实收应大于押金');
+        if(paid_total_sum > total_sum){
+            Toast.show('实收不能大于总计');
             return;
         }
 
         let sbParam = {
             token,
             user_id,
-            organizationId,
+            organization_id,
             source_equipment: '1',
             customer_id: params.customer_id[1],
             order_date: params.order_date[0],
@@ -198,7 +189,7 @@ class AddPurchaseOrderPage extends React.Component {
         };
         this.setState({showSpinner:true });
         InteractionManager.runAfterInteractions(() => {
-            FetchManger.postUri('mobileServiceManager/purchaseOrders/toAddPurchaseOrders.page', reqParams).then((responseData) => {
+            FetchManger.postUri('mobileServiceManager/purchaseOrders/toAddPurchaseOrders.page', sbParam).then((responseData) => {
                 this.setState({ showSpinner: false });
                 if (responseData.status === '0' || responseData.status === 0) {
                     const navigationAction = NavigationActions.reset({
@@ -211,6 +202,7 @@ class AddPurchaseOrderPage extends React.Component {
                     Toast.show('保存成功')
                 } else {
                     Toast.show(responseData.msg);
+                    this.setState({ showSpinner: false });
                 }
             }).catch((error) => {
                 console.log(error)
@@ -275,6 +267,8 @@ class AddPurchaseOrderPage extends React.Component {
         }
 
         let old_good_list = [];
+        let totalSum = 0;
+        let numberForegift = 0;
         good_list.map((_item) => {
             if ((_item.sale_quantity && _item.sale_quantity > 0) || (_item.gifts_quantity && _item.gifts_quantity > 0)) {
 
@@ -282,18 +276,19 @@ class AddPurchaseOrderPage extends React.Component {
                 let itemForegift = NumberUtils.FloatMul(_item.product_foregift, itemSum);
                 let itemCarsh = NumberUtils.FloatAdd(NumberUtils.FloatMul(_item.product_price, _item.sale_quantity), itemForegift);
                 _item.product_sum = itemCarsh;
-
+                totalSum += _item.product_sum;
+                numberForegift = NumberUtils.FloatAdd(itemForegift, numberForegift);
                 old_good_list.push(_item);
             }
         })
 
-        this.setState({ good_list: old_good_list, editeModalVisible: false });
+        this.setState({ good_list: old_good_list,total_sum:totalSum,foregift_sum:numberForegift, editeModalVisible: false });
     }
 
     render() {
         let num = 0;
-        let numberForegift = 0;
         let numberCarsh = 0;
+        let numberForegift = 0;
         this.state.good_list.map((item) => {
             if ((item.sale_quantity && item.sale_quantity > 0) || (item.gifts_quantity && item.gifts_quantity > 0)) {
                 let itemSum =  (item.sale_quantity ? parseInt(item.sale_quantity) : 0) + (item.gifts_quantity ? parseInt(item.gifts_quantity) : 0);
@@ -305,10 +300,11 @@ class AddPurchaseOrderPage extends React.Component {
 
             }
         })
-        numberCarsh = NumberUtils.fc(numberCarsh);
+        numberCarsh = NumberUtils.fc(numberCarsh,numberForegift);
 
         this.numberCarsh = numberCarsh;
         this.foregift_sum = numberForegift;
+
         return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
                 <SearchBar
@@ -363,10 +359,20 @@ class AddPurchaseOrderPage extends React.Component {
                     <Text style={{ marginRight: 8, marginLeft: 16, textAlign: 'right', }}>实收(元):</Text>
                     <TextInput style={{ width: 100, marginTop: 4, height: 25, textAlign: 'center', color: '#666', borderRadius: 8, padding: 0, borderWidth: 1, borderColor: '#c4c4c4' }}
                         underlineColorAndroid={'transparent'}
+                        value={this.state.paid_total_sum + ''}
                         keyboardType={'numeric'}
-                        defaultValue={numberCarsh}
+                        defaultValue={'0'}
                         onChangeText={(paid_total_sum) => {
-                            this.paid_total_sum = paid_total_sum;
+                            paid_total_sum = paid_total_sum ? paid_total_sum : '0'
+                            let num = parseFloat(paid_total_sum);
+                            if (!isNaN(num)) {
+                                if (paid_total_sum.length > 1 && paid_total_sum.charAt(paid_total_sum.length - 1) === '.') {
+                                    num += '.';
+                                }
+                                this.setState({ paid_total_sum: num })
+                            } else {
+                                this.setState({ paid_total_sum: this.state.paid_total_sum })
+                            }
                         }}
                     />
                     <View style={{ flex: 1 }} />
@@ -388,12 +394,12 @@ class AddPurchaseOrderPage extends React.Component {
                     </TouchableHighlight>
                     <View>
                         <Text style={{ color: '#999' }}>总计金额:￥{numberCarsh + '元'}</Text>
-                        <Text style={{ color: '#999' }}>总计押金:￥{numberForegift + '元'}</Text>
+                        <Text style={{ color: '#999' }}>其中押金:￥{numberForegift + '元'}</Text>
                     </View>
                     <View style={{ flex: 1 }} />
                     {
                         num > 0 ?
-                            <TouchableHighlight onPress={this._onItemPress.bind(this)}>
+                            <TouchableHighlight onPress={this.onConfirmPress.bind(this)}>
                                 <View style={{ width: 100, height: 50, backgroundColor: '#fe6732', justifyContent: 'center', alignItems: 'center' }}>
                                     <Text style={{ color: '#fff' }}>{'保存订单'}</Text>
                                 </View>

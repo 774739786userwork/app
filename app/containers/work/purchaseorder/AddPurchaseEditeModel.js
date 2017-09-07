@@ -142,7 +142,7 @@ export default class AddPurchaseEditeModel extends React.Component {
                                         onChangeText={(newCount) => {
                                             let num = parseInt(newCount);
                                             let sale_quantity = isNaN(num) ? 0 : num
-                                            if ((this.state.stock - sale_quantity - this.state.gifts_quantity) >= 0) {
+                                            if ((sale_quantity - this.state.gifts_quantity) >= 0) {
                                                 this.updateSaleQuantity(sale_quantity);
                                             }
                                         }}
@@ -178,7 +178,7 @@ export default class AddPurchaseEditeModel extends React.Component {
                                         onChangeText={(newCount) => {
                                             let num = parseInt(newCount);
                                             let gifts_quantity = isNaN(num) ? 0 : num
-                                            if ((this.state.stock - gifts_quantity - this.state.sale_quantity) >= 0) {
+                                            if ((gifts_quantity - this.state.sale_quantity) >= 0) {
                                                 this.updateGiftsQuantity(gifts_quantity);
                                             }
                                         }}

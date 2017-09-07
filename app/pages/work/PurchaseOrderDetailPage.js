@@ -43,6 +43,12 @@ class PurchaseOrderDetailPage extends React.Component {
         custParam.contacts = [{ name: params.contact_name, mobile1: params.contact_mobile }]
         custParam.customersName = params.customer_name
         custParam.customersId = params.customer_id
+
+        // let good_list = params.goodsList;
+        // for (var i = 0; i < good_list.length; i++) {
+        //     custParam.salerQuantity = good_list[i].salerQuantity
+        // }
+
         // custParam.lat = coords.latitude
         // custParam.lng = coords.longitude
         const navigationAction = NavigationActions.reset({

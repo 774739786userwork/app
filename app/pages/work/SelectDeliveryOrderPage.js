@@ -94,7 +94,7 @@ class SelectDeliveryOrderPage extends React.Component {
                             <View style={{ height: 30, paddingLeft: 12,paddingRight: 12, flexDirection: 'row', alignItems: 'center' }}>
                                 <Text style={{flex: 1,textAlign: 'left', color: '#999' }}>{goodsItem.name + ': '}</Text>
                                 <Text style={{flex: 1,textAlign: 'left',color: '#999' }}>{goodsItem.quantity + goodsItem.unit}</Text>
-                                <Text style={{flex: 1, textAlign: 'right',color: '#f80000' }}>{'记: '+goodsItem.delivery_remember_name}</Text>
+                                <Text style={{flex: 1, textAlign: 'right',color: '#f80000',opacity: 0}}>{'记: '+goodsItem.delivery_remember_name}</Text>
                             </View>))
                     }
                     <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>

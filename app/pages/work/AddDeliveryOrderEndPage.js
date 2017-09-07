@@ -105,6 +105,11 @@ class AddDeliveryOrderEndPage extends React.Component {
     onConfirmPress(content) {
         this.setState({ modalVisible: false, remark: content });
     }
+
+    sureBtnClick(){
+        
+    }
+
     dosubmitAction() {
         const token = LoginInfo.getUserInfo().token;
         const user_id = LoginInfo.getUserInfo().user_id;
@@ -114,9 +119,10 @@ class AddDeliveryOrderEndPage extends React.Component {
         // paid_total_sum	Double	实收金额
         // foregift_sum	Double	押金
         // small_change_sum	Double	抹零金额
-        // unpaid_sum	Double	未收金额
+        // unpaid_sum	Double	未收金额   
         // distribution_sum	Double	铺货总额
         // remark	String	备注信息
+        //isDeliveryEnd  订单是否配送
         const { params } = this.props.navigation.state;
         var date = new Date();
         let month = date.getMonth() + 1;
@@ -136,8 +142,11 @@ class AddDeliveryOrderEndPage extends React.Component {
         saveParams.ladingdate = params.ladingdate
         saveParams.ladingbill_id = params.ladingbill_id
         saveParams.ladingbill_serialnumber = params.ladingbill_serialnumber
-        saveParams.purchaseSerialnumber = params.purchaseSerialnumber
-        saveParams.purchaseSerialnumber = params.purchaseSerialnumber ? params.purchaseSerialnumber : '';
+        if(!params.purchaseSerialnumber){
+            saveParams.purchaseSerialnumber = ''
+        }else{
+            saveParams.purchaseSerialnumber = params.purchaseSerialnumber
+        }
         saveParams.salesman_id = params.salesman_id
         saveParams.total_sum = NumberUtils.fc(this.total_sum);
         saveParams.paid_total_sum = NumberUtils.fc(this.state.paid_total_sum);
