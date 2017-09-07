@@ -27,6 +27,8 @@ import ListCustomersContainer from './work/ListCustomersContainer'
 import AddDeliveryOrderContainer from './work/AddDeliveryOrderContainer'
 //开送货单结算
 import AddDeliveryOrderEndPageContainer from './work/AddDeliveryOrderEndPageContainer'
+//开订货单
+import PurchaseOrderContainer from './work/PurchaseOrderContainer'
 
 import DeliveryOrderDetailContainer from './work/DeliveryOrderDetailContainer'
 //车存货
@@ -43,6 +45,8 @@ import SelectCustomersContainer from './select/SelectCustomersContainer'
 import SelectNameContainer from './select/SelectNameContainer'
 //计量人 选择
 import SelectUserContainer from './select/SelectUserContainer'
+//输入框输入
+import SelectInputContainer from './select/SelectInputContainer'
 //仓库查询
 import SelectStoreContainer from './select/SelectStoreContainer'
 //退货查询
@@ -51,6 +55,8 @@ import QueryReturnDetailContainer from './work/QueryReturnDetailContainer'
 //开提货单
 import AddLadingbillsContainer from './work/AddLadingbillsContainer'
 import AddLadingbillsProductContainer from './work/AddLadingbillsProductContainer'
+//开订货单
+import AddPurchaseOrderContainer from './work/purchaseorder/AddPurchaseOrderContainer'
 //开结算单
 import AddBalanceAccoutsContainer from './work/AddBalanceAccoutsContainer'
 //销售管理
@@ -192,8 +198,10 @@ const App = StackNavigator(
     },
     SelectStore: {
       screen: SelectStoreContainer
+    },//
+    SelectInput: {
+      screen: SelectInputContainer
     },
-
     QueryReturnLists: {
       screen: QueryReturnListsContainer
     },
@@ -273,6 +281,12 @@ const App = StackNavigator(
     },
     ReturnGoodComfirm: {
       screen: ReturnGoodComfirmContainer
+    },
+    PurchaseOrder: {
+      screen: PurchaseOrderContainer
+    },
+    AddPurchaseOrderList: {
+      screen: AddPurchaseOrderContainer
     },
     WebView: {
       screen: WebViewContainer
