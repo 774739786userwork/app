@@ -45,6 +45,8 @@ import SelectCustomersContainer from './select/SelectCustomersContainer'
 import SelectNameContainer from './select/SelectNameContainer'
 //计量人 选择
 import SelectUserContainer from './select/SelectUserContainer'
+//人员多选
+import SelectMuUserContainer from './select/SelectMuUserContainer'
 //输入框输入
 import SelectInputContainer from './select/SelectInputContainer'
 //仓库查询
@@ -276,6 +278,10 @@ const App = StackNavigator(
     SelectCustomers: {
       screen: SelectCustomersContainer
     },
+    SelectMuUser: {
+      screen: SelectMuUserContainer
+    },
+    
     ReturnGoodList: {
       screen: ReturnGoodListContainer
     },

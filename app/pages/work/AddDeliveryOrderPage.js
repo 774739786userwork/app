@@ -44,6 +44,7 @@ class AddDeliveryOrderPage extends React.Component {
         this.renderHeader = this.renderHeader.bind(this)
         this._selectByDate = this._selectByDate.bind(this)
         this.selectCarAction = this.selectCarAction.bind(this)
+        this.selectUserAction = this.selectUserAction.bind(this)
         this.carbaseinfo_id = null;
         //数量总计
         this.num = 0;
@@ -57,7 +58,9 @@ class AddDeliveryOrderPage extends React.Component {
             ladingdate: GetDateStr(0),
             selectItem: {},
             chooseList: [],
-            good_list: []
+            good_list: [],
+            downEmployeeIds : '',
+            downEmployeeNames : ''
         };
     }
 
@@ -83,7 +86,7 @@ class AddDeliveryOrderPage extends React.Component {
             this.carbaseinfo_id = selectCar.carbaseinfo_id
             action.addDeliveryOrder(selectCar.carbaseinfo_id, ladingdate, params.customersId)
         }
-        
+
 
         this.setState({ good_list: addDeliveryOrder.result.good_list })
 
@@ -95,7 +98,7 @@ class AddDeliveryOrderPage extends React.Component {
         this.setState({ ladingdate: ladingdate })
     }
     selectCarAction() {
-        const { action, navigation,addDeliveryOrder } = this.props;
+        const { action, navigation, addDeliveryOrder } = this.props;
         const { params } = navigation.state;
         if (addDeliveryOrder.carList.length === 0) {
             Toast.show('暂无车辆')
@@ -110,6 +113,16 @@ class AddDeliveryOrderPage extends React.Component {
                 }
             })
         }
+    }
+    selectUserAction() {
+        const { navigate } = this.props.navigation;
+        navigate('SelectMuUser', {
+            callback: (data) => {
+                let downEmployeeIds = data.ids;
+                let downEmployeeNames = data.names;
+                this.setState({ downEmployeeIds,downEmployeeNames })
+            }
+        });
     }
     componentDidMount() {
         const { action, navigation } = this.props;
@@ -239,7 +252,7 @@ class AddDeliveryOrderPage extends React.Component {
         params.chooseList = this.state.chooseList
         let selectCar = this.state.selectCar;
         params.selectCar = selectCar;
-
+        params.downEmployeeIds = this.state.downEmployeeIds;
         params.num = this.num
         params.numberCarsh = this.numberCarsh
 
@@ -290,10 +303,11 @@ class AddDeliveryOrderPage extends React.Component {
                 </View>
             </View>
             <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#e6e6e6' }} />
-            <View style={{ backgroundColor: '#fff', flexDirection: 'row', paddingLeft: 10, paddingRight: 12, height: 40, justifyContent: 'center', alignItems: 'center' }}>
+            <TouchableOpacity onPress={this.selectUserAction}>
+                <View style={{ backgroundColor: '#fff', flexDirection: 'row', paddingLeft: 10, paddingRight: 12, height: 40, justifyContent: 'center', alignItems: 'center' }}>
                     <Text style={{ color: '#333', fontSize: 16 }}>{'搬运工'}</Text>
                     <View style={{ flex: 1 }} />
-                    <Text style={{ color: '#999', fontSize: 14 }}>{'刘亚飞'}</Text>
+                    <Text style={{ color: '#999', fontSize: 14 }}>{this.state.downEmployeeNames ? this.state.downEmployeeNames : '请选择搬运工'}</Text>
                     <View>
                         <Iconfont
                             icon={'e66e'} // 图标
@@ -301,8 +315,9 @@ class AddDeliveryOrderPage extends React.Component {
                             iconSize={22}
                         />
                     </View>
-             </View>
-             <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#e6e6e6' }} />
+                </View>
+            </TouchableOpacity>
+            <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#e6e6e6' }} />
         </View>
     }
     render() {

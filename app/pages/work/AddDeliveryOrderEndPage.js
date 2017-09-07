@@ -142,6 +142,7 @@ class AddDeliveryOrderEndPage extends React.Component {
         saveParams.ladingdate = params.ladingdate
         saveParams.ladingbill_id = params.ladingbill_id
         saveParams.ladingbill_serialnumber = params.ladingbill_serialnumber
+        saveParams.downEmployeeIds = params.downEmployeeIds;
         if(!params.purchaseSerialnumber){
             saveParams.purchaseSerialnumber = ''
         }else{
