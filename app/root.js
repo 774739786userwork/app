@@ -6,6 +6,7 @@ import App from './containers/app';
 
 const store = configureStore();
 
+//是否显示计量人
 global.userStyle = true;
 /**
  * 南北厂正式测试环境地址
