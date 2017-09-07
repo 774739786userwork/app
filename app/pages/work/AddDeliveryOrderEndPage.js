@@ -39,7 +39,9 @@ class AddDeliveryOrderEndPage extends React.Component {
         this.onConfirmPress = this.onConfirmPress.bind(this);
         this.onCancelPress = this.onCancelPress.bind(this)
         this._renderItem = this._renderItem.bind(this);
+        this.sureBtnClick = this.sureBtnClick.bind(this);
         this.dosubmitAction = this.dosubmitAction.bind(this);
+        this.dofalseAction = this.dofalseAction.bind(this);
         const { params } = this.props.navigation.state;
         this.renderFooter = this.renderFooter.bind(this)
 
@@ -107,9 +109,127 @@ class AddDeliveryOrderEndPage extends React.Component {
     }
 
     sureBtnClick() {
-
+        const { params } = this.props.navigation.state;
+        if(!params.purchaseSerialnumber){
+            this.dosubmitAction()
+        }else{
+            Alert.alert('', '确认订单是否已全部配送?',
+            [
+              { text: '是', onPress: this.dosubmitAction },
+              { text: '否', onPress: this.dofalseAction }
+            ]
+          );
+        }
     }
 
+    //未配送完成
+    dofalseAction(){
+        const token = LoginInfo.getUserInfo().token;
+        const user_id = LoginInfo.getUserInfo().user_id;
+        const organization_id = LoginInfo.getUserInfo().organization_id;
+        const org_pinyin = LoginInfo.getUserInfo().org_pinyin;
+        //total_sum	Double	总计销售金额
+        // paid_total_sum	Double	实收金额
+        // foregift_sum	Double	押金
+        // small_change_sum	Double	抹零金额
+        // unpaid_sum	Double	未收金额   
+        // distribution_sum	Double	铺货总额
+        // remark	String	备注信息
+        //isDeliveryEnd  订单是否配送
+        const { params } = this.props.navigation.state;
+        var date = new Date();
+        let month = date.getMonth() + 1;
+        let saveParams = {};
+        saveParams.user_id = user_id;
+        saveParams.organization_id = organization_id;
+        saveParams.org_pinyin = org_pinyin;
+        saveParams.token = token;
+        saveParams.customer_id = params.customersId
+        saveParams.car_id = params.selectCar.carbaseinfo_id
+        saveParams.car_number = params.selectCar.platenumber
+        saveParams.contact_mobile = params.contacts[0].mobile1;
+        saveParams.contact_name = params.contacts[0].name;
+        saveParams.source_equipment = '1'
+        saveParams.lat = params.lat
+        saveParams.lng = params.lng
+        saveParams.ladingdate = params.ladingdate
+        saveParams.ladingbill_id = params.ladingbill_id
+        saveParams.ladingbill_serialnumber = params.ladingbill_serialnumber
+        saveParams.downEmployeeIds = params.downEmployeeIds;
+        if (!params.purchaseSerialnumber) {
+            saveParams.purchaseSerialnumber = ''
+        } else {
+            saveParams.purchaseSerialnumber = params.purchaseSerialnumber
+            // saveParams.isDeliveryEnd = 1
+            console.log("isDeliveryEnd  ==================1");
+        }
+        saveParams.salesman_id = params.salesman_id
+        saveParams.total_sum = NumberUtils.fc(this.total_sum);
+        saveParams.paid_total_sum = NumberUtils.fc(this.state.paid_total_sum);
+        saveParams.foregift_sum = this.foregift_sum;
+        //抹零
+        saveParams.small_change_sum = this.state.isOpenChange ? this.small_change_sum : 0;
+        //优惠金额
+        saveParams.discount_sum = NumberUtils.fc(this.state.discount_sum)
+        let unpaid_sum = NumberUtils.FloatSub(NumberUtils.FloatSub(saveParams.total_sum, saveParams.discount_sum), NumberUtils.FloatAdd(saveParams.paid_total_sum, (this.state.isOpenChange ? this.small_change_sum : 0)))
+        saveParams.unpaid_sum = Math.abs(NumberUtils.fc(unpaid_sum))
+        //铺货总额
+        saveParams.distribution_sum = this.distribution_sum;
+        saveParams.remark = this.state.remark;
+
+        let good_list = []
+        this.state.chooseList.map((item) => {
+            let gItem = {}
+            gItem.sequence = item.sequence
+            gItem.product_id = item.id
+            gItem.product_name = item.name
+            gItem.sale_quantity = item.sale_quantity
+            gItem.gifts_quantity = item.gifts_quantity
+            gItem.foregift = item.foregift
+            gItem.price = item.price
+            gItem.isDistribution = item.isDistribution ? 1 : 0;
+            gItem.product_sum = item.product_sum
+            gItem.product_foregift_sum = item.product_foregift_sum
+            gItem.delivery_remember_person = item.delivery_remember_person
+            good_list.push(gItem)
+        })
+        saveParams.good_list = JSON.stringify(good_list);
+        this.setState({ showSpinner: true })
+        const { navigation } = this.props;
+
+        params.distribution_sum = saveParams.distribution_sum
+        params.total_discount_sum = saveParams.discount_sum
+        params.total_sum = saveParams.total_sum
+        params.total_foregift = saveParams.foregift_sum
+        params.paid_total_sum = saveParams.paid_total_sum
+        params.unpaid_total_sum = saveParams.unpaid_sum
+
+        params.num = this.num
+        params.creator = true
+        params.print = true
+        FetchManger.postUri('/mobileServiceManager/deliveryNotes/addDeliveryNotes.page', saveParams).then((responseData) => {
+            this.setState({ showSpinner: false })
+            if (responseData.status === '0' || responseData.status === 0) {
+                const navigationAction = NavigationActions.reset({
+                    index: 1,
+                    actions: [
+                        NavigationActions.navigate({ routeName: 'Home' }),
+                        NavigationActions.navigate({ routeName: 'BleManager', params: params })
+                    ]
+                })
+                navigation.dispatch(navigationAction)
+                Toast.show('保存成功')
+            } else {
+                Toast.show(responseData.msg)
+            }
+        }).catch((error) => {
+            console.log(error)
+            this.setState({ showSpinner: false })
+            Toast.show('保存失败')
+        })
+    }
+
+    //确认配送完成
     dosubmitAction() {
         const token = LoginInfo.getUserInfo().token;
         const user_id = LoginInfo.getUserInfo().user_id;
@@ -147,6 +267,8 @@ class AddDeliveryOrderEndPage extends React.Component {
             saveParams.purchaseSerialnumber = ''
         } else {
             saveParams.purchaseSerialnumber = params.purchaseSerialnumber
+            // saveParams.isDeliveryEnd = 0
+            console.log("isDeliveryEnd  ==================0");
         }
         saveParams.salesman_id = params.salesman_id
         saveParams.total_sum = NumberUtils.fc(this.total_sum);
@@ -392,7 +514,7 @@ class AddDeliveryOrderEndPage extends React.Component {
                         </View>
                     </View>
                     <View style={{ flex: 1 }} />
-                    <TouchableOpacity onPress={this.dosubmitAction} disabled={canSave}>
+                    <TouchableOpacity onPress={this.sureBtnClick} disabled={canSave}>
                         <View style={{ width: 160, height: 50, backgroundColor: canSave ? '#c4c4c4' : '#fe6732', justifyContent: 'center', alignItems: 'center' }}>
                             <Text style={{ color: '#fff' }}>{`收款¥${this.state.paid_total_sum}`}</Text>
                         </View>
