@@ -160,8 +160,7 @@ class AddDeliveryOrderEndPage extends React.Component {
             saveParams.purchaseSerialnumber = ''
         } else {
             saveParams.purchaseSerialnumber = params.purchaseSerialnumber
-            // saveParams.isDeliveryEnd = 1
-            console.log("isDeliveryEnd  ==================1");
+            saveParams.isDeliveryEnd = '1'
         }
         saveParams.salesman_id = params.salesman_id
         saveParams.total_sum = NumberUtils.fc(this.total_sum);
@@ -267,8 +266,7 @@ class AddDeliveryOrderEndPage extends React.Component {
             saveParams.purchaseSerialnumber = ''
         } else {
             saveParams.purchaseSerialnumber = params.purchaseSerialnumber
-            // saveParams.isDeliveryEnd = 0
-            console.log("isDeliveryEnd  ==================0");
+            saveParams.isDeliveryEnd = '0'
         }
         saveParams.salesman_id = params.salesman_id
         saveParams.total_sum = NumberUtils.fc(this.total_sum);
