@@ -79,8 +79,15 @@ export default class S_YearyPage extends React.Component {
                 yearData.push(item)
             }
         }
+        let charList = [];
+        let old_charList = this.state.charList
+        for (var i = 0; i < old_charList.length; i++) {
+            if (i < 3) {
+                let item = old_charList[i];
+                charList.push(item)
+            }
+        }
         let legend = [];
-        let charList = this.state.charList
         let seriesData = [];
         let xData = []
         charList.map((item) => {

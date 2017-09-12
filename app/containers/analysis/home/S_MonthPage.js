@@ -81,7 +81,14 @@ export default class S_MonthPage extends React.Component {
         yearData.push(item)
       }
     }
-    let charList = this.state.charList
+    let charList = [];
+    let old_charList = this.state.charList
+    for (var i = 0; i < old_charList.length; i++) {
+        if (i < 3) {
+            let item = old_charList[i];
+            charList.push(item)
+        }
+    }
     let seriesData = [];
     let xData = []
     let legend = [];

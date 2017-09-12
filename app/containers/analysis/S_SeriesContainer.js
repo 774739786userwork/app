@@ -15,16 +15,23 @@ import {
   RecyclerViewBackedScrollView
 } from 'react-native';
 
+import ScrollableTabView, {
+  DefaultTabBar
+} from 'react-native-scrollable-tab-view';
+
 import { FetchManger, LoginInfo, LoadingView, Toast } from 'react-native-go'
-import LeftTabComponet from './LeftTabComponet'
+import LeftProductTabComponet from './LeftProductTabComponet'
 
 import TableRow from './TableRow'
 
 var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+var hl_ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+
 class S_SeriesPage extends React.Component {
   constructor(props) {
     super(props);
-    this.goToPage = this.goToPage.bind(this)
+    this.goToPage = this.goToPage.bind(this);
+    this._renderRow = this._renderRow.bind(this);
     this.state = {
       activeTab: 0,
       data: [],
@@ -101,71 +108,72 @@ class S_SeriesPage extends React.Component {
       factoryList = selectItem.factoryList
     }
 
+    let leftData = [{factoryName:'全部'}];
     return (<View style={{ flex: 1 }}>
       <View style={{ height: iosTop, backgroundColor: '#0081d4' }} />
       {
         this.renderTabBar()
       }
       <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#fff' }}>
-        <View style={{ width: 100, justifyContent: 'center', alignItems: 'center' }}>
-          <LeftTabComponet
-            data={listData}
+        <View style={{ width: 80, justifyContent: 'center', alignItems: 'center' }}>
+          <LeftProductTabComponet
+            data={leftData}
             sectionAction={(item) => {
               this.setState({ selectItem: item.salerList[0] })
             }}
           />
         </View>
-        <ScrollView style={{ flex: 1, backgroundColor: '#f9f9f9', flexDirection: 'column' }}>
-          <View style={{ backgroundColor: '#fff', margin: 12, flexDirection: 'row' }}>
-            <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onItemAction}>
-              <View style={{ flex: 1, flexDirection: 'row' }}>
-                <Text style={{ padding: 12, }}>{'全部产品'}</Text>
-                <View style={{ flex: 1 }} />
-                <Iconfont icon='e686' iconSize={16} iconColor={'#333'} />
-              </View>
-            </TouchableOpacity>
-            <View style={{ width: 12, backgroundColor: '#f9f9f9', }} />
-            <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onItemAction}>
-              <View style={{ flex: 1, flexDirection: 'row' }}>
-                <Text style={{ padding: 12, }}>{'全部'}</Text>
-                <View style={{ flex: 1 }} />
-                <Iconfont icon='e686' iconSize={16} iconColor={'#333'} />
-              </View>
-            </TouchableOpacity>
+        <View style={{ flex: 1, backgroundColor: '#f9f9f9', flexDirection: 'column' }}>
+          <View style={{ margin: 10, backgroundColor: '#fff', flex: 1 }}>
+            <ScrollableTabView
+              renderTabBar={() => (
+                <DefaultTabBar tabStyle={{ paddingBottom: 0, backgroundColor: '#fff' }} textStyle={{ fontSize: 14 }} style={{ height: 36 }} />
+              )}
+              tabBarBackgroundColor="#fcfcfc"
+              tabBarUnderlineStyle={{ backgroundColor: '#3e9ce9', height: 2 }}
+              tabBarActiveTextColor="#3e9ce9"
+              tabBarInactiveTextColor="#aaaaaa"
+            >
+              <TotalView key={'0'} tabLabel={'汇总'} {...this.props} factoryList={factoryList} />
+              <DetailList key={'1'} tabLabel={'详情'} {...this.props} />
+            </ScrollableTabView>
           </View>
-          <View style={{ backgroundColor: '#fff', margin: 12, padding: 12 }}>
-            <View style={{ flex: 1, flexDirection: 'row' }}>
-              <Text style={{ color: '#666', fontSize: 12, width: 80 }}>{'本月目标任务'}</Text>
-              <Text style={{ color: '#000', fontSize: 12 }}>{`200万`}</Text>
-            </View>
-            <View style={{ flex: 1, marginTop: 8, flexDirection: 'row' }}>
-              <Text style={{ color: '#666', fontSize: 12, width: 80 }}>{'当前完成'}</Text>
-              <Text style={{ color: '#000', fontSize: 12 }}>{`200万`}</Text>
-            </View>
-            <View style={{ flex: 1, marginTop: 8, flexDirection: 'row' }}>
-              <Text style={{ color: '#666', fontSize: 12, width: 80 }}>{'完成销量'}</Text>
-              <Text style={{ color: '#000', fontSize: 12 }}>{`200万`}</Text>
-            </View>
+          <View>
+            <ListView
+              dataSource={hl_ds.cloneWithRows(listData)}
+              renderRow={this._renderRow}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
+            />
           </View>
-          <View style={{ backgroundColor: '#fff', margin: 12 }}>
-            <TableRow bg={'#17c6c1'} tColor={'#fff'} t0={'工厂'} t1={'人数'} t2={'占比'} />
-            {
-              factoryList.map((item) => <TableRow bg={'#fff'} tColor={'#666'} t0={item.orgName} t1={item.personNumber} t2={item.proportion} key={`index_${item.orgName}`}/>)
-            }
-          </View>
-          <View style={{ backgroundColor: '#fff', margin: 12 }}>
-            <DetailList />
-          </View>
-        </ScrollView>
+        </View>
       </View >
     </View >
     );
   }
 
-  renderList() {
-
+  _renderRow(rowData, rowID) {
+    return <View style={{ padding: 12 }}>
+      <Text>{`${rowData.factoryName}`}</Text>
+    </View>;
   }
 }
+class TotalView extends React.Component {
+  render() {
+    let factoryList = this.props.factoryList;
+    if (!factoryList) {
+      factoryList = [];
+    }
+    return <View style={{ backgroundColor: '#fff' }}>
+      <TableRow bg={'#17c6c1'} tColor={'#fff'} t0={'工厂'} t1={'人数'} t2={'占比'} />
+      {
+        factoryList.map((item) => <TableRow bg={'#fff'} tColor={'#666'} t0={item.orgName} t1={item.personNumber} t2={item.proportion} key={`index_${item.orgName}`} />)
+      }
+    </View>
+  }
+}
+
 //详细列表
 class DetailList extends React.Component {
   constructor(props) {
@@ -194,10 +202,13 @@ class DetailList extends React.Component {
     );
   }
   render() {
-    let data = ['广东体彩','广东体彩','广东体彩','广东体彩','广东体彩'];
+    let data = [];
+    for (let i = 0; i < 3; i++) {
+      data.push('广东体彩' + i);
+    }
     let itemArr = ['产品', '客户', '业务员'];
     let selectIndex = this.state.selectItem;
-    return <View>
+    return <View style={{ backgroundColor: '#fff' }}>
       <View style={{ backgroundColor: '#fff', margin: 12, flexDirection: 'row' }}>
         {
           itemArr.map((item, index) => <TouchableOpacity onPress={this.onItemAction.bind(this, item, index)} key={`index_${index}`}>
