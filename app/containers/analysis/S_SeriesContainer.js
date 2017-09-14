@@ -57,34 +57,31 @@ class S_SeriesPage extends React.Component {
   }
   renderTabBar() {
     let activeTab = this.state.activeTab
-    let color0 = activeTab == 0 ? "#fff" : "#0081d4";
-    let tColor0 = activeTab == 0 ? "#0081d4" : "#fff";
-    let color1 = activeTab == 1 ? "#fff" : "#0081d4"; // 判断i是否是当前选中的tab，设置不同的颜色
-    let tColor1 = activeTab == 1 ? "#0081d4" : "#fff";
+    let color0 = activeTab == 0 ? "#f2f2f2" : "#fff";
+    let tColor0 = activeTab == 0 ? "#0081d4" : "#333";
+    let color1 = activeTab == 1 ? "#f2f2f2" : "#fff"; // 判断i是否是当前选中的tab，设置不同的颜色
+    let tColor1 = activeTab == 1 ? "#0081d4" : "#333";
 
     return (
       <View style={{
-        height: 48, backgroundColor: '#0081d4', flexDirection: 'row', justifyContent: 'center',
+        height: 40, backgroundColor: '#fff', flexDirection: 'row', justifyContent: 'center',
         alignItems: 'center', elevation: 5,
+        marginBottom:8
       }}>
-        <View style={{ flex: 1 }} />
-        <View style={styles.tabs}>
           <TouchableWithoutFeedback onPress={() => this.goToPage(0)} style={styles.tab}>
-            <View style={[styles.tabItem0, { backgroundColor: color0 }]} >
+            <View style={[styles.subtabItem0, { backgroundColor: color0,flex:1 }]} >
               <Text style={{ color: tColor0 }}>
-                年
+                {'汇总'}
 							</Text>
             </View>
           </TouchableWithoutFeedback>
           <TouchableWithoutFeedback onPress={() => this.goToPage(1)} style={styles.tab}>
-            <View style={[styles.tabItem1, { backgroundColor: color1 }]} >
+            <View style={[styles.subtabItem1, { backgroundColor: color1 ,flex:1 }]} >
               <Text style={{ color: tColor1 }}>
-                月
+                {'详请'}
 							</Text>
             </View>
           </TouchableWithoutFeedback>
-        </View>
-        <View style={{ flex: 1 }} />
       </View>
     );
 
@@ -108,12 +105,9 @@ class S_SeriesPage extends React.Component {
       factoryList = selectItem.factoryList
     }
 
-    let leftData = [{factoryName:'全部'}];
+    let leftData = [{ factoryName: '全部' }];
+    let activeTab = this.state.activeTab
     return (<View style={{ flex: 1 }}>
-      <View style={{ height: iosTop, backgroundColor: '#0081d4' }} />
-      {
-        this.renderTabBar()
-      }
       <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#fff' }}>
         <View style={{ width: 80, justifyContent: 'center', alignItems: 'center' }}>
           <LeftProductTabComponet
@@ -124,19 +118,16 @@ class S_SeriesPage extends React.Component {
           />
         </View>
         <View style={{ flex: 1, backgroundColor: '#f9f9f9', flexDirection: 'column' }}>
+
           <View style={{ margin: 10, backgroundColor: '#fff', flex: 1 }}>
-            <ScrollableTabView
-              renderTabBar={() => (
-                <DefaultTabBar tabStyle={{ paddingBottom: 0, backgroundColor: '#fff' }} textStyle={{ fontSize: 14 }} style={{ height: 36 }} />
-              )}
-              tabBarBackgroundColor="#fcfcfc"
-              tabBarUnderlineStyle={{ backgroundColor: '#3e9ce9', height: 2 }}
-              tabBarActiveTextColor="#3e9ce9"
-              tabBarInactiveTextColor="#aaaaaa"
-            >
-              <TotalView key={'0'} tabLabel={'汇总'} {...this.props} factoryList={factoryList} />
-              <DetailList key={'1'} tabLabel={'详情'} {...this.props} />
-            </ScrollableTabView>
+            {
+              this.renderTabBar()
+            }
+            {
+              activeTab ? <DetailList key={'1'} tabLabel={'详情'} {...this.props} />
+              :<TotalView key={'0'} tabLabel={'汇总'} {...this.props} factoryList={factoryList} />
+                
+            }
           </View>
           <View>
             <ListView
@@ -250,9 +241,50 @@ class S_SeriesContainer extends React.Component {
     ),
   };
 
-  render() {
-    return <S_SeriesPage {...this.props} />;
+  renderTabBar(tab) {
+    let color0 = tab.activeTab == 0 ? "#fff" : "#0081d4";
+    let tColor0 = tab.activeTab == 0 ? "#0081d4" : "#fff";
+    let color1 = tab.activeTab == 1 ? "#fff" : "#0081d4"; // 判断i是否是当前选中的tab，设置不同的颜色
+    let tColor1 = tab.activeTab == 1 ? "#0081d4" : "#fff";
+    return (
+      <View style={{
+        height: 48, backgroundColor: '#0081d4', flexDirection: 'row', justifyContent: 'center',
+        alignItems: 'center', elevation: 5,
+      }}>
+        <View style={{ flex: 1 }} />
+        <View style={styles.tabs}>
+          <TouchableWithoutFeedback onPress={() => tab.goToPage(0)} style={styles.tab}>
+            <View style={[styles.tabItem0, { backgroundColor: color0 }]} >
+              <Text style={{ color: tColor0 }}>
+                年
+							</Text>
+            </View>
+          </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={() => tab.goToPage(1)} style={styles.tab}>
+            <View style={[styles.tabItem1, { backgroundColor: color1 }]} >
+              <Text style={{ color: tColor1 }}>
+                月
+							</Text>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+        <View style={{ flex: 1 }} />
+      </View>
+    );
+
   }
+
+  render() {
+    let iosTop = Platform.OS === 'ios' ? 20 : 0;
+    return (<View style={{ flex: 1 }}>
+      <View style={{ height: iosTop, backgroundColor: '#0081d4' }} />
+      <ScrollableTabView renderTabBar={this.renderTabBar} >
+        <S_SeriesPage key={'0'} {...this.props} tabLabel={'0'} />
+        <S_SeriesPage key={'1'}  {...this.props} tabLabel={'1'} />
+      </ScrollableTabView>
+    </View>)
+  }
+
 }
 
 
@@ -292,6 +324,20 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     borderTopRightRadius: 4,
     borderBottomRightRadius: 4,
+  },
+  subtabItem0: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex:1,
+    height: 40,
+  },
+  subtabItem1: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex:1,
+    height: 40,
   },
 
 });

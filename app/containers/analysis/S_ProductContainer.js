@@ -14,10 +14,11 @@ import {
   ListView,
   RecyclerViewBackedScrollView
 } from 'react-native';
-
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { FetchManger, LoginInfo, LoadingView, Toast } from 'react-native-go'
 import LeftTabComponet from './LeftTabComponet'
 import ImageView from '../../components/ImageView'
+import LoadingListView from '../../components/LoadingListView'
 
 import TableRow from './TableRow'
 
@@ -25,99 +26,67 @@ var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 class S_SeriesPage extends React.Component {
   constructor(props) {
     super(props);
-    this.goToPage = this.goToPage.bind(this)
-    this.onListItemAction = this.onListItemAction.bind(this)
+    this.onListItemAction = this.onListItemAction.bind(this);
+    this.loadData = this.loadData.bind(this);
     this.state = {
+      loading: false,
       activeTab: 0,
-      data: [],
-      selectItem: undefined
+      salerList: [],
+      selectItem: {}
     }
   }
 
   componentDidMount() {
+    let key = this.props.tabLabel;
+    this.loadData(key);
+  }
+  loadData(type) {
+    let param = { type: type, salerSort: 'rise' };
     InteractionManager.runAfterInteractions(() => {
-      FetchManger.getUri('dataCenter/appHomePage/getDayFactory.page', {}).then((responseData) => {
+      FetchManger.getUri('dataCenter/appHomePage/getYearMonthProductSaler.page', param,30*60).then((responseData) => {
         if (responseData.status === '0' || responseData.status === 0) {
-          let data = responseData.data.dayList;
-          this.setState({ data })
+          let salerList = responseData.salerList;
+          this.setState({ salerList })
         }
       }).catch((error) => {
 
       })
     });
   }
-
-  goToPage(activeTab) {
-    this.setState({ activeTab })
-  }
-  renderTabBar() {
-    let activeTab = this.state.activeTab
-    let color0 = activeTab == 0 ? "#fff" : "#0081d4";
-    let tColor0 = activeTab == 0 ? "#0081d4" : "#fff";
-    let color1 = activeTab == 1 ? "#fff" : "#0081d4"; // 判断i是否是当前选中的tab，设置不同的颜色
-    let tColor1 = activeTab == 1 ? "#0081d4" : "#fff";
-
-    return (
-      <View style={{
-        height: 48, backgroundColor: '#0081d4', flexDirection: 'row', justifyContent: 'center',
-        alignItems: 'center', elevation: 5,
-      }}>
-        <View style={{ flex: 1 }} />
-        <View style={styles.tabs}>
-          <TouchableWithoutFeedback onPress={() => this.goToPage(0)} style={styles.tab}>
-            <View style={[styles.tabItem0, { backgroundColor: color0 }]} >
-              <Text style={{ color: tColor0 }}>
-                年
-							</Text>
-            </View>
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={() => this.goToPage(1)} style={styles.tab}>
-            <View style={[styles.tabItem1, { backgroundColor: color1 }]} >
-              <Text style={{ color: tColor1 }}>
-                月
-							</Text>
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
-        <View style={{ flex: 1 }} />
-      </View>
-    );
-
-  }
+  
   onItemAction() {
 
   }
-  onListItemAction() {
-    const { navigation } = this.props;
-    navigation.navigate('S_ProductDetail')
+  onListItemAction(rowData) {
+    const { navigation,tabLabel } = this.props;
+    let salerList = this.state.salerList;
+    let _selectItem = null;
+    if (!this.state.selectItem.productList && salerList.length > 0) {
+      _selectItem = salerList[0];
+    } else {
+      _selectItem = this.state.selectItem;
+    }
+    let param = {productId:rowData.productId,factoryId:_selectItem.factoryId,type:tabLabel};
+    navigation.navigate('S_ProductDetail',param)
   }
   render() {
     let iosTop = Platform.OS === 'ios' ? 20 : 0;
 
-    let listData = this.state.data;
-    let selectItem = this.state.selectItem;
-    if (!selectItem) {
-      selectItem = {}
-      if (listData[0]) {
-        selectItem = listData[0].salerList[0]
-      }
-    }
-    let factoryList = [];
-    if (selectItem && selectItem.factoryList) {
-      factoryList = selectItem.factoryList
+    let salerList = this.state.salerList;
+    let _selectItem = null;
+    if (!this.state.selectItem.productList && salerList.length > 0) {
+      _selectItem = salerList[0];
+    } else {
+      _selectItem = this.state.selectItem;
     }
 
     return (<View style={{ flex: 1 }}>
-      <View style={{ height: iosTop, backgroundColor: '#0081d4' }} />
-      {
-        this.renderTabBar()
-      }
       <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#fff' }}>
         <View style={{ width: 100, justifyContent: 'center', alignItems: 'center' }}>
           <LeftTabComponet
-            data={listData}
+            data={salerList}
             sectionAction={(item) => {
-              this.setState({ selectItem: item.salerList[0] })
+              this.setState({ selectItem: item })
             }}
           />
         </View>
@@ -139,8 +108,8 @@ class S_SeriesPage extends React.Component {
               </View>
             </TouchableOpacity>
           </View>
-          <View style={{ backgroundColor: '#fff', marginLeft: 12, marginRight: 12, marginBottom: 12 }}>
-            <DetailList onItemAction={this.onListItemAction} />
+          <View style={{ backgroundColor: '#fff', flex: 1, marginLeft: 12, marginRight: 12, marginBottom: 12 }}>
+            <DetailList listData={_selectItem.productList} onItemAction={this.onListItemAction} />
           </View>
         </ScrollView>
       </View >
@@ -156,19 +125,22 @@ class DetailList extends React.Component {
     this._renderSeperator = this._renderSeperator.bind(this);
     this._renderRow = this._renderRow.bind(this);
     this.onItemAction = this.onItemAction.bind(this);
+    this.state = {
+      loading: false,
+    }
   }
-  onItemAction() {
-    this.props.onItemAction && this.props.onItemAction();
+  onItemAction(rowData) {
+    this.props.onItemAction && this.props.onItemAction(rowData);
   }
   _renderRow(rowData, rowID) {
-    return <TouchableOpacity onPress={this.onItemAction} key={`index_${rowID}`}>
+    return <TouchableOpacity onPress={this.onItemAction.bind(this,rowData)} key={`index_${rowID}`}>
       <View style={{ padding: 10, flexDirection: 'row' }}>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <ImageView source={{ uri: '' }} style={{ width: 50, height: 50, margin: 2 }} />
+          <ImageView source={{ uri: rowData.productImage }} style={{ width: 50, height: 50, margin: 2 }} />
         </View>
         <View style={{ marginLeft: 6, flex: 1, justifyContent: 'center' }}>
-          <Text style={{ flex: 1, color: '#666' }}>{'内墙环保部'}</Text>
-          <Text style={{ flex: 1, color: '#666' }}>{'内墙环保部'}</Text>
+          <Text style={{ flex: 1, color: '#666' }}>{rowData.productName}</Text>
+          <Text style={{ flex: 1, color: '#666' }}>{`环比占比 ${rowData.increase}`}</Text>
         </View>
       </View>
     </TouchableOpacity>;
@@ -182,14 +154,15 @@ class DetailList extends React.Component {
     );
   }
   render() {
-    let data = ['广东体彩', '广东体彩', '广东体彩', '广东体彩', '广东体彩'];
-    return <View>
-      <ListView
-        dataSource={ds.cloneWithRows(data)}
-        renderRow={this._renderRow}
-        renderSeparator={this._renderSeperator}
-        showsVerticalScrollIndicator={false}
-      />
+    let data = this.props.listData;
+    if (!data) {
+      data = [];
+    }
+    return <View style={{ flex: 1 }}>
+      <LoadingListView
+        loading={this.state.loading}
+        listData={ds.cloneWithRows(data)}
+        renderRowView={this._renderRow} />
     </View>;
   }
 }
@@ -204,8 +177,48 @@ class S_ProductContainer extends React.Component {
     ),
   };
 
+  renderTabBar(tab) {
+    let color0 = tab.activeTab == 0 ? "#fff" : "#0081d4";
+    let tColor0 = tab.activeTab == 0 ? "#0081d4" : "#fff";
+    let color1 = tab.activeTab == 1 ? "#fff" : "#0081d4"; // 判断i是否是当前选中的tab，设置不同的颜色
+    let tColor1 = tab.activeTab == 1 ? "#0081d4" : "#fff";
+    return (
+      <View style={{
+        height: 48, backgroundColor: '#0081d4', flexDirection: 'row', justifyContent: 'center',
+        alignItems: 'center', elevation: 5,
+      }}>
+        <View style={{ flex: 1 }} />
+        <View style={styles.tabs}>
+          <TouchableWithoutFeedback onPress={() => tab.goToPage(0)} style={styles.tab}>
+            <View style={[styles.tabItem0, { backgroundColor: color0 }]} >
+              <Text style={{ color: tColor0 }}>
+                年
+							</Text>
+            </View>
+          </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={() => tab.goToPage(1)} style={styles.tab}>
+            <View style={[styles.tabItem1, { backgroundColor: color1 }]} >
+              <Text style={{ color: tColor1 }}>
+                月
+							</Text>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+        <View style={{ flex: 1 }} />
+      </View>
+    );
+
+  }
+
   render() {
-    return <S_SeriesPage {...this.props} />;
+    let iosTop = Platform.OS === 'ios' ? 20 : 0;
+    return (<View style={{ flex: 1 }}>
+      <View style={{ height: iosTop, backgroundColor: '#0081d4' }} />
+      <ScrollableTabView renderTabBar={this.renderTabBar} >
+        <S_SeriesPage key={'0'} {...this.props} tabLabel={'0'} />
+        <S_SeriesPage key={'1'}  {...this.props} tabLabel={'1'} />
+      </ScrollableTabView>
+    </View>)
   }
 }
 

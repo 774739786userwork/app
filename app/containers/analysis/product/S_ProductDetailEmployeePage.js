@@ -10,7 +10,7 @@ var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 /**
  * 产品详情 客户 */
-class S_ProductDetailCustPage extends React.Component {
+class S_ProductDetailEmployeePage extends React.Component {
 
     constructor(props) {
         super(props)
@@ -19,13 +19,11 @@ class S_ProductDetailCustPage extends React.Component {
     }
 
     _renderRow(rowData, rowID) {
-        return <View style={{ padding: 12, backgroundColor: '#fff' }} key={`index_${rowID}`}>
-            <Text style={{ color: '#333' }}>{`${rowData.customerName}`}</Text>
-            <View style={{flexDirection: 'row',marginTop:8 }}>
-                <Text style={{ color: '#333', flex: 1 }}>{`销量 ${rowData.salerQuantity}`}</Text>
-                <Text style={{ color: '#333', flex: 1 }}>{`金额 ${rowData.totalSum}`}</Text>
-                <Text style={{ color: '#333', flex: 1 }}>{`环比 ${rowData.increase}`}</Text>
-            </View>
+        return <View style={{ padding: 12, backgroundColor: '#fff' ,flexDirection: 'row' }} key={`index_${rowID}`}>
+            <Text style={{ color: '#333',width:68 }}>{`${rowData.employeeName}`}</Text>
+            <Text style={{ color: '#333',flex:1 }}>{`销量 ${rowData.employeeSalerQuantity}`}</Text>
+            <Text style={{ color: '#333',flex:1 }}>{`金额 ${rowData.employeeSalerSum}`}</Text>
+            <Text style={{ color: '#333',flex:1 }}>{`占比 ${rowData.employeeIncrease}`}</Text>
         </View>;
     }
     _renderSeperator(sectionID, rowID, adjacentRowHighlighted) {
@@ -49,4 +47,4 @@ class S_ProductDetailCustPage extends React.Component {
         </View>;
     }
 }
-export default S_ProductDetailCustPage;
+export default S_ProductDetailEmployeePage;

@@ -16,6 +16,15 @@ class S_ProductDetailChartPage extends React.Component {
 
 
     render() {
+        const { dataList } = this.props;
+
+        let xData = [];
+        let yData = [];
+
+        dataList.map((item)=>{
+            xData.push(item.monthname);
+            yData.push(item.monthProductSum);
+        });
         const option = {
             xAxis: {
                 type: 'category',
@@ -29,7 +38,7 @@ class S_ProductDetailChartPage extends React.Component {
                     alignWithLabel: true
                 },
                 //x轴数据
-                data: ['1','2','3']
+                data: xData
             },
             yAxis: {},
             color: ['#ee5f8f', '#e8ba00', '#33cc99'],//自定义线条颜色，你可以设置多个颜色，使用时默认从第一个开始   如果不设置color则有它默认颜色
@@ -38,17 +47,7 @@ class S_ProductDetailChartPage extends React.Component {
             series: [{
                 name: 'NLU',
                 type: 'line',
-                data: [150, 220, 182, 191, 234, 290, 330, 310, 600, 700, 220, 182],
-            },
-            {
-                name: 'WEU',
-                type: 'line',
-                data: [220, 182, 191, 234, 290, 400, 310, 500, 400, 220, 182],
-            },
-            {
-                name: 'WEU1',
-                type: 'line',
-                data: [220, 182, 191, 500, 400, 220, 182, 191, 200, 290, 500],
+                data: yData,
             }]
 
         };

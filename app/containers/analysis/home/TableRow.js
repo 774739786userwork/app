@@ -18,7 +18,7 @@ class TableRow extends React.Component {
          onPress && onPress()
       }}>
       <View style={{ flexDirection: 'row', backgroundColor: bg }}>
-        <Text style={{ padding: 5, flex: 1, color: tColor }}>{t0}</Text>
+        <Text style={{ padding: 12, flex: 1, color: tColor }}>{t0}</Text>
         <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
         <Text style={{ padding: 5, flex: 1, color: tColor }}>{t1}</Text>
       </View>

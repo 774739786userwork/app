@@ -67,10 +67,16 @@ export default class S_MonthPage extends React.Component {
     });
   }
   //点击更多查看
-  onMoreAction() {
-    const { navigation } = this.props;
-   // navigation.navigate('S_HomeDetail')
-  }
+ //点击更多查看
+ onMoreAction() {
+  const { navigation } = this.props;
+  let _month = this.state.selM;
+  let month = this.state.selY + '-' + (_month < 10 ? '0' + _month : _month)
+  
+   let param = {month:month};
+   let reqUrl = "dataCenter/appHomePage/getMonthMoreFactory.page";
+   navigation.navigate('S_HomeDetail',{reqUrl:reqUrl,param,param})
+}
 
   render() {
     let yearData = [];

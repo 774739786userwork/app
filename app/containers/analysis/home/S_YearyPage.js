@@ -68,7 +68,9 @@ export default class S_YearyPage extends React.Component {
     //点击更多查看
     onMoreAction() {
         const { navigation } = this.props;
-       // navigation.navigate('S_HomeDetail')
+         let param = {year:this.state.selY};
+         let reqUrl = "dataCenter/appHomePage/getYearMoreFactory.page";
+         navigation.navigate('S_HomeDetail',{reqUrl:reqUrl,param,param})
     }
     render() {
         let yearData = [];
