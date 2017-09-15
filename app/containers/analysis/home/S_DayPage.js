@@ -76,19 +76,21 @@ export default class S_DayPage extends React.Component {
               <Text style={{ color: '#666', fontSize: 12 }}>{'当日销售冠军'}</Text>
               <Text style={{ height:32, color: '#000', marginTop: 4, marginBottom: 10 }}>{dayMax}</Text>
               <Text style={{ color: '#666', fontSize: 12 }}>{'当日最大客户'}</Text>
-              <Text style={{ height:32,color: '#000', marginTop: 4, marginBottom: 10 }}>{dayCustomer}</Text>
+              <Text style={{ height:32,color: '#000', marginTop: 4, marginBottom: 8 }}>{dayCustomer}</Text>
             </View>
-            <Text style={{ color: '#666', marginLeft: 12, marginTop: 12, fontSize: 14 }}>{'销售额排名情况'}</Text>
+            <Text style={{ color: '#666', marginLeft: 12, marginTop: 12, fontSize: 14 }}>{'销售额前20排名情况'}</Text>
             <View style={{ backgroundColor: '#fff', margin: 10 }}>
               <TableRowHeader bg={'#17c6c1'} tColor={'#fff'} t0={'客户'} t1={'业务员'}/>
               {
                 customerList.map((item,index) => {
                     let empName = '';
+                    let empSalerSum = '';
                     if(employeeList && employeeList.length > index){
-                      empName = employeeList[index].empName;;
+                       empName = employeeList[index].empName;
+                       empSalerSum = employeeList[index].empSalerSum;
                     }
                      
-                    return <TableRow key={`index_${index}`} /*onPress={this.onItemPress}*/ bg={'#fff'} tColor={'#666'} t0={item.customerName} t1={empName}/>
+                    return <TableRow key={`index_${index}`} bg={'#fff'} tColor={'#666'} t0={item.customerName+item.customerSalerSum} t1={empName+empSalerSum}/>
                 })
               }
             </View>

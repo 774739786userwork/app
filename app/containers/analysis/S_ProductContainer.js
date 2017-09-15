@@ -28,6 +28,8 @@ class S_SeriesPage extends React.Component {
     super(props);
     this.onListItemAction = this.onListItemAction.bind(this);
     this.loadData = this.loadData.bind(this);
+    this.onItemAction = this.onItemAction.bind(this);
+    this.onItemUpAction = this.onItemUpAction.bind(this);
     this.state = {
       loading: false,
       activeTab: 0,
@@ -38,10 +40,11 @@ class S_SeriesPage extends React.Component {
 
   componentDidMount() {
     let key = this.props.tabLabel;
-    this.loadData(key);
+    let up = 'rise';
+    this.loadData(key,up);
   }
-  loadData(type) {
-    let param = { type: type, salerSort: 'rise' };
+  loadData(type,up) {
+    let param = { type: type, salerSort: up };
     InteractionManager.runAfterInteractions(() => {
       FetchManger.getUri('dataCenter/appHomePage/getYearMonthProductSaler.page', param,30*60).then((responseData) => {
         if (responseData.status === '0' || responseData.status === 0) {
@@ -54,8 +57,18 @@ class S_SeriesPage extends React.Component {
     });
   }
   
-  onItemAction() {
+  //销量上升
+  onItemUpAction(){
+    let key = this.props.tabLabel;
+    let up = 'rise';
+    this.loadData(key,up)
+  }
 
+  //销量下降
+  onItemAction() {
+    let key = this.props.tabLabel;
+    let down = 'fall';
+    this.loadData(key,down)
   }
   onListItemAction(rowData) {
     const { navigation,tabLabel } = this.props;
@@ -92,7 +105,7 @@ class S_SeriesPage extends React.Component {
         </View>
         <ScrollView style={{ flex: 1, backgroundColor: '#f9f9f9', flexDirection: 'column' }}>
           <View style={{ backgroundColor: '#fff', margin: 12, flexDirection: 'row' }}>
-            <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onItemAction}>
+            <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onItemUpAction}>
               <View style={{ flex: 1, flexDirection: 'row' }}>
                 <Text style={{ padding: 12, color: '#333' }}>{'销量上升'}</Text>
                 <View style={{ flex: 1 }} />
