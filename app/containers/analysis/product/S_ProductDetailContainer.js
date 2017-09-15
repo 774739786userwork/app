@@ -16,9 +16,12 @@ import S_ProductDetailEmployeePage from './S_ProductDetailEmployeePage'
 /**
  * 产品详情 */
 class S_ProductDetailContainer extends React.Component {
-    static navigationOptions = ({ navigation }) => ({
-        title: `详情`
-    });
+    static navigationOptions = ({ navigation }) => {
+        const { state, setParams } = navigation;
+        return {
+          title: `${navigation.state.params.productName}`
+        };
+      };
     constructor(props) {
         super(props)
         this.state = {
