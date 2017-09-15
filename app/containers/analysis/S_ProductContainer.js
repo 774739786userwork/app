@@ -227,7 +227,7 @@ class S_ProductContainer extends React.Component {
     let iosTop = Platform.OS === 'ios' ? 20 : 0;
     return (<View style={{ flex: 1 }}>
       <View style={{ height: iosTop, backgroundColor: '#0081d4' }} />
-      <ScrollableTabView renderTabBar={this.renderTabBar} >
+      <ScrollableTabView locked={true}  renderTabBar={this.renderTabBar} >
         <S_SeriesPage key={'0'} {...this.props} tabLabel={'0'} />
         <S_SeriesPage key={'1'}  {...this.props} tabLabel={'1'} />
       </ScrollableTabView>

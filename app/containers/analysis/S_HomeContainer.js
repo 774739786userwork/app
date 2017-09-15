@@ -80,7 +80,7 @@ class S_HomeContainer extends React.Component {
     let iosTop = Platform.OS === 'ios' ? 20 : 0;
     return (<View style={{ flex: 1 }}>
               <View style={{ height: iosTop, backgroundColor: '#0081d4' }} />
-              <ScrollableTabView renderTabBar={this.renderTabBar} >
+              <ScrollableTabView locked={true}  renderTabBar={this.renderTabBar} >
                 <S_YearyPage key={'0'} {...this.props} tabLabel={'year'}/>
                 <S_MonthPage key={'1'}  {...this.props} tabLabel={'month'}/>
                 <S_DayPage key={'2'} {...this.props} tabLabel={'day'}/>

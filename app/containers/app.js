@@ -92,8 +92,12 @@ import S_DayDetailPage from './analysis/home/S_DayDetailPage'
 import S_HomeDetailPage from './analysis/home/S_HomeDetailPage'
 //系列
 import S_SeriesContainer from './analysis/S_SeriesContainer'
+//系列详情
+import S_SeriesDetailContainer from './analysis/series/S_SeriesDetailContainer'
+import S_SeriesDetailChartPage from './analysis/series/S_SeriesDetailChartPage'
 //产品
 import S_ProductContainer from './analysis/S_ProductContainer'
+
 import S_ProductDetailContainer from './analysis/product/S_ProductDetailContainer'
 //顾客
 import S_CustomerContainer from './analysis/S_CustomerContainer'
@@ -304,7 +308,14 @@ const App = StackNavigator(
     },
     S_ProductDetail: {
       screen: S_ProductDetailContainer
+    },
+    S_SeriesDetail: {
+      screen: S_SeriesDetailContainer
+    },
+    S_SeriesDetailChart: {
+      screen: S_SeriesDetailChartPage
     }
+    //
 
   },
   {
