@@ -46,7 +46,7 @@ class S_SeriesPage extends React.Component {
   loadData(type,up) {
     let param = { type: type, salerSort: up };
     InteractionManager.runAfterInteractions(() => {
-      FetchManger.getUri('dataCenter/appHomePage/getYearMonthProductSaler.page', param,30*60).then((responseData) => {
+      FetchManger.getUri('dataCenter/appHomePage/getYearMonthProductSaler.page', param).then((responseData) => {
         if (responseData.status === '0' || responseData.status === 0) {
           let salerList = responseData.salerList;
           this.setState({ salerList })
@@ -79,7 +79,7 @@ class S_SeriesPage extends React.Component {
     } else {
       _selectItem = this.state.selectItem;
     }
-    let param = {productId:rowData.productId,factoryId:_selectItem.factoryId,type:tabLabel};
+    let param = {productId:rowData.productId,factoryId:_selectItem.factoryId,type:tabLabel,productName:rowData.productName};
     navigation.navigate('S_ProductDetail',param)
   }
   render() {
@@ -149,11 +149,11 @@ class DetailList extends React.Component {
     return <TouchableOpacity onPress={this.onItemAction.bind(this,rowData)} key={`index_${rowID}`}>
       <View style={{ padding: 10, flexDirection: 'row' }}>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <ImageView source={{ uri: rowData.productImage }} style={{ width: 50, height: 50, margin: 2 }} />
+          <ImageView source={{ uri: rowData.productImage }} style={{ width: 50, height: 50, margin: 1 }} />
         </View>
         <View style={{ marginLeft: 6, flex: 1, justifyContent: 'center' }}>
           <Text style={{ flex: 1, color: '#666' }}>{rowData.productName}</Text>
-          <Text style={{ flex: 1, color: '#666' }}>{`环比占比 ${rowData.increase}`}</Text>
+          <Text style={{ flex: 1, color: '#f80000' }}>{`环比${rowData.salerQuantity+rowData.productUnit+rowData.totalSum}元`}</Text>
         </View>
       </View>
     </TouchableOpacity>;
