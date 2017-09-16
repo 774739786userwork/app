@@ -30,8 +30,8 @@ class S_SeriesDetailChartPage extends React.Component {
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getProductSeries.page', params, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
-                    let dataList = responseData.data;
-                    this.setState({ dataList, loading: false })
+                    let data = responseData.data;
+                    this.setState({ dataList:data, loading: false })
                 } else {
                     this.setState({ loading: false });
                 }
@@ -45,33 +45,28 @@ class S_SeriesDetailChartPage extends React.Component {
         let dataList = this.state.dataList;
         let monthList = [];
         let xData = [];
-        let yData = [];
-        dataList.map((item) => {
-            xData.push(item.monthname);
-            yData.push(item.monthProductSum);
-        });
         let seriesData = [];
         let legend = [];
         dataList.map((item)=>{
             let chartItem = {};
             chartItem.type = 'line';
-            chartItem.name = item.seriesName;
+            chartItem.name = item.NAME;
             chartItem.data = [];
             let init = xData.length === 0
             item.monthList.map((monthListItem) => {
-                let monthProductSum = monthListItem.monthProductSum;
-                chartItem.data.push(parseFloat(monthProductSum));
+                let monthtotalSum = monthListItem.monthtotalSum;
+                chartItem.data.push(parseFloat(monthtotalSum));
                 if (init) {
                     xData.push(monthListItem.monthname);
                 }
             })
-            legend.push(item.seriesName);
+            legend.push(item.NAME);
             seriesData.push(chartItem)
         });
-
         const option = {
             legend: {
-                data:legend
+                data:legend,
+                itemGap:10
             },
             xAxis: {
                 type: 'category',
@@ -87,16 +82,22 @@ class S_SeriesDetailChartPage extends React.Component {
                 //x轴数据
                 data: xData
             },
-            yAxis: {},
-            color: ['#ee5f8f', '#e8ba00', '#33cc99'],//自定义线条颜色，你可以设置多个颜色，使用时默认从第一个开始   如果不设置color则有它默认颜色
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            },
+            //自定义线条颜色，你可以设置多个颜色，使用时默认从第一个开始   如果不设置color则有它默认颜色
             // series里面的数据  如果是固定的线条 你只需要改变data数据就ok  
             // 如果不是确定有多少折线  建议吧整个serise数据替换掉   例如：series:[{...}{...}{...},...]配置项和下面一样
+            color:['#01a2ea', '#8ac99c','#23ac38','#b4d467','#ffff00','#fdcc89','#f19049','#ea6941','#f95353','#cc5ac0','#ac5fd7','#5570b5','#e8ba00', '#33cc99'],
             series: seriesData
 
         };
-        return <View style={{ flex: 1, backgroundColor: '#fff' }}>
+        return <View style={{ flex: 1, backgroundColor: '#fff'}}>
             {
-                this.state.loading ? <LoadingView /> : <Echarts option={option} height={300} />
+                this.state.loading ? <LoadingView /> : <Echarts option={option} height={350} />
             }
         </View>;
     }

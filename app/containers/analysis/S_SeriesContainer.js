@@ -107,8 +107,8 @@ class S_SeriesPage extends React.Component {
   onFactoryAction(item) {
     const { navigation, tabLabel } = this.props;
     
-    let param = { factoryId: item.factoryId,factoryName: item.factoryName, type: tabLabel };
-    navigation.navigate('S_SeriesDetailChart', item)
+    let param = {type: tabLabel ,factoryId: item.factoryId,factoryName: item.factoryName};
+    navigation.navigate('S_SeriesDetailChart', param)
   }
   _renderRow(item, rowID) {
     return (
