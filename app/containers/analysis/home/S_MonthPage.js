@@ -24,8 +24,8 @@ export default class S_MonthPage extends React.Component {
 
     this.state = {
       selY: year, selM: month,
-      yearTotalSum: 0.00,
-      yearUnReceiveSum: 0.00,
+      monthTotalSum: 0.00,
+      monthUnReceiveSum: 0.00,
       yearFactory: [],
       charList: []
     }
@@ -39,7 +39,9 @@ export default class S_MonthPage extends React.Component {
       FetchManger.getUri('dataCenter/appHomePage/getMonthAll.page', { month }).then((responseData) => {
         if (responseData.status === '0' || responseData.status === 0) {
           let data = responseData.data;
-          this.setState({ ...data })
+          let monthTotalSum = data.monthTotalSum ? data.monthTotalSum :0;
+          let monthUnReceiveSum = data.monthUnReceiveSum ? data.monthUnReceiveSum :0;
+          this.setState({ monthTotalSum,monthUnReceiveSum })
         }
       }).catch((error) => {
 

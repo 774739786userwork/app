@@ -20,10 +20,9 @@ export default class S_YearyPage extends React.Component {
         super(props);
         this.loadData = this.loadData.bind(this);
         this.onMoreAction = this.onMoreAction.bind(this);
-        let { year, month } = DateUtils.yearMonth();
+        let { year} = DateUtils.yearMonth();
         this.state = {
             selY: year,
-            selM: month,
             yearTotalSum: 0.00,
             yearUnReceiveSum: 0.00,
             yearFactory: [],
@@ -38,7 +37,9 @@ export default class S_YearyPage extends React.Component {
             FetchManger.getUri('dataCenter/appHomePage/getYearAll.page', { year }).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
-                    this.setState({ ...data })
+                    let yearTotalSum = data.yearTotalSum ? data.yearTotalSum :0;
+                    let yearUnReceiveSum = data.yearUnReceiveSum ? data.yearUnReceiveSum :0;
+                    this.setState({ yearTotalSum,yearUnReceiveSum })
                 }
             }).catch((error) => {
 
@@ -179,10 +180,9 @@ export default class S_YearyPage extends React.Component {
                                 }
                             }}
                             selY={this.state.selY}
-                            selM={this.state.selM}
-                            onDateChange={(selY, selM, ymStr) => {
+                            onDateChange={(selY, ymStr) => {
                                 this.loadData(selY);
-                                this.setState({ selY, selM })
+                                this.setState({ selY})
                             }}
                         />
                         <TouchableOpacity style={{ marginLeft: 4 }} onPress={() => {
