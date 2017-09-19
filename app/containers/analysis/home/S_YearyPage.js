@@ -9,7 +9,7 @@ import {
     ScrollView,
     InteractionManager
 } from 'react-native';
-import MonthPicker from '../../../components/MonthPicker'
+import YearPicker from '../../../components/YearPicker'
 import * as DateUtils from '../../../utils/DateUtils'
 import Echarts from 'native-echarts';
 import { FetchManger, LoginInfo, LoadingView, Toast, Iconfont } from 'react-native-go'
@@ -136,21 +136,7 @@ export default class S_YearyPage extends React.Component {
             color: ['#ee5f8f', '#e8ba00', '#33cc99'],//自定义线条颜色，你可以设置多个颜色，使用时默认从第一个开始   如果不设置color则有它默认颜色
             // series里面的数据  如果是固定的线条 你只需要改变data数据就ok  
             // 如果不是确定有多少折线  建议吧整个serise数据替换掉   例如：series:[{...}{...}{...},...]配置项和下面一样
-            series: seriesData/*[{
-        name: 'NLU',
-        type: 'line',
-        data: [150, 220, 182, 191, 234, 290, 330, 310, 600, 700, 220, 182],
-      },
-      {
-        name: 'WEU',
-        type: 'line',
-        data: [220, 182, 191, 234, 290, 400, 310, 500, 400, 220, 182],
-      },
-      {
-        name: 'WEU1',
-        type: 'line',
-        data: [220, 182, 191, 500, 400, 220, 182, 191, 200, 290, 500],
-      }]*/
+            series: seriesData
         };
         return (
             <ScrollView>
@@ -171,7 +157,7 @@ export default class S_YearyPage extends React.Component {
                                 iconColor={'#aaa'}
                                 iconSize={26} />
                         </TouchableOpacity>
-                        <MonthPicker
+                        <YearPicker
                             style={{ width: 120 }}
                             customStyles={{
                                 dateText: {
@@ -182,7 +168,7 @@ export default class S_YearyPage extends React.Component {
                             selY={this.state.selY}
                             onDateChange={(selY, ymStr) => {
                                 this.loadData(selY);
-                                this.setState({ selY})
+                                this.setState({ selY })
                             }}
                         />
                         <TouchableOpacity style={{ marginLeft: 4 }} onPress={() => {
