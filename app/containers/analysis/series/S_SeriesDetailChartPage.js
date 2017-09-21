@@ -4,11 +4,13 @@ import {
     Text,
     ListView,
     StyleSheet,
-    InteractionManager
+    InteractionManager,
+    Dimensions
 } from 'react-native';
 import Echarts from 'native-echarts';
 import { FetchManger, LoginInfo, LoadingView, Toast } from 'react-native-go'
 
+const WINDOW_HEIGHT = Dimensions.get('window').height;
 /**
  * 产品详情 客户 */
 class S_SeriesDetailChartPage extends React.Component {
@@ -65,8 +67,7 @@ class S_SeriesDetailChartPage extends React.Component {
         });
         const option = {
             legend: {
-                data:legend,
-                itemGap:10
+                data:legend
             },
             xAxis: {
                 type: 'category',
@@ -95,7 +96,7 @@ class S_SeriesDetailChartPage extends React.Component {
             series: seriesData
 
         };
-        return <View style={{ flex: 1, backgroundColor: '#fff'}}>
+        return <View style={{height:WINDOW_HEIGHT, backgroundColor: '#fff'}}>
             {
                 this.state.loading ? <LoadingView /> : <Echarts option={option} height={350} />
             }

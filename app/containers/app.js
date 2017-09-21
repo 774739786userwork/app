@@ -35,6 +35,9 @@ import DeliveryOrderDetailContainer from './work/DeliveryOrderDetailContainer'
 import GetCarstockProductListContainer from './work/GetCarstockProductListContainer'
 //车余货
 import GetCarSurplusGoodsListContainer from './work/GetCarSurplusGoodsListContainer';
+
+//欠款单
+import GetDebtPayNoteListContainer from './work/GetDebtPayNoteListContainer';
 //车辆选择
 import SelectCarContainer from './select/SelectCarContainer'
 //车辆选择  不需要请求数据
@@ -194,6 +197,10 @@ const App = StackNavigator(
     },
     GetCarSurplusGoodsList:{
       screen:GetCarSurplusGoodsListContainer
+    },
+    //欠款单
+    GetDebtPayNoteList:{
+      screen:GetDebtPayNoteListContainer
     },
     SelectCar: {
       screen: SelectCarContainer
