@@ -56,20 +56,20 @@ class DeliveryOrderDetailPage extends React.Component {
         return (
             <View style={{ backgroundColor: '#fff' }} key={`row_${index}`}>
                 <View style={{ flexDirection: 'row', }}>
-                    <View style={{ alignItems: 'center', justifyContent: 'center', width: 120, height: 120 }}>
-                        <ImageView style={{ width: 90, height: 90, borderWidth: 1, borderColor: '#c4c4c4' }} source={{ uri: item.image }} />
+                    <View style={{ alignItems: 'center', justifyContent: 'center', width: 110, height: 90 }}>
+                        <ImageView style={{ width: 80, height: 80, borderWidth: 1, borderColor: '#c4c4c4' }} source={{ uri: item.image }} />
                     </View>
                     <View style={{ flex: 1 }}>
-                        <View style={{ height: 34, marginBottom: 8, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{ height: 30, marginBottom: 3, flexDirection: 'row', alignItems: 'center' }}>
                             <Text style={{ color: '#333', fontSize: 16 }}>{`${item.product_name}`}</Text>
                         </View>
-                        <View style={{ height: 30, flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{ height: 25, flexDirection: 'row', alignItems: 'center' }}>
                             <Text style={{ color: '#666' }}>{'售价：'}</Text>
                             <Text style={{ color: '#666' }}>{`${item.price}`}</Text>
                             <Text style={{ color: '#666' }}>{'x'}</Text>
                             <Text style={{ color: '#f80000' }}>{`${item.sale_quantity}`}</Text>
                         </View>
-                        <View style={{ height: 30, flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{ height: 25, flexDirection: 'row', alignItems: 'center' }}>
                             <View style={{ flex: 1, flexDirection: 'row' }}>
                                 <Text style={{ color: '#999' }}>{'赠送：'}</Text>
                                 <Text style={{ color: '#999' }}>{`${item.gifts_quantity}`}</Text>

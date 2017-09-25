@@ -280,6 +280,8 @@ class AddLadingbillsProductPage extends React.Component {
                         <Text style={{ color: '#fff', fontSize: 16 }}>{`${params.car_id[0]}`}</Text>
                         <View style={{marginLeft:20}}/>
                         <Text style={{ color: '#fff', fontSize: 16 }}>{`${params.storehouse_id[0]}`}</Text>
+                        <View style={{marginLeft:20}}/>
+                        <Text style={{ color: '#fff', fontSize: 16 }}>{`${params.upEmployeeIds[0]}`}</Text>
                     </View>
                 </View>
                 <SearchBar

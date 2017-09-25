@@ -32,8 +32,8 @@ class SelectLadingbillsContainer extends React.Component {
                 tabBarActiveTextColor="#3e9ce9"
                 tabBarInactiveTextColor="#aaaaaa"
             >
-                <UnAuditedLadingbillsPage key={'0'} tabLabel={'未审核'} {...this.props} />
-                <SelectLadingbillsPage key={'1'} tabLabel={'已审核'} {...this.props} />
+                <SelectLadingbillsPage key={'0'} tabLabel={'已审核'} {...this.props} />
+                <UnAuditedLadingbillsPage key={'1'} tabLabel={'未审核'} {...this.props} />
             </ScrollableTabView>
         </View>);
     }

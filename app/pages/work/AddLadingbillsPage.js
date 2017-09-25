@@ -41,7 +41,7 @@ class AddLadingbillsPage extends React.Component {
             {},
             { title: '车牌号', key: 'car_id', value: '请选择车牌号', target: 'SelectCar' },
             { title: '提货日期', key: 'loadingbill_date', value: today },
-            {},
+            { title:'搬运工', key:'upEmployeeIds',value:'请选择搬运工',target:'SelectMuUser'},
             { title: '仓库', key: 'storehouse_id', value: '请选择仓库', target: 'SelectStore' },
         ];
         this.state = {
@@ -66,6 +66,10 @@ class AddLadingbillsPage extends React.Component {
                 if (data.name) {
                     item.value = data.name;
                     valeMap[item.key] = [data.name, data.id];
+                }
+                if(data.names){
+                    item.value = data.names;
+                    valeMap[item.key] = [data.names,data.ids];
                 }
                 if (data.STORE_HOUSE_NAME) {
                     item.value = data.STORE_HOUSE_NAME

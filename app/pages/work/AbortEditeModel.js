@@ -46,7 +46,7 @@ export default class AbortEditeModel extends React.Component {
         let content = this.content;
         let selectContext = "";
         if (this.state.isSelected != -1) {
-            selectContext = radio_props[this.state.isSelected].label + ",";
+            selectContext = radio_props[this.state.isSelected].label;
         }
         if ((this.content && this.content.length > 0) || selectContext) {
             let text = selectContext;

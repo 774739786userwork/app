@@ -87,20 +87,31 @@ class ReturnGoodComfirmPage extends React.Component {
   }
   //退货原因 填写确认
   onConfirmPress(content) {
+    // alert(content)
     this.setState({ modalVisible: false, returnReason: content });
   }
+
   dosubmitAction() {
-    if (this.state.returnReason) {
-      Alert.alert('', '确认退货?',
+    const { params } = this.props.navigation.state;
+    if(params.returnType == 1){
+        Alert.alert('', '确认退货?',
         [
           { text: '确认', onPress: this.comfirmSubmit },
           { text: '取消', onPress: () => console.log('Cancel Pressed!') }
         ]
       );
-    } else {
-      Toast.show('请填写退货原因!')
+    }else if(params.returnType == 0){
+      if (this.state.returnReason) {
+        Alert.alert('', '确认退货?',
+          [
+            { text: '确认', onPress: this.comfirmSubmit },
+            { text: '取消', onPress: () => console.log('Cancel Pressed!') }
+          ]
+        );
+      } else {
+        Toast.show('请填写退货原因!')
+      }
     }
-
   }
   //退货 提交
   comfirmSubmit() {
