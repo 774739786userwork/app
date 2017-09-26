@@ -71,7 +71,8 @@ export default class BleManagerPage extends React.Component {
             unpairedDevices: [],
             connected: false,
             section: 0,
-            connecting_id: ''
+            connecting_id: '',
+            printing:false,
         }
     }
 
@@ -272,10 +273,10 @@ export default class BleManagerPage extends React.Component {
                             </View>
                             <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#dedede' }} />
                             <View style={{ height: 58, paddingLeft: 12, paddingRight: 12, paddingBottom: 8, paddingTop: 6 }}>
-                                <TouchableHighlight onPress={this._onPrintPress.bind(this)} style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} >
-                                    <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: '#17c6c1', borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
+                                <TouchableHighlight disabled={this.state.printing} onPress={this._onPrintPress.bind(this)} style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} >
+                                    <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: this.state.printing ? '#f2f2f2' : '#17c6c1', borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
                                         <Iconfont
-                                            label={'打印小票'}
+                                            label={this.state.printing  ? '正在打印' : '打印小票'}
                                             labelSize={16}
                                             labelColor={'#fff'}
                                         />
@@ -295,6 +296,7 @@ export default class BleManagerPage extends React.Component {
 
     _onPrintPress() {
         const { params } = this.props.navigation.state;
+        this.setState({printing:true});
         if (params.creator) {
             this.printCreatorBody(params)  //送货单打印
         } else if (params.CH) {
@@ -310,6 +312,7 @@ export default class BleManagerPage extends React.Component {
         } else { 
             this.printBody(params)     //送货单重新打印
         }
+        this.setState({printing:false});
     }
 
     printBody(param) {
@@ -375,9 +378,11 @@ export default class BleManagerPage extends React.Component {
             ESC.printAndNewLine();
 
             ESC.text(ESC.Util.leftRight(`数量总计：${param.num + ''}`, '', 16));
+            ESC.printAndNewLine();
             ESC.text(ESC.Util.leftRight(`总计金额：￥${param.total_sum ? param.total_sum : 0.00}`, '', 16));
             ESC.printAndNewLine();
             ESC.text(ESC.Util.leftRight(`其中押金：￥${param.foregift_sum ? param.foregift_sum : 0.00}`, '', 16));
+            ESC.printAndNewLine();
             ESC.text(ESC.Util.leftRight(`本单实收：￥${param.paid_total_sum ? param.paid_total_sum : 0.00}`, '', 16));
             ESC.printAndNewLine();
             var arr = []
@@ -466,6 +471,7 @@ export default class BleManagerPage extends React.Component {
             //footer
             param.footerList.map((item) => {
                 ESC.text(ESC.Util.leftRight(item.text ? item.text : '', '', 16));
+                ESC.printAndNewLine();
                 ESC.text(ESC.Util.leftRight(item.text1 ? item.text1 : '', '', 16));
                 ESC.printAndNewLine();
             });
@@ -567,9 +573,11 @@ username:"zhangshijun"
             ESC.printAndNewLine();
             var total = param.total_sum ? param.total_sum : 0.00
             ESC.text(ESC.Util.leftRight(`数量总计：${param.num}`, '', 16));
+            ESC.printAndNewLine();
             ESC.text(ESC.Util.leftRight(`总计金额：￥${NumberUtils.fc(total)}`, '', 16));
             ESC.printAndNewLine();
             ESC.text(ESC.Util.leftRight(`其中押金：￥${param.total_foregift ? param.total_foregift : 0.00}`, '', 16));
+            ESC.printAndNewLine();
             ESC.text(ESC.Util.leftRight(`本单实收：￥${param.paid_total_sum ? param.paid_total_sum : 0.00}`, '', 16));
             ESC.printAndNewLine();
             var arr = []

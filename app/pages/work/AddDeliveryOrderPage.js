@@ -137,15 +137,23 @@ class AddDeliveryOrderPage extends React.Component {
 
     _renderItem = (item, index) => {
         let num = this.state.clear ? 0 : (item.sale_quantity ? parseInt(item.sale_quantity) : 0) + (item.gifts_quantity ? parseInt(item.gifts_quantity) : 0)
+
+        let url =  item.image;
+        let empty = item.stock === 0;
+        if(empty){
+           url = "ic_empty";
+        }
+
         return (
             <TouchableHighlight
                 onPress={this._rowOnPress.bind(this, item)}
                 key={`row_${index}`}
+                disabled={empty}
             >
-                <View style={{ backgroundColor: '#fff' }} >
+                <View style={{ backgroundColor: empty ?'#f2f2f2' :'#fff' }} >
                     <View style={{ flexDirection: 'row', paddingLeft: 12, }}>
                         <View style={{ alignItems: 'center', justifyContent: 'center', height: 110 }}>
-                            <ImageView style={{ width: 90, height: 90, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={{ uri: item.image }} />
+                            <ImageView style={{ width: 90, height: 90, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={{ uri: url }} />
                         </View>
                         <View style={{ flex: 1 }}>
                             <View style={{ height: 34, paddingLeft: 12, marginBottom: 8, marginTop: 5, flexDirection: 'row', alignItems: 'center' }}>
@@ -335,7 +343,7 @@ class AddDeliveryOrderPage extends React.Component {
         let list = addDeliveryOrder.result ? this.state.good_list : [];
         list = list ? list : []
         return (
-            <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
+            <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <AddDeliveryPopModel onClear={this.onClear} onEndAction={this.onEndAction.bind(this)} chooseList={this.state.chooseList} modalVisible={this.state.modalPopVisible} onCancelPress={this.onPopCancelPress.bind(this)} />
                 <AddDeliveryEditeModel modalVisible={this.state.modalVisible} onCancelPress={this.onCancelPress} item={this.state.selectItem} onConfirmPress={this.onConfirmPress} />
                 {

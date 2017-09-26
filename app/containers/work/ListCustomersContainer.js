@@ -54,7 +54,7 @@ class ListCustomersContainer extends React.Component {
           <Iconfont
             icon={'e6c3'} // 图标
             iconColor={'#fff'}
-            iconSize={22}
+            iconSize={26}
           />
         </View>
       </TouchableOpacity>)
