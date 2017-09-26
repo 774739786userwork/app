@@ -111,7 +111,7 @@ export function getCar4Delivery() {
 /**
  * 提货单查询
  */
-export function selectLadingbills(begin_date, end_date, start = 0, rows = 10) {
+export function selectLadingbills(begin_date, end_date,print_status, start = 0, rows = 10) {
     const user_id = LoginInfo.getUserInfo().user_id;
     const token = LoginInfo.getUserInfo().token;
     let page = 1;
@@ -120,13 +120,13 @@ export function selectLadingbills(begin_date, end_date, start = 0, rows = 10) {
         return {
             type: types.SelectLadingbillsing_More_ACTION,
             api: types.SelectLadingbills_API,
-            param: { user_id, token,/* begin_date, end_date, */page, rows }
+            param: { user_id, token,/* begin_date, end_date, */print_status,page, rows }
         };
     } else {
         return {
             type: types.SelectLadingbillsing_ACTION,
             api: types.SelectLadingbills_API,
-            param: { token, user_id, /* begin_date, end_date, */ page, rows }
+            param: { token, user_id, /* begin_date, end_date, */print_status, page, rows }
         };
     }
 

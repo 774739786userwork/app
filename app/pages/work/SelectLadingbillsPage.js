@@ -33,6 +33,7 @@ class SelectLadingbillsPage extends React.Component {
         this.state = {
             startDate: DateUtils.getYearMonthDay(),
             endDate: DateUtils.getYearMonthDay(),
+            print_status:1,
             count: 0,
         }
     }
@@ -43,10 +44,10 @@ class SelectLadingbillsPage extends React.Component {
         }
     }
     componentDidMount() {
-        const { action } = this.props;
-        const { startDate, endDate } = this.state;
+        const { action} = this.props;
+        const { startDate, endDate,print_status } = this.state;
         InteractionManager.runAfterInteractions(() => {
-            action.selectLadingbills(startDate, endDate);
+            action.selectLadingbills(startDate, endDate,print_status);
         });
     }
     _selectLadingbillsByDate(_startDate, _endDate) {
@@ -125,11 +126,11 @@ class SelectLadingbillsPage extends React.Component {
     //加载更多
     onEndReached() {
         const { action, selectLadingbills } = this.props;
-        const { startDate, endDate } = this.state;
+        const { startDate, endDate,print_status } = this.state;
         const start = selectLadingbills.listData._cachedRowCount;
         InteractionManager.runAfterInteractions(() => {
             if (start >= 10 && start % 10 === 0) {
-                action.selectLadingbills(startDate, endDate, start);
+                action.selectLadingbills(startDate, endDate,print_status, start);
             }
         });
     }

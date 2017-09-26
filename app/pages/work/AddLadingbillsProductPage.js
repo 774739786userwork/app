@@ -190,7 +190,7 @@ class AddLadingbillsProductPage extends React.Component {
             car_number: params.car_id[0],
             car_id: params.car_id[1],
             store_house_id: params.storehouse_id[1],
-
+            porters_id:params.upEmployeeIds[0],
             total_quantity: this.state.totalNum,
             total_weight: this.state.totalWeight + 'kg',
             good_list: JSON.stringify(this.state.good_list)
@@ -281,7 +281,7 @@ class AddLadingbillsProductPage extends React.Component {
                         <View style={{marginLeft:20}}/>
                         <Text style={{ color: '#fff', fontSize: 16 }}>{`${params.storehouse_id[0]}`}</Text>
                         <View style={{marginLeft:20}}/>
-                        <Text style={{ color: '#fff', fontSize: 16 }}>{`${params.upEmployeeIds[0]}`}</Text>
+                        <Text style={{ color: '#fff', fontSize: 16 }}>{`${params.upEmployeeIds[1]}`}</Text>
                     </View>
                 </View>
                 <SearchBar

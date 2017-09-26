@@ -69,7 +69,7 @@ class AddLadingbillsPage extends React.Component {
                 }
                 if(data.names){
                     item.value = data.names;
-                    valeMap[item.key] = [data.names,data.ids];
+                    valeMap[item.key] = [data.ids,data.names];
                 }
                 if (data.STORE_HOUSE_NAME) {
                     item.value = data.STORE_HOUSE_NAME

@@ -32,8 +32,8 @@ class SelectLadingbillsContainer extends React.Component {
                 tabBarActiveTextColor="#3e9ce9"
                 tabBarInactiveTextColor="#aaaaaa"
             >
-                <SelectLadingbillsPage key={'0'} tabLabel={'已审核'} {...this.props} />
-                <UnAuditedLadingbillsPage key={'1'} tabLabel={'未审核'} {...this.props} />
+                <UnAuditedLadingbillsPage key={'0'} tabLabel={'未审核'} {...this.props} />
+                <SelectLadingbillsPage key={'1'} tabLabel={'已审核'} {...this.props} />
             </ScrollableTabView>
         </View>);
     }
@@ -54,42 +54,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelectLadingbillsContainer);
-
-/**
- import React from 'react';
-
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Iconfont } from 'react-native-go';
-import * as actions from '../../actions/Actions';
-
-import SelectLadingbillsPage from '../../pages/work/SelectLadingbillsPage';
-
-
-class SelectLadingbillsContainer extends React.Component {
-  static navigationOptions = {
-    title: '提货单查询',
-  };
-  render() {
-    return <SelectLadingbillsPage {...this.props} />;
-  }
-}
-
-const mapStateToProps = (state) => {
-  const { selectLadingbills } = state;
-  return {
-    selectLadingbills
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  const action = bindActionCreators(actions, dispatch);
-  return {
-    action
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SelectLadingbillsContainer);
-
-
- */
