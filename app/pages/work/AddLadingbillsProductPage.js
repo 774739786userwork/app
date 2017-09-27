@@ -200,6 +200,9 @@ class AddLadingbillsProductPage extends React.Component {
             total_weight: this.state.totalWeight + 'kg',
             good_list: JSON.stringify(this.state.good_list)
         };
+        if(params.loading_id){
+            sbParam.loading_id = params.loading_id;
+        }
         InteractionManager.runAfterInteractions(() => {
             action.saveLadingbillsProduct(sbParam);
         });

@@ -130,14 +130,15 @@ upEmployeeIds: ["100012,", "蔡桥,"]
      */
  onItemPress(rowData) {
         const { navigate } = this.props.navigation;
-        debugger
+
         let car_id = [rowData.car_number,rowData.car_id,rowData.carweight];//[data.platenumber, data.carbaseinfo_id,data.carweight];
         let loadingbill_date = [rowData.loadingdate];//[today];
         let upEmployeeIds = [rowData.porters_id,rowData.porters_name];//[data.name, data.id];
         let storehouse_id = [rowData.store_house_name,rowData.store_house_id];
         let goodsList = rowData.goodsList;
+        let loading_id = rowData.loading_id;
 
-        let valeMap = {car_id,loadingbill_date,upEmployeeIds,storehouse_id,goodsList};
+        let valeMap = {car_id,loadingbill_date,upEmployeeIds,storehouse_id,goodsList,loading_id};
         navigate('AddLadingbillsProduct', valeMap);
     }
 
