@@ -28,16 +28,16 @@ export default class SurplusEditeModel extends React.Component {
         let item = this.props.item;
         this.state = {
             modalVisible: this.props.modalVisible,
-            count: item.product_stock_quantity ? item.product_stock_quantity : 0,
-            maxCount:  item.product_stock_quantity ? item.product_stock_quantity : 0,
+            count: item.remainCount ? item.remainCount : 0,
+            maxCount: item.remainCount ? item.remainCount : 0,
         };
     }
     componentWillReceiveProps(nextProps) {
         let item = nextProps.item;
         this.setState({
             modalVisible: nextProps.modalVisible,
-            count: item.product_stock_quantity,
-            maxCount: item.product_stock_quantity,
+            count: item.remainCount,
+            maxCount: item.remainCount,
         });
     }
 
@@ -45,14 +45,11 @@ export default class SurplusEditeModel extends React.Component {
         if (newCount < 0) {
             newCount = 0;
         }
-        // if (newCount > this.state.maxCount) {
-        //     newCount = this.state.maxCount;
-        // }
         this.setState({ count: newCount });
     }
     onConfirmPress() {
         let item = this.props.item;
-        this.props.onConfirmPress && this.props.onConfirmPress(item.id,this.state.count)
+        this.props.onConfirmPress && this.props.onConfirmPress(item.id, this.state.count)
         this.setState({ modalVisible: false });
     }
     onCancelPress() {
@@ -65,9 +62,9 @@ export default class SurplusEditeModel extends React.Component {
         return (<Modal
             animationType={'slide'}
             transparent={true}
-            onRequestClose={() => {}}
+            onRequestClose={() => { }}
             visible={this.state.modalVisible}>
-            <View style={{ flex: 1, justifyContent: 'center', padding: 20,backgroundColor:'rgba(0, 0, 0, 0.5)'}}>
+            <View style={{ flex: 1, justifyContent: 'center', padding: 20, backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
                 <View style={{
                     borderRadius: 10,
                     alignItems: 'center',

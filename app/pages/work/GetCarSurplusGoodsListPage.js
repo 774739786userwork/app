@@ -163,30 +163,31 @@ class GetCarSurplusGoodsListPage extends React.Component {
         saveParams.loading_date = this.state.loadingdate
 
         saveParams.goods_list = JSON.stringify(goods_list);
-        alert(saveParams.goods_list)
-        // const { navigation } = this.props;
-        // this.setState({ showSpinner: true })
-        // FetchManger.postUri('mobileServiceManager/carmanager/addCarRemain.page', saveParams).then((responseData) => {
-        //     if (responseData.status === '0' || responseData.status === 0) {
-        //         const navigationAction = NavigationActions.reset({
-        //             index: 1,
-        //             actions: [
-        //                 NavigationActions.navigate({ routeName: 'Home' }),
-        //                 NavigationActions.navigate({ routeName: 'BleManager', params: params })
-        //             ]
-        //         })
-        //         navigation.dispatch(navigationAction)
-        //         Toast.show('保存成功')
-        //         this.setState({ showSpinner: false })
-        //     } else {
-        //         Toast.show(responseData.msg)
-        //         this.setState({ showSpinner: false })
-        //     }
-        // }).catch((error) => {
-        //     console.log(error)
-        //     this.setState({ showSpinner: false })
-        //     Toast.show('保存失败')
-        // })
+      //  alert(saveParams.goods_list)
+
+        const { navigation } = this.props;
+        this.setState({ showSpinner: true })
+        FetchManger.postUri('mobileServiceManager/carmanager/addCarRemain.page', saveParams).then((responseData) => {
+            if (responseData.status === '0' || responseData.status === 0) {
+                const navigationAction = NavigationActions.reset({
+                    index: 1,
+                    actions: [
+                        NavigationActions.navigate({ routeName: 'Home' }),
+                        NavigationActions.navigate({ routeName: 'BleManager', params: params })
+                    ]
+                })
+                navigation.dispatch(navigationAction)
+                Toast.show('保存成功')
+                this.setState({ showSpinner: false })
+            } else {
+                Toast.show(responseData.msg)
+                this.setState({ showSpinner: false })
+            }
+        }).catch((error) => {
+            console.log(error)
+            this.setState({ showSpinner: false })
+            Toast.show('保存失败')
+        })
     }
 
     onConfirmPress(id, newCount) {
