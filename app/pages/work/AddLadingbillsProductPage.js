@@ -50,8 +50,11 @@ class AddLadingbillsProductPage extends React.Component {
         this._onCarPress = this._onCarPress.bind(this);
         this.onClear = this.onClear.bind(this);
         this.searchText = '';
+        
+        const { params } = this.props.navigation.state;
+
         this.state = {
-            good_list: [],
+            good_list: params.good_list ? params.good_list : [],
             totalNum: 0,
             totalWeight: 0,
             modalVisible: false,
@@ -93,8 +96,10 @@ class AddLadingbillsProductPage extends React.Component {
     componentDidMount() {
         const { action } = this.props;
         const { params } = this.props.navigation.state;
-        let car_id = params.car_id[1]
-        carWeight = params.car_id[2]
+        
+        let car_id = params.car_id[1];
+        carWeight = params.car_id[2];
+
         InteractionManager.runAfterInteractions(() => {
             action.addLadingbillsProduct(car_id);
         });

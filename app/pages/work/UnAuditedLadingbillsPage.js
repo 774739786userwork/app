@@ -119,10 +119,26 @@ class UnAuditedLadingbillsPage extends React.Component {
         }
 
     }
+    /**
+     * 
+ 
+     car_id: ["云AIC9W8", 149, "3000"]
+loadingbill_date:["2017-9-27"]
+storehouse_id: ["昆明多邦仓库", 100001]
+upEmployeeIds: ["100012,", "蔡桥,"]
 
-    onItemPress(rowData) {
+     */
+ onItemPress(rowData) {
         const { navigate } = this.props.navigation;
-        navigate('AddLadingbillsProduct', rowData);
+        debugger
+        let car_id = [rowData.car_number,rowData.car_id,rowData.carweight];//[data.platenumber, data.carbaseinfo_id,data.carweight];
+        let loadingbill_date = [rowData.loadingdate];//[today];
+        let upEmployeeIds = [rowData.porters_name,rowData.porters_id];//[data.name, data.id];
+        let storehouse_id = [rowData.store_house_name,rowData.store_house_id];
+        let goodsList = rowData.goodsList;
+
+        let valeMap = {car_id,loadingbill_date,upEmployeeIds,storehouse_id,goodsList};
+        navigate('AddLadingbillsProduct', valeMap);
     }
 
     _renderItem = (item, index) => {
