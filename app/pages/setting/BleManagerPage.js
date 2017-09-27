@@ -62,7 +62,6 @@ export default class BleManagerPage extends React.Component {
         this.printBody = this.printBody.bind(this)
 
         this.state = {
-            print: props.navigation.state.params != undefined,
             devices: [],
             showSpinner: false,
             selectItem: 1,
@@ -72,7 +71,7 @@ export default class BleManagerPage extends React.Component {
             connected: false,
             section: 0,
             connecting_id: '',
-            printing:false,
+            printing: false,
         }
     }
 
@@ -104,7 +103,7 @@ export default class BleManagerPage extends React.Component {
     }
     //列出 蓝牙
     listBlueTooth() {
-        Promise.all([ GMBluetooth.isEnabled(),GMBluetooth.list()])
+        Promise.all([GMBluetooth.isEnabled(), GMBluetooth.list()])
             .then((values) => {
                 const [isEnabled, devices] = values
                 if (!isEnabled && Platform.OS === 'android') {
@@ -172,7 +171,7 @@ export default class BleManagerPage extends React.Component {
         this.setState({ selectItem })
     }
     render() {
-        const { isEnabled, devices, unpairedDevices, connectedID, weight } = this.state;
+        const { isEnabled, devices, unpairedDevices, connectedID, weight, print, printing } = this.state;
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <ScrollView>
@@ -227,65 +226,63 @@ export default class BleManagerPage extends React.Component {
                         </View>
                         : null
                 }
-                {
-                    this.state.print ?
-                        <View>
-                            <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#dedede' }} />
-                            <View style={{ flexDirection: 'row' }}>
-                                <TouchableOpacity style={{ flex: 1, alignItems: 'center', height: 44, }} onPress={this._onPrintTypePress.bind(this, 0)}>
-                                    <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', }}>
-                                        <Iconfont
-                                            icon={this.state.selectItem === 0 ? 'e662' : 'e663'} // 图标
-                                            iconColor={'#0081d4'}
-                                            iconPadding={8}
-                                            position={'left'}
-                                            label={'打印一张'}
-                                            labelColor={'#666'}
-                                        />
-                                    </View>
-                                </TouchableOpacity>
-                                <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#dedede' }} />
-                                <TouchableOpacity style={{ flex: 1, alignItems: 'center', height: 44, }} onPress={this._onPrintTypePress.bind(this, 1)}>
-                                    <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', }}>
-                                        <Iconfont
-                                            icon={this.state.selectItem === 1 ? 'e662' : 'e663'} // 图标
-                                            iconColor={'#0081d4'}
-                                            iconPadding={8}
-                                            position={'left'}
-                                            label={'打印两张'}
-                                            labelColor={'#666'}
-                                        />
-                                    </View>
-                                </TouchableOpacity>
-                                <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#dedede' }} />
-                                <TouchableOpacity style={{ flex: 1, alignItems: 'center', height: 44, }} onPress={this._onPrintTypePress.bind(this, 2)}>
-                                    <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', }}>
-                                        <Iconfont
-                                            icon={this.state.selectItem === 2 ? 'e662' : 'e663'} // 图标
-                                            iconColor={'#0081d4'}
-                                            iconPadding={8}
-                                            position={'left'}
-                                            label={'打印三张'}
-                                            labelColor={'#666'}
-                                        />
-                                    </View>
-                                </TouchableOpacity>
+
+                <View>
+                    <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#dedede' }} />
+                    <View style={{ flexDirection: 'row' }}>
+                        <TouchableOpacity style={{ flex: 1, alignItems: 'center', height: 44, }} onPress={this._onPrintTypePress.bind(this, 0)}>
+                            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', }}>
+                                <Iconfont
+                                    icon={this.state.selectItem === 0 ? 'e662' : 'e663'} // 图标
+                                    iconColor={'#0081d4'}
+                                    iconPadding={8}
+                                    position={'left'}
+                                    label={'打印一张'}
+                                    labelColor={'#666'}
+                                />
                             </View>
-                            <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#dedede' }} />
-                            <View style={{ height: 58, paddingLeft: 12, paddingRight: 12, paddingBottom: 8, paddingTop: 6 }}>
-                                <TouchableHighlight disabled={this.state.printing} onPress={this._onPrintPress.bind(this)} style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} >
-                                    <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: this.state.printing ? '#f2f2f2' : '#17c6c1', borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
-                                        <Iconfont
-                                            label={this.state.printing  ? '正在打印' : '打印小票'}
-                                            labelSize={16}
-                                            labelColor={'#fff'}
-                                        />
-                                    </View>
-                                </TouchableHighlight>
+                        </TouchableOpacity>
+                        <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#dedede' }} />
+                        <TouchableOpacity style={{ flex: 1, alignItems: 'center', height: 44, }} onPress={this._onPrintTypePress.bind(this, 1)}>
+                            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', }}>
+                                <Iconfont
+                                    icon={this.state.selectItem === 1 ? 'e662' : 'e663'} // 图标
+                                    iconColor={'#0081d4'}
+                                    iconPadding={8}
+                                    position={'left'}
+                                    label={'打印两张'}
+                                    labelColor={'#666'}
+                                />
                             </View>
-                        </View>
-                        : null
-                }
+                        </TouchableOpacity>
+                        <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#dedede' }} />
+                        <TouchableOpacity style={{ flex: 1, alignItems: 'center', height: 44, }} onPress={this._onPrintTypePress.bind(this, 2)}>
+                            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', }}>
+                                <Iconfont
+                                    icon={this.state.selectItem === 2 ? 'e662' : 'e663'} // 图标
+                                    iconColor={'#0081d4'}
+                                    iconPadding={8}
+                                    position={'left'}
+                                    label={'打印三张'}
+                                    labelColor={'#666'}
+                                />
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#dedede' }} />
+                    <View style={{ height: 58, paddingLeft: 12, paddingRight: 12, paddingBottom: 8, paddingTop: 6 }}>
+                        <TouchableHighlight disabled={ printing } onPress={this._onPrintPress} style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} >
+                            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: this.state.printing ? '#f2f2f2' : '#17c6c1', borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
+                                <Iconfont
+                                    label={ printing ? '正在打印' : '打印小票'}
+                                    labelSize={16}
+                                    labelColor={'#fff'}
+                                />
+                            </View>
+                        </TouchableHighlight>
+                    </View>
+                </View>
+
                 <View><Spinner visible={this.state.showSpinner} /></View>
             </View >);
     }
@@ -296,23 +293,23 @@ export default class BleManagerPage extends React.Component {
 
     _onPrintPress() {
         const { params } = this.props.navigation.state;
-        this.setState({printing:true});
+        this.setState({ printing: true });
         if (params.creator) {
             this.printCreatorBody(params)  //送货单打印
         } else if (params.CH) {
             this.printCHBody(params) //车存货打印
-        } else if (params.YH){
+        } else if (params.YH) {
             this.printYHBody(params)  //车余货打印
-        }else if (params.XH) {
+        } else if (params.XH) {
             this.printXHBody(params) //卸货打印
         } else if (params.CXXH) {
             this.printCXXHBody(params) //重新卸货打印
         } else if (params.headerList) {
             this.commPrintBody(params); //退货打印
-        } else { 
+        } else {
             this.printBody(params)     //送货单重新打印
         }
-        this.setState({printing:false});
+        this.setState({ printing: false });
     }
 
     printBody(param) {
