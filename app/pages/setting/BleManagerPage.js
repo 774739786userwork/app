@@ -171,7 +171,7 @@ export default class BleManagerPage extends React.Component {
         this.setState({ selectItem })
     }
     render() {
-        const { isEnabled, devices, unpairedDevices, connectedID, weight, print, printing } = this.state;
+        const { isEnabled, devices, unpairedDevices, connectedID, printing } = this.state;
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <ScrollView>
@@ -271,10 +271,10 @@ export default class BleManagerPage extends React.Component {
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#dedede' }} />
                     <View style={{ height: 58, paddingLeft: 12, paddingRight: 12, paddingBottom: 8, paddingTop: 6 }}>
-                        <TouchableHighlight disabled={ printing } onPress={this._onPrintPress} style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} >
-                            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: this.state.printing ? '#f2f2f2' : '#17c6c1', borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
+                        <TouchableHighlight disabled={printing} onPress={this._onPrintPress} style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} >
+                            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: printing ? '#f2f2f2' : '#17c6c1', borderColor: printing ? '#f2f2f2' : '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
                                 <Iconfont
-                                    label={ printing ? '正在打印' : '打印小票'}
+                                    label={printing ? '正在打印' : '打印小票'}
                                     labelSize={16}
                                     labelColor={'#fff'}
                                 />
@@ -294,22 +294,25 @@ export default class BleManagerPage extends React.Component {
     _onPrintPress() {
         const { params } = this.props.navigation.state;
         this.setState({ printing: true });
-        if (params.creator) {
-            this.printCreatorBody(params)  //送货单打印
-        } else if (params.CH) {
-            this.printCHBody(params) //车存货打印
-        } else if (params.YH) {
-            this.printYHBody(params)  //车余货打印
-        } else if (params.XH) {
-            this.printXHBody(params) //卸货打印
-        } else if (params.CXXH) {
-            this.printCXXHBody(params) //重新卸货打印
-        } else if (params.headerList) {
-            this.commPrintBody(params); //退货打印
-        } else {
-            this.printBody(params)     //送货单重新打印
-        }
-        this.setState({ printing: false });
+
+        new Promise(() => {
+            if (params.creator) {
+                this.printCreatorBody(params)  //送货单打印
+            } else if (params.CH) {
+                this.printCHBody(params) //车存货打印
+            } else if (params.YH) {
+                this.printYHBody(params)  //车余货打印
+            } else if (params.XH) {
+                this.printXHBody(params) //卸货打印
+            } else if (params.CXXH) {
+                this.printCXXHBody(params) //重新卸货打印
+            } else if (params.headerList) {
+                this.commPrintBody(params); //退货打印
+            } else {
+                this.printBody(params)     //送货单重新打印
+            }
+            this.setState({ printing: false });
+        })
     }
 
     printBody(param) {
