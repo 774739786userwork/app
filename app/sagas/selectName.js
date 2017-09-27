@@ -5,7 +5,7 @@ import { FetchManger } from 'react-native-go'
 
 export function* selectName(action) {
   try {
-    const responseData = yield call(FetchManger.getUri, action.api, action.param);
+    const responseData = yield call(FetchManger.postUri, action.api, action.param);
     if (responseData.status === '0' || responseData.status === 0) {
       yield put({ type: types.SelectNameSucceed_ACTION, result: responseData.data });
     } else {
