@@ -93,6 +93,7 @@ export default class SurplusEditeModel extends React.Component {
                             </TouchableOpacity>
                             <TextInput style={{ width: 80, height: 30, textAlign: 'center', color: '#666', borderRadius: 8, padding: 0, borderWidth: 1, borderColor: '#c4c4c4' }}
                                 underlineColorAndroid={'transparent'}
+                                keyboardType={'numeric'}
                                 value={'' + this.state.count}
                                 defaultValue={'' + this.state.count}
                                 onChangeText={(newCount) => {

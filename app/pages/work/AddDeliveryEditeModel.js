@@ -141,6 +141,7 @@ export default class AddDeliveryEditeModel extends React.Component {
                                 <Text style={{ width: 40, marginRight: 8, textAlign: 'right', }}>单价:</Text>
                                 <TextInput style={{ width: 100, height: 30, textAlign: 'center', color: '#666', borderRadius: 8, padding: 0, borderWidth: 1, borderColor: '#c4c4c4' }}
                                     underlineColorAndroid={'transparent'}
+                                    selectTextOnFocus={true}
                                     value={'' + this.state.price}
                                     keyboardType={'numeric'}
                                     defaultValue={'' + this.state.price}
@@ -175,6 +176,8 @@ export default class AddDeliveryEditeModel extends React.Component {
                                     </TouchableOpacity>
                                     <TextInput style={{ width: 80, height: 30, textAlign: 'center', color: '#666', borderRadius: 8, padding: 0, borderWidth: 1, borderColor: '#c4c4c4' }}
                                         underlineColorAndroid={'transparent'}
+                                        selectTextOnFocus={true}
+                                        keyboardType={'numeric'}
                                         value={'' + this.state.sale_quantity}
                                         defaultValue={'' + this.state.sale_quantity}
                                         onChangeText={(newCount) => {
@@ -215,6 +218,8 @@ export default class AddDeliveryEditeModel extends React.Component {
                                             </TouchableOpacity>
                                             <TextInput style={{ width: 80, height: 30, textAlign: 'center', color: '#666', borderRadius: 8, padding: 0, borderWidth: 1, borderColor: '#c4c4c4' }}
                                                 underlineColorAndroid={'transparent'}
+                                                selectTextOnFocus={true}
+                                                keyboardType={'numeric'}
                                                 value={'' + this.state.gifts_quantity}
                                                 defaultValue={'' + this.state.gifts_quantity}
                                                 onChangeText={(newCount) => {

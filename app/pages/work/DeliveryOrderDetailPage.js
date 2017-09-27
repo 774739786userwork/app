@@ -19,7 +19,7 @@ import ImageView from '../../components/ImageView'
 import { NavigationActions } from 'react-navigation'
 import AbortEditeModel from './AbortEditeModel'
 import Spinner from 'react-native-loading-spinner-overlay';
-
+const WINDOW_WIDTH = Dimensions.get('window').width;
 // let coords = {}
 class DeliveryOrderDetailPage extends React.Component {
     constructor(props) {
@@ -56,20 +56,20 @@ class DeliveryOrderDetailPage extends React.Component {
         return (
             <View style={{ backgroundColor: '#fff' }} key={`row_${index}`}>
                 <View style={{ flexDirection: 'row', }}>
-                    <View style={{ alignItems: 'center', justifyContent: 'center', width: 110, height: 90 }}>
-                        <ImageView style={{ width: 80, height: 80, borderWidth: 1, borderColor: '#c4c4c4' }} source={{ uri: item.image }} />
+                    <View style={{ alignItems: 'center', justifyContent: 'center', width: 70, height: 70 }}>
+                        <ImageView style={{ width: 60, height: 60, borderWidth: 1, borderColor: '#c4c4c4' }} source={{ uri: item.image }} />
                     </View>
-                    <View style={{ flex: 1 }}>
-                        <View style={{ height: 30, marginBottom: 3, flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{ flex: 1,marginTop:2 }}>
+                        <View style={{ height: 20, flexDirection: 'row', alignItems: 'center' }}>
                             <Text style={{ color: '#333', fontSize: 16 }}>{`${item.product_name}`}</Text>
                         </View>
-                        <View style={{ height: 25, flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{ height: 20, flexDirection: 'row', alignItems: 'center' }}>
                             <Text style={{ color: '#666' }}>{'售价：'}</Text>
                             <Text style={{ color: '#666' }}>{`${item.price}`}</Text>
                             <Text style={{ color: '#666' }}>{'x'}</Text>
                             <Text style={{ color: '#f80000' }}>{`${item.sale_quantity}`}</Text>
                         </View>
-                        <View style={{ height: 25, flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{ height: 20, flexDirection: 'row', alignItems: 'center' }}>
                             <View style={{ flex: 1, flexDirection: 'row' }}>
                                 <Text style={{ color: '#999' }}>{'赠送：'}</Text>
                                 <Text style={{ color: '#999' }}>{`${item.gifts_quantity}`}</Text>
@@ -195,48 +195,53 @@ class DeliveryOrderDetailPage extends React.Component {
                                     enableEmptySections={true}
                                     dataSource={deliveryOrderDetail.listData}
                                     renderRow={this._renderItem}
-                                    renderFooter={() =>
-                                        <View style={{ padding: 12, backgroundColor: '#fff9f9' }}>
-                                            <Text style={{ color: '#666' }}>{`总共${sum}件商品,共计￥${params.total_sum},其中押金￥${params.foregift_sum ? params.foregift_sum : 0.00}`}</Text>
-                                            <View style={{ flexDirection: 'row', marginTop: 6 }}>
-                                                <Text style={{ color: '#666' }}>{`铺货总计/优惠总计/未收总计:`}</Text>
-                                                <Text style={{ color: '#f80000' }}>{`￥${params.distribution_sum}/￥${params.discount_sum}/￥${params.unpaid_total_sum}`}</Text>
-                                            </View>
-                                        </View>
-                                    }
                                 />
                             )
 
                     }
+                    
                 </View>
                 {
                     !deliveryOrderDetail.loading && deliveryOrderDetail.listData._cachedRowCount > 0 ?
-                        <View style={{ height: 58, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
-                            <View style={{ width: 12 }} />
-                            <TouchableHighlight style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} onPress={this._onItemPress.bind(this, 0)}>
-                                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: '#17c6c1', borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
-                                    <Iconfont
-                                        icon={'e6c4'} // 图标
-                                        iconColor={'#fff'}
-                                        iconSize={22}
-                                        label={'作废本单'}
-                                        labelColor={'#fff'}
-                                    />
+                        <View style={{ height: 100, backgroundColor: '#fff', flexDirection: 'column', alignItems: 'center' }}>
+                            <View style={{ padding: 5, backgroundColor: '#fff9f9',width:WINDOW_WIDTH }}>
+                                <View style={{ flexDirection:'row'}}>
+                                    <Text style={{ color: '#666' }}>{`总共${sum}件商品,`}</Text>
+                                    <Text style={{ color: '#f80000' }}>{`共计￥${params.total_sum},`}</Text>
+                                    <Text style={{ color: '#666' }}>{`其中押金￥${params.foregift_sum ? params.foregift_sum : 0.00}`}</Text>
                                 </View>
-                            </TouchableHighlight>
-                            <View style={{ width: 12 }} />
-                            <TouchableHighlight style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} onPress={this._onItemPress.bind(this, 2)}>
-                                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: '#17c6c1', borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
-                                    <Iconfont
-                                        icon={'e6bd'} // 图标
-                                        iconColor={'#fff'}
-                                        iconSize={22}
-                                        label={'重新打印'}
-                                        labelColor={'#fff'}
-                                    />
+                                <View style={{ flexDirection: 'row', marginTop: 3 }}>
+                                    <Text style={{ color: '#666' }}>{`铺货总计/优惠总计/未收总计:`}</Text>
+                                    <Text style={{ color: '#f80000' }}>{`￥${params.distribution_sum}/￥${params.discount_sum}/￥${params.unpaid_total_sum}`}</Text>
                                 </View>
-                            </TouchableHighlight>
-                            <View style={{ width: 12 }} />
+                            </View>
+                            <View style={{height: 50, backgroundColor: '#fff', flexDirection:'row', alignItems: 'center' }}>
+                                <View style={{ width: 12 }} />
+                                <TouchableHighlight style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} onPress={this._onItemPress.bind(this, 0)}>
+                                    <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: '#17c6c1', borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
+                                        <Iconfont
+                                            icon={'e6c4'} // 图标
+                                            iconColor={'#fff'}
+                                            iconSize={22}
+                                            label={'作废本单'}
+                                            labelColor={'#fff'}
+                                        />
+                                    </View>
+                                </TouchableHighlight>
+                                <View style={{ width: 12 }} />
+                                <TouchableHighlight style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} onPress={this._onItemPress.bind(this, 2)}>
+                                    <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: '#17c6c1', borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
+                                        <Iconfont
+                                            icon={'e6bd'} // 图标
+                                            iconColor={'#fff'}
+                                            iconSize={22}
+                                            label={'重新打印'}
+                                            labelColor={'#fff'}
+                                        />
+                                    </View>
+                                </TouchableHighlight>
+                                <View style={{ width: 12 }} />
+                            </View>
                         </View>
                         : null
                 }
