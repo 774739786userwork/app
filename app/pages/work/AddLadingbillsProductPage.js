@@ -54,7 +54,7 @@ class AddLadingbillsProductPage extends React.Component {
         const { params } = this.props.navigation.state;
 
         this.state = {
-            good_list: params.good_list ? params.good_list : [],
+            good_list: params.goodsList ? params.goodsList : [],
             totalNum: 0,
             totalWeight: 0,
             modalVisible: false,
