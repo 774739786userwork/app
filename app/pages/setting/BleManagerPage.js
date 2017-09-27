@@ -719,7 +719,7 @@ username:"zhangshijun"
                 ESC.text(ESC.Util.leftRight('产品名称：' + item.product_name, '', 20));
                 ESC.printAndNewLine();
                 ESC.alignLeft();
-                ESC.text(ESC.Util.leftRight(`余货数量：${item.remainCount}`, '', 20));
+                ESC.text(ESC.Util.leftRight(`余货数量：${item.remainCount ? item.remainCount:item.product_stock_quantity}`, '', 20));
             })
             ESC.printAndNewLine();
             ESC.printAndNewLine();

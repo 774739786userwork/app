@@ -128,7 +128,7 @@ class GetCarSurplusGoodsListPage extends React.Component {
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#666' }}>{'余：'}</Text>
-                            <Text style={{ color: '#f80000' }}>{`${ remainCount}`}</Text>
+                            <Text style={{ color: '#f80000' }}>{`${ remainCount ? remainCount:item.product_stock_quantity }`}</Text>
                         </View>
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, marginTop: 12, flex: 1, backgroundColor: '#c4c4c4' }} />
@@ -150,11 +150,7 @@ class GetCarSurplusGoodsListPage extends React.Component {
             }
         })
         
-        if(goods_list.length == 0){
-            Toast.show("请选择余货产品！");
-            return;
-        }
-        params.chooseList = goods_list
+        params.chooseList = this.state.data
         params.selectCar = this.state.car
         const token = LoginInfo.getUserInfo().token;
         const user_id = LoginInfo.getUserInfo().user_id;
@@ -165,30 +161,32 @@ class GetCarSurplusGoodsListPage extends React.Component {
         saveParams.carbaseinfo_id = params.selectCar.carbaseinfo_id
         saveParams.platenumber = params.selectCar.platenumber
         saveParams.loading_date = this.state.loadingdate
+
         saveParams.goods_list = JSON.stringify(goods_list);
-        const { navigation } = this.props;
-        this.setState({ showSpinner: true })
-        FetchManger.postUri('mobileServiceManager/carmanager/addCarRemain.page', saveParams).then((responseData) => {
-            if (responseData.status === '0' || responseData.status === 0) {
-                const navigationAction = NavigationActions.reset({
-                    index: 1,
-                    actions: [
-                        NavigationActions.navigate({ routeName: 'Home' }),
-                        NavigationActions.navigate({ routeName: 'BleManager', params: params })
-                    ]
-                })
-                navigation.dispatch(navigationAction)
-                Toast.show('保存成功')
-                this.setState({ showSpinner: false })
-            } else {
-                Toast.show(responseData.msg)
-                this.setState({ showSpinner: false })
-            }
-        }).catch((error) => {
-            console.log(error)
-            this.setState({ showSpinner: false })
-            Toast.show('保存失败')
-        })
+        alert(saveParams.goods_list)
+        // const { navigation } = this.props;
+        // this.setState({ showSpinner: true })
+        // FetchManger.postUri('mobileServiceManager/carmanager/addCarRemain.page', saveParams).then((responseData) => {
+        //     if (responseData.status === '0' || responseData.status === 0) {
+        //         const navigationAction = NavigationActions.reset({
+        //             index: 1,
+        //             actions: [
+        //                 NavigationActions.navigate({ routeName: 'Home' }),
+        //                 NavigationActions.navigate({ routeName: 'BleManager', params: params })
+        //             ]
+        //         })
+        //         navigation.dispatch(navigationAction)
+        //         Toast.show('保存成功')
+        //         this.setState({ showSpinner: false })
+        //     } else {
+        //         Toast.show(responseData.msg)
+        //         this.setState({ showSpinner: false })
+        //     }
+        // }).catch((error) => {
+        //     console.log(error)
+        //     this.setState({ showSpinner: false })
+        //     Toast.show('保存失败')
+        // })
     }
 
     onConfirmPress(id, newCount) {
