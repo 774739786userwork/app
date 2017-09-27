@@ -57,7 +57,6 @@ export default class RemarkEditeModel extends React.Component {
                 text += "," + this.content;
             }
             this.props.onConfirmPress && this.props.onConfirmPress(text)
-            alert(text)
             this.setState({ modalVisible: false });
         }else {
             Toast.show('请选择或填写原因!')

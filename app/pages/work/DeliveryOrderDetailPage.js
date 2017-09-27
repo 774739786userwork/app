@@ -173,13 +173,13 @@ class DeliveryOrderDetailPage extends React.Component {
         }
         return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
-                <View style={{ backgroundColor: '#118cd7', padding: 12 }}>
-                    <View style={{ height: 30, flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{ color: '#fff', fontSize: 16 }}>{`${params.contact_name}`}</Text>
-                        <Text style={{ color: '#fff', fontSize: 16 }}>{`${params.contact_mobile}`}</Text>
+                <View style={{ backgroundColor: '#118cd7'}}>
+                    <View style={{ height: 25, flexDirection: 'row', alignItems: 'center' }}>
+                        <Text style={{ color: '#fff', fontSize: 16,marginLeft:5 }}>{`${params.contact_name}`}</Text>
+                        <Text style={{ color: '#fff', fontSize: 16,marginLeft:10 }}>{`${params.contact_mobile}`}</Text>
                     </View>
-                    <View style={{ height: 30, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{ color: '#fff' }}>{`${params.customer_address}`}</Text>
+                    <View style={{ height: 25, marginTop: 3, flexDirection: 'row', alignItems: 'center' }}>
+                        <Text style={{ color: '#fff',marginLeft:5 }}>{`${params.customer_address}`}</Text>
                     </View>
                 </View>
                 <View style={{ flex: 1 }}>
