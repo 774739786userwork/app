@@ -122,7 +122,7 @@ class UnAuditedLadingbillsPage extends React.Component {
 
     onItemPress(rowData) {
         const { navigate } = this.props.navigation;
-        // navigate('AddLadingbillsProduct', rowData);
+        navigate('AddLadingbillsProduct', rowData);
     }
 
     _renderItem = (item, index) => {
