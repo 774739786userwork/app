@@ -14,7 +14,7 @@ import {
     FlatList
 } from 'react-native';
 
-import { Iconfont, Toast } from 'react-native-go';
+import { Iconfont, Toast, LoginInfo, FetchManger } from 'react-native-go';
 import DatePicker from 'react-native-datepicker'
 
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -34,9 +34,13 @@ class NewReturnGoodPage extends React.Component {
     constructor(props) {
         super(props);
         this._renderItem = this._renderItem.bind(this);
-        this._selectByDate = this._selectByDate.bind(this)
-        this._onItemPress = this._onItemPress.bind(this)
-        this._onAddItemPress = this._onAddItemPress.bind(this)
+        this._selectByDate = this._selectByDate.bind(this);
+        this._onItemPress = this._onItemPress.bind(this);
+        this._onAddItemPress = this._onAddItemPress.bind(this);
+
+        this.loadCar = this.loadCar.bind(this);
+        this.loadStore = this.loadStore.bind(this);
+
         valeMap = {};
         let today = GetDateStr(0);
         valeMap.loadingbill_date = [today];
@@ -52,6 +56,70 @@ class NewReturnGoodPage extends React.Component {
             listData: dataSource.cloneWithRows(listViewData),
         }
     }
+
+    componentDidMount() {
+        InteractionManager.runAfterInteractions(() => {
+            this.loadCar();
+            this.loadStore();
+        });
+    }
+
+    loadCar() {
+        const token = LoginInfo.getUserInfo().token;
+        const user_id = LoginInfo.getUserInfo().user_id;
+        InteractionManager.runAfterInteractions(() => {
+            FetchManger.getUri('mobileServiceManager/customers/getCarInfoJson.page', { token, user_id }).then((responseData) => {
+                if (responseData.status === '0' || responseData.status === 0) {
+                    let data = responseData.data;
+                    if (data && data.length > 0) {
+
+                        let item = {};
+                        for (let index = 0; index < listViewData.length; index++) {
+                            if ('car_id' == listViewData[index].key) {
+                                item = listViewData[index];
+                                break;
+                            }
+                        }
+                        item.value = data[0].platenumber;
+                        valeMap['car_id'] = [data[0].platenumber, data[0].carbaseinfo_id, data[0].carweight];
+                        this.setState({ listData: dataSource.cloneWithRows(listViewData) });
+                    }
+                }
+            }).catch((error) => {
+                console.log(error)
+            })
+        });
+    }
+    loadStore() {
+        const token = LoginInfo.getUserInfo().token;
+        const organization_id = LoginInfo.getUserInfo().organization_id;
+        InteractionManager.runAfterInteractions(() => {
+            FetchManger.getUri('mobileServiceManager/ladingbills/appGetWarehouse.page', { token, organization_id }).then((responseData) => {
+                if (responseData.status === '0' || responseData.status === 0) {
+                    let data = responseData.data;
+                    if (data && data.length > 0) {
+
+                        let item = {};
+                        for (let index = 0; index < listViewData.length; index++) {
+                            if ('storehouse_id' == listViewData[index].key) {
+                                item = listViewData[index];
+                                break;
+                            }
+                        }
+                        item.value = data[0].STORE_HOUSE_NAME
+                        valeMap['storehouse_id'] = [data[0].STORE_HOUSE_NAME, data[0].STORE_HOUSE_ID];
+                        this.setState({ listData: dataSource.cloneWithRows(listViewData) });
+                    }
+
+                }
+            }).catch((error) => {
+                console.log(error)
+            })
+        });
+
+    }
+
+
     _selectByDate(item, dateValue) {
         item.value = dateValue;
         valeMap[item.key] = [dateValue];
@@ -65,18 +133,18 @@ class NewReturnGoodPage extends React.Component {
                 item.data = data;
                 if (data.platenumber) {
                     item.value = data.platenumber;
-                    valeMap[item.key] = [data.platenumber, data.carbaseinfo_id,data.carweight];
+                    valeMap[item.key] = [data.platenumber, data.carbaseinfo_id, data.carweight];
                 }
                 if (data.customersName) {
                     item.value = data.customersName;
                     let contactName = "";
                     let contactPhone = "";
                     if (data.contacts && data.contacts.length > 0) {
-                      contactName = data.contacts[0].name;
-                      contactPhone = data.contacts[0].mobile1;
+                        contactName = data.contacts[0].name;
+                        contactPhone = data.contacts[0].mobile1;
                     }
 
-                    valeMap[item.key] = [data.customersName, data.customersId,contactName,contactPhone,data.address];
+                    valeMap[item.key] = [data.customersName, data.customersId, contactName, contactPhone, data.address];
                 }
                 if (data.STORE_HOUSE_NAME) {
                     item.value = data.STORE_HOUSE_NAME
@@ -171,11 +239,11 @@ class NewReturnGoodPage extends React.Component {
 }
 
 class NewReturnGoodContainer extends React.Component {
-  static navigationOptions = {
-    title: '开退货单',
-  };
-  render() {
-    return <NewReturnGoodPage {...this.props} />;
-  }
+    static navigationOptions = {
+        title: '开退货单',
+    };
+    render() {
+        return <NewReturnGoodPage {...this.props} />;
+    }
 }
 export default NewReturnGoodContainer;

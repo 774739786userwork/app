@@ -46,6 +46,8 @@ class GetCarSurplusGoodsListPage extends React.Component {
         this._selectByDate = this._selectByDate.bind(this)
         this._selectCar = this._selectCar.bind(this)
 
+        this.onSetCar = this.onSetCar.bind(this);
+        
         let today = GetDateStr(0);
         this.state = {
             showSpinner: false,
@@ -58,6 +60,29 @@ class GetCarSurplusGoodsListPage extends React.Component {
             data: []
         }
     }
+    componentDidMount() {
+        InteractionManager.runAfterInteractions(() => {
+            this.loadCar();
+        });
+    }
+
+    loadCar() {
+        const token = LoginInfo.getUserInfo().token;
+        const user_id = LoginInfo.getUserInfo().user_id;
+        InteractionManager.runAfterInteractions(() => {
+            FetchManger.getUri('mobileServiceManager/customers/getCarInfoJson.page', { token, user_id }).then((responseData) => {
+                if (responseData.status === '0' || responseData.status === 0) {
+                    let data = responseData.data;
+                    if (data && data.length > 0) {
+                        this.onSetCar(data[0]);
+                    }
+                }
+            }).catch((error) => {
+                console.log(error)
+            })
+        });
+    }
+
     componentWillReceiveProps(nextProps) {
         const { getCarstockProductList } = nextProps;
 
@@ -187,12 +212,15 @@ class GetCarSurplusGoodsListPage extends React.Component {
     _selectCar() {
         const { action, navigation } = this.props;
         navigation.navigate('SelectCar', {
-            selectCar: true, callback: (data) => {
-                carId = data['carbaseinfo_id']
-                this.state.car = data
-                action.getCarstockProductList(carId, this.state.loadingdate);
-            }
+            selectCar: true, callback: this.onSetCar
         });
+    }
+
+    onSetCar(data) {
+        const { action, navigation } = this.props;
+        carId = data['carbaseinfo_id']
+        this.setState({ car: data });
+        action.getCarstockProductList(carId, this.state.loadingdate);
     }
 
     render() {

@@ -42,10 +42,13 @@ class GetCarstockProductListPage extends React.Component {
         super(props);
         this._renderItem = this._renderItem.bind(this);
         this._rowOnPress = this._rowOnPress.bind(this);
-        this.onConfirmPress = this.onConfirmPress.bind(this)
-        this.onCancelPress = this.onCancelPress.bind(this)
-        this._selectByDate = this._selectByDate.bind(this)
-        this._selectCar = this._selectCar.bind(this)
+        this.onConfirmPress = this.onConfirmPress.bind(this);
+        this.onCancelPress = this.onCancelPress.bind(this);
+        this._selectByDate = this._selectByDate.bind(this);
+        this._selectCar = this._selectCar.bind(this);
+
+        this.loadCar = this.loadCar.bind(this);
+        this.onSetCar = this.onSetCar.bind(this);
 
         let today = GetDateStr(0);
         this.state = {
@@ -59,6 +62,30 @@ class GetCarstockProductListPage extends React.Component {
             data: []
         }
     }
+
+    componentDidMount() {
+        InteractionManager.runAfterInteractions(() => {
+            this.loadCar();
+        });
+    }
+
+    loadCar() {
+        const token = LoginInfo.getUserInfo().token;
+        const user_id = LoginInfo.getUserInfo().user_id;
+        InteractionManager.runAfterInteractions(() => {
+            FetchManger.getUri('mobileServiceManager/customers/getCarInfoJson.page', { token, user_id }).then((responseData) => {
+                if (responseData.status === '0' || responseData.status === 0) {
+                    let data = responseData.data;
+                    if (data && data.length > 0) {
+                        this.onSetCar(data[0]);
+                    }
+                }
+            }).catch((error) => {
+                console.log(error)
+            })
+        });
+    }
+
     componentWillReceiveProps(nextProps) {
         const { getCarstockProductList } = nextProps;
 
@@ -99,11 +126,11 @@ class GetCarstockProductListPage extends React.Component {
                     <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#666' }}>{'卸货：'}</Text>
-                            <Text style={{ color: '#f80000' }}>{`${ disburden_quantity }`}</Text>
+                            <Text style={{ color: '#f80000' }}>{`${disburden_quantity}`}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#666' }}>{'车存货：'}</Text>
-                            <Text style={{ color: '#f80000' }}>{`${ product_stock_quantity}`}</Text>
+                            <Text style={{ color: '#f80000' }}>{`${product_stock_quantity}`}</Text>
                         </View>
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, marginTop: 12, flex: 1, backgroundColor: '#c4c4c4' }} />
@@ -196,12 +223,15 @@ class GetCarstockProductListPage extends React.Component {
     _selectCar() {
         const { action, navigation } = this.props;
         navigation.navigate('SelectCar', {
-            selectCar: true, callback: (data) => {
-                carId = data['carbaseinfo_id']
-                this.state.car = data
-                action.getCarstockProductList(carId, this.state.loadingdate);
-            }
+            selectCar: true, callback: this.onSetCar
         });
+    }
+
+    onSetCar(data) {
+        const { action, navigation } = this.props;
+        carId = data['carbaseinfo_id']
+        this.setState({ car: data });
+        action.getCarstockProductList(carId, this.state.loadingdate);
     }
 
     render() {
