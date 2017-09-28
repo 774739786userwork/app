@@ -28,16 +28,16 @@ export default class SurplusEditeModel extends React.Component {
         let item = this.props.item;
         this.state = {
             modalVisible: this.props.modalVisible,
-            count: item.remainCount ? item.remainCount : 0,
-            maxCount: item.remainCount ? item.remainCount : 0,
+            count: item.product_stock_quantity ? item.product_stock_quantity : 0,
+            maxCount: item.product_stock_quantity ? item.product_stock_quantity : 0,
         };
     }
     componentWillReceiveProps(nextProps) {
         let item = nextProps.item;
         this.setState({
             modalVisible: nextProps.modalVisible,
-            count: item.remainCount ? item.remainCount : item.product_stock_quantity,
-            maxCount: item.remainCount,
+            count: item.product_stock_quantity,//item.remainCount ? item.remainCount : item.product_stock_quantity,
+            maxCount: item.product_stock_quantity,
         });
     }
 
@@ -64,7 +64,7 @@ export default class SurplusEditeModel extends React.Component {
             transparent={true}
             onRequestClose={() => { }}
             visible={this.state.modalVisible}>
-            <View style={{ flex: 1, justifyContent: 'center', padding: 20, backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+            <View style={{ flex: 1, justifyContent: 'center',padding: 20, backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
                 <View style={{
                     borderRadius: 10,
                     alignItems: 'center',
@@ -73,14 +73,14 @@ export default class SurplusEditeModel extends React.Component {
                     <View style={{ backgroundColor: '#0081d4', height: 36, width: modelWidth, borderTopLeftRadius: 10, borderTopRightRadius: 10, justifyContent: 'center', alignItems: 'center', }}>
                         <Text style={{ color: '#fff' }}>{`${item.product_name}`}</Text>
                     </View>
-                    <View style={{ marginTop: 12, height: 34, flexDirection: 'row', alignItems: 'center' }}>
+                    {/* <View style={{ marginTop: 12, height: 34, flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={{ flex: 2, textAlign: 'right', }}>车余货:</Text>
                         <Text style={{ marginLeft: 8, flex: 3, color: '#f80000' }}>{`${item.product_stock_quantity}${item.product_unit}`}</Text>
-                    </View>
-                    <View style={{ height: 34, marginBottom: 12, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                        <Text style={{ flex: 2, textAlign: 'right', }}>余:</Text>
-                        <View style={{ flex: 3, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                            <TouchableOpacity style={{ marginLeft: 8, marginRight: 12 }} onPress={() => {
+                    </View> */}
+                    <View style={{ height: 35,marginTop:8,marginBottom:8, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+                        <Text style={{ marginRight:20,textAlign: 'right', fontSize:16}}>余:</Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <TouchableOpacity style={{ marginLeft: 5, marginRight: 12 }} onPress={() => {
                                 this.updateNewCount(this.state.count - 1);
                             }}>
                                 <Iconfont

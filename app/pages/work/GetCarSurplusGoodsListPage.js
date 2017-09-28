@@ -124,12 +124,12 @@ class GetCarSurplusGoodsListPage extends React.Component {
                     <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#666' }}>{'车余货：'}</Text>
-                            <Text style={{ color: '#f80000' }}>{`${ item.product_stock_quantity}`}</Text>
+                            <Text style={{ color: '#f80000' }}>{`${ item.product_stock_quantity }`}</Text>
                         </View>
-                        <View style={{ flex: 1, flexDirection: 'row' }}>
+                        {/* <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#666' }}>{'余：'}</Text>
-                            <Text style={{ color: '#f80000' }}>{`${ remainCount ? remainCount:item.product_stock_quantity }`}</Text>
-                        </View>
+                            <Text style={{ color: '#f80000' }}>{`${ remainCount ? remainCount : item.product_stock_quantity }`}</Text>
+                        </View> */}
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, marginTop: 12, flex: 1, backgroundColor: '#c4c4c4' }} />
                 </View>
@@ -138,17 +138,17 @@ class GetCarSurplusGoodsListPage extends React.Component {
     
     _onSurePrintPress() {
         let params = { YH: true }
-        let goods_list = [];
-        this.state.data.map((item) => {
-            let gItem = {}
-            if (item.remainCount && item.remainCount > 0) {
-                gItem.product_id = item.product_id
-                gItem.product_name = item.product_name
-                gItem.product_unit = item.product_unit
-                gItem.remainCount = item.remainCount
-                goods_list.push(gItem)
-            }
-        })
+        // let goods_list = [];
+        // this.state.data.map((item) => {
+        //     let gItem = {}
+        //     if (item.remainCount && item.remainCount > 0) {
+        //         gItem.product_id = item.product_id
+        //         gItem.product_name = item.product_name
+        //         gItem.product_unit = item.product_unit
+        //         gItem.product_stock_quantity = item.remainCount
+        //         goods_list.push(gItem)
+        //     }
+        // })
         
         params.chooseList = this.state.data
         params.selectCar = this.state.car
@@ -161,7 +161,7 @@ class GetCarSurplusGoodsListPage extends React.Component {
         saveParams.carbaseinfo_id = params.selectCar.carbaseinfo_id
         saveParams.platenumber = params.selectCar.platenumber
         saveParams.loading_date = this.state.loadingdate
-        saveParams.goods_list = JSON.stringify(goods_list);
+        saveParams.goods_list = JSON.stringify(this.state.data);
         const { navigation } = this.props;
         this.setState({ showSpinner: true })
         FetchManger.postUri('mobileServiceManager/carmanager/addCarRemain.page', saveParams).then((responseData) => {
@@ -190,7 +190,8 @@ class GetCarSurplusGoodsListPage extends React.Component {
     onConfirmPress(id, newCount) {
         const { action } = this.props;
         let selectItem = this.state.selectItem;
-        selectItem.remainCount = newCount;
+        // selectItem.remainCount = newCount;
+        selectItem.product_stock_quantity = newCount;
         this.setState({ modalVisible: false, selectItem });
     }
     onCancelPress() {
