@@ -77,19 +77,19 @@ class AddLadingbillsProductPage extends React.Component {
         this._onCarPress = this._onCarPress.bind(this);
         this.onClear = this.onClear.bind(this);
         this.searchText = '';
-        
+
         const { params } = this.props.navigation.state;
         let oldList = params.goodsList;
-        
+
         let good_list = [];
-        if(oldList){
-            oldList.map((item)=>{
+        if (oldList) {
+            oldList.map((item) => {
                 //todo  字段转换
                 let oldGoodItem = {}
                 oldGoodItem.product_id = item.product_id
                 oldGoodItem.product_name = item.name
                 oldGoodItem.loading_quantity = item.quantity
-                if(item.purchaseOrderId){
+                if (item.purchaseOrderId) {
                     oldGoodItem.purchaseOrderId = item.purchaseOrderId
                 }
                 oldGoodItem.purchase_count = item.purchase_count
@@ -103,13 +103,13 @@ class AddLadingbillsProductPage extends React.Component {
         }
         let totalWeight = 0;
         let totalNum = 0;
-       
+
         if (good_list) {
             good_list.map((a) => {
-                let itemWeight  = NumberUtils.FloatMul(a.product_weight, a.loading_quantity);
+                let itemWeight = NumberUtils.FloatMul(a.product_weight, a.loading_quantity);
 
-                totalWeight = NumberUtils.FloatAdd(totalWeight,itemWeight);
-                totalNum = NumberUtils.FloatAdd(totalNum,a.loading_quantity);
+                totalWeight = NumberUtils.FloatAdd(totalWeight, itemWeight);
+                totalNum = NumberUtils.FloatAdd(totalNum, a.loading_quantity);
             })
         }
 
@@ -131,7 +131,7 @@ class AddLadingbillsProductPage extends React.Component {
         const { navigation } = this.props;
 
         if (addLadingbillsProduct.errMsg) {
-            this.setState({showSaving: false})
+            this.setState({ showSaving: false })
             Toast.show(addLadingbillsProduct.errMsg);
         } else if (!addLadingbillsProduct.saving && addLadingbillsProduct.seccued) {
             if (this.state.good_list.length > 0) {
@@ -157,7 +157,7 @@ class AddLadingbillsProductPage extends React.Component {
     componentDidMount() {
         const { action } = this.props;
         const { params } = this.props.navigation.state;
-        
+
         let car_id = params.car_id[1];
         carWeight = params.car_id[2];
 
@@ -170,7 +170,7 @@ class AddLadingbillsProductPage extends React.Component {
         const { params } = this.props.navigation.state;
         let car_id = params.car_id[1]
         InteractionManager.runAfterInteractions(() => {
-            action.addLadingbillsProduct(car_id,txt);
+            action.addLadingbillsProduct(car_id, txt);
         });
     }
     onUpdateGoogs(item) {
@@ -185,7 +185,7 @@ class AddLadingbillsProductPage extends React.Component {
             oldItem.real_loading_count = item.real_loading_count
             oldItem.loading_quantity = NumberUtils.FloatAdd(item.real_loading_count, item.remain_count);
         } else {
-            item.loading_quantity =NumberUtils.FloatAdd(item.real_loading_count, item.remain_count);
+            item.loading_quantity = NumberUtils.FloatAdd(item.real_loading_count, item.remain_count);
             good_list.push(item)
         }
         let totalWeight = 0;
@@ -193,16 +193,16 @@ class AddLadingbillsProductPage extends React.Component {
         let goodsList = [];
         if (good_list) {
             good_list.map((a) => {
-                if(a.real_loading_count > 0){
+                if (a.real_loading_count > 0) {
                     goodsList.push(a);
-                    let itemWeight  = NumberUtils.FloatMul(a.product_weight, a.loading_quantity);
-                    totalWeight = NumberUtils.FloatAdd(totalWeight,itemWeight);
-                    totalNum = NumberUtils.FloatAdd(totalNum,a.loading_quantity);
+                    let itemWeight = NumberUtils.FloatMul(a.product_weight, a.loading_quantity);
+                    totalWeight = NumberUtils.FloatAdd(totalWeight, itemWeight);
+                    totalNum = NumberUtils.FloatAdd(totalNum, a.loading_quantity);
                 }
-                
+
             })
         }
-        this.setState({ good_list : goodsList, totalNum, totalWeight });
+        this.setState({ good_list: goodsList, totalNum, totalWeight });
     }
     _renderItem = (item, index) => {
         let good_list = this.state.good_list;
@@ -240,20 +240,20 @@ class AddLadingbillsProductPage extends React.Component {
     "source_equipment":"1",
      */
     _onItemPress() {
-        
-        if(this.state.totalWeight > carWeight){
-            Alert.alert('你已超出该车的实际载重量','确认继续提货?',
+
+        if (this.state.totalWeight > carWeight) {
+            Alert.alert('你已超出该车的实际载重量', '确认继续提货?',
                 [
                     { text: '确定', onPress: this.savePopWindow },
                     { text: '取消', onPress: () => console.log('Cancel Pressed!') }
                 ]
             )
-        }else{
+        } else {
             this.setState({ modalVisible: true })
         }
     }
 
-    savePopWindow(){
+    savePopWindow() {
         this.setState({ modalVisible: true })
     }
     onConfirmPress() {
@@ -266,13 +266,13 @@ class AddLadingbillsProductPage extends React.Component {
             car_number: params.car_id[0],
             car_id: params.car_id[1],
             store_house_id: params.storehouse_id[1],
-            porters_id:params.upEmployeeIds[0],
+            porters_id: params.upEmployeeIds[0],
             total_quantity: this.state.totalNum,
             total_weight: this.state.totalWeight + 'kg',
             good_list: JSON.stringify(this.state.good_list)
         };
-        
-        if(params.loading_id){
+
+        if (params.loading_id) {
             sbParam.loading_id = params.loading_id;
         }
         InteractionManager.runAfterInteractions(() => {
@@ -314,7 +314,7 @@ class AddLadingbillsProductPage extends React.Component {
         let car_id = params.car_id[1]
         InteractionManager.runAfterInteractions(() => {
             if (start >= 10 && start % 10 === 0) {
-                action.addLadingbillsProduct(car_id,this.searchText, start);
+                action.addLadingbillsProduct(car_id, this.searchText, start);
             }
         });
     }
@@ -341,15 +341,17 @@ class AddLadingbillsProductPage extends React.Component {
         }
         let totalWeight = 0;
         let totalNum = 0;
+        let goodsList = [];
         if (good_list) {
             good_list.map((a) => {
-                let itemWeight  = NumberUtils.FloatMul(a.product_weight, a.loading_quantity);
-                
-                totalWeight = NumberUtils.FloatAdd(totalWeight,itemWeight);
-                totalNum = NumberUtils.FloatAdd(totalNum,a.loading_quantity);
-            })
+                if (a.real_loading_count > 0) {
+                    goodsList.push(a);
+                    let itemWeight = NumberUtils.FloatMul(a.product_weight, a.loading_quantity);
+                    totalWeight = NumberUtils.FloatAdd(totalWeight, itemWeight);
+                    totalNum = NumberUtils.FloatAdd(totalNum, a.loading_quantity);
+                }})
         }
-        this.setState({ good_list, totalNum, totalWeight, editeModalVisible: false });
+        this.setState({ good_list : goodsList, totalNum, totalWeight, editeModalVisible: false });
     }
 
 
@@ -362,9 +364,9 @@ class AddLadingbillsProductPage extends React.Component {
                 <View style={{ backgroundColor: '#118cd7', paddingLeft: 12, paddingBottom: 6, paddingTop: 6 }}>
                     <View style={{ height: 26, flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={{ color: '#fff', fontSize: 16 }}>{`${params.car_id[0]}`}</Text>
-                        <View style={{marginLeft:20}}/>
+                        <View style={{ marginLeft: 20 }} />
                         <Text style={{ color: '#fff', fontSize: 16 }}>{`${params.storehouse_id[0]}`}</Text>
-                        <View style={{marginLeft:20}}/>
+                        <View style={{ marginLeft: 20 }} />
                         <Text style={{ color: '#fff', fontSize: 16 }}>{`${params.upEmployeeIds[1]}`}</Text>
                     </View>
                 </View>
@@ -449,7 +451,7 @@ class AddLadingbillsProductPage extends React.Component {
                 <SaveModel modalVisible={this.state.modalVisible} onConfirmPress={this.onConfirmPress} onCancelPress={this.onCancelPress} />
                 <AddLadingbillPopModel onClear={this.onClear} chooseList={this.state.good_list} modalVisible={this.state.modalPopVisible} onCancelPress={this.onPopCancelPress.bind(this)} />
                 <AddLadingbillsEditeModel modalVisible={this.state.editeModalVisible} onCancelPress={this.onEidteCancelPress} item={this.state.selectItem} onConfirmPress={this.onEidteConfirmPress} />
-                
+
             </View >
         );
     }
