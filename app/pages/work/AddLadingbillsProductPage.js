@@ -82,7 +82,6 @@ class AddLadingbillsProductPage extends React.Component {
         let oldList = params.goodsList;
         
         let good_list = [];
-        debugger
         if(oldList){
             oldList.map((item)=>{
                 //todo  字段转换
@@ -183,9 +182,9 @@ class AddLadingbillsProductPage extends React.Component {
         }
         if (oldItem) {
             oldItem.real_loading_count = item.real_loading_count
-            oldItem.loading_quantity = item.real_loading_count + item.remain_count
+            oldItem.loading_quantity = NumberUtils.FloatAdd(item.real_loading_count, item.remain_count);
         } else {
-            item.loading_quantity = item.real_loading_count + item.remain_count
+            item.loading_quantity =NumberUtils.FloatAdd(item.real_loading_count, item.remain_count);
             good_list.push(item)
         }
         let totalWeight = 0;
@@ -330,9 +329,9 @@ class AddLadingbillsProductPage extends React.Component {
         }
         if (oldItem) {
             oldItem.real_loading_count = item.real_loading_count
-            oldItem.loading_quantity = item.real_loading_count + item.remain_count
+            oldItem.loading_quantity = NumberUtils.FloatAdd(item.real_loading_count, item.remain_count);
         } else {
-            item.loading_quantity = item.real_loading_count + item.remain_count
+            item.loading_quantity = NumberUtils.FloatAdd(item.real_loading_count, item.remain_count);
             good_list.push(item)
         }
         let totalWeight = 0;

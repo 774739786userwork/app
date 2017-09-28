@@ -47,8 +47,9 @@ export default class AddLadingbillsEditeModel extends React.Component {
     onConfirmPress() {
         let item = this.props.item;
         let newCount = parseInt(this.state.real_loading_count)
-        item.real_loading_count = newCount - item.remain_count;
+        item.real_loading_count = NumberUtils.FloatSub(newCount, item.remain_count);//newCount - item.remain_count;
         item.loading_quantity = newCount;
+        debugger
         this.props.onConfirmPress && this.props.onConfirmPress(item)
         this.setState({ modalVisible: false });
     }
