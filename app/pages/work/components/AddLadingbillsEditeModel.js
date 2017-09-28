@@ -49,7 +49,6 @@ export default class AddLadingbillsEditeModel extends React.Component {
         let newCount = parseInt(this.state.real_loading_count)
         item.real_loading_count = NumberUtils.FloatSub(newCount, item.remain_count);//newCount - item.remain_count;
         item.loading_quantity = newCount;
-        debugger
         this.props.onConfirmPress && this.props.onConfirmPress(item)
         this.setState({ modalVisible: false });
     }
@@ -92,7 +91,8 @@ export default class AddLadingbillsEditeModel extends React.Component {
                                 <Text style={{ width: 40, textAlign: 'right', }}>总数:</Text>
                                 <View style={{ flex: 3, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                                     <TouchableOpacity style={{ marginLeft: 8, marginRight: 6 }} onPress={() => {
-                                        this.updateNewCount(this.state.real_loading_count - 1);
+                                        let newCount =  NumberUtils.FloatSub(this.state.real_loading_count,1);
+                                        this.updateNewCount(newCount);
                                     }}>
                                         <Iconfont
                                             icon={'e6ba'} // 图标
@@ -111,7 +111,8 @@ export default class AddLadingbillsEditeModel extends React.Component {
                                         }}
                                     />
                                     <TouchableOpacity style={{ marginLeft: 6 }} onPress={() => {
-                                        this.updateNewCount(this.state.real_loading_count + 1);
+                                       let newCount =  NumberUtils.FloatAdd(this.state.real_loading_count,1);
+                                        this.updateNewCount(newCount);
                                     }}>
                                         <Iconfont
                                             icon={'e6b9'} // 图标
