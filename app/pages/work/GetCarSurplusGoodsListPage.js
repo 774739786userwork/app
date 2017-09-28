@@ -161,10 +161,7 @@ class GetCarSurplusGoodsListPage extends React.Component {
         saveParams.carbaseinfo_id = params.selectCar.carbaseinfo_id
         saveParams.platenumber = params.selectCar.platenumber
         saveParams.loading_date = this.state.loadingdate
-
         saveParams.goods_list = JSON.stringify(goods_list);
-      //  alert(saveParams.goods_list)
-
         const { navigation } = this.props;
         this.setState({ showSpinner: true })
         FetchManger.postUri('mobileServiceManager/carmanager/addCarRemain.page', saveParams).then((responseData) => {
