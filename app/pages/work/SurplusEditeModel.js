@@ -36,7 +36,7 @@ export default class SurplusEditeModel extends React.Component {
         let item = nextProps.item;
         this.setState({
             modalVisible: nextProps.modalVisible,
-            count: item.remainCount,
+            count: item.remainCount ? item.remainCount : item.product_stock_quantity,
             maxCount: item.remainCount,
         });
     }

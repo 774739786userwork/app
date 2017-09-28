@@ -38,7 +38,6 @@ class UnAuditedLadingbillsPage extends React.Component {
             listData: [],
             startDate: DateUtils.getYearMonthDay(),
             endDate: DateUtils.getYearMonthDay(),
-            print_status:0,
             loadingcount: 0,
         }
     }
@@ -136,7 +135,7 @@ upEmployeeIds: ["100012,", "蔡桥,"]
         let upEmployeeIds = [rowData.porters_id,rowData.porters_name];//[data.name, data.id];
         let storehouse_id = [rowData.store_house_name,rowData.store_house_id];
         let goodsList = rowData.goodsList;
-        let loading_id = rowData.loading_id;
+        let loading_id = rowData.id;
 
         let valeMap = {car_id,loadingbill_date,upEmployeeIds,storehouse_id,goodsList,loading_id};
         navigate('AddLadingbillsProduct', valeMap);
