@@ -149,7 +149,13 @@ class AddCustContainer extends React.Component {
             Toast.show('客户名称不能为空')
             return;
         }
+
+        if(!this.customerDetailAddress){
+            Toast.show('详细地址不能为空')
+            return;
+        }
         saveParams.customerDetailAddress = this.customerDetailAddress;
+        
         if (!this.customerName) {
             Toast.show('客户名称不能为空')
             return;

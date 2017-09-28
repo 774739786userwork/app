@@ -20,6 +20,7 @@ import {
 import _ from 'underscore';
 import GMBluetooth from 'react-native-gm-bluetooth';
 const { ESC, TSC } = GMBluetooth;
+import { NavigationActions } from 'react-navigation'
 import * as NumberUtils from '../../utils/NumberUtils'
 import * as DateUtils from '../../utils/DateUtils'
 import { Iconfont, LoginInfo, LineView, Toast, Spinner, FetchManger, LoadingView } from 'react-native-go';
@@ -311,7 +312,19 @@ export default class BleManagerPage extends React.Component {
         }
 
         new Promise(()=>{
-            setTimeout(()=>{this.setState({ printing: false })},3000);
+            const { navigation } = this.props;
+            setTimeout(()=>{
+                this.setState({ printing: false })
+                InteractionManager.runAfterInteractions(() => {
+                    const navigationAction = NavigationActions.reset({
+                        index: 0,
+                        actions: [
+                            NavigationActions.navigate({ routeName: 'Home' }),
+                        ]
+                    })
+                    navigation.dispatch(navigationAction)
+                });
+            },3000);
         });
     }
 

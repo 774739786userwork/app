@@ -138,7 +138,7 @@ export default class AddLadingbillPopModel extends React.Component {
                         <View style={{ flex: 1 }} />
                         <TouchableHighlight onPress={this.onCancelPress.bind(this)}>
                             <View style={{ width: 100, height: 50, backgroundColor: '#fe6732', justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={{ color: '#fff' }}>{'结算'}</Text>
+                                <Text style={{ color: '#fff' }}>{'保存'}</Text>
                             </View>
                         </TouchableHighlight>
                     </View>

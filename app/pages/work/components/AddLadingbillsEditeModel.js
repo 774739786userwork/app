@@ -100,6 +100,8 @@ export default class AddLadingbillsEditeModel extends React.Component {
                                     </TouchableOpacity>
                                     <TextInput style={{ width: 40, height: 26, fontSize: 14, textAlign: 'center', color: '#666', borderRadius: 8, padding: 0, borderWidth: 1, borderColor: '#c4c4c4' }}
                                         underlineColorAndroid={'transparent'}
+                                        keyboardType={'numeric'}
+                                        selectTextOnFocus={true}
                                         value={'' + this.state.real_loading_count}
                                         defaultValue={'' + this.state.real_loading_count}
                                         onChangeText={(newCount) => {

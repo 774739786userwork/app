@@ -80,15 +80,26 @@ class AddLadingbillsProductPage extends React.Component {
         
         const { params } = this.props.navigation.state;
         let oldList = params.goodsList;
+        
         let good_list = [];
         debugger
         if(oldList){
             oldList.map((item)=>{
                 //todo  字段转换
-
-
-
-                good_list.push({});
+                let oldGoodItem = {}
+                oldGoodItem.product_id = item.product_id
+                oldGoodItem.product_name = item.name
+                oldGoodItem.loading_quantity = item.quantity
+                if(item.purchaseOrderId){
+                    oldGoodItem.purchaseOrderId = item.purchaseOrderId
+                }
+                oldGoodItem.purchase_count = item.purchase_count
+                oldGoodItem.remain_count = item.remain_count
+                oldGoodItem.product_weight = item.product_weight
+                oldGoodItem.specifications = item.specifications
+                oldGoodItem.housestock = item.housestock
+                oldGoodItem.real_loading_count = item.product_total_count
+                good_list.push(oldGoodItem);
             });
         }
         let totalWeight = 0;
@@ -195,7 +206,11 @@ class AddLadingbillsProductPage extends React.Component {
             good_list.map((a) => {
                 if (item.product_id == a.product_id) {
                     item.real_loading_count = a.real_loading_count
-                    item.loading_quantity = a.real_loading_count + a.remain_count
+                    item.loading_quantity = a.loading_quantity //a.real_loading_count + a.remain_count
+                    item.purchaseOrderId = a.purchaseOrderId
+                    item.purchase_count = a.purchase_count
+                    item.remain_count = a.remain_count
+                    item.housestock = a.housestock
                 }
             })
         }
@@ -252,6 +267,7 @@ class AddLadingbillsProductPage extends React.Component {
             total_weight: this.state.totalWeight + 'kg',
             good_list: JSON.stringify(this.state.good_list)
         };
+        
         if(params.loading_id){
             sbParam.loading_id = params.loading_id;
         }

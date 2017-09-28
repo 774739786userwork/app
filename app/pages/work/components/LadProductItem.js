@@ -54,21 +54,21 @@ class LadProductItem extends React.Component {
                     <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#999', fontSize: 12 }}>{'余货：'}</Text>
-                            <Text style={{ color: '#999', fontSize: 12 }}>{`${item.remain_count}`}</Text>
+                            <Text style={{ color: '#f80000', fontSize: 12 }}>{`${item.remain_count}`}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#999', fontSize: 12 }}>{'订单数量：'}</Text>
-                            <Text style={{ color: '#999', fontSize: 12 }}>{`${item.purchase_count}`}</Text>
+                            <Text style={{ color: '#f80000', fontSize: 12 }}>{`${item.purchase_count}`}</Text>
                         </View>
                     </View>
                     <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#999', fontSize: 12 }}>{'总数：'}</Text>
-                            <Text style={{ color: '#999', fontSize: 12 }}>{`${item.loading_quantity ? item.loading_quantity : 0}`}</Text>
+                            <Text style={{ color: '#f80000', fontSize: 12 }}>{`${item.loading_quantity ? item.loading_quantity : 0}`}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#999', fontSize: 12 }}>{'实提:'}</Text>
-                            <Text style={{ color: '#999', fontSize: 12 }}>{`${item.real_loading_count ? item.real_loading_count : 0}`}</Text>
+                            <Text style={{ color: '#f80000', fontSize: 12 }}>{`${item.real_loading_count ? item.real_loading_count : 0}`}</Text>
                         </View>
                     </View>
                 </View>
