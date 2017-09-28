@@ -131,6 +131,7 @@ class AddLadingbillsProductPage extends React.Component {
         const { navigation } = this.props;
 
         if (addLadingbillsProduct.errMsg) {
+            this.setState({showSaving: false})
             Toast.show(addLadingbillsProduct.errMsg);
         } else if (!addLadingbillsProduct.saving && addLadingbillsProduct.seccued) {
             if (this.state.good_list.length > 0) {
@@ -189,15 +190,19 @@ class AddLadingbillsProductPage extends React.Component {
         }
         let totalWeight = 0;
         let totalNum = 0;
+        let goodsList = [];
         if (good_list) {
             good_list.map((a) => {
-                let itemWeight  = NumberUtils.FloatMul(a.product_weight, a.loading_quantity);
+                if(a.loading_quantity > 0){
+                    goodsList.push(a);
+                    let itemWeight  = NumberUtils.FloatMul(a.product_weight, a.loading_quantity);
+                    totalWeight = NumberUtils.FloatAdd(totalWeight,itemWeight);
+                    totalNum = NumberUtils.FloatAdd(totalNum,a.loading_quantity);
+                }
                 
-                totalWeight = NumberUtils.FloatAdd(totalWeight,itemWeight);
-                totalNum = NumberUtils.FloatAdd(totalNum,a.loading_quantity);
             })
         }
-        this.setState({ good_list, totalNum, totalWeight });
+        this.setState({ good_list : goodsList, totalNum, totalWeight });
     }
     _renderItem = (item, index) => {
         let good_list = this.state.good_list;
