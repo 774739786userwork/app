@@ -91,7 +91,7 @@ export default class AddLadingbillsEditeModel extends React.Component {
                                 <Text style={{ width: 40, textAlign: 'right', }}>总数:</Text>
                                 <View style={{ flex: 3, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                                     <TouchableOpacity style={{ marginLeft: 8, marginRight: 6 }} onPress={() => {
-                                        let newCount =  NumberUtils.FloatSub(this.state.real_loading_count,1);
+                                        let newCount = parseInt(this.state.real_loading_count) - 1;
                                         this.updateNewCount(newCount);
                                     }}>
                                         <Iconfont
@@ -111,7 +111,7 @@ export default class AddLadingbillsEditeModel extends React.Component {
                                         }}
                                     />
                                     <TouchableOpacity style={{ marginLeft: 6 }} onPress={() => {
-                                       let newCount =  NumberUtils.FloatAdd(this.state.real_loading_count,1);
+                                       let newCount =  parseInt(this.state.real_loading_count) + 1;
                                         this.updateNewCount(newCount);
                                     }}>
                                         <Iconfont

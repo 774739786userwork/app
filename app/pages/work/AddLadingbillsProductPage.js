@@ -122,7 +122,7 @@ class AddLadingbillsProductPage extends React.Component {
             modalPopVisible: false,
             editeModalVisible: false,
             selectItem: {},
-            listData: []
+            listData: [],
         }
 
     }
@@ -440,10 +440,11 @@ class AddLadingbillsProductPage extends React.Component {
                             </TouchableHighlight> : null
                     }
                 </View>
+                <View><Spinner visible={this.state.showSaving} textContent={'提交中,请稍后...'} /></View>
                 <SaveModel modalVisible={this.state.modalVisible} onConfirmPress={this.onConfirmPress} onCancelPress={this.onCancelPress} />
                 <AddLadingbillPopModel onClear={this.onClear} chooseList={this.state.good_list} modalVisible={this.state.modalPopVisible} onCancelPress={this.onPopCancelPress.bind(this)} />
                 <AddLadingbillsEditeModel modalVisible={this.state.editeModalVisible} onCancelPress={this.onEidteCancelPress} item={this.state.selectItem} onConfirmPress={this.onEidteConfirmPress} />
-
+                
             </View >
         );
     }
