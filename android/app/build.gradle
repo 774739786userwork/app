@@ -90,8 +90,8 @@ android {
         applicationId "com.shengyibao"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 99
-        versionName "91.09"
+        versionCode 10
+        versionName "1.10"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }

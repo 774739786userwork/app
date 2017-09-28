@@ -29,10 +29,37 @@ import AddLadingbillPopModel from './AddLadingbillPopModel'
 import AddLadingbillsEditeModel from './components/AddLadingbillsEditeModel'
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
+import * as NumberUtils from '../../utils/NumberUtils'
+
+
 const dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 let carWeight = '';
 /**
  * 提货单 产品列表
+ * 
+ * 
+ * 
+loading_quantity:3
+product_id:100064
+product_name:"瓷砖包角线（白色）"
+product_total_count:0
+product_weight:0
+purchaseOrderId:0
+purchase_count:0
+real_loading_count:3
+remain_count:0
+specifications:"20根/捆"
+
+
+name:"瓷砖包角线（白色）"
+product_total_count:"4"
+product_weight:"0.2"
+purchase_count:"0"
+quantity:"4"
+remain_count:"0"
+specifications:"20根/捆"
+unit:"根"
+
  */
 class AddLadingbillsProductPage extends React.Component {
     constructor(props) {
@@ -52,11 +79,34 @@ class AddLadingbillsProductPage extends React.Component {
         this.searchText = '';
         
         const { params } = this.props.navigation.state;
+        let oldList = params.goodsList;
+        let good_list = [];
+        debugger
+        if(oldList){
+            oldList.map((item)=>{
+                //todo  字段转换
+
+
+
+                good_list.push({});
+            });
+        }
+        let totalWeight = 0;
+        let totalNum = 0;
+       
+        if (good_list) {
+            good_list.map((a) => {
+                let itemWeight  = NumberUtils.FloatMul(a.product_weight, a.loading_quantity);
+
+                totalWeight = NumberUtils.FloatAdd(totalWeight,itemWeight);
+                totalNum = NumberUtils.FloatAdd(totalNum,a.loading_quantity);
+            })
+        }
 
         this.state = {
-            good_list: params.goodsList ? params.goodsList : [],
-            totalNum: 0,
-            totalWeight: 0,
+            good_list: good_list ? good_list : [],
+            totalNum: totalNum,
+            totalWeight: totalWeight,
             modalVisible: false,
             showSaving: false,
             modalPopVisible: false,
@@ -131,8 +181,10 @@ class AddLadingbillsProductPage extends React.Component {
         let totalNum = 0;
         if (good_list) {
             good_list.map((a) => {
-                totalWeight += a.product_weight * a.real_loading_count;
-                totalNum += a.real_loading_count;
+                let itemWeight  = NumberUtils.FloatMul(a.product_weight, a.loading_quantity);
+                
+                totalWeight = NumberUtils.FloatAdd(totalWeight,itemWeight);
+                totalNum = NumberUtils.FloatAdd(totalNum,a.loading_quantity);
             })
         }
         this.setState({ good_list, totalNum, totalWeight });
@@ -271,12 +323,16 @@ class AddLadingbillsProductPage extends React.Component {
         let totalNum = 0;
         if (good_list) {
             good_list.map((a) => {
-                totalWeight += a.product_weight * a.loading_quantity;
-                totalNum += a.loading_quantity;
+                let itemWeight  = NumberUtils.FloatMul(a.product_weight, a.loading_quantity);
+                
+                totalWeight = NumberUtils.FloatAdd(totalWeight,itemWeight);
+                totalNum = NumberUtils.FloatAdd(totalNum,a.loading_quantity);
             })
         }
         this.setState({ good_list, totalNum, totalWeight, editeModalVisible: false });
     }
+
+
     render() {
         const { params } = this.props.navigation.state;
         const { addLadingbillsProduct } = this.props;

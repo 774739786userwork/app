@@ -16,6 +16,7 @@ import {
 import * as utils from './utils'
 import LoadingListView from '../../components/LoadingListView'
 import { Iconfont, LoadingView } from 'react-native-go';
+import * as NumberUtils from '../../utils/NumberUtils'
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 const WINDOW_HEIGHT = Dimensions.get('window').height;
@@ -71,9 +72,10 @@ export default class AddLadingbillPopModel extends React.Component {
 
         let totalNum = 0;
         let totalWeight = 0;
-        chooseList.map((item) => {
-                totalWeight += item.product_weight * item.loading_quantity;
-                totalNum += item.loading_quantity;
+        chooseList.map((a) => {
+            let itemWeight = NumberUtils.FloatMul(a.product_weight, a.loading_quantity);
+            totalWeight = NumberUtils.FloatAdd(totalWeight, itemWeight);
+            totalNum = NumberUtils.FloatAdd(totalNum, a.loading_quantity);
         });
         let loading = true
         return (<Modal
@@ -100,7 +102,7 @@ export default class AddLadingbillPopModel extends React.Component {
                                 iconSize={20} />
                         </TouchableOpacity>
                     </View>
-                    <View style={{ height: WINDOW_HEIGHT*2/3-160, width: WINDOW_WIDTH, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ height: WINDOW_HEIGHT * 2 / 3 - 160, width: WINDOW_WIDTH, justifyContent: 'center', alignItems: 'center' }}>
                         {
                             totalNum > 0 ?
                                 <ListView
