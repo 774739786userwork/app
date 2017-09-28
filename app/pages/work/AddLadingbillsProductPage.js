@@ -193,7 +193,7 @@ class AddLadingbillsProductPage extends React.Component {
         let goodsList = [];
         if (good_list) {
             good_list.map((a) => {
-                if(a.real_loading_count > 0){
+                if(a.loading_quantity > 0){
                     goodsList.push(a);
                     let itemWeight  = NumberUtils.FloatMul(a.product_weight, a.loading_quantity);
                     totalWeight = NumberUtils.FloatAdd(totalWeight,itemWeight);
