@@ -16,7 +16,6 @@ import NavigationUtil from '../../utils/NavigationUtil';
 import GridView from '../../components/GridView';
 import HomeBar from '../../components/HomeBar'
 import { Iconfont, Toast,FetchManger, LoginInfo, Spinner } from 'react-native-go';
-
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
 const HomeItem = [
@@ -154,7 +153,7 @@ class WorkPage extends React.Component {
       InteractionManager.runAfterInteractions(() => {
           FetchManger.getUri('mobileServiceManager/ladingbills/isCheckedLadingbills.page', param).then((responseData) => {
               if (responseData.status === '0' || responseData.status === 0) {
-                  navigate(item.typeName);
+                navigate('AddLadingbills');
               }else if(responseData.status === '-3' || responseData.status === -3){
                   Toast.show(responseData.msg)
               }
