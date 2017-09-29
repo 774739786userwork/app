@@ -11,7 +11,7 @@ import {
     InteractionManager,
     FlatList
 } from 'react-native';
-import { Iconfont, Toast, FetchManger, LoginInfo, Spinner } from 'react-native-go';
+import { Iconfont, Toast,FetchManger, LoginInfo } from 'react-native-go';
 import DatePicker from 'react-native-datepicker'
 
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -179,32 +179,8 @@ class AddLadingbillsPage extends React.Component {
                 }
             }
         }
-
-        /**
-         * 请求查询是否有未审核的提货单据接口
-         */
-        const user_id = LoginInfo.getUserInfo().user_id;
-        const token = LoginInfo.getUserInfo().token;
-        let param = {user_id,token}
         const { navigation } = this.props;
-        this.setState({ showSpinner:true })
-        InteractionManager.runAfterInteractions(() => {
-            FetchManger.getUri('mobileServiceManager/ladingbills/isCheckedLadingbills.page', param).then((responseData) => {
-                if (responseData.status === '0' || responseData.status === 0) {
-                    navigation.navigate('AddLadingbillsProduct', valeMap)
-                    
-                }else if(responseData.status === '-3' || responseData.status === -3){
-                    Toast.show(responseData.msg)
-                }
-                this.setState({ showSpinner:false })
-            }).catch((error) => {
-                console.log(error)
-                this.setState({ showSpinner: false })
-                Toast.show("网络错误");
-            })
-        });
-        
-        
+        navigation.navigate('AddLadingbillsProduct', valeMap)
     }
     render() {
         return (
@@ -221,7 +197,6 @@ class AddLadingbillsPage extends React.Component {
                         </View>
                     </TouchableOpacity>
                 </View>
-                <View><Spinner visible={this.state.showSpinner} textContent={'查询中,请稍后...'} /></View>
             </View >
         );
     }
