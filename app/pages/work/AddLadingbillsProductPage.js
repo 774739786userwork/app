@@ -178,13 +178,21 @@ class AddLadingbillsProductPage extends React.Component {
 
         let totalWeight = 0;
         let totalNum = 0;
-        let goodsList = [];
+        let goodsList = this.state.good_list;
 
         if (listData) {
             listData.map((a) => {
                 if (a.remain_count > 0) {
                     a.real_loading_count = -a.remain_count;
-                    goodsList.push(a);
+                    let isContaint = false;
+                    goodsList.map((item) =>{
+                        if (item.product_id == a.product_id) {
+                            isContaint = true;
+                        }
+                    });
+                    if(!isContaint){
+                        goodsList.push(a);
+                    }
                 }
 
             })
