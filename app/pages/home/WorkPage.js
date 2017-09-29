@@ -15,7 +15,7 @@ import Swiper from 'react-native-swiper'
 import NavigationUtil from '../../utils/NavigationUtil';
 import GridView from '../../components/GridView';
 import HomeBar from '../../components/HomeBar'
-import { Iconfont, Toast } from 'react-native-go';
+import { Iconfont, Toast,FetchManger, LoginInfo, Spinner } from 'react-native-go';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
@@ -144,7 +144,28 @@ class WorkPage extends React.Component {
       Toast.show('该功能还未开放')
       return
     }
-    navigate(item.typeName);
+    if(item.typeName === 'AddLadingbills'){
+      /**
+       * 请求查询是否有未审核的提货单据接口
+       */
+      const user_id = LoginInfo.getUserInfo().user_id;
+      const token = LoginInfo.getUserInfo().token;
+      let param = {user_id,token}
+      InteractionManager.runAfterInteractions(() => {
+          FetchManger.getUri('mobileServiceManager/ladingbills/isCheckedLadingbills.page', param).then((responseData) => {
+              if (responseData.status === '0' || responseData.status === 0) {
+                  navigate(item.typeName);
+              }else if(responseData.status === '-3' || responseData.status === -3){
+                  Toast.show(responseData.msg)
+              }
+          }).catch((error) => {
+              console.log(error)
+              Toast.show("网络错误");
+          })
+      });
+    }else{
+      navigate(item.typeName);
+    }
   }
   _renderItem(item, index) {
     return (
