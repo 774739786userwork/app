@@ -32,6 +32,10 @@ class LadProductItem extends React.Component {
         const { item } = this.props;
         item.loading_quantity = item.loading_quantity ? item.loading_quantity : 0;
         item.real_loading_count = item.loading_quantity - item.remain_count;
+        if(item.remain_count > 0){
+            item.loading_quantity =  0;
+            item.real_loading_count =  - item.remain_count;
+        }
         return (<View style={{ backgroundColor: '#fff' }}>
             <View style={{ flexDirection: 'row', paddingLeft: 12, }}>
                 <View style={{ alignItems: 'center', justifyContent: 'center', height: 110 }}>

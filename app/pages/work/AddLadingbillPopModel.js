@@ -49,6 +49,11 @@ export default class AddLadingbillPopModel extends React.Component {
         this.setState({ modalVisible: false });
     }
     renderRowView = (item, index) => {
+        if(item.remain_count > 0){
+            item.loading_quantity =  0;
+            item.real_loading_count =  - item.remain_count;
+        }
+        
         return (
             <View style={{ backgroundColor: '#fff', width: WINDOW_WIDTH }} key={`row_${index}`}>
                 <View style={{ height: 34, paddingLeft: 12, marginBottom: 8, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>

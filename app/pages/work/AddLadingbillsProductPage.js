@@ -187,7 +187,6 @@ class AddLadingbillsProductPage extends React.Component {
                     a.real_loading_count = - a.remain_count;
                     a.loading_quantity = a.remain_count;
                     goodsList.push(a);
-
                     let itemWeight = NumberUtils.FloatMul(a.product_weight, a.loading_quantity);
                     totalWeight = NumberUtils.FloatAdd(totalWeight, itemWeight);
                     totalNum = NumberUtils.FloatAdd(totalNum, a.loading_quantity);
