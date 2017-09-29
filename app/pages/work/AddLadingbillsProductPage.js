@@ -260,13 +260,17 @@ class AddLadingbillsProductPage extends React.Component {
         const { action } = this.props;
         const { params } = this.props.navigation.state;
 
+        let upEmployeeIds = '';
+        if(params.upEmployeeIds){
+            upEmployeeIds = params.upEmployeeIds[0]
+        }
         let sbParam = {
             source_equipment: '1',
             loadingdate: params.loadingbill_date[0],
             car_number: params.car_id[0],
             car_id: params.car_id[1],
             store_house_id: params.storehouse_id[1],
-            porters_id: params.upEmployeeIds[0],
+            porters_id: upEmployeeIds,
             total_quantity: this.state.totalNum,
             total_weight: this.state.totalWeight + 'kg',
             good_list: JSON.stringify(this.state.good_list)
@@ -344,7 +348,7 @@ class AddLadingbillsProductPage extends React.Component {
         let goodsList = [];
         if (good_list) {
             good_list.map((a) => {
-                if (a.real_loading_count > 0) {
+                if (a.real_loading_count > 0 || a.remain_count > 0) {
                     goodsList.push(a);
                     let itemWeight = NumberUtils.FloatMul(a.product_weight, a.loading_quantity);
                     totalWeight = NumberUtils.FloatAdd(totalWeight, itemWeight);
@@ -358,7 +362,10 @@ class AddLadingbillsProductPage extends React.Component {
     render() {
         const { params } = this.props.navigation.state;
         const { addLadingbillsProduct } = this.props;
-
+        let upEmployeeIds = '';
+        if(params.upEmployeeIds){
+            upEmployeeIds = params.upEmployeeIds[1]
+        }
         return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
                 <View style={{ backgroundColor: '#118cd7', paddingLeft: 12, paddingBottom: 6, paddingTop: 6 }}>
@@ -367,7 +374,7 @@ class AddLadingbillsProductPage extends React.Component {
                         <View style={{ marginLeft: 20 }} />
                         <Text style={{ color: '#fff', fontSize: 16 }}>{`${params.storehouse_id[0]}`}</Text>
                         <View style={{ marginLeft: 20 }} />
-                        <Text style={{ color: '#fff', fontSize: 16 }}>{`${params.upEmployeeIds[1]}`}</Text>
+                        <Text style={{ color: '#fff', fontSize: 16 }}>{`${upEmployeeIds}`}</Text>
                     </View>
                 </View>
                 <SearchBar

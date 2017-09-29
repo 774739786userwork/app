@@ -11,7 +11,7 @@ import {
     InteractionManager,
     FlatList
 } from 'react-native';
-import { Iconfont, Toast } from 'react-native-go';
+import { Iconfont, Toast, FetchManger, LoginInfo, Spinner } from 'react-native-go';
 import DatePicker from 'react-native-datepicker'
 
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -34,6 +34,7 @@ class AddLadingbillsPage extends React.Component {
         this._selectByDate = this._selectByDate.bind(this)
         this._onItemPress = this._onItemPress.bind(this)
         this._onAddItemPress = this._onAddItemPress.bind(this)
+        this.loadStore = this.loadStore.bind(this);
         valeMap = {};
         let today = GetDateStr(0);
         valeMap.loadingbill_date = [today];
@@ -41,13 +42,51 @@ class AddLadingbillsPage extends React.Component {
             {},
             { title: '车牌号', key: 'car_id', value: '请选择车牌号', target: 'SelectCar' },
             { title: '提货日期', key: 'loadingbill_date', value: today },
-            { title:'搬运工', key:'upEmployeeIds',value:'请选择搬运工',target:'SelectMuUser'},
+            { title:'搬运工', key:'upEmployeeIds',value:'',target:'SelectMuUser'},
             { title: '仓库', key: 'storehouse_id', value: '请选择仓库', target: 'SelectStore' },
         ];
         this.state = {
             listData: dataSource.cloneWithRows(listViewData),
+            showSpinner:false
         }
     }
+
+    componentDidMount(){
+        InteractionManager.runAfterInteractions(() => {
+            this.loadStore();
+        });
+    }
+
+    //默认请求加载仓库接口
+    loadStore() {
+        const token = LoginInfo.getUserInfo().token;
+        const organization_id = LoginInfo.getUserInfo().organization_id;
+        InteractionManager.runAfterInteractions(() => {
+            FetchManger.getUri('mobileServiceManager/ladingbills/appGetWarehouse.page', { token, organization_id }).then((responseData) => {
+                if (responseData.status === '0' || responseData.status === 0) {
+                    let data = responseData.data;
+                    if (data && data.length > 0) {
+
+                        let item = {};
+                        for (let index = 0; index < listViewData.length; index++) {
+                            if ('storehouse_id' == listViewData[index].key) {
+                                item = listViewData[index];
+                                break;
+                            }
+                        }
+                        item.value = data[0].STORE_HOUSE_NAME
+                        valeMap['storehouse_id'] = [data[0].STORE_HOUSE_NAME, data[0].STORE_HOUSE_ID];
+                        this.setState({ listData: dataSource.cloneWithRows(listViewData) });
+                    }
+
+                }
+            }).catch((error) => {
+                console.log(error)
+            })
+        });
+
+    }
+
     _selectByDate(item, dateValue) {
         item.value = dateValue;
         valeMap[item.key] = [dateValue];
@@ -140,8 +179,32 @@ class AddLadingbillsPage extends React.Component {
                 }
             }
         }
+
+        /**
+         * 请求查询是否有未审核的提货单据接口
+         */
+        const user_id = LoginInfo.getUserInfo().user_id;
+        const token = LoginInfo.getUserInfo().token;
+        let param = {user_id,token}
         const { navigation } = this.props;
-        navigation.navigate('AddLadingbillsProduct', valeMap)
+        this.setState({ showSpinner:true })
+        InteractionManager.runAfterInteractions(() => {
+            FetchManger.getUri('mobileServiceManager/ladingbills/isCheckedLadingbills.page', param).then((responseData) => {
+                if (responseData.status === '0' || responseData.status === 0) {
+                    navigation.navigate('AddLadingbillsProduct', valeMap)
+                    
+                }else if(responseData.status === '-3' || responseData.status === -3){
+                    Toast.show(responseData.msg)
+                }
+                this.setState({ showSpinner:false })
+            }).catch((error) => {
+                console.log(error)
+                this.setState({ showSpinner: false })
+                Toast.show("网络错误");
+            })
+        });
+        
+        
     }
     render() {
         return (
@@ -158,6 +221,7 @@ class AddLadingbillsPage extends React.Component {
                         </View>
                     </TouchableOpacity>
                 </View>
+                <View><Spinner visible={this.state.showSpinner} textContent={'查询中,请稍后...'} /></View>
             </View >
         );
     }

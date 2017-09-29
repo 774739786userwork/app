@@ -36,8 +36,8 @@ class UnAuditedLadingbillsPage extends React.Component {
             loading: false,
             loadMore: false,
             listData: [],
-            startDate: DateUtils.getYearMonthDay(),
-            endDate: DateUtils.getYearMonthDay(),
+            startDate: '',//DateUtils.getYearMonthDay(),
+            endDate: '',//DateUtils.getYearMonthDay(),
             loadingcount: 0,
         }
     }
@@ -69,6 +69,8 @@ class UnAuditedLadingbillsPage extends React.Component {
                     let data = responseData.data;
                     let returnList = data.ladbiling_order_list;
                     let loadingcount = data.total_record ? data.total_record :0;
+                    let begin_date = data.begin_date;
+                    let end_date = data.end_date;
                     if (loadMore) {
                         if (data) {
                             let list = this.state.listData.concat(returnList);
@@ -78,7 +80,7 @@ class UnAuditedLadingbillsPage extends React.Component {
                         }
 
                     } else {
-                        this.setState({loadingcount,listData: returnList ? returnList : [], loading: false });
+                        this.setState({loadingcount,begin_date,end_date,listData: returnList ? returnList : [], loading: false });
                     }
                 } else {
                     if (loadMore) {
@@ -211,7 +213,7 @@ upEmployeeIds: ["100012,", "蔡桥,"]
                             false ? <DatePicker
                                 style={{ width: 100, }}
                                 disabled={true}
-                                date={this.state.startDate}
+                                date={this.state.begin_date}
                                 customStyles={{
                                     dateInput: { borderWidth: 0 },
                                     dateText: { color: '#fff' }
@@ -225,7 +227,7 @@ upEmployeeIds: ["100012,", "蔡桥,"]
                             /> : null
                         }
                         <Text style={{ color: '#999', width: 100, textAlign: 'center' }}>
-                            {this.state.startDate}
+                            {this.state.begin_date}
                         </Text>
                         <Text style={{ color: '#999' }}>
                             {'开始'}
@@ -236,7 +238,7 @@ upEmployeeIds: ["100012,", "蔡桥,"]
                         {
                             false ? <DatePicker
                                 style={{ width: 100, }}
-                                date={this.state.endDate}
+                                date={this.state.end_date}
                                 customStyles={{
                                     dateInput: { borderWidth: 0 },
                                     dateText: { color: '#fff' }
@@ -251,7 +253,7 @@ upEmployeeIds: ["100012,", "蔡桥,"]
                             /> : null
                         }
                         <Text style={{ color: '#999', width: 100, textAlign: 'center' }}>
-                            {this.state.endDate}
+                            {this.state.end_date}
                         </Text>
                         <Text style={{ color: '#999' }}>
                             {'结束'}
