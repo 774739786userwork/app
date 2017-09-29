@@ -76,6 +76,8 @@ class AddLadingbillsProductPage extends React.Component {
         this.savePopWindow = this.savePopWindow.bind(this);
         this._onCarPress = this._onCarPress.bind(this);
         this.onClear = this.onClear.bind(this);
+        this.initUpdate = this.initUpdate.bind(this);
+
         this.searchText = '';
 
         const { params } = this.props.navigation.state;
@@ -151,8 +153,7 @@ class AddLadingbillsProductPage extends React.Component {
                 });
             }
         }
-
-        this.setState({ listData: addLadingbillsProduct.listData })
+        this.initUpdate(addLadingbillsProduct.listData);
     }
     componentDidMount() {
         const { action } = this.props;
@@ -173,6 +174,32 @@ class AddLadingbillsProductPage extends React.Component {
             action.addLadingbillsProduct(car_id, txt);
         });
     }
+    initUpdate(listData) {
+
+        let totalWeight = 0;
+        let totalNum = 0;
+        let goodsList = [];
+
+        if (listData) {
+            listData.map((a) => {
+                
+                if (a.remain_count > 0) {
+                    a.real_loading_count = - a.remain_count;
+                    a.loading_quantity = a.remain_count;
+                    goodsList.push(a);
+
+                    let itemWeight = NumberUtils.FloatMul(a.product_weight, a.loading_quantity);
+                    totalWeight = NumberUtils.FloatAdd(totalWeight, itemWeight);
+                    totalNum = NumberUtils.FloatAdd(totalNum, a.loading_quantity);
+                }
+
+            })
+        }
+        this.setState({ listData: listData, good_list: goodsList, totalNum, totalWeight });
+    }
+    //this.setState({ listData: addLadingbillsProduct.listData })
+
+
     onUpdateGoogs(item) {
         let good_list = this.state.good_list;
         let oldItem = null;

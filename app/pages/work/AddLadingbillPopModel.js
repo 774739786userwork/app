@@ -60,8 +60,8 @@ export default class AddLadingbillPopModel extends React.Component {
                         <Text style={{ color: '#f80000' }}>{`${item.loading_quantity}`}</Text>
                     </View>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
-                        <Text style={{ color: '#666' }}>{'规格：'}</Text>
-                        <Text style={{ color: '#f80000' }}>{`${item.specifications}`}</Text>
+                        <Text style={{ color: '#666' }}>{'实提：'}</Text>
+                        <Text style={{ color: '#f80000' }}>{`${item.real_loading_count}`}</Text>
                     </View>
                 </View>
                 <View style={{ height: StyleSheet.hairlineWidth, marginTop: 12, flex: 1, backgroundColor: '#c4c4c4' }} />
