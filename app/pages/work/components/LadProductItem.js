@@ -14,28 +14,12 @@ import { Iconfont, LoadingView } from 'react-native-go';
 class LadProductItem extends React.Component {
     constructor(props) {
         super(props)
-        this.updateNewCount = this.updateNewCount.bind(this);
     }
-    updateNewCount(newCount) {
-        const { onUpdate, item } = this.props
-        if (newCount < 0) {
-            newCount = 0;
-        }
-        if (newCount > this.state.maxCount) {
-            newCount = this.state.maxCount;
-        }
-        item.real_loading_count = newCount - item.remain_count;
-        item.loading_quantity = newCount;
-        onUpdate && onUpdate(item);
-    }
+   
     render() {
         const { item } = this.props;
         item.loading_quantity = item.loading_quantity ? item.loading_quantity : 0;
-        item.real_loading_count = item.loading_quantity - item.remain_count;
-        if(item.remain_count > 0){
-            item.loading_quantity =  0;
-            item.real_loading_count =  - item.remain_count;
-        }
+        
         return (<View style={{ backgroundColor: '#fff' }}>
             <View style={{ flexDirection: 'row', paddingLeft: 12, }}>
                 <View style={{ alignItems: 'center', justifyContent: 'center', height: 110 }}>
@@ -44,7 +28,6 @@ class LadProductItem extends React.Component {
                 <View style={{ flex: 1 }}>
                     <View style={{ height: 24, paddingLeft: 12, marginBottom: 4, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={{ color: '#333', fontSize: 16 }}>{`${item.product_name}`}</Text>
-                        
                     </View>
                     <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
@@ -76,7 +59,7 @@ class LadProductItem extends React.Component {
                         </View>
                     </View>
                 </View>
-              
+
             </View>
             <View style={{ height: StyleSheet.hairlineWidth, marginTop: 4, flex: 1, backgroundColor: '#c4c4c4' }} />
         </View>)

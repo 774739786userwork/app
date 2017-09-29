@@ -153,6 +153,7 @@ class AddLadingbillsProductPage extends React.Component {
                 });
             }
         }
+       // this.setState({ listData: addLadingbillsProduct.listData })
         this.initUpdate(addLadingbillsProduct.listData);
     }
     componentDidMount() {
@@ -184,12 +185,11 @@ class AddLadingbillsProductPage extends React.Component {
             listData.map((a) => {
                 
                 if (a.remain_count > 0) {
-                    a.real_loading_count = - a.remain_count;
-                    a.loading_quantity = a.remain_count;
+                    a.real_loading_count = -a.remain_count;
                     goodsList.push(a);
-                    let itemWeight = NumberUtils.FloatMul(a.product_weight, a.loading_quantity);
+                    let itemWeight = NumberUtils.FloatMul(a.product_weight, a.remain_count);
                     totalWeight = NumberUtils.FloatAdd(totalWeight, itemWeight);
-                    totalNum = NumberUtils.FloatAdd(totalNum, a.loading_quantity);
+                    totalNum =totalNum + parseInt(a.remain_count) ;
                 }
 
             })
@@ -209,9 +209,9 @@ class AddLadingbillsProductPage extends React.Component {
         }
         if (oldItem) {
             oldItem.real_loading_count = item.real_loading_count
-            oldItem.loading_quantity = NumberUtils.FloatAdd(item.real_loading_count, item.remain_count);
+            oldItem.loading_quantity =item.real_loading_count+ item.remain_count;
         } else {
-            item.loading_quantity = NumberUtils.FloatAdd(item.real_loading_count, item.remain_count);
+            item.loading_quantity = item.real_loading_count+ item.remain_count;
             good_list.push(item)
         }
         let totalWeight = 0;
@@ -219,11 +219,12 @@ class AddLadingbillsProductPage extends React.Component {
         let goodsList = [];
         if (good_list) {
             good_list.map((a) => {
-                if (a.real_loading_count > 0) {
+                if (a.real_loading_count != 0) {
                     goodsList.push(a);
-                    let itemWeight = NumberUtils.FloatMul(a.product_weight, a.loading_quantity);
+                    
+                    let itemWeight = NumberUtils.FloatMul(a.product_weight, a.real_loading_count);
                     totalWeight = NumberUtils.FloatAdd(totalWeight, itemWeight);
-                    totalNum = NumberUtils.FloatAdd(totalNum, a.loading_quantity);
+                    totalNum  =totalNum + parseInt(a.real_loading_count);
                 }
 
             })
@@ -376,9 +377,10 @@ class AddLadingbillsProductPage extends React.Component {
             good_list.map((a) => {
                 if (a.real_loading_count > 0 || a.remain_count > 0) {
                     goodsList.push(a);
-                    let itemWeight = NumberUtils.FloatMul(a.product_weight, a.loading_quantity);
+                    let real_loading_count = Math.abs(parseInt(a.real_loading_count));
+                    let itemWeight = NumberUtils.FloatMul(a.product_weight, real_loading_count);
                     totalWeight = NumberUtils.FloatAdd(totalWeight, itemWeight);
-                    totalNum = NumberUtils.FloatAdd(totalNum, a.loading_quantity);
+                    totalNum = NumberUtils.FloatAdd(totalNum, real_loading_count);
                 }})
         }
         this.setState({ good_list : goodsList, totalNum, totalWeight, editeModalVisible: false });

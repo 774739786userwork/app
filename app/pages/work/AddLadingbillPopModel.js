@@ -49,11 +49,6 @@ export default class AddLadingbillPopModel extends React.Component {
         this.setState({ modalVisible: false });
     }
     renderRowView = (item, index) => {
-        if(item.remain_count > 0){
-            item.loading_quantity =  0;
-            item.real_loading_count =  - item.remain_count;
-        }
-
         return (
             <View style={{ backgroundColor: '#fff', width: WINDOW_WIDTH }} key={`row_${index}`}>
                 <View style={{ height: 34, paddingLeft: 12, marginBottom: 8, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
@@ -62,7 +57,7 @@ export default class AddLadingbillPopModel extends React.Component {
                 <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
                         <Text style={{ color: '#666' }}>{'总数：'}</Text>
-                        <Text style={{ color: '#f80000' }}>{`${item.loading_quantity}`}</Text>
+                        <Text style={{ color: '#f80000' }}>{`${item.loading_quantity ? item.loading_quantity : 0}`}</Text>
                     </View>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
                         <Text style={{ color: '#666' }}>{'实提：'}</Text>
@@ -78,13 +73,10 @@ export default class AddLadingbillPopModel extends React.Component {
         let totalNum = 0;
         let totalWeight = 0;
         chooseList.map((a) => {
-            if(a.remain_count > 0){
-                a.loading_quantity =  a.remain_count;
-            }
-
-            let itemWeight = NumberUtils.FloatMul(a.product_weight, a.loading_quantity);
+            let real_loading_count = Math.abs(parseInt(a.real_loading_count));
+            let itemWeight = NumberUtils.FloatMul(a.product_weight,real_loading_count);
             totalWeight = NumberUtils.FloatAdd(totalWeight, itemWeight);
-            totalNum = NumberUtils.FloatAdd(totalNum, a.loading_quantity);
+            totalNum = totalNum + real_loading_count;
         });
         let loading = true
         return (<Modal
