@@ -65,7 +65,6 @@ class AddLadingbillsProductPage extends React.Component {
     constructor(props) {
         super(props);
         this._renderItem = this._renderItem.bind(this);
-        this.onUpdateGoogs = this.onUpdateGoogs.bind(this);
         this._onItemPress = this._onItemPress.bind(this);
         this.onCancelPress = this.onCancelPress.bind(this);
         this.onConfirmPress = this.onConfirmPress.bind(this);
@@ -183,54 +182,17 @@ class AddLadingbillsProductPage extends React.Component {
 
         if (listData) {
             listData.map((a) => {
-                
                 if (a.remain_count > 0) {
                     a.real_loading_count = -a.remain_count;
                     goodsList.push(a);
-                    let itemWeight = NumberUtils.FloatMul(a.product_weight, a.remain_count);
-                    totalWeight = NumberUtils.FloatAdd(totalWeight, itemWeight);
-                    totalNum =totalNum + parseInt(a.remain_count) ;
                 }
 
             })
         }
-        this.setState({ listData: listData, good_list: goodsList, totalNum, totalWeight });
+        this.setState({ listData: listData, good_list: goodsList });
     }
     //this.setState({ listData: addLadingbillsProduct.listData })
 
-
-    onUpdateGoogs(item) {
-        let good_list = this.state.good_list;
-        let oldItem = null;
-        for (let i = 0; i < good_list.length; i++) {
-            if (item.product_id == good_list[i].product_id) {
-                oldItem = good_list[i];
-            }
-        }
-        if (oldItem) {
-            oldItem.real_loading_count = item.real_loading_count
-            oldItem.loading_quantity =item.real_loading_count+ item.remain_count;
-        } else {
-            item.loading_quantity = item.real_loading_count+ item.remain_count;
-            good_list.push(item)
-        }
-        let totalWeight = 0;
-        let totalNum = 0;
-        let goodsList = [];
-        if (good_list) {
-            good_list.map((a) => {
-                if (a.real_loading_count != 0) {
-                    goodsList.push(a);
-                    
-                    let itemWeight = NumberUtils.FloatMul(a.product_weight, a.real_loading_count);
-                    totalWeight = NumberUtils.FloatAdd(totalWeight, itemWeight);
-                    totalNum  =totalNum + parseInt(a.real_loading_count);
-                }
-
-            })
-        }
-        this.setState({ good_list: goodsList, totalNum, totalWeight });
-    }
     _renderItem = (item, index) => {
         let good_list = this.state.good_list;
         if (good_list) {
@@ -250,7 +212,7 @@ class AddLadingbillsProductPage extends React.Component {
                 onPress={this._rowOnPress.bind(this, item)}
                 key={`row_${index}`}
             >
-                <LadProductItem item={item} onUpdate={this.onUpdateGoogs} />
+                <LadProductItem item={item}  />
             </TouchableOpacity>
         );
     }
@@ -365,9 +327,8 @@ class AddLadingbillsProductPage extends React.Component {
         }
         if (oldItem) {
             oldItem.real_loading_count = item.real_loading_count
-            oldItem.loading_quantity = NumberUtils.FloatAdd(item.real_loading_count, item.remain_count);
+            oldItem.loading_quantity = item.loading_quantity;
         } else {
-            item.loading_quantity = NumberUtils.FloatAdd(item.real_loading_count, item.remain_count);
             good_list.push(item)
         }
         let totalWeight = 0;
@@ -377,10 +338,12 @@ class AddLadingbillsProductPage extends React.Component {
             good_list.map((a) => {
                 if (a.real_loading_count > 0 || a.remain_count > 0) {
                     goodsList.push(a);
-                    let real_loading_count = Math.abs(parseInt(a.real_loading_count));
-                    let itemWeight = NumberUtils.FloatMul(a.product_weight, real_loading_count);
+                    
+                    let loading_quantity = a.loading_quantity ? parseInt(a.loading_quantity) : 0;
+
+                    let itemWeight = NumberUtils.FloatMul(a.product_weight,loading_quantity);
                     totalWeight = NumberUtils.FloatAdd(totalWeight, itemWeight);
-                    totalNum = NumberUtils.FloatAdd(totalNum, real_loading_count);
+                    totalNum = totalNum +  loading_quantity;
                 }})
         }
         this.setState({ good_list : goodsList, totalNum, totalWeight, editeModalVisible: false });

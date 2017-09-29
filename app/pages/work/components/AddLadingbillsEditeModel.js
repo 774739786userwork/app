@@ -47,6 +47,7 @@ export default class AddLadingbillsEditeModel extends React.Component {
     onConfirmPress() {
         let item = this.props.item;
         let newCount = parseInt(this.state.real_loading_count)
+        //总数 = 实提货 + 余数
         item.real_loading_count = newCount -  item.remain_count;//newCount - item.remain_count;
         item.loading_quantity = newCount;
         this.props.onConfirmPress && this.props.onConfirmPress(item)

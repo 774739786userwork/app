@@ -73,10 +73,10 @@ export default class AddLadingbillPopModel extends React.Component {
         let totalNum = 0;
         let totalWeight = 0;
         chooseList.map((a) => {
-            let real_loading_count = Math.abs(parseInt(a.real_loading_count));
-            let itemWeight = NumberUtils.FloatMul(a.product_weight,real_loading_count);
+            let loading_quantity = a.loading_quantity ? parseInt(a.loading_quantity) : 0;
+            let itemWeight = NumberUtils.FloatMul(a.product_weight, loading_quantity);
             totalWeight = NumberUtils.FloatAdd(totalWeight, itemWeight);
-            totalNum = totalNum + real_loading_count;
+            totalNum = totalNum + loading_quantity;
         });
         let loading = true
         return (<Modal
@@ -105,7 +105,7 @@ export default class AddLadingbillPopModel extends React.Component {
                     </View>
                     <View style={{ height: WINDOW_HEIGHT * 2 / 3 - 160, width: WINDOW_WIDTH, justifyContent: 'center', alignItems: 'center' }}>
                         {
-                            totalNum > 0 ?
+                            chooseList.length > 0 ?
                                 <ListView
                                     enableEmptySections={true}
                                     style={{ width: WINDOW_WIDTH }}
