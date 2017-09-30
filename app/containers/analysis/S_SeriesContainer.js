@@ -101,13 +101,13 @@ class S_SeriesPage extends React.Component {
   onItemAction(item) {
     const { navigation, tabLabel } = this.props;
     let selectItem = this.state.selectItem;
-    let param = { factoryId: item.orgId,orgName: item.orgName, seriesId: selectItem.serieslId, type: tabLabel };
+    let param = { factoryId: item.orgId, orgName: item.orgName, seriesId: selectItem.serieslId, type: tabLabel };
     navigation.navigate('S_SeriesDetail', param)
   }
   onFactoryAction(item) {
     const { navigation, tabLabel } = this.props;
-    
-    let param = {type: tabLabel ,factoryId: item.factoryId,factoryName: item.factoryName};
+
+    let param = { type: tabLabel, factoryId: item.factoryId, factoryName: item.factoryName };
     navigation.navigate('S_SeriesDetailChart', param)
   }
   _renderRow(item, rowID) {
@@ -127,13 +127,13 @@ class S_SeriesPage extends React.Component {
       <TouchableOpacity onPress={this.onItemAction.bind(this, item)} key={`index_${rowID}`}>
         <View>
           <View style={{ flexDirection: 'row', backgroundColor: '#fff' }}>
-            <Text style={{ padding: 10, flex: 1, color: '#666' }}>{`${item.orgName}`}</Text>
+            <Text style={{ fontSize: 12,padding: 10, flex: 1, color: '#666' }}>{`${item.orgName}`}</Text>
             <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-            <Text style={{ padding: 10, flex: 1, color: '#666' }}>{`${item.salerQuantity}`}</Text>
+            <Text style={{ fontSize: 12,padding: 10, flex: 1, color: '#666' }}>{`${item.salerQuantity}`}</Text>
             <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-            <Text style={{ padding: 10, flex: 1, color: '#666' }}>{`${item.totalSum}`}</Text>
+            <Text style={{ fontSize: 12,padding: 10, flex: 1, color: '#666' }}>{`${item.totalSum}`}</Text>
             <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-            <Text style={{ padding: 10, flex: 1, color: '#666' }}>{`${item.proportion}`}</Text>
+            <Text style={{ fontSize: 12,padding: 10, flex: 1, color: '#666' }}>{`${item.proportion}`}</Text>
           </View>
           <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
         </View>
@@ -146,7 +146,7 @@ class S_SeriesPage extends React.Component {
     }
     return (<View style={{ flex: 1 }}>
       <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#fff' }}>
-        <View style={{ width: 100, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ width: 90, justifyContent: 'center', alignItems: 'center' }}>
           <LeftTabComponet
             data={this.state.salerList}
             sectionAction={(item) => {
@@ -157,14 +157,14 @@ class S_SeriesPage extends React.Component {
         <View style={{ flex: 1, backgroundColor: '#f9f9f9', flexDirection: 'column' }}>
 
           <View style={{ margin: 10, backgroundColor: '#fff', flex: 1 }}>
-            <View style={{ flexDirection: 'row', backgroundColor: '#17c6c1' }}>
-              <Text style={{ padding: 10, flex: 1, color: '#fff' }}>{'工厂'}</Text>
+            <View style={{ flexDirection: 'row', backgroundColor: '#66b3e5' }}>
+              <Text style={{ fontSize: 12, padding: 10, flex: 1, color: '#fff' }}>{'工厂'}</Text>
               <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-              <Text style={{ padding: 10, flex: 1, color: '#fff' }}>{'销量'}</Text>
+              <Text style={{ fontSize: 12, padding: 10, flex: 1, color: '#fff' }}>{'销量'}</Text>
               <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-              <Text style={{ padding: 10, flex: 1, color: '#fff' }}>{'金额'}</Text>
+              <Text style={{ fontSize: 12, padding: 10, flex: 1, color: '#fff' }}>{'金额(万)'}</Text>
               <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-              <Text style={{ padding: 10, flex: 1, color: '#fff' }}>{'占比'}</Text>
+              <Text style={{ fontSize: 12, padding: 10, flex: 1, color: '#fff' }}>{'占比%'}</Text>
             </View>
             <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
             <LoadingListView

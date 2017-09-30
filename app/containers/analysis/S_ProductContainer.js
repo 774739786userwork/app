@@ -41,9 +41,9 @@ class S_SeriesPage extends React.Component {
   componentDidMount() {
     let key = this.props.tabLabel;
     let up = 'rise';
-    this.loadData(key,up);
+    this.loadData(key, up);
   }
-  loadData(type,up) {
+  loadData(type, up) {
     let param = { type: type, salerSort: up };
     InteractionManager.runAfterInteractions(() => {
       FetchManger.getUri('dataCenter/appHomePage/getYearMonthProductSaler.page', param).then((responseData) => {
@@ -56,22 +56,22 @@ class S_SeriesPage extends React.Component {
       })
     });
   }
-  
+
   //销量上升
-  onItemUpAction(){
+  onItemUpAction() {
     let key = this.props.tabLabel;
     let up = 'rise';
-    this.loadData(key,up)
+    this.loadData(key, up)
   }
 
   //销量下降
   onItemAction() {
     let key = this.props.tabLabel;
     let down = 'fall';
-    this.loadData(key,down)
+    this.loadData(key, down)
   }
   onListItemAction(rowData) {
-    const { navigation,tabLabel } = this.props;
+    const { navigation, tabLabel } = this.props;
     let salerList = this.state.salerList;
     let _selectItem = null;
     if (!this.state.selectItem.productList && salerList.length > 0) {
@@ -79,8 +79,8 @@ class S_SeriesPage extends React.Component {
     } else {
       _selectItem = this.state.selectItem;
     }
-    let param = {productId:rowData.productId,factoryId:_selectItem.factoryId,type:tabLabel,productName:rowData.productName};
-    navigation.navigate('S_ProductDetail',param)
+    let param = { productId: rowData.productId, factoryId: _selectItem.factoryId, type: tabLabel, productName: rowData.productName };
+    navigation.navigate('S_ProductDetail', param)
   }
   render() {
     let iosTop = Platform.OS === 'ios' ? 20 : 0;
@@ -106,18 +106,18 @@ class S_SeriesPage extends React.Component {
         <ScrollView style={{ flex: 1, backgroundColor: '#f9f9f9', flexDirection: 'column' }}>
           <View style={{ backgroundColor: '#fff', margin: 12, flexDirection: 'row' }}>
             <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onItemUpAction}>
-              <View style={{ flex: 1, flexDirection: 'row' }}>
-                <Text style={{ padding: 12, color: '#333' }}>{'销量上升'}</Text>
+              <View style={{ borderWidth: 1, borderColor: '#61aee0', flex: 1, backgroundColor: '#61aee0', borderRadius: 4, flexDirection: 'row' }}>
+                <Text style={{ padding: 12, color: '#fff' }}>{'销量上升'}</Text>
                 <View style={{ flex: 1 }} />
-                <Iconfont icon='e6cf' iconSize={16} iconColor={'#333'} />
+                <Iconfont icon='e6cf' iconSize={16} iconColor={'#fff'} />
               </View>
             </TouchableOpacity>
             <View style={{ width: 12, backgroundColor: '#f9f9f9', }} />
             <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onItemAction}>
-              <View style={{ flex: 1, flexDirection: 'row' }}>
-                <Text style={{ padding: 12, color: '#333' }}>{'销量下降'}</Text>
+              <View style={{ borderWidth: 1, borderColor: '#61aee0', flex: 1, backgroundColor: '#61aee0', borderRadius: 4, flexDirection: 'row' }}>
+                <Text style={{ padding: 12, color: '#fff' }}>{'销量下降'}</Text>
                 <View style={{ flex: 1 }} />
-                <Iconfont icon='e74f' iconSize={16} iconColor={'#333'} />
+                <Iconfont icon='e74f' iconSize={16} iconColor={'#fff'} />
               </View>
             </TouchableOpacity>
           </View>
@@ -146,14 +146,17 @@ class DetailList extends React.Component {
     this.props.onItemAction && this.props.onItemAction(rowData);
   }
   _renderRow(rowData, rowID) {
-    return <TouchableOpacity onPress={this.onItemAction.bind(this,rowData)} key={`index_${rowID}`}>
+    return <TouchableOpacity onPress={this.onItemAction.bind(this, rowData)} key={`index_${rowID}`}>
       <View style={{ padding: 10, flexDirection: 'row' }}>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
           <ImageView source={{ uri: rowData.productImage }} style={{ width: 50, height: 50, margin: 1 }} />
         </View>
         <View style={{ marginLeft: 6, flex: 1, justifyContent: 'center' }}>
           <Text style={{ flex: 1, color: '#666' }}>{rowData.productName}</Text>
-          <Text style={{ flex: 1, color: '#f80000' }}>{`环比${rowData.salerQuantity+rowData.productUnit+rowData.totalSum}元`}</Text>
+          <View>
+            <Text style={{ flex: 1,fontSize:12, color: '#f80000' }}>{`环比${rowData.salerQuantity}`}</Text>
+            <Text style={{ flex: 1,fontSize:12, color: '#f80000' }}>{`${rowData.totalSum}元`}</Text>
+          </View>
         </View>
       </View>
     </TouchableOpacity>;
@@ -227,7 +230,7 @@ class S_ProductContainer extends React.Component {
     let iosTop = Platform.OS === 'ios' ? 20 : 0;
     return (<View style={{ flex: 1 }}>
       <View style={{ height: iosTop, backgroundColor: '#0081d4' }} />
-      <ScrollableTabView locked={true}  renderTabBar={this.renderTabBar} >
+      <ScrollableTabView locked={true} renderTabBar={this.renderTabBar} >
         <S_SeriesPage key={'0'} {...this.props} tabLabel={'0'} />
         <S_SeriesPage key={'1'}  {...this.props} tabLabel={'1'} />
       </ScrollableTabView>

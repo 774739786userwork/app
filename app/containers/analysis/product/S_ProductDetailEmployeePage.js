@@ -19,12 +19,14 @@ class S_ProductDetailEmployeePage extends React.Component {
     }
 
     _renderRow(rowData, rowID) {
-        return <View style={{ padding: 12, backgroundColor: '#fff'}} key={`index_${rowID}`}>
-            <Text style={{ color: '#333'}}>{`${rowData.employeeName}`}</Text>
-            <View style={{flexDirection:'row',marginTop:8}}>
-                <Text style={{ color: '#333',flex:1 }}>{`销量 ${rowData.employeeSalerQuantity}`}</Text>
-                <Text style={{ color: '#333',flex:1 }}>{`金额 ${rowData.employeeSalerSum}`}</Text>
-                <Text style={{ color: '#333',flex:1 }}>{`占比 ${rowData.employeeIncrease}`}</Text>
+        return <View key={`index_${rowID}`}>
+            <View style={{ borderColor: '#f2f2f2', borderWidth: StyleSheet.hairlineWidth, borderRadius: 6, backgroundColor: '#fff', marginTop: 10, marginLeft: 10, marginRight: 10 }}>
+                <Text style={{ color: '#333' }}>{`${rowData.employeeName}`}</Text>
+                <View style={{ flexDirection: 'row', marginTop: 8 }}>
+                    <Text style={{ color: '#333', flex: 1 }}>{`销量 ${rowData.employeeSalerQuantity}`}</Text>
+                    <Text style={{ color: '#333', flex: 1 }}>{`金额 ${rowData.employeeSalerSum}`}</Text>
+                    <Text style={{ color: '#333', flex: 1 }}>{`占比 ${rowData.employeeIncrease}`}</Text>
+                </View>
             </View>
         </View>;
     }

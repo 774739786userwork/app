@@ -33,24 +33,24 @@ class ListContainer extends React.Component {
 
   _renderRow(rowData, rowID) {
     let keyName = this.props.keyName;
-    return <View style={{ backgroundColor: '#fff' }} key={`index_${rowID}`}>
-      <View style={{ paddingLeft: 10, paddingRight: 10, paddingBottom: 10, }}>
-        <View style={{ height: 34, paddingLeft: 10, marginBottom: 6, marginTop: 5, flexDirection: 'row', alignItems: 'center' }}>
+    return <View key={`index_${rowID}`}>
+      <View style={{borderColor:'#f2f2f2',borderWidth:StyleSheet.hairlineWidth,borderRadius:6, backgroundColor: '#fff', marginTop: 10, marginLeft: 10, marginRight: 10 }}>
+        <View style={{ height: 34, paddingLeft: 10,  marginTop: 5, flexDirection: 'row', alignItems: 'center' }}>
           <Text style={{ color: '#333', fontSize: 16 }}>{rowData[keyName[0]]}</Text>
         </View>
         <View style={{ height: 30, paddingLeft: 10, flexDirection: 'row', alignItems: 'center' }}>
           <View style={{ flex: 1, flexDirection: 'row' }}>
-            <Text style={{ color: '#666', width: 70 }}>{`${keyName[1]}`}</Text>
-            <Text style={{ color: '#666' }}>{`${rowData[keyName[2]]}`}</Text>
+            <Text style={{ color: '#999' }}>{`${keyName[1]}`}</Text>
+            <Text style={{ color: '#999' }}>{`: `}</Text>
+            <Text style={{ color: '#999' }}>{`${rowData[keyName[2]]}`}</Text>
           </View>
           <View style={{ flex: 1, flexDirection: 'row' }}>
-            <Text style={{ color: '#666', width: 70 }}>{`${keyName[3]}`}</Text>
-            <Text style={{ color: '#666' }}>{`${rowData[keyName[4]]}`}</Text>
+            <Text style={{ color: '#999'}}>{`${keyName[3]}`}</Text>
+            <Text style={{ color: '#999' }}>{`: `}</Text>
+            <Text style={{ color: '#999' }}>{`${rowData[keyName[4]]}`}</Text>
           </View>
         </View>
       </View>
-      <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#d9d9d9' }} />
-
     </View>;
   }
 
