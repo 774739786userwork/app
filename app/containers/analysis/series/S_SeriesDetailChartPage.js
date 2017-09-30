@@ -5,10 +5,12 @@ import {
     ListView,
     StyleSheet,
     InteractionManager,
-    Dimensions
+    Dimensions,
+    ScrollView
 } from 'react-native';
 import Echarts from 'native-echarts';
 import { FetchManger, LoginInfo, LoadingView, Toast } from 'react-native-go'
+import Orientation from 'react-native-orientation';
 
 const WINDOW_HEIGHT = Dimensions.get('window').height;
 /**
@@ -23,17 +25,19 @@ class S_SeriesDetailChartPage extends React.Component {
         super(props)
         this.state = {
             loading: false,
-            dataList:[]
+            dataList: []
         }
     }
     componentDidMount() {
+        Orientation.lockToLandscape();
+
         const { params } = this.props.navigation.state;
         this.setState({ loading: true });
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getProductSeries.page', params, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
-                    this.setState({ dataList:data, loading: false })
+                    this.setState({ dataList: data, loading: false })
                 } else {
                     this.setState({ loading: false });
                 }
@@ -43,13 +47,16 @@ class S_SeriesDetailChartPage extends React.Component {
             })
         });
     }
+    componentWillUnmount() {
+        Orientation.lockToPortrait();
+    }
     render() {
         let dataList = this.state.dataList;
         let monthList = [];
         let xData = [];
         let seriesData = [];
         let legend = [];
-        dataList.map((item)=>{
+        dataList.map((item) => {
             let chartItem = {};
             chartItem.type = 'line';
             chartItem.name = item.NAME;
@@ -67,7 +74,7 @@ class S_SeriesDetailChartPage extends React.Component {
         });
         const option = {
             legend: {
-                data:legend
+                data: legend
             },
             xAxis: {
                 type: 'category',
@@ -92,15 +99,15 @@ class S_SeriesDetailChartPage extends React.Component {
             //自定义线条颜色，你可以设置多个颜色，使用时默认从第一个开始   如果不设置color则有它默认颜色
             // series里面的数据  如果是固定的线条 你只需要改变data数据就ok  
             // 如果不是确定有多少折线  建议吧整个serise数据替换掉   例如：series:[{...}{...}{...},...]配置项和下面一样
-            color:['#01a2ea', '#8ac99c','#23ac38','#b4d467','#ffff00','#fdcc89','#f19049','#ea6941','#f95353','#cc5ac0','#ac5fd7','#5570b5','#e8ba00', '#33cc99'],
+            color: ['#01a2ea', '#8ac99c', '#23ac38', '#b4d467', '#ffff00', '#fdcc89', '#f19049', '#ea6941', '#f95353', '#cc5ac0', '#ac5fd7', '#5570b5', '#e8ba00', '#33cc99'],
             series: seriesData
 
         };
-        return <View style={{height:WINDOW_HEIGHT, backgroundColor: '#fff'}}>
+        return <View style={{ flex: 1, backgroundColor: '#fff' }}>
             {
-                this.state.loading ? <LoadingView /> : <Echarts option={option} height={350} />
+                this.state.loading ? <LoadingView /> : <ScrollView><Echarts option={option} height={350} /></ScrollView>
             }
-        </View>;
+        </View>
     }
 }
 export default S_SeriesDetailChartPage;

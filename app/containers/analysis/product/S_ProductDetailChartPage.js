@@ -12,14 +12,13 @@ class S_ProductDetailChartPage extends React.Component {
 
     constructor(props) {
         super(props)
+       
     }
-
-
     render() {
         const { dataList } = this.props;
         let xData = [];
         let seriesData = [];
-        dataList.map((item)=>{
+        dataList.map((item) => {
             xData.push(item.monthname);
             seriesData.push(parseFloat(item.monthProductSum))
         });

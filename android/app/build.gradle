@@ -87,11 +87,11 @@ android {
     buildToolsVersion '23.0.1'
 
     defaultConfig {
-        applicationId "com.shengyibao"
+        applicationId "com.shengyibao.an"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 12
-        versionName "1.12"
+        versionCode 2012
+        versionName "20.12"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -136,6 +136,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-orientation')
     compile project(':react-native-contacts-wrapper')
     compile project(':ele-react-native-location')
     compile fileTree(include: ['*.jar'], dir: 'libs')

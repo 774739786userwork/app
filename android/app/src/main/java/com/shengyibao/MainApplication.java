@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
+import com.github.yamill.orientation.OrientationPackage;
 import com.lynxit.contactswrapper.ContactsWrapperPackage;
 import me.ele.dodo.AMapLocationReactPackage;
 import com.imagepicker.ImagePickerPackage;
@@ -48,6 +49,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new OrientationPackage(),
             new ContactsWrapperPackage(),
             new AMapLocationReactPackage(),
             new ImagePickerPackage(),

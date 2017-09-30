@@ -21,6 +21,7 @@
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		198184B18A68402FA6328EA8 /* libFastImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ECE291A103AC4A6083C6AAF1 /* libFastImage.a */; };
+		2A6B84C3B2754DC59FEDDD73 /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DD358395D6AD4BCF83467106 /* libRCTOrientation.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -236,6 +237,13 @@
 			remoteGlobalIDString = 9D2995271F35B13E00E3BF7D;
 			remoteInfo = "RCTAnimation-tvOS";
 		};
+		9D2B5CA31F7FD8E5001117F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D76F328C48EC41B58D3C1B50 /* RCTOrientation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTOrientation;
+		};
 		9D3BDAEC1ED1EFFC00362456 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4A678E82521441339FC350D6 /* RCTCamera.xcodeproj */;
@@ -331,6 +339,8 @@
 		9E71D09699194EC0A4BE3A92 /* RCTBluetoothSerial.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTBluetoothSerial.xcodeproj; path = "../node_modules/react-native-gm-bluetooth/ios/RCTBluetoothSerial.xcodeproj"; sourceTree = "<group>"; };
 		B7D108E7B8AB403F802E4FFC /* libRCTContactsWrapper.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTContactsWrapper.a; sourceTree = "<group>"; };
 		C30948088AF942FC805CAA63 /* libRCTCamera.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTCamera.a; sourceTree = "<group>"; };
+		D76F328C48EC41B58D3C1B50 /* RCTOrientation.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTOrientation.xcodeproj; path = "../node_modules/react-native-orientation/iOS/RCTOrientation.xcodeproj"; sourceTree = "<group>"; };
+		DD358395D6AD4BCF83467106 /* libRCTOrientation.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTOrientation.a; sourceTree = "<group>"; };
 		E0C0EF3BBB444963A58BFF30 /* libRCTBluetoothSerial.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTBluetoothSerial.a; sourceTree = "<group>"; };
 		ECE291A103AC4A6083C6AAF1 /* libFastImage.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libFastImage.a; sourceTree = "<group>"; };
 		EED6499DEE8B4CBFA097396D /* libRNDeviceInfo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNDeviceInfo.a; sourceTree = "<group>"; };
@@ -377,6 +387,7 @@
 				3FD042CE43A2459C970FBFAE /* libRCTBluetoothSerial.a in Frameworks */,
 				ACE6F6FBF48C49F9B1D0D6D2 /* libELMRNLocation.a in Frameworks */,
 				CF89249C8D054C1A8B9BE8B5 /* libRCTContactsWrapper.a in Frameworks */,
+				2A6B84C3B2754DC59FEDDD73 /* libRCTOrientation.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -542,6 +553,7 @@
 				9E71D09699194EC0A4BE3A92 /* RCTBluetoothSerial.xcodeproj */,
 				1D00DB1ECA044E6F99D4309E /* ELMRNLocation.xcodeproj */,
 				F47820963D5C42E5A876D847 /* ContactsWrapper.xcodeproj */,
+				D76F328C48EC41B58D3C1B50 /* RCTOrientation.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -575,6 +587,14 @@
 				00E356EE1AD99517003FC87E /* shengyibaoTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* shengyibao-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* shengyibao-tvOSTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9D2B5C921F7FD8E5001117F0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9D2B5CA41F7FD8E5001117F0 /* libRCTOrientation.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -806,6 +826,10 @@
 					ProjectRef = 00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */;
 				},
 				{
+					ProductGroup = 9D2B5C921F7FD8E5001117F0 /* Products */;
+					ProjectRef = D76F328C48EC41B58D3C1B50 /* RCTOrientation.xcodeproj */;
+				},
+				{
 					ProductGroup = 139105B71AF99BAD00B5F7CC /* Products */;
 					ProjectRef = 139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */;
 				},
@@ -1013,6 +1037,13 @@
 			remoteRef = 9D29952C1F35B25800E3BF7D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		9D2B5CA41F7FD8E5001117F0 /* libRCTOrientation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTOrientation.a;
+			remoteRef = 9D2B5CA31F7FD8E5001117F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		9D3BDAED1ED1EFFC00362456 /* libRCTCamera.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1203,12 +1234,14 @@
 					"$(SRCROOT)/../node_modules/react-native-smart-amap/ios/RCTAMap/RCTAMap/**",
 					"$(SRCROOT)/../node_modules/ele-react-native-location/ios/ELMRNLocation/**",
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
+					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
 				);
 				INFOPLIST_FILE = shengyibaoTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1252,12 +1285,14 @@
 					"$(SRCROOT)/../node_modules/react-native-smart-amap/ios/RCTAMap/RCTAMap/**",
 					"$(SRCROOT)/../node_modules/ele-react-native-location/ios/ELMRNLocation/**",
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
+					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
 				);
 				INFOPLIST_FILE = shengyibaoTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1307,6 +1342,7 @@
 					"$(SRCROOT)/../../../react-native/React/**",
 					"$(SRCROOT)/../node_modules/ele-react-native-location/ios/ELMRNLocation/**",
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
+					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
 				);
 				INFOPLIST_FILE = shengyibao/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
@@ -1347,6 +1383,7 @@
 					"$(SRCROOT)/../../../react-native/React/**",
 					"$(SRCROOT)/../node_modules/ele-react-native-location/ios/ELMRNLocation/**",
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
+					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
 				);
 				INFOPLIST_FILE = shengyibao/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
@@ -1389,11 +1426,13 @@
 					"$(SRCROOT)/../node_modules/react-native-smart-amap/ios/RCTAMap/RCTAMap/**",
 					"$(SRCROOT)/../node_modules/ele-react-native-location/ios/ELMRNLocation/**",
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
+					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
 				);
 				INFOPLIST_FILE = "shengyibao-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1447,11 +1486,13 @@
 					"$(SRCROOT)/../node_modules/react-native-smart-amap/ios/RCTAMap/RCTAMap/**",
 					"$(SRCROOT)/../node_modules/ele-react-native-location/ios/ELMRNLocation/**",
 					"$(SRCROOT)/../node_modules/react-native-contacts-wrapper/ios/RCTContactsWrapper",
+					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
 				);
 				INFOPLIST_FILE = "shengyibao-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1506,6 +1547,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.shengyibao-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1530,6 +1572,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",

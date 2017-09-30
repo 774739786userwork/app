@@ -45,7 +45,6 @@ class S_ProductDetailEmployeePage extends React.Component {
                 enableEmptySections={true}
                 dataSource={ds.cloneWithRows(data)}
                 renderRow={this._renderRow}
-                renderSeparator={this._renderSeperator}
                 showsVerticalScrollIndicator={false}
             />
         </View>;

@@ -8,6 +8,7 @@
  */
 
 #import "AppDelegate.h"
+#import "Orientation.h"
 #import <AMapFoundationKit/AMapFoundationKit.h> //引入高德地图核心包
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
@@ -35,6 +36,10 @@
   
   [self shareAppVersionAlert];
   return YES;
+}
+
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+  return [Orientation getOrientation];
 }
 
 

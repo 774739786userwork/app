@@ -7,6 +7,8 @@ import com.facebook.react.ReactActivity;
 import org.lzh.framework.updatepluginlib.UpdateBuilder;
 
 import javax.annotation.Nullable;
+import android.content.Intent; // <--- import
+import android.content.res.Configuration; // <--- import
 
 public class MainActivity extends ReactActivity {
 
@@ -23,5 +25,13 @@ public class MainActivity extends ReactActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        // UpdateBuilder.create().check();
+    }
+
+    @Override
+      public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        Intent intent = new Intent("onConfigurationChanged");
+        intent.putExtra("newConfig", newConfig);
+        this.sendBroadcast(intent);
     }
 }

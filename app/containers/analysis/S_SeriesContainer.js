@@ -126,14 +126,14 @@ class S_SeriesPage extends React.Component {
     return (
       <TouchableOpacity onPress={this.onItemAction.bind(this, item)} key={`index_${rowID}`}>
         <View>
-          <View style={{ flexDirection: 'row', backgroundColor: '#fff' }}>
-            <Text style={{ fontSize: 12,padding: 10, flex: 1, color: '#666' }}>{`${item.orgName}`}</Text>
+          <View style={{  flexDirection: 'row', backgroundColor: '#fff' }}>
+            <Text style={{ fontSize: 12,paddingLeft:2,paddingRight:2,paddingTop:10,paddingBottom:10, flex: 1,textAlign:'center', color: '#666' }}>{`${item.orgName}`}</Text>
             <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-            <Text style={{ fontSize: 12,padding: 10, flex: 1, color: '#666' }}>{`${item.salerQuantity}`}</Text>
+            <Text style={{ fontSize: 12,paddingLeft:2,paddingRight:2,paddingTop:10,paddingBottom:10, flex: 1, textAlign:'center',color: '#666' }}>{`${item.salerQuantity}`}</Text>
             <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-            <Text style={{ fontSize: 12,padding: 10, flex: 1, color: '#666' }}>{`${item.totalSum}`}</Text>
+            <Text style={{ fontSize: 12,paddingLeft:2,paddingRight:2,paddingTop:10,paddingBottom:10, flex: 1,textAlign:'center', color: '#666' }}>{`${item.totalSum}`}</Text>
             <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-            <Text style={{ fontSize: 12,padding: 10, flex: 1, color: '#666' }}>{`${item.proportion}`}</Text>
+            <Text style={{ fontSize: 12,paddingLeft:2,paddingRight:2,paddingTop:10,paddingBottom:10, flex: 1,textAlign:'center', color: '#666' }}>{`${item.proportion}`}</Text>
           </View>
           <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
         </View>
@@ -158,13 +158,13 @@ class S_SeriesPage extends React.Component {
 
           <View style={{ margin: 10, backgroundColor: '#fff', flex: 1 }}>
             <View style={{ flexDirection: 'row', backgroundColor: '#66b3e5' }}>
-              <Text style={{ fontSize: 12, padding: 10, flex: 1, color: '#fff' }}>{'工厂'}</Text>
+              <Text style={{ fontSize: 12,paddingLeft:2,paddingRight:2,paddingTop:10,paddingBottom:10, flex: 1,textAlign:'center', flex: 1, color: '#fff' }}>{'工厂'}</Text>
               <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-              <Text style={{ fontSize: 12, padding: 10, flex: 1, color: '#fff' }}>{'销量'}</Text>
+              <Text style={{ fontSize: 12,paddingLeft:2,paddingRight:2,paddingTop:10,paddingBottom:10, flex: 1,textAlign:'center', flex: 1, color: '#fff' }}>{'销量'}</Text>
               <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-              <Text style={{ fontSize: 12, padding: 10, flex: 1, color: '#fff' }}>{'金额(万)'}</Text>
+              <Text style={{ fontSize: 12,paddingLeft:2,paddingRight:2,paddingTop:10,paddingBottom:10, flex: 1,textAlign:'center', flex: 1, color: '#fff' }}>{'金额(万)'}</Text>
               <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-              <Text style={{ fontSize: 12, padding: 10, flex: 1, color: '#fff' }}>{'占比%'}</Text>
+              <Text style={{ fontSize: 12,paddingLeft:2,paddingRight:2,paddingTop:10,paddingBottom:10, flex: 1,textAlign:'center',flex: 1, color: '#fff' }}>{'占比%'}</Text>
             </View>
             <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
             <LoadingListView
