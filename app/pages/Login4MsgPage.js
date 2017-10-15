@@ -24,6 +24,7 @@ class Login4MsgPage extends React.Component {
         super(props);
         this.sendMsg = this.sendMsg.bind(this);
         this.login = this.login.bind(this);
+        userInfo = {};
     }
     componentWillReceiveProps(nextProps) {
         const { sendMsg } = nextProps;
