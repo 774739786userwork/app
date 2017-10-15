@@ -250,7 +250,7 @@ export default class S_MonthPage extends React.Component {
           }}>
             <View style={{ flex: 1 }} />
             <TouchableOpacity onPress={this.onMoreAction}>
-              <Text style={{ padding: 12, color: '#999' }}>{'点击查看更多'}</Text>
+              <Text style={{ padding: 12, color: '#999' }}>{'查看更多分厂'}</Text>
             </TouchableOpacity>
             <View style={{ flex: 1 }} />
           </View>

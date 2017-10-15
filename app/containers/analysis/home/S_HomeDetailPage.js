@@ -14,7 +14,7 @@ var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 //统计分析 厂 详情
 class S_HomeDetailPage extends React.Component {
     static navigationOptions = ({ navigation }) => ({
-        title: `厂家数据`
+        title: `各分厂数据`
     });
     constructor(props) {
         super(props)

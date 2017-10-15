@@ -55,9 +55,9 @@ export default class S_DayPage extends React.Component {
       customerList = selectItem.salerList[0].customerList ? selectItem.salerList[0].customerList : []
       employeeList = selectItem.salerList[0].employeeList ? selectItem.salerList[0].employeeList : []
     }
-    let totalSela = selectItem.totalSum ? `${selectItem.totalSum} 未收 ${selectItem.unReceiverSum}` : '';//总销售额
-    let dayMax = selectItem.dayFirstName ? `${selectItem.dayFirstName} ${selectItem.daySalerSum} 未收 ${selectItem.dayUnReceiverSum ? selectItem.dayUnReceiverSum : 0}` : '';//当日销售冠军
-    let dayCustomer =selectItem.dayFirstCustomer ? `${selectItem.dayFirstCustomer}(${selectItem.cusPhone}) ${selectItem.cusSalerSum} 未收 ${ selectItem.cusUnReceiverSum ? selectItem.cusUnReceiverSum : 0}` :'';//当日最大客户
+    let totalSela = selectItem.totalSum ? `${selectItem.totalSum}万元 未收 ${selectItem.unReceiverSum}万元` : '';//总销售额
+    let dayMax = selectItem.dayFirstName ? `${selectItem.dayFirstName} ${selectItem.daySalerSum}元 未收 ${selectItem.dayUnReceiverSum ? selectItem.dayUnReceiverSum : 0}元` : '';//当日销售冠军
+    let dayCustomer =selectItem.dayFirstCustomer ? `${selectItem.dayFirstCustomer}(${selectItem.cusPhone}) ${selectItem.cusSalerSum}元 未收 ${ selectItem.cusUnReceiverSum ? selectItem.cusUnReceiverSum : 0}元` :'';//当日最大客户
     return (
       <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#fff' }}>
         <View style={{ width: 100, justifyContent: 'center', alignItems: 'center' }}>
