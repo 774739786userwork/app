@@ -13,6 +13,8 @@ import {
 
 import NavigationUtil from '../utils/NavigationUtil';
 import DeviceInfo from '../utils/DeviceInfo';
+import Config from '../utils/Config';
+
 const maxHeight = Dimensions.get('window').height;
 const maxWidth = Dimensions.get('window').width;
 const splashImg = require('../imgs/splash.png');
@@ -23,6 +25,8 @@ class SplashPage extends React.Component {
   };
 
   componentDidMount() {
+    Config.init();
+
     const { navigate } = this.props.navigation;
     let updateUrl = DeviceInfo.getInfo();
     let baseUrl = "";

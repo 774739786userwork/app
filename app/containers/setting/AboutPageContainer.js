@@ -12,6 +12,7 @@ import {
     Dimensions,
     View
 } from 'react-native';
+
 var WINDOW_WIDTH = Dimensions.get('window').width;
 
 class AboutPageContainer extends React.Component {

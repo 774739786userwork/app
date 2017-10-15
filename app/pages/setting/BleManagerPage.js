@@ -23,6 +23,8 @@ const { ESC, TSC } = GMBluetooth;
 import { NavigationActions } from 'react-navigation'
 import * as NumberUtils from '../../utils/NumberUtils'
 import * as DateUtils from '../../utils/DateUtils'
+import Config from '../../utils/Config';
+
 import { Iconfont, LoginInfo, LineView, Toast, Spinner, FetchManger, LoadingView } from 'react-native-go';
 import dismissKeyboard from 'dismissKeyboard';
 const WINDOW_WIDTH = Dimensions.get('window').width;
@@ -30,7 +32,6 @@ const WINDOW_WIDTH = Dimensions.get('window').width;
 export default class BleManagerPage extends React.Component {
     static navigationOptions = ({ navigation }) => {
         const { state, setParams } = navigation;
-
         if (Platform.OS === 'ios') {
             return { title: '打印小票' };
         } else {
@@ -55,12 +56,13 @@ export default class BleManagerPage extends React.Component {
     constructor(props) {
         super(props)
         this.headerRightPress = this.headerRightPress.bind(this);
-        this._onPrintPress = this._onPrintPress.bind(this)
-        this._onPrintTypePress = this._onPrintTypePress.bind(this)
-        this.listBlueTooth = this.listBlueTooth.bind(this)
-        this.pairDevice = this.pairDevice.bind(this)
-        this.printCreatorBody = this.printCreatorBody.bind(this)
-        this.printBody = this.printBody.bind(this)
+        this._onPrintPress = this._onPrintPress.bind(this);
+        this._onPrintTypePress = this._onPrintTypePress.bind(this);
+        this.listBlueTooth = this.listBlueTooth.bind(this);
+        this.pairDevice = this.pairDevice.bind(this);
+        this.printCreatorBody = this.printCreatorBody.bind(this);
+        this.printBody = this.printBody.bind(this);
+        this.autoConnect = this.autoConnect.bind(this);
 
         this.state = {
             devices: [],
@@ -85,7 +87,6 @@ export default class BleManagerPage extends React.Component {
             this.listBlueTooth();
         });
         GMBluetooth.on('bluetoothDisabled', () => {
-
             this.setState({ isEnabled: false });
             Toast.show('蓝牙已关闭');
         });
@@ -106,13 +107,32 @@ export default class BleManagerPage extends React.Component {
     listBlueTooth() {
         Promise.all([GMBluetooth.isEnabled(), GMBluetooth.list()])
             .then((values) => {
-                const [isEnabled, devices] = values
+                const [isEnabled, devices] = values;
                 if (!isEnabled && Platform.OS === 'android') {
                     GMBluetooth.enable()
                         .then((res) => this.setState({ isEnabled: true }))
                         .catch((err) => Toast.show(err.message))
                 }
-                this.setState({ isEnabled, devices })
+                this.setState({ isEnabled, devices });
+                if(!this.state.connected){
+                    let deviceId = Config.get('ble');
+                    for (let i = 0; i < devices.length; i++) {
+                        if(deviceId == devices[i].id){
+                            autoConnect(deviceId);
+                        }
+                    }
+                }
+            });
+    }
+    //自动连接
+    autoConnect(deviceId) {
+        this.setState({ connecting: true, connecting_id: deviceId })
+        GMBluetooth.connect(deviceId)
+            .then((res) => {
+                this.setState({ connectedID: deviceId, connected: true, connecting: false })
+            })
+            .catch((err) => {
+                this.setState({ connecting: false })
             })
     }
 
@@ -142,6 +162,7 @@ export default class BleManagerPage extends React.Component {
         GMBluetooth.connect(device.id)
             .then((res) => {
                 Toast.show(`连接 ${device.name} 成功`)
+                Config.put('ble', device.id);
                 this.setState({ connectedID: device.id, connected: true, connecting: false })
             })
             .catch((err) => {
@@ -272,7 +293,7 @@ export default class BleManagerPage extends React.Component {
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#dedede' }} />
                     <View style={{ height: 58, paddingLeft: 12, paddingRight: 12, paddingBottom: 8, paddingTop: 6 }}>
-                        <TouchableHighlight disabled={printing} onPress={this._onPrintPress} style={{ flex: 1, alignItems: 'center', height: 40, borderColor:  printing ? '#f2f2f2' : '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} >
+                        <TouchableHighlight disabled={printing} onPress={this._onPrintPress} style={{ flex: 1, alignItems: 'center', height: 40, borderColor: printing ? '#f2f2f2' : '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} >
                             <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: printing ? '#f2f2f2' : '#17c6c1', borderColor: printing ? '#f2f2f2' : '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
                                 <Iconfont
                                     label={printing ? '正在打印' : '打印小票'}
@@ -293,7 +314,7 @@ export default class BleManagerPage extends React.Component {
 
 
     _onPrintPress() {
-        if(!this.state.connected){
+        if (!this.state.connected) {
             Toast.show('请连接蓝牙');
             return;
         }
@@ -315,6 +336,8 @@ export default class BleManagerPage extends React.Component {
             this.printBody(params)     //送货单重新打印
         }
 
+        this.setState({ printing: false })
+        /*
         new Promise(()=>{
             const { navigation } = this.props;
             setTimeout(()=>{
@@ -329,7 +352,7 @@ export default class BleManagerPage extends React.Component {
                     navigation.dispatch(navigationAction)
                 });
             },3000);
-        });
+        });*/
     }
 
     printBody(param) {
