@@ -60,7 +60,7 @@ class GetDebtPayNoteListPage extends React.Component {
 
     onConfirmPress(id, newCount) {
         let selectItem = this.state.selectItem;
-        selectItem.payment_sum = newCount;
+        selectItem.debt_sum = newCount;
         this.setState({ modalVisible: false, selectItem });
     }
     onCancelPress() {
@@ -69,7 +69,7 @@ class GetDebtPayNoteListPage extends React.Component {
 
     _renderItem = (item, index) => {
         let payment_sum = item.payment_sum ? item.payment_sum : 0
-      
+        alert(item.debt_sum)
         return (
             <TouchableHighlight
                 onPress={this._rowOnPress.bind(this,item)}
@@ -149,7 +149,7 @@ class GetDebtPayNoteListPage extends React.Component {
                             <TouchableOpacity 
                                 underlayColor={'#999'}
                                 style={{ height: 44, width: WINDOW_WIDTH, backgroundColor: '#ffffff', alignItems: 'center', justifyContent: 'center' }}>
-                                <Text style={{ fontSize: 20, color: '#0081d4', }}>收款保存</Text>
+                                <Text style={{ fontSize: 20, color: '#0081d4', }}>欠款对冲</Text>
                             </TouchableOpacity >
                         </View>
                         :null

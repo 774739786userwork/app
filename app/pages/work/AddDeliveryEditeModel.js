@@ -117,7 +117,7 @@ export default class AddDeliveryEditeModel extends React.Component {
                                 iconPadding={8}
                                 iconSize={22} />
                         </TouchableOpacity>
-                        <View style={{ backgroundColor: '#c4c4c4', width: StyleSheet.hairlineWidth, height: 44 }} />
+                        {/* <View style={{ backgroundColor: '#c4c4c4', width: StyleSheet.hairlineWidth, height: 44 }} />
                         <TouchableOpacity style={{ flex: 1 }} onPress={this.onTypePress.bind(this, true)}>
                             <Iconfont
                                 icon={!this.state.isDistribution ? 'e663' : 'e662'} // 图标
@@ -125,7 +125,7 @@ export default class AddDeliveryEditeModel extends React.Component {
                                 label={'铺货类型'}
                                 iconPadding={8}
                                 iconSize={22} />
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, width: modelWidth, backgroundColor: '#c4c4c4' }} />
                     <View style={{ flexDirection: 'row' }}>

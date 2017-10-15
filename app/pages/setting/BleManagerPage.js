@@ -314,10 +314,10 @@ export default class BleManagerPage extends React.Component {
 
 
     _onPrintPress() {
-        if (!this.state.connected) {
-            Toast.show('请连接蓝牙');
-            return;
-        }
+        // if (!this.state.connected) {
+        //     Toast.show('请连接蓝牙');
+        //     return;
+        // }
         const { params } = this.props.navigation.state;
         this.setState({ printing: true });
         if (params.creator) {

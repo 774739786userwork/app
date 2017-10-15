@@ -52,6 +52,7 @@ export default class DebtPayEditeModel extends React.Component {
     }
     onConfirmPress() {
         let item = this.props.item;
+        // alert(this.state.count)
         this.props.onConfirmPress && this.props.onConfirmPress(item.id,this.state.count)
         this.setState({ modalVisible: false });
     }
@@ -85,6 +86,8 @@ export default class DebtPayEditeModel extends React.Component {
                         <View style={{ flex: 3, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                             <TextInput style={{ width: 80, height: 30, textAlign: 'center', color: '#666', borderRadius: 8, padding: 0, borderWidth: 1, borderColor: '#c4c4c4' }}
                                 underlineColorAndroid={'transparent'}
+                                keyboardType={'numeric'}
+                                selectTextOnFocus={true}
                                 value={'' + this.state.count}
                                 defaultValue={'' + this.state.count}
                                 onChangeText={(newCount) => {
