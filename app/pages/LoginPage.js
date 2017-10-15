@@ -36,6 +36,7 @@ class LoginPage extends React.Component {
         this.onRegister = this.onRegister.bind(this);
         this.onForgetPwd = this.onForgetPwd.bind(this);
         this.onIpSetting = this.onIpSetting.bind(this);
+        userInfo = {};
     }
     componentWillReceiveProps(nextProps) {
         const { login } = nextProps;
