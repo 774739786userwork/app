@@ -1354,6 +1354,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.goldcell.shengyibao;
 				PRODUCT_NAME = shengyibao;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1395,6 +1396,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.goldcell.shengyibao;
 				PRODUCT_NAME = shengyibao;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

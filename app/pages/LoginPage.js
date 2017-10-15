@@ -9,8 +9,10 @@ import {
     Alert,
     TouchableWithoutFeedback,
     Dimensions,
-    InteractionManager
+    InteractionManager,
+    Platform
 } from 'react-native';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { Iconfont, Toast, Spinner, LoginInfo } from 'react-native-go';
 import dismissKeyboard from 'dismissKeyboard';
 import NavigationUtil from '../utils/NavigationUtil';
@@ -50,8 +52,8 @@ class LoginPage extends React.Component {
             let data = login.data;
             LoginInfo.setUserInfo(data);
             InteractionManager.runAfterInteractions(() => {
-        //        NavigationUtil.reset(this.props.navigation, 'Home');
-               NavigationUtil.reset(this.props.navigation, 'Analysis');
+                NavigationUtil.reset(this.props.navigation, 'Home');
+                //     NavigationUtil.reset(this.props.navigation, 'Analysis');
             });
         }
     }
@@ -142,6 +144,10 @@ class LoginPage extends React.Component {
                     </TouchableHighlight >
                 </View>
             </View>
+            {
+                Platform.OS === 'ios' ?
+                    <KeyboardSpacer /> : null
+            }
             <View><Spinner visible={login.loading} text={'登录中,请稍后...'} /></View>
 
         </Image >);
