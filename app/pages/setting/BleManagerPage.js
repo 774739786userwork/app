@@ -113,12 +113,12 @@ export default class BleManagerPage extends React.Component {
                         .then((res) => this.setState({ isEnabled: true }))
                         .catch((err) => Toast.show(err.message))
                 }
-                
-                if(!this.state.connected){
+
+                if (!this.state.connected) {
                     let deviceId = Config.get('ble');
                     for (let i = 0; i < devices.length; i++) {
-                        if(deviceId == devices[i].id){
-                            this.autoConnect(isEnabled, devices,deviceId);
+                        if (deviceId == devices[i].id) {
+                            this.autoConnect(isEnabled, devices, deviceId);
                             return;
                         }
                     }
@@ -127,15 +127,31 @@ export default class BleManagerPage extends React.Component {
             });
     }
     //自动连接
-    autoConnect(isEnabled, devices,deviceId) {
-        this.setState({isEnabled, devices, connecting: true, connecting_id: deviceId })
-        GMBluetooth.connect(deviceId)
-            .then((res) => {
-                this.setState({ connectedID: deviceId, connected: true, connecting: false })
-            })
-            .catch((err) => {
-                this.setState({ connecting: false })
-            })
+    autoConnect(isEnabled, devices, deviceId) {
+        this.setState({ isEnabled, devices, connecting: true, connecting_id: deviceId })
+        
+        this.timer = setTimeout(() => {
+            
+            GMBluetooth.isConnected().then((connected) =>{
+                if(connected){
+                    this.setState({ connectedID: deviceId, connected: true, connecting: false })
+                }else{
+                    GMBluetooth.connect(deviceId)
+                    .then((res) => {
+                        this.setState({ connectedID: deviceId, connected: true, connecting: false })
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        this.setState({ connecting: true })
+                    })
+                }
+            }).catch((err) =>{
+                console.log(err)
+            });
+            
+        }, 300);
+
+
     }
 
     headerRightPress() {
@@ -311,9 +327,8 @@ export default class BleManagerPage extends React.Component {
             </View >);
     }
     componentDidUnMount() {
-        // GMBluetooth.disconnect();
+        this.timer && clearTimeout(this.timer);
     }
-
 
     _onPrintPress() {
         // if (!this.state.connected) {
