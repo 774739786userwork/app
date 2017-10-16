@@ -113,20 +113,22 @@ export default class BleManagerPage extends React.Component {
                         .then((res) => this.setState({ isEnabled: true }))
                         .catch((err) => Toast.show(err.message))
                 }
-                this.setState({ isEnabled, devices });
+                
                 if(!this.state.connected){
                     let deviceId = Config.get('ble');
                     for (let i = 0; i < devices.length; i++) {
                         if(deviceId == devices[i].id){
-                            autoConnect(deviceId);
+                            this.autoConnect(isEnabled, devices,deviceId);
+                            return;
                         }
                     }
                 }
+                this.setState({ isEnabled, devices });
             });
     }
     //自动连接
-    autoConnect(deviceId) {
-        this.setState({ connecting: true, connecting_id: deviceId })
+    autoConnect(isEnabled, devices,deviceId) {
+        this.setState({isEnabled, devices, connecting: true, connecting_id: deviceId })
         GMBluetooth.connect(deviceId)
             .then((res) => {
                 this.setState({ connectedID: deviceId, connected: true, connecting: false })
