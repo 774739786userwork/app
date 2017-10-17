@@ -42,7 +42,7 @@ class ListContainer extends React.Component {
           <View style={{ flex: 1, flexDirection: 'row' }}>
             <Text style={{ color: '#999' }}>{`${keyName[1]}`}</Text>
             <Text style={{ color: '#999' }}>{`: `}</Text>
-            <Text style={{ color: '#999' }}>{`${rowData[keyName[2]]}`}</Text>
+            <Text style={{ color: '#f80000' }}>{`${rowData[keyName[2]]}`}</Text>
           </View>
           <View style={{ flex: 1, flexDirection: 'row' }}>
             <Text style={{ color: '#999'}}>{`${keyName[3]}`}</Text>

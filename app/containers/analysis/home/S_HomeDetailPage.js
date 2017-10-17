@@ -96,11 +96,11 @@ class S_HomeDetailPage extends React.Component {
                 <View style={{ height: 30, paddingLeft: 10, flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
                         <Text style={{ color: '#666', }}>{'销售总额: '}</Text>
-                        <Text style={{ color: '#666' }}>{`${rowData.factoryTotalSum}万`}</Text>
+                        <Text style={{ color: '#17c6c1' }}>{`${rowData.factoryTotalSum}万`}</Text>
                     </View>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
                         <Text style={{ color: '#666', }}>{'未收: '}</Text>
-                        <Text style={{ color: '#666' }}>{`${rowData.factoryUnReceiveSum}万`}</Text>
+                        <Text style={{ color: '#f80000' }}>{`${rowData.factoryUnReceiveSum}万`}</Text>
                     </View>
                 </View>
             </View>

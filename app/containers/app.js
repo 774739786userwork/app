@@ -111,7 +111,7 @@ const AnalysisTabContainer = TabNavigator(
   {
     S_Home: { screen: S_HomeContainer },
     S_Series: { screen: S_SeriesContainer },
-    S_Product: { screen: S_ProductContainer },
+    // S_Product: { screen: S_ProductContainer },
     Setting: { screen: SettingContainer }
   },
   {

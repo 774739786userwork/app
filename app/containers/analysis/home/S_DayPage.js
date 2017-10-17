@@ -72,11 +72,11 @@ export default class S_DayPage extends React.Component {
           <View style={{ flex: 1, backgroundColor: '#f9f9f9', flexDirection: 'column' }}>
             <View style={{ backgroundColor: '#fff', margin: 12, padding: 12 }}>
               <Text style={{ color: '#666', fontSize: 12 }}>{'总销售额'}</Text>
-              <Text style={{ color: '#000', marginTop: 4, marginBottom: 10 }}>{totalSela}</Text>
+              <Text style={{ color: '#17c6c1', marginTop: 4, marginBottom: 10 }}>{totalSela}</Text>
               <Text style={{ color: '#666', fontSize: 12 }}>{'当日销售冠军'}</Text>
-              <Text style={{ height:32, color: '#000', marginTop: 4, marginBottom: 10 }}>{dayMax}</Text>
+              <Text style={{ height:32, color: '#17c6c1', marginTop: 4, marginBottom: 10 }}>{dayMax}</Text>
               <Text style={{ color: '#666', fontSize: 12 }}>{'当日最大客户'}</Text>
-              <Text style={{ height:32,color: '#000', marginTop: 4, marginBottom: 8 }}>{dayCustomer}</Text>
+              <Text style={{ height:32,color: '#17c6c1', marginTop: 4, marginBottom: 8 }}>{dayCustomer}</Text>
             </View>
             <Text style={{ color: '#666', marginLeft: 12, marginTop: 12, fontSize: 14 }}>{'销售额前20排名情况'}</Text>
             <View style={{ backgroundColor: '#fff', margin: 10 }}>

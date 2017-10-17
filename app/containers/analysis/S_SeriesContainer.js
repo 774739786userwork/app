@@ -101,7 +101,7 @@ class S_SeriesPage extends React.Component {
   onItemAction(item) {
     const { navigation, tabLabel } = this.props;
     let selectItem = this.state.selectItem;
-    let param = { factoryId: item.orgId, orgName: item.orgName, seriesId: selectItem.serieslId, type: tabLabel };
+    let param = { factoryId: selectItem.serieslId, orgName: selectItem.serieslName+item.orgName, seriesId: item.orgId, type: tabLabel };
     navigation.navigate('S_SeriesDetail', param)
   }
   onFactoryAction(item) {
@@ -158,7 +158,7 @@ class S_SeriesPage extends React.Component {
 
           <View style={{ margin: 10, backgroundColor: '#fff', flex: 1 }}>
             <View style={{ flexDirection: 'row', backgroundColor: '#66b3e5' }}>
-              <Text style={{ fontSize: 12,paddingLeft:2,paddingRight:2,paddingTop:10,paddingBottom:10, flex: 1,textAlign:'center', flex: 1, color: '#fff' }}>{'工厂'}</Text>
+              <Text style={{ fontSize: 12,paddingLeft:2,paddingRight:2,paddingTop:10,paddingBottom:10, flex: 1,textAlign:'center', flex: 1, color: '#fff' }}>{'系列'}</Text>
               <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
               <Text style={{ fontSize: 12,paddingLeft:2,paddingRight:2,paddingTop:10,paddingBottom:10, flex: 1,textAlign:'center', flex: 1, color: '#fff' }}>{'销量'}</Text>
               <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
