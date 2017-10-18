@@ -100,14 +100,12 @@ class DeliveryOrderDetailPage extends React.Component {
             custParam.contacts = [{ name: params.contact_name, mobile1: params.contact_mobile }]
             custParam.customersName = params.customer_name
             custParam.customersId = params.customer_id
-            // custParam.lat = coords.latitude
-            // custParam.lng = coords.longitude
 
             const navigationAction = NavigationActions.reset({
                 index: 1,
                 actions: [
                     NavigationActions.navigate({ routeName: 'Home' }),
-                    NavigationActions.navigate({ routeName: 'AddDeliveryOrder', params: custParam }),
+                    NavigationActions.navigate({ routeName: 'UpdateReceivedUnpaid', params: custParam }),
                 ]
             })
             navigation.dispatch(navigationAction)
@@ -224,6 +222,18 @@ class DeliveryOrderDetailPage extends React.Component {
                                             iconColor={'#fff'}
                                             iconSize={22}
                                             label={'作废本单'}
+                                            labelColor={'#fff'}
+                                        />
+                                    </View>
+                                </TouchableHighlight>
+                                <View style={{ width: 12 }} />
+                                <TouchableHighlight style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} onPress={this._onItemPress.bind(this, 1)}>
+                                    <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: '#17c6c1', borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
+                                        <Iconfont
+                                            icon={'e6c4'} // 图标
+                                            iconColor={'#fff'}
+                                            iconSize={22}
+                                            label={'已收未付修改'}
                                             labelColor={'#fff'}
                                         />
                                     </View>

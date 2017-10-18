@@ -64,6 +64,8 @@ import AddLadingbillsProductContainer from './work/AddLadingbillsProductContaine
 import AddPurchaseOrderContainer from './work/purchaseorder/AddPurchaseOrderContainer'
 //开结算单
 import AddBalanceAccoutsContainer from './work/AddBalanceAccoutsContainer'
+//送货单修改已收未付
+import UpdateReceivedUnpaidContainer from './work/UpdateReceivedUnpaidContainer';
 //销售管理
 import SelasContainer from './SelasContainer';
 //客户管理
@@ -274,6 +276,9 @@ const App = StackNavigator(
     },
     AddBalanceAccouts: {
       screen: AddBalanceAccoutsContainer
+    },
+    UpdateReceivedUnpaid:{
+      screen:UpdateReceivedUnpaidContainer
     },
     //卸货单
     UnloadBill: {

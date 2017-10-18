@@ -37,7 +37,7 @@ class SelectUserPage extends React.Component {
     componentDidMount() {
         const { action } = this.props;
         InteractionManager.runAfterInteractions(() => {
-            action.selectName();
+            action.selectName('',1);
         });
     }
     componentWillReceiveProps(nextProps) {
@@ -64,7 +64,7 @@ class SelectUserPage extends React.Component {
     onSearchAction(txt) {
         const { action } = this.props;
         InteractionManager.runAfterInteractions(() => {
-            action.selectName(txt);
+            action.selectName(txt,1);
         });
     }
 
