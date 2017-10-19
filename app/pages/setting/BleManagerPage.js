@@ -61,6 +61,7 @@ export default class BleManagerPage extends React.Component {
         this.listBlueTooth = this.listBlueTooth.bind(this);
         this.pairDevice = this.pairDevice.bind(this);
         this.printCreatorBody = this.printCreatorBody.bind(this);
+        this.printReceivedUnpaid = this.printReceivedUnpaid.bind(this);
         this.printBody = this.printBody.bind(this);
         this.autoConnect = this.autoConnect.bind(this);
 
@@ -349,6 +350,8 @@ export default class BleManagerPage extends React.Component {
             this.printCXXHBody(params) //重新卸货打印
         } else if (params.headerList) {
             this.commPrintBody(params); //退货打印
+        } else if(params.YSWF){
+            this.printReceivedUnpaid(params)//已收未付打印
         } else {
             this.printBody(params)     //送货单重新打印
         }
@@ -370,6 +373,114 @@ export default class BleManagerPage extends React.Component {
                 });
             },3000);
         });*/
+    }
+
+    printReceivedUnpaid(param) {
+        let title = '送货单'
+        // 一定要配置好
+        const Config = { wordNumber: 32 };
+        ESC.setConfig(Config);
+        ESC.init();
+        for (var i = 0; i < this.state.selectItem + 1; i++) {
+            ESC.alignCenter();
+            ESC.fontBold();
+            ESC.printAndNewLine();
+            ESC.text(title);
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.init();
+            //商品开始
+            ESC.text('开单时间：' + DateUtils.show());
+            ESC.printAndNewLine();
+            ESC.text('店名：' + param.customersName);
+            ESC.printAndNewLine();
+            ESC.text('地址：' + param.address);
+            ESC.printAndNewLine();
+            ESC.text('联系人：' + param.contacts[0].name);
+            ESC.printAndNewLine();
+            ESC.text('电  话：' + param.contacts[0].mobile1);
+            ESC.printAndNewLine();
+            ESC.text('送货人：' + LoginInfo.getUserInfo().user_real_name);
+            ESC.printAndNewLine();
+            ESC.text('联系方式：' + LoginInfo.getUserInfo().mobile_number);
+            ESC.printAndNewLine();
+            ESC.text('车牌号：' + param.carNumber);
+            ESC.printAndNewLine();
+            ESC.text(_.times(Config.wordNumber, () => '-').join(''));
+            ESC.printAndNewLine();
+            // 商品开始
+            param.productLists.map((item) => {
+                item.gifts_quantity = item.gifts_quantity ? item.gifts_quantity : 0
+
+                ESC.printAndNewLine();
+                ESC.alignLeft();
+                ESC.text(ESC.Util.leftRight('产品名称：' + item.product_name, '', 20));
+                ESC.printAndNewLine();
+                ESC.text(ESC.Util.leftRight(`销量：${item.sale_quantity}`, '', 16));
+                if (item.gifts_quantity) {
+                    ESC.text(ESC.Util.leftRight(`赠送：${item.gifts_quantity}`, '', 16));
+                }
+                ESC.printAndNewLine();
+                ESC.alignRight();
+                ESC.text(`￥${item.product_sum ? item.product_sum : 0.00}`);
+                ESC.printAndNewLine();
+                ESC.alignRight();
+                ESC.text('数量小计：' + (item.sale_quantity + item.gifts_quantity));
+                ESC.printAndNewLine();
+                ESC.text(_.times(Config.wordNumber, () => '-').join(''));
+                ESC.printAndNewLine();
+
+            })
+            // 商品结束
+            ESC.text(_.times(Config.wordNumber, () => '-').join(''));
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+
+            ESC.text(ESC.Util.leftRight(`数量总计：${param.num + ''}`, '', 16));
+            ESC.printAndNewLine();
+            ESC.text(ESC.Util.leftRight(`总计金额：￥${param.totalSum ? param.totalSum : 0.00}`, '', 16));
+            ESC.printAndNewLine();
+            ESC.text(ESC.Util.leftRight(`其中押金：￥${param.foregiftSum ? param.foregiftSum : 0.00}`, '', 16));
+            ESC.printAndNewLine();
+            ESC.text(ESC.Util.leftRight(`本单实收：￥${param.paidTotalSum ? param.paidTotalSum : 0.00}`, '', 16));
+            ESC.printAndNewLine();
+            var arr = []
+            if (!this.isNull(param.unpaidSum)) {
+                arr.push(`本单未收：￥${param.unpaidSum}`)
+            }
+            if (!this.isNull(param.discountSum)) {
+                arr.push(`优惠金额：￥${param.discountSum}`)
+            }
+            if (!this.isNull(param.distributionSum)) {
+                arr.push(`铺货总额：￥${param.distributionSum}`)
+            }
+            for (var j = 0; j < arr.length; j++) {
+                ESC.text(ESC.Util.leftRight(arr[j], '', 16));
+                if (j / 3 == 0) {
+                    ESC.printAndNewLine();
+                }
+            }
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+
+            ESC.init();
+            ESC.text('客户签名：______________________');
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.alignCenter();
+            ESC.text('客服热线');
+            ESC.printAndNewLine();
+            ESC.alignCenter();
+            ESC.text('400-602-2228');
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+            ESC.printAndNewLine();
+        }
+        ESC.sound();
+        ESC.init();
     }
 
     printBody(param) {

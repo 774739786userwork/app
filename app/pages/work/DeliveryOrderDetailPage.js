@@ -95,20 +95,34 @@ class DeliveryOrderDetailPage extends React.Component {
         if (index === 0) {
             this.setState({ modalVisible: true })
         } else if (index === 1) {
-            let custParam = {}
-            custParam.address = params.customer_address;
-            custParam.contacts = [{ name: params.contact_name, mobile1: params.contact_mobile }]
-            custParam.customersName = params.customer_name
-            custParam.customersId = params.customer_id
-
-            const navigationAction = NavigationActions.reset({
-                index: 1,
-                actions: [
-                    NavigationActions.navigate({ routeName: 'Home' }),
-                    NavigationActions.navigate({ routeName: 'UpdateReceivedUnpaid', params: custParam }),
-                ]
-            })
-            navigation.dispatch(navigationAction)
+            const { deliveryOrderDetail } = this.props;
+            const { result } = deliveryOrderDetail;
+            if(params.balanceStatus1 > 0){
+                Toast.show('该送货单暂时无法修改，如需修改请联系客服！');
+                return;
+            }else{
+                let custParam = {}
+                custParam.address = params.customer_address;
+                custParam.contacts = [{ name: params.contact_name, mobile1: params.contact_mobile }]
+                custParam.customersName = params.customer_name
+                custParam.customersId = params.customer_id
+                custParam.deliveryId = params.delivery_id
+                custParam.carNumber = params.car_number
+                custParam.totalSum = params.total_sum
+                custParam.paidTotalSum = params.paid_total_sum
+                custParam.foregiftSum = params.foregift_sum
+                custParam.countSmallChangeSum = params.count_small_change_sum
+                custParam.discountSum = params.discount_sum
+                custParam.distributionSum = params.distribution_sum
+                let sum = 0
+                if (deliveryOrderDetail.result && deliveryOrderDetail.result.productLists) {
+                    deliveryOrderDetail.result.productLists.map((item) => {
+                        sum += item.sale_quantity + item.gifts_quantity
+                    })
+                }
+                result.num = sum
+                navigation.navigate('UpdateReceivedUnpaid', { ...custParam,...result})
+            }
         } else {
             const { deliveryOrderDetail } = this.props;
             let sum = 0
@@ -230,7 +244,7 @@ class DeliveryOrderDetailPage extends React.Component {
                                 <TouchableHighlight style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} onPress={this._onItemPress.bind(this, 1)}>
                                     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: '#17c6c1', borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
                                         <Iconfont
-                                            icon={'e6c4'} // 图标
+                                            icon={'e62c'} // 图标
                                             iconColor={'#fff'}
                                             iconSize={22}
                                             label={'已收未付修改'}

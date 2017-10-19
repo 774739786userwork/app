@@ -53,7 +53,35 @@ class AddLadingbillsPage extends React.Component {
 
     componentDidMount(){
         InteractionManager.runAfterInteractions(() => {
+            this.loadCar();
             this.loadStore();
+        });
+    }
+
+    loadCar() {
+        const token = LoginInfo.getUserInfo().token;
+        const user_id = LoginInfo.getUserInfo().user_id;
+        InteractionManager.runAfterInteractions(() => {
+            FetchManger.getUri('mobileServiceManager/customers/getCarInfoJson.page', { token, user_id }).then((responseData) => {
+                if (responseData.status === '0' || responseData.status === 0) {
+                    let data = responseData.data;
+                    if (data && data.length > 0) {
+
+                        let item = {};
+                        for (let index = 0; index < listViewData.length; index++) {
+                            if ('car_id' == listViewData[index].key) {
+                                item = listViewData[index];
+                                break;
+                            }
+                        }
+                        item.value = data[0].platenumber;
+                        valeMap['car_id'] = [data[0].platenumber, data[0].carbaseinfo_id, data[0].carweight];
+                        this.setState({ listData: dataSource.cloneWithRows(listViewData) });
+                    }
+                }
+            }).catch((error) => {
+                console.log(error)
+            })
         });
     }
 

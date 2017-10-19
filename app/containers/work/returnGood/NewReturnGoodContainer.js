@@ -90,6 +90,7 @@ class NewReturnGoodPage extends React.Component {
             })
         });
     }
+    
     loadStore() {
         const token = LoginInfo.getUserInfo().token;
         const organization_id = LoginInfo.getUserInfo().organization_id;

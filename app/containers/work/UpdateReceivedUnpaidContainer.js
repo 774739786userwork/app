@@ -9,8 +9,11 @@ import UpdateReceivedUnpaidPage from '../../pages/work/UpdateReceivedUnpaidPage'
  * 送货单已收未付页面
  */
 class UpdateReceivedUnpaidContainer extends React.Component {
-  static navigationOptions = {
-    title: '送货单已收未付修改',
+  static navigationOptions = ({ navigation }) => {
+    const { state, setParams } = navigation;
+    return {
+      title: ` ${navigation.state.params.customersName}`
+    };
   };
   render() {
     return <UpdateReceivedUnpaidPage {...this.props} />;
