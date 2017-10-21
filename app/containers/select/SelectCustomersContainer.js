@@ -31,6 +31,7 @@ import ContactsWrapper from 'react-native-contacts-wrapper';
 import * as ValidateUtils from '../../utils/ValidateUtils';
 import EleRNLocation from 'ele-react-native-location';
 
+
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 let coords = {};
 
@@ -106,12 +107,12 @@ class SelectCustomersContainer extends React.Component {
     //开启定位监听
     EleRNLocation.addEventListener((_coords) => {
       coords = _coords
-     // action.listCustomers(coords.latitude, coords.longitude);
+      // action.listCustomers(coords.latitude, coords.longitude);
       this.listCustomers()
       // action.listCustomers(25.005789, 102.770189);
     });
 
-    
+
   }
   //请求数据
   //mobileServiceManager/customers/selectContacts.page?token=2n1aWglKVo&user_id=100012&page=1&rows=1&orgId=100002&contactMobile=
@@ -120,10 +121,10 @@ class SelectCustomersContainer extends React.Component {
     const user_id = LoginInfo.getUserInfo().user_id;
     const orgId = LoginInfo.getUserInfo().organization_id;
     let params = { token, user_id };
-    
+
     if (contactMobile) {
       params.contactMobile = contactMobile;
-    }else{
+    } else {
       params.orgId = orgId;
       params.lat = coords.latitude;
       params.lng = coords.longitude;
@@ -132,8 +133,8 @@ class SelectCustomersContainer extends React.Component {
     InteractionManager.runAfterInteractions(() => {
       FetchManger.getUri('mobileServiceManager/customers/selectListCustomers.page', params).then((responseData) => {
 
-        if(responseData.data && responseData.data.status === 0){
-          responseData.status = responseData.data.status ;
+        if (responseData.data && responseData.data.status === 0) {
+          responseData.status = responseData.data.status;
         }
         if (responseData.status === '0' || responseData.status === 0) {
           let data = responseData.data.customerLists;
@@ -142,15 +143,15 @@ class SelectCustomersContainer extends React.Component {
             loading: false,
           });
         } else {
-          if(responseData.msg){
+          if (responseData.msg) {
             Toast.show(responseData.msg);
-          }else{
+          } else {
             this.setState({
               data: [],
               loading: false,
             });
           }
-         
+
         }
       }).catch((error) => {
         console.log(error)
@@ -252,8 +253,8 @@ class SelectCustomersContainer extends React.Component {
           console.log(contact)
           let number = contact.phone + '';
           number = number.replace('+86', '');
-          number = number.replace(new RegExp(/(-)/g),'');
-          number = number.replace(/(^\s*)|(\s*$)/g,'');
+          number = number.replace(new RegExp(/(-)/g), '');
+          number = number.replace(/(^\s*)|(\s*$)/g, '');
           this.importingContactInfo = false;
           this.setState({ defaultValue: number + '' })
           this.onSearchAction(number + '');
@@ -265,6 +266,9 @@ class SelectCustomersContainer extends React.Component {
           console.log("ERROR MESSAGE: ", error.message);
         });
     }
+  }
+  handlePress(){
+
   }
 
   render() {
@@ -308,6 +312,7 @@ class SelectCustomersContainer extends React.Component {
 
           }
         </View>
+        
       </View >
     );
   }

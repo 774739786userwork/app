@@ -205,9 +205,9 @@ class ListCustomersPage extends React.Component {
             this.importingContactInfo = true;
             ContactsWrapper.getContact()
                 .then((contact) => {
-                    let number = contact.number+'';
-                    number = number.replace('+86','');
-                    number = number.replace('-','');
+                    let number = contact.number + '';
+                    number = number.replace('+86', '');
+                    number = number.replace('-', '');
                     number = number.trim();
                     this.importingContactInfo = false;
                     this.setState({ defaultValue: number + '' })

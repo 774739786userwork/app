@@ -22,6 +22,85 @@ const WINDOW_WIDTH = Dimensions.get('window').width;
 const WINDOW_HEIGHT = Dimensions.get('window').height;
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 const modelWidth = WINDOW_WIDTH;
+
+class CanEditItem extends React.Component {
+
+    constructor(props) {
+        super(props)
+        this.updateNewCount = this.updateNewCount.bind(this)
+        this.state = {
+            real_loading_count: this.props.item.real_loading_count
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            real_loading_count:nextProps.item.real_loading_count
+        });
+    }
+    updateNewCount(count) {
+        if (count < 0) {
+            count = 0;
+        }
+        this.setState({ real_loading_count: count });
+        let item = this.props.item;
+        item.real_loading_count = count -  item.remain_count;//newCount - item.remain_count;
+        item.loading_quantity = count;
+        this.props.onConfirmPress && this.props.onConfirmPress(item)
+    }
+
+    render() {
+        let item = this.props.item;
+
+        return <View style={{ backgroundColor: '#fff', width: WINDOW_WIDTH }} >
+            <View style={{ height: 34, paddingLeft: 12, marginBottom: 8, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={{ color: '#333', fontSize: 16 }}>{item.product_name}</Text>
+            </View>
+            <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
+                <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <Text style={{ color: '#666' }}>{'总数：'}</Text>
+                    <Text style={{ color: '#f80000' }}>{`${item.loading_quantity ? item.loading_quantity : 0}`}</Text>
+                </View>
+                <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <Text style={{ color: '#666' }}>{'实提：'}</Text>
+                    <View style={{ flex: 3, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+                        <TouchableOpacity style={{ marginLeft: 8, marginRight: 6 }} onPress={() => {
+                            let newCount = parseInt(this.state.real_loading_count) - 1;
+                            this.updateNewCount(newCount);
+                        }}>
+                            <Iconfont
+                                icon={'e6ba'} // 图标
+                                iconColor={'#0081d4'}
+                                iconSize={22} />
+                        </TouchableOpacity>
+                        <TextInput style={{ width: 40, height: 26, fontSize: 14, textAlign: 'center', color: '#666', borderRadius: 8, padding: 0, borderWidth: 1, borderColor: '#c4c4c4' }}
+                            underlineColorAndroid={'transparent'}
+                            keyboardType={'numeric'}
+                            selectTextOnFocus={true}
+                            value={'' + this.state.real_loading_count}
+                            defaultValue={'' + this.state.real_loading_count}
+                            onChangeText={(newCount) => {
+                                let num = parseInt(newCount);
+                                this.updateNewCount(isNaN(num) ? 0 : num);
+                            }}
+                        />
+                        <TouchableOpacity style={{ marginLeft: 6 }} onPress={() => {
+                            let newCount = parseInt(this.state.real_loading_count) + 1;
+                            this.updateNewCount(newCount);
+                        }}>
+                            <Iconfont
+                                icon={'e6b9'} // 图标
+                                iconColor={'#0081d4'}
+                                iconSize={22}
+                            /></TouchableOpacity>
+                    </View>
+                </View>
+            </View>
+            <View style={{ height: StyleSheet.hairlineWidth, marginTop: 12, flex: 1, backgroundColor: '#c4c4c4' }} />
+        </View>
+    }
+}
+
 /**
  * 提货单购物车
  */
@@ -29,6 +108,7 @@ export default class AddLadingbillPopModel extends React.Component {
     constructor(props) {
         super(props)
         this.onCancelPress = this.onCancelPress.bind(this)
+        this.renderRowView = this.renderRowView.bind(this);
         this.numberCarsh = 0
         this.state = {
             modalVisible: props.modalVisible,
@@ -48,24 +128,8 @@ export default class AddLadingbillPopModel extends React.Component {
         this.props.onCancelPress && this.props.onCancelPress()
         this.setState({ modalVisible: false });
     }
-    renderRowView = (item, index) => {
-        return (
-            <View style={{ backgroundColor: '#fff', width: WINDOW_WIDTH }} key={`row_${index}`}>
-                <View style={{ height: 34, paddingLeft: 12, marginBottom: 8, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={{ color: '#333', fontSize: 16 }}>{item.product_name}</Text>
-                </View>
-                <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{ flex: 1, flexDirection: 'row' }}>
-                        <Text style={{ color: '#666' }}>{'总数：'}</Text>
-                        <Text style={{ color: '#f80000' }}>{`${item.loading_quantity ? item.loading_quantity : 0}`}</Text>
-                    </View>
-                    <View style={{ flex: 1, flexDirection: 'row' }}>
-                        <Text style={{ color: '#666' }}>{'实提：'}</Text>
-                        <Text style={{ color: '#f80000' }}>{`${item.real_loading_count}`}</Text>
-                    </View>
-                </View>
-                <View style={{ height: StyleSheet.hairlineWidth, marginTop: 12, flex: 1, backgroundColor: '#c4c4c4' }} />
-            </View>)
+    renderRowView(item, index) {
+        return <CanEditItem item={item} key={`row_${index}`} onConfirmPress = {this.props.onConfirmPress}/>
     }
     render() {
         let chooseList = this.state.chooseList;

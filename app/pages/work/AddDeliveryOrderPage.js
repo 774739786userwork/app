@@ -378,6 +378,7 @@ class AddDeliveryOrderPage extends React.Component {
 export default AddDeliveryOrderPage;
 
 
+
 // <TouchableOpacity onPress={this.selectUserAction}>
 //                 <View style={{ backgroundColor: '#fff', flexDirection: 'row', paddingLeft: 10, paddingRight: 12, height: 40, justifyContent: 'center', alignItems: 'center' }}>
 //                     <Text style={{ color: '#333', fontSize: 16 }}>{'搬运工'}</Text>

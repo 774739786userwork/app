@@ -28,6 +28,7 @@ import { NavigationActions } from 'react-navigation'
 import AddLadingbillPopModel from './AddLadingbillPopModel'
 import AddLadingbillsEditeModel from './components/AddLadingbillsEditeModel'
 const WINDOW_WIDTH = Dimensions.get('window').width;
+import ImageView from '../../components/ImageView'
 
 import * as NumberUtils from '../../utils/NumberUtils'
 
@@ -116,6 +117,7 @@ class AddLadingbillsProductPage extends React.Component {
 
         this.state = {
             good_list: good_list ? good_list : [],
+            itemListData: [],
             totalNum: totalNum,
             totalWeight: totalWeight,
             modalVisible: false,
@@ -152,7 +154,7 @@ class AddLadingbillsProductPage extends React.Component {
                 });
             }
         }
-       // this.setState({ listData: addLadingbillsProduct.listData })
+        // this.setState({ listData: addLadingbillsProduct.listData })
         this.initUpdate(addLadingbillsProduct.listData);
     }
     componentDidMount() {
@@ -179,25 +181,30 @@ class AddLadingbillsProductPage extends React.Component {
         let totalWeight = 0;
         let totalNum = 0;
         let goodsList = this.state.good_list;
-
+        let itemListData = undefined;
         if (listData) {
-            listData.map((a) => {
-                if (a.remain_count > 0) {
-                    a.real_loading_count = -a.remain_count;
-                    let isContaint = false;
-                    goodsList.map((item) =>{
-                        if (item.product_id == a.product_id) {
-                            isContaint = true;
-                        }
-                    });
-                    if(!isContaint){
-                        goodsList.push(a);
-                    }
+            for (var i = 0; i < listData.length; i++) {
+                let listitem = listData[i];
+                if (!itemListData) {
+                    itemListData = listitem.appProduct;
                 }
-
-            })
+                listitem.appProduct.map((a) => {
+                    if (a.remain_count > 0) {
+                        a.real_loading_count = -a.remain_count;
+                        let isContaint = false;
+                        goodsList.map((item) => {
+                            if (item.product_id == a.product_id) {
+                                isContaint = true;
+                            }
+                        });
+                        if (!isContaint) {
+                            goodsList.push(a);
+                        }
+                    }
+                })
+            }
         }
-        this.setState({ listData: listData, good_list: goodsList });
+        this.setState({ listData, itemListData, good_list: goodsList });
     }
     //this.setState({ listData: addLadingbillsProduct.listData })
 
@@ -215,12 +222,56 @@ class AddLadingbillsProductPage extends React.Component {
                 }
             })
         }
+        item.loading_quantity = item.loading_quantity ? item.loading_quantity : 0;
+
         return (
             <TouchableOpacity
                 onPress={this._rowOnPress.bind(this, item)}
                 key={`row_${index}`}
             >
-                <LadProductItem item={item}  />
+                <View style={{ backgroundColor: '#fff' }}>
+                    <View style={{ flexDirection: 'row', paddingLeft: 8, }}>
+                        <View style={{ alignItems: 'center', justifyContent: 'center', height: 110 }}>
+                            <ImageView source={{ uri: item.image }} style={{ width: 80, height: 80, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} />
+                        </View>
+                        <View style={{ flex: 1 }}>
+                            <View style={{ height: 24, paddingLeft: 12, marginBottom: 4, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
+                                <Text style={{ color: '#333', fontSize: 16 }}>{`${item.product_name}`}</Text>
+                            </View>
+                            <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
+                                <View style={{ flex: 1, flexDirection: 'row' }}>
+                                    <Text style={{ color: '#999', fontSize: 12 }}>{'仓库库存：'}</Text>
+                                    <Text style={{ color: '#999', fontSize: 12 }}>{`${item.housestock}`}</Text>
+                                </View>
+                                <View style={{ flex: 1, flexDirection: 'row' }}>
+                                    <Text style={{ color: '#999', fontSize: 12, marginRight: 4 }}>{`${item.specifications}`}</Text>
+                                </View>
+                            </View>
+                            <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
+                                <View style={{ flex: 1, flexDirection: 'row' }}>
+                                    <Text style={{ color: '#999', fontSize: 12 }}>{'余货：'}</Text>
+                                    <Text style={{ color: '#f80000', fontSize: 12 }}>{`${item.remain_count}`}</Text>
+                                </View>
+                                <View style={{ flex: 1, flexDirection: 'row' }}>
+                                    <Text style={{ color: '#999', fontSize: 12 }}>{'订单数量：'}</Text>
+                                    <Text style={{ color: '#f80000', fontSize: 12 }}>{`${item.purchase_count}`}</Text>
+                                </View>
+                            </View>
+                            <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
+                                <View style={{ flex: 1, flexDirection: 'row' }}>
+                                    <Text style={{ color: '#999', fontSize: 12 }}>{'总数：'}</Text>
+                                    <Text style={{ color: '#f80000', fontSize: 12 }}>{`${item.loading_quantity ? item.loading_quantity : 0}`}</Text>
+                                </View>
+                                <View style={{ flex: 1, flexDirection: 'row' }}>
+                                    <Text style={{ color: '#999', fontSize: 12 }}>{'实提:'}</Text>
+                                    <Text style={{ color: '#f80000', fontSize: 12 }}>{`${item.real_loading_count ? item.real_loading_count : 0}`}</Text>
+                                </View>
+                            </View>
+                        </View>
+
+                    </View>
+                    <View style={{ height: StyleSheet.hairlineWidth, marginTop: 4, flex: 1, backgroundColor: '#c4c4c4' }} />
+                </View>
             </TouchableOpacity>
         );
     }
@@ -258,7 +309,7 @@ class AddLadingbillsProductPage extends React.Component {
         const { params } = this.props.navigation.state;
 
         let upEmployeeIds = '';
-        if(params.upEmployeeIds){
+        if (params.upEmployeeIds) {
             upEmployeeIds = params.upEmployeeIds[0]
         }
         let sbParam = {
@@ -294,10 +345,16 @@ class AddLadingbillsProductPage extends React.Component {
     }
 
     onClear() {
-        this.state.listData.map((item) => {
-            item.real_loading_count = 0
-            item.loading_quantity = 0
-        })
+        let listData = this.state.listData;
+
+        for (var i = 0; i < listData.length; i++) {
+            let listitem = listData[i];
+            listitem.appProduct.map((a) => {
+                a.real_loading_count = 0
+                a.loading_quantity = 0
+            });
+        }
+
         this.setState({ good_list: [], totalNum: 0, totalWeight: 0 });
     }
     onPopCancelPress() {
@@ -346,15 +403,16 @@ class AddLadingbillsProductPage extends React.Component {
             good_list.map((a) => {
                 if (a.real_loading_count > 0 || a.remain_count > 0) {
                     goodsList.push(a);
-                    
+
                     let loading_quantity = a.loading_quantity ? parseInt(a.loading_quantity) : 0;
 
-                    let itemWeight = NumberUtils.FloatMul(a.product_weight,loading_quantity);
+                    let itemWeight = NumberUtils.FloatMul(a.product_weight, loading_quantity);
                     totalWeight = NumberUtils.FloatAdd(totalWeight, itemWeight);
-                    totalNum = totalNum +  loading_quantity;
-                }})
+                    totalNum = totalNum + loading_quantity;
+                }
+            })
         }
-        this.setState({ good_list : goodsList, totalNum, totalWeight, editeModalVisible: false });
+        this.setState({ good_list: goodsList, totalNum, totalWeight, editeModalVisible: false });
     }
 
 
@@ -362,7 +420,7 @@ class AddLadingbillsProductPage extends React.Component {
         const { params } = this.props.navigation.state;
         const { addLadingbillsProduct } = this.props;
         let upEmployeeIds = '';
-        if(params.upEmployeeIds){
+        if (params.upEmployeeIds) {
             upEmployeeIds = params.upEmployeeIds[1]
         }
         return (
@@ -402,24 +460,24 @@ class AddLadingbillsProductPage extends React.Component {
                                 <Text> 暂无数据</Text>
                             </View>
                             :
-                            <ListView
-                                dataSource={dataSource.cloneWithRows(this.state.listData)}
-                                renderRow={this._renderItem}
-                                onEndReached={this.onEndReached}
-                                onEndReachedThreshold={38}
-                                renderFooter={() =>
-                                    addLadingbillsProduct.loadMore ? <View style={{
-                                        height: 44,
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        backgroundColor: 'white'
-                                    }}>
-                                        <ActivityIndicator
-                                            size="large"
-                                            color="#118cd7"
-                                        />
-                                    </View> : null}
-                            />
+                            <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#fff' }}>
+                                <View style={{ width: 60, justifyContent: 'center', alignItems: 'center' }}>
+                                    <LeftTabComponet
+                                        data={this.state.listData}
+                                        sectionAction={(item) => {
+                                            let itemListData = item.appProduct;
+                                            this.setState({ itemListData })
+                                        }}
+                                    />
+                                </View>
+                                <View style={{ flex: 1, backgroundColor: '#f9f9f9', flexDirection: 'column' }}>
+                                    <ListView
+                                        enableEmptySections={true}
+                                        dataSource={dataSource.cloneWithRows(this.state.itemListData)}
+                                        renderRow={this._renderItem}
+                                    />
+                                </View>
+                            </View>
                         )
 
                 }
@@ -455,7 +513,7 @@ class AddLadingbillsProductPage extends React.Component {
                 </View>
                 <View><Spinner visible={this.state.showSaving} textContent={'提交中,请稍后...'} /></View>
                 <SaveModel modalVisible={this.state.modalVisible} onConfirmPress={this.onConfirmPress} onCancelPress={this.onCancelPress} />
-                <AddLadingbillPopModel onClear={this.onClear} chooseList={this.state.good_list} modalVisible={this.state.modalPopVisible} onCancelPress={this.onPopCancelPress.bind(this)} />
+                <AddLadingbillPopModel onClear={this.onClear} chooseList={this.state.good_list} modalVisible={this.state.modalPopVisible} onCancelPress={this.onPopCancelPress.bind(this)} onConfirmPress={this.onEidteConfirmPress} />
                 <AddLadingbillsEditeModel modalVisible={this.state.editeModalVisible} onCancelPress={this.onEidteCancelPress} item={this.state.selectItem} onConfirmPress={this.onEidteConfirmPress} />
 
             </View >
@@ -464,3 +522,44 @@ class AddLadingbillsProductPage extends React.Component {
 }
 
 export default AddLadingbillsProductPage;
+
+
+
+class LeftTabComponet extends React.Component {
+    constructor(props) {
+        super(props)
+        this.renderSectionListItem = this.renderSectionListItem.bind(this);
+        this.state = {
+            preSelect: undefined
+        }
+        this.preSelect = undefined
+    }
+    sectionAction(item) {
+        this.props.sectionAction && this.props.sectionAction(item)
+        this.setState({ preSelect: item.productKindId })
+    }
+    renderSectionListItem(item) {
+        let productKindId = item.productKindId;
+        let preSelect = this.state.preSelect;
+        if (!this.preSelect) {
+            this.preSelect = productKindId
+        }
+        preSelect = preSelect ? preSelect : this.preSelect
+
+        return <TouchableOpacity onPress={this.sectionAction.bind(this, item)} key={`index_${productKindId}`}>
+            <View>
+                <View style={{ width: 60, padding: 10, backgroundColor: preSelect != productKindId ? '#fff' : '#f9f9f9' }}>
+                    <Text style={{ color: preSelect != productKindId ? '#333' : '#0081d4' }}>{item.series_name}</Text>
+                </View>
+                <View style={{ height: StyleSheet.hairlineWidth, width: 60, backgroundColor: '#f9f9f9' }} />
+            </View>
+        </TouchableOpacity>
+    }
+    render() {
+        return <ScrollView>
+            {
+                this.props.data.map((item) => this.renderSectionListItem(item))
+            }
+        </ScrollView>
+    }
+}
