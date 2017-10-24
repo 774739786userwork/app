@@ -81,7 +81,8 @@ class AddPurchaseOrderPage extends React.Component {
         const token = LoginInfo.getUserInfo().token;
         const user_id = LoginInfo.getUserInfo().user_id;
         const organizationId = LoginInfo.getUserInfo().organization_id;
-        let reqParams = { token, user_id, organizationId };
+        const customersId = params.customer_id[1];
+        let reqParams = { token, user_id, organizationId, customersId};
         reqParams.page = page;
         reqParams.rows = 10;
         if (productName) {
