@@ -16,7 +16,7 @@ import {
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 import * as NumberUtils from '../../utils/NumberUtils'
-import { Iconfont, Toast } from 'react-native-go';
+import { Iconfont, Toast,LoginInfo } from 'react-native-go';
 const WINDOW_WIDTH = Dimensions.get('window').width;
 import ImageView from '../../components/ImageView'
 
@@ -94,6 +94,13 @@ export default class AddDeliveryEditeModel extends React.Component {
     render() {
         let modelWidth = WINDOW_WIDTH - 40;
         let item = this.props.item;
+        const organization_id = LoginInfo.getUserInfo().organization_id;
+        let editable;
+        if(organization_id === "111"){
+            editable = false;
+        }else{
+            editable = true;
+        }
         return (<Modal
             animationType={'slide'}
             transparent={true}
@@ -142,6 +149,7 @@ export default class AddDeliveryEditeModel extends React.Component {
                                 <TextInput style={{ width: 100, height: 30, textAlign: 'center', color: '#666', borderRadius: 8, padding: 0, borderWidth: 1, borderColor: '#c4c4c4' }}
                                     underlineColorAndroid={'transparent'}
                                     selectTextOnFocus={true}
+                                    editable={editable}
                                     value={'' + this.state.price}
                                     keyboardType={'numeric'}
                                     defaultValue={'' + this.state.price}

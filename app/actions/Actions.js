@@ -73,7 +73,7 @@ export function listCustomers(lat, lng, contactMobile) {
  * @param {*} rows 
  * ?user_id=100002&org_id=100002&car_id=149&customersId&token=p59tYTPlRBS59Xe
  */
-export function addDeliveryOrder(car_id,ladingdate,customersId, start = 0, rows = 10) {
+export function addDeliveryOrder(car_id,ladingdate,customersId,purchaseId, start = 0, rows = 10) {
     const token = LoginInfo.getUserInfo().token;
     const user_id = LoginInfo.getUserInfo().user_id;
     const org_id = LoginInfo.getUserInfo().organization_id;
@@ -83,13 +83,13 @@ export function addDeliveryOrder(car_id,ladingdate,customersId, start = 0, rows 
         return {
             type: types.AddDeliveryOrdering_More_ACTION,
             api: types.AddDeliveryOrder_API,
-            param: { user_id, token, org_id,ladingdate, car_id,customersId }
+            param: { user_id, token, org_id,ladingdate, car_id,customersId,purchaseId }
         };
     } else {
         return {
             type: types.AddDeliveryOrdering_ACTION,
             api: types.AddDeliveryOrder_API,
-            param: { user_id, token, org_id,ladingdate, car_id,customersId }
+            param: { user_id, token, org_id,ladingdate, car_id,customersId,purchaseId }
         };
     }
 

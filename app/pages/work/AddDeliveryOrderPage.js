@@ -68,7 +68,7 @@ class AddDeliveryOrderPage extends React.Component {
         const { addDeliveryOrder } = nextProps;
         const { action, navigation } = this.props;
         const { params } = navigation.state;
-
+        
         if (addDeliveryOrder.errMsg) {
             Toast.show(addDeliveryOrder.errMsg);
             return;
@@ -81,10 +81,10 @@ class AddDeliveryOrderPage extends React.Component {
         }
         if (selectCar.carbaseinfo_id && !addDeliveryOrder.loading && addDeliveryOrder.result.length == 0) {
             this.carbaseinfo_id = selectCar.carbaseinfo_id
-            action.addDeliveryOrder(selectCar.carbaseinfo_id, ladingdate, params.customersId)
+            action.addDeliveryOrder(selectCar.carbaseinfo_id, ladingdate, params.customersId,params.purchaseId)
         } else if (selectCar.carbaseinfo_id && selectCar.carbaseinfo_id != this.carbaseinfo_id) {
             this.carbaseinfo_id = selectCar.carbaseinfo_id
-            action.addDeliveryOrder(selectCar.carbaseinfo_id, ladingdate, params.customersId)
+            action.addDeliveryOrder(selectCar.carbaseinfo_id, ladingdate, params.customersId,params.purchaseId)
         }
 
 
@@ -94,7 +94,7 @@ class AddDeliveryOrderPage extends React.Component {
     _selectByDate(ladingdate) {
         const { action, navigation } = this.props;
         const { params } = navigation.state;
-        action.addDeliveryOrder(this.carbaseinfo_id, ladingdate, params.customersId)
+        action.addDeliveryOrder(this.carbaseinfo_id, ladingdate, params.customersId,params.purchaseId)
         this.setState({ ladingdate: ladingdate })
     }
     selectCarAction() {
@@ -108,7 +108,7 @@ class AddDeliveryOrderPage extends React.Component {
             navigation.navigate('ShowSelectCar', {
                 carList: addDeliveryOrder.carList, callback: (data) => {
                     this.carbaseinfo_id = data.carbaseinfo_id
-                    action.addDeliveryOrder(this.carbaseinfo_id, this.state.ladingdate, params.customersId)
+                    action.addDeliveryOrder(this.carbaseinfo_id, this.state.ladingdate, params.customersId,params.purchaseId)
                     this.setState({ selectCar: data })
                 }
             })
@@ -264,7 +264,12 @@ class AddDeliveryOrderPage extends React.Component {
         params.num = this.num
         params.numberCarsh = this.numberCarsh
 
-        navigate('AddDeliveryOrderEnd', { ...params, ...result });
+        if(!this.state.downEmployeeNames){
+            Toast.show('请选择搬运工！');
+            return;
+        }else{
+            navigate('AddDeliveryOrderEnd', { ...params, ...result });
+        }
     }
     renderHeader() {
         return <View>
@@ -311,7 +316,21 @@ class AddDeliveryOrderPage extends React.Component {
                 </View>
             </View>
             <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#e6e6e6' }} />
-            
+            <TouchableOpacity onPress={this.selectUserAction}>
+                <View style={{ backgroundColor: '#fff', flexDirection: 'row', paddingLeft: 10, paddingRight: 12, height: 40, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={{ color: '#333', fontSize: 16 }}>{'搬运工'}</Text>
+                    <View style={{ flex: 1 }} />
+                    <Text style={{ color: '#999', fontSize: 14 }}>{this.state.downEmployeeNames ? this.state.downEmployeeNames : '请选择搬运工'}</Text>
+                    <View>
+                        <Iconfont
+                            icon={'e66e'} // 图标
+                            iconColor={'#999'}
+                            iconSize={22}
+                        />
+                    </View>
+                </View>
+            </TouchableOpacity>
+            <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#e6e6e6' }} />
         </View>
     }
     render() {
@@ -376,21 +395,3 @@ class AddDeliveryOrderPage extends React.Component {
 }
 
 export default AddDeliveryOrderPage;
-
-
-
-// <TouchableOpacity onPress={this.selectUserAction}>
-//                 <View style={{ backgroundColor: '#fff', flexDirection: 'row', paddingLeft: 10, paddingRight: 12, height: 40, justifyContent: 'center', alignItems: 'center' }}>
-//                     <Text style={{ color: '#333', fontSize: 16 }}>{'搬运工'}</Text>
-//                     <View style={{ flex: 1 }} />
-//                     <Text style={{ color: '#999', fontSize: 14 }}>{this.state.downEmployeeNames ? this.state.downEmployeeNames : '请选择搬运工'}</Text>
-//                     <View>
-//                         <Iconfont
-//                             icon={'e66e'} // 图标
-//                             iconColor={'#999'}
-//                             iconSize={22}
-//                         />
-//                     </View>
-//                 </View>
-//             </TouchableOpacity>
-//             <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#e6e6e6' }} />
