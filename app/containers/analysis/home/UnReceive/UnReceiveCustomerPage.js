@@ -25,12 +25,13 @@ class UnReceiveCustomerPage extends React.Component {
         }
     }
     componentDidMount() {
-        const { params } = this.props.navigation.state;
-        //type=0&orgId=109&seriesId=100002
+       
         this.loadData('time')
     }
     loadData(sortType){
-        let p = { orgId: '109',sortType };
+        const { params } = this.props.navigation.state;
+        let p = params.param;
+        p.sortType = sortType;
         this.setState({ loading: true });
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getYearUnReceiveCustomer.page', p, 30 * 60).then((responseData) => {

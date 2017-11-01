@@ -77,18 +77,22 @@ export default class S_MonthPage extends React.Component {
     let _month = this.state.selM;
     let month = this.state.selY + '-' + (_month < 10 ? '0' + _month : _month)
 
-    let param = { month: month };
+    let param = { month: month, type: 0 };
     let reqUrl = "dataCenter/appHomePage/getMonthMoreFactory.page";
     navigation.navigate('S_HomeDetail', { reqUrl: reqUrl, param, param })
   }
-  onTotalAction() {
+  onTotalAction(item) {
     const { navigation } = this.props;
-    let param = { year: this.state.selY };
+    let _month = this.state.selM;
+    let month = this.state.selY + '-' + (_month < 10 ? '0' + _month : _month)
+
+    let param = { type: 1, orgId: item.orgId, month: month };
     navigation.navigate('S_SelasTotalDetailPage', { param })
   }
-  onNuShowAction() {
+  onNuShowAction(item) {
     const { navigation } = this.props;
-    let param = { year: this.state.selY };
+
+    let param = { type: 1, orgId: item.orgId };
     navigation.navigate('UnReceivePage', { param })
   }
 
@@ -243,11 +247,11 @@ export default class S_MonthPage extends React.Component {
                   }} >
                     <Text style={{ color: '#333', flex: 1 }}>{item.orgName}</Text>
                     <Text style={{ color: '#666' }}>{'总销售额'}</Text>
-                    <TouchableOpacity onPress={this.onTotalAction}>
+                    <TouchableOpacity onPress={this.onTotalAction.bind(this, item)}>
                       <Text style={{ marginLeft: 4, width: 68, color: '#17c6c1' }}>{`${item.factoryTotalSum}万`}</Text>
                     </TouchableOpacity>
                     <Text style={{ color: '#666' }}>{'未收'}</Text>
-                    <TouchableOpacity onPress={this.onNuShowAction}>
+                    <TouchableOpacity onPress={this.onNuShowAction.bind(this, item)}>
                       <Text style={{ marginLeft: 4, width: 68, color: '#f80000' }}>{`${item.factoryUnReceiveSum}万`}</Text>
                     </TouchableOpacity>
                   </View>

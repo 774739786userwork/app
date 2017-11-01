@@ -34,7 +34,7 @@ class BigCustomerPage extends React.Component {
         this.loadDetail = this.loadDetail.bind(this);
         this._selectByDate = this._selectByDate.bind(this);
         this.state = {
-            startDate: DateUtils.getYearMonthDay(),
+            startDate: DateUtils.getYearMonthDay(1),
             endDate: DateUtils.getYearMonthDay(),
             listData: [],
             itemListData: [],

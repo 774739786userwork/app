@@ -25,11 +25,16 @@ class PriceDetailYWYPage extends React.Component {
     }
     componentDidMount() {
         const { params } = this.props.navigation.state;
-        //type=0&currTime=2017&orgId=109&productId=102267&seriesId=100012
-        let p = { type: 0, currTime: 2017, productId: '102267',seriesId:'100012', orgId: '109', };
+        let param = params.param;
+        if(param.year){
+            param.currTime = param.year;
+        }
+        if(param.month){
+            param.currTime = param.month;
+        }
         this.setState({ loading: true });
         InteractionManager.runAfterInteractions(() => {
-            FetchManger.getUri('dataCenter/appHomePage/getYearEmployeePriceDetail.page', p, 30 * 60).then((responseData) => {
+            FetchManger.getUri('dataCenter/appHomePage/getYearEmployeePriceDetail.page', param, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
                     this.setState({ dataList: data, loading: false })
@@ -57,7 +62,6 @@ class PriceDetailYWYPage extends React.Component {
                         </View>
                         <View style={{ height: 24, paddingLeft: 12, paddingBottom: 4, flexDirection: 'row', alignItems: 'center' }}>
                             <View style={{ flex: 3, flexDirection: 'row' }}>
-                                <Text style={{ color: '#999', fontSize: 12 }}>{'最高价：'}</Text>
                                 <Text style={{ color: '#999', fontSize: 12 }}>{`${item.HighestLowestPrice}`}</Text>
                             </View>
                             <View style={{ flex: 2, flexDirection: 'row' }}>

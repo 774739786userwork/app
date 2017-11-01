@@ -5,7 +5,8 @@ import {
     ListView,
     ImageView,
     Text,
-    InteractionManager
+    InteractionManager,
+    TouchableOpacity
 } from 'react-native';
 import { FetchManger, LoginInfo, LoadingView, Toast, Iconfont } from 'react-native-go'
 import LoadingListView from '../../../components/LoadingListView'
@@ -41,6 +42,20 @@ class S_HomeDetailPage extends React.Component {
             })
         });
     }
+
+    onTotalAction(item) {
+        const { navigation } = this.props;
+        let param = navigation.state.params.param;
+        param.orgId = item.orgId;
+        navigation.navigate('S_SelasTotalDetailPage', { param })
+    }
+    onNuShowAction(item) {
+        const { navigation } = this.props;
+        let param = navigation.state.params.param;
+        param.orgId = item.orgId;
+        navigation.navigate('UnReceivePage', { param })
+    }
+
 
     _renderRow_old(rowData, rowID) {
         return <View key={`index_${rowID}`}>
@@ -86,24 +101,28 @@ class S_HomeDetailPage extends React.Component {
         </View>;
     }
     _renderRow(rowData, rowID) {
-        return <View  key={`index_${rowID}`}>
-                        <View style={{ borderColor: '#f2f2f2', borderWidth: StyleSheet.hairlineWidth, borderRadius: 6, backgroundColor: '#fff', marginTop: 10, marginLeft: 10, marginRight: 10 }}>
+        return <View key={`index_${rowID}`}>
+            <View style={{ borderColor: '#f2f2f2', borderWidth: StyleSheet.hairlineWidth, borderRadius: 6, backgroundColor: '#fff', marginTop: 10, marginLeft: 10, marginRight: 10 }}>
 
-            <View style={{ paddingLeft: 10, paddingRight: 10, paddingBottom: 10, }}>
-                <View style={{ height: 34, paddingLeft: 10, marginBottom: 6, marginTop: 5, flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={{ color: '#333', fontSize: 16 }}>{rowData.orgName}</Text>
-                </View>
-                <View style={{ height: 30, paddingLeft: 10, flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{ flex: 1, flexDirection: 'row' }}>
-                        <Text style={{ color: '#666', }}>{'销售总额: '}</Text>
-                        <Text style={{ color: '#17c6c1' }}>{`${rowData.factoryTotalSum}万`}</Text>
+                <View style={{ paddingLeft: 10, paddingRight: 10, paddingBottom: 10, }}>
+                    <View style={{ height: 34, paddingLeft: 10, marginBottom: 6, marginTop: 5, flexDirection: 'row', alignItems: 'center' }}>
+                        <Text style={{ color: '#333', fontSize: 16 }}>{rowData.orgName}</Text>
                     </View>
-                    <View style={{ flex: 1, flexDirection: 'row' }}>
-                        <Text style={{ color: '#666', }}>{'未收: '}</Text>
-                        <Text style={{ color: '#f80000' }}>{`${rowData.factoryUnReceiveSum}万`}</Text>
+                    <View style={{ height: 30, paddingLeft: 10, flexDirection: 'row', alignItems: 'center' }}>
+                        <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onTotalAction.bind(this,rowData)}>
+                            <View style={{ flex: 1, flexDirection: 'row' }}>
+                                <Text style={{ color: '#666', }}>{'销售总额: '}</Text>
+                                <Text style={{ color: '#17c6c1' }}>{`${rowData.factoryTotalSum}万`}</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onNuShowAction.bind(this,rowData)}>
+                            <View style={{ flex: 1, flexDirection: 'row' }}>
+                                <Text style={{ color: '#666', }}>{'未收: '}</Text>
+                                <Text style={{ color: '#f80000' }}>{`${rowData.factoryUnReceiveSum}万`}</Text>
+                            </View>
+                        </TouchableOpacity>
                     </View>
                 </View>
-            </View>
             </View>
 
         </View>;

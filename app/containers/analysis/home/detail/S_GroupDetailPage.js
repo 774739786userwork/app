@@ -28,10 +28,16 @@ class S_GroupDetailPage extends React.Component {
     }
     componentDidMount() {
         const { params } = this.props.navigation.state;
-        let p = { orgId: '109', type: 0, currTime: 2017 };
+        let param = params.param;
+        if(param.year){
+            param.currTime = param.year;
+        }
+        if(param.month){
+            param.currTime = param.month;
+        }
         this.setState({ loading: true });
         InteractionManager.runAfterInteractions(() => {
-            FetchManger.getUri('dataCenter/appHomePage/getYearOrganizeTotalDetail.page', p, 30 * 60).then((responseData) => {
+            FetchManger.getUri('dataCenter/appHomePage/getYearOrganizeTotalDetail.page', param, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
                     this.setState({ dataList: data, loading: false })
@@ -48,8 +54,9 @@ class S_GroupDetailPage extends React.Component {
     }
     _OnGropPress(item) {
         const { navigation } = this.props;
-        let param = { year: this.state.selY };
-        navigation.navigate('S_Person4GroupDetailPage', { ...item })
+        let param = navigation.state.params.param;
+        param.groupId = item.groupId;
+        navigation.navigate('S_Person4GroupDetailPage', { param })
     }
 
     _renderGroup(item, sectionID, index) {
@@ -61,7 +68,7 @@ class S_GroupDetailPage extends React.Component {
                 >
                     <View style={{ padding: 8, flexDirection: 'row' }}>
                         <Text style={{ color: '#333', flex: 1 }}>{item.groupName}</Text>
-                        <Text style={{ color: '#f80000', fontSize: 12, marginRight: 4, }}>{`销量:${item.groupTotalSum}元`}</Text>
+                        <Text style={{ color: '#f80000', fontSize: 12, marginRight: 4, }}>{`销售:${item.groupTotalSum}元`}</Text>
                     </View>
                 </TouchableOpacity>
                 {
@@ -90,7 +97,7 @@ class S_GroupDetailPage extends React.Component {
                             <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
                                     <Text style={{ color: '#999', fontSize: 12 }}>{'销量：'}</Text>
-                                    <Text style={{ color: '#999', fontSize: 12 }}>{`${item.productSales}万元`}</Text>
+                                    <Text style={{ color: '#999', fontSize: 12 }}>{`${item.productSales}`}</Text>
                                 </View>
                             </View>
                             <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>

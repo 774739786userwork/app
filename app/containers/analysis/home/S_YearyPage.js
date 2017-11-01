@@ -71,19 +71,19 @@ export default class S_YearyPage extends React.Component {
     //点击更多查看
     onMoreAction() {
         const { navigation } = this.props;
-        let param = { year: this.state.selY };
+        let param = { year: this.state.selY, type: 0 };
         let reqUrl = "dataCenter/appHomePage/getYearMoreFactory.page";
         navigation.navigate('S_HomeDetail', { reqUrl: reqUrl, param, param })
     }
 
-    onTotalAction(){
+    onTotalAction(item) {
         const { navigation } = this.props;
-        let param = { year: this.state.selY };
+        let param = { type: 0, orgId: item.orgId , year: this.state.selY};
         navigation.navigate('S_SelasTotalDetailPage', { param })
     }
-    onNuShowAction(){
+    onNuShowAction(item) {
         const { navigation } = this.props;
-        let param = { year: this.state.selY };
+        let param = { type: 0, orgId: item.orgId };
         navigation.navigate('UnReceivePage', { param })
     }
     render() {
@@ -227,11 +227,11 @@ export default class S_YearyPage extends React.Component {
                                     }} key={`row_${item}`}>
                                         <Text style={{ color: '#333', flex: 1 }}>{item.orgName}</Text>
                                         <Text style={{ color: '#666' }}>{'总销售额'}</Text>
-                                        <TouchableOpacity onPress={this.onTotalAction}>
+                                        <TouchableOpacity onPress={this.onTotalAction.bind(this, item)}>
                                             <Text style={{ width: 68, color: '#17c6c1' }}>{`${item.factoryTotalSum}万`}</Text>
                                         </TouchableOpacity>
                                         <Text style={{ color: '#666' }}>{'未收'}</Text>
-                                        <TouchableOpacity onPress={this.onNuShowAction}>
+                                        <TouchableOpacity onPress={this.onNuShowAction.bind(this, item)}>
                                             <Text style={{ marginLeft: 2, width: 68, color: '#f80000' }}>{`${item.factoryUnReceiveSum}万`}</Text>
                                         </TouchableOpacity>
                                     </View>

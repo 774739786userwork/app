@@ -124,6 +124,9 @@ import ProductSaleDetailPage from './analysis/salegroup/ProductSaleDetailPage'
 //未收 详情
 import UnReceivePage from './analysis/home/UnReceive/UnReceivePage'
 import PriceDetailPage from './analysis/home/PriceDetail/PriceDetailPage'
+
+import S_ProductlPage from './analysis/home/detail/S_ProductlPage'
+
 import QRPage from '../pages/QRPage'
 
 const AnalysisTabContainer = TabNavigator(
@@ -360,20 +363,23 @@ const App = StackNavigator(
     BigCustomerPage: {
       screen: BigCustomerPage
     },
-    EmployeeSaleDetailPage:{
-      screen:EmployeeSaleDetailPage
+    EmployeeSaleDetailPage: {
+      screen: EmployeeSaleDetailPage
     },
-    CustomerSaleDetailPage:{
-      screen:CustomerSaleDetailPage
+    CustomerSaleDetailPage: {
+      screen: CustomerSaleDetailPage
     },
-    ProductSaleDetailPage:{
-      screen:ProductSaleDetailPage
+    ProductSaleDetailPage: {
+      screen: ProductSaleDetailPage
     },
-    UnReceivePage:{
-      screen:UnReceivePage
+    UnReceivePage: {
+      screen: UnReceivePage
     },
-    PriceDetailPage:{
-      screen:PriceDetailPage
+    PriceDetailPage: {
+      screen: PriceDetailPage
+    },
+    S_ProductlPage: {
+      screen: S_ProductlPage
     }
 
   },
