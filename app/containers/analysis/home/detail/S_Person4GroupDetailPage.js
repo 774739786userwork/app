@@ -70,7 +70,7 @@ class S_Person4GroupDetailPage extends React.Component {
                 >
                     <View style={{ padding: 8, flexDirection: 'row' }}>
                         <Text style={{ color: '#333', flex: 1 }}>{item.employeeName}</Text>
-                        <Text style={{ color: '#f80000', fontSize: 12, marginRight: 4, }}>{`金额:${item.employeeTotalSum}万元`}</Text>
+                        <Text style={{ color: '#f80000', fontSize: 12, marginRight: 4, }}>{`金额:${item.employeeTotalSum}元`}</Text>
                         <Text style={{ color: '#f80000', fontSize: 12, marginRight: 4, }}>{`销量:${item.employeeTotalSales}`}</Text>
 
                     </View>

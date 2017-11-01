@@ -61,7 +61,7 @@ class UnReceiveCustomerPage extends React.Component {
                             </View>
                             <View style={{ flex: 2, flexDirection: 'row' }}>
                                 <Text style={{ color: '#999', fontSize: 12 }}>{'占比：'}</Text>
-                                <Text style={{ color: '#999', fontSize: 12, marginRight: 4 }}>{`${item.precent}%`}</Text>
+                                <Text style={{ color: '#999', fontSize: 12, marginRight: 4 }}>{`${item.precent?item.precent:0}%`}</Text>
                             </View>
                             <View style={{ flex: 2, flexDirection: 'row' }}>
                                 <Text style={{ color: '#999', fontSize: 12 }}>{'客户数：'}</Text>

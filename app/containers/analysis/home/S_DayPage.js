@@ -197,7 +197,7 @@ class RowLeftView extends React.Component {
         </View>
         <View style={{ flexDirection: 'row' }}>
           <Text style={{ color: '#f80000', fontSize: 12, marginTop: 5, flex: 1 }}>{`销售 ${item.customerSalerSum}元`}</Text>
-          <Text style={{ color: '#f80000', fontSize: 12, marginTop: 5, flex: 1, textAlign: 'right' }}>{`未收'${item.unpaidSum}元`}</Text>
+          <Text style={{ color: '#f80000', fontSize: 12, marginTop: 5, flex: 1, textAlign: 'right' }}>{`未收${item.unpaidSum}元`}</Text>
         </View>
       </View>
       <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#d9d9d9' }} />
@@ -218,7 +218,7 @@ class RowRightView extends React.Component {
         </View>
         <View style={{ flexDirection: 'row' }}>
           <Text style={{ color: '#f80000', fontSize: 12, marginTop: 5, flex: 1 }}>{`销售 ${item.empSalerSum}元`}</Text>
-          <Text style={{ color: '#f80000', fontSize: 12, marginTop: 5, flex: 1, textAlign: 'right' }}>{`未收'${item.unpaidSum}元`}</Text>
+          <Text style={{ color: '#f80000', fontSize: 12, marginTop: 5, flex: 1, textAlign: 'right' }}>{`未收${item.unpaidSum}元`}</Text>
         </View>
       </View>
       <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#d9d9d9' }} />
