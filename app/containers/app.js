@@ -91,10 +91,14 @@ import ScanManagerPage from '../pages/setting/ScanManagerPage'
 import WebViewContainer from './WebViewContainer'
 /**** 统计分析  *** */
 //首页
+import S_WorkContainer from './analysis/S_WorkContainer'
+//首页
 import S_HomeContainer from './analysis/S_HomeContainer'
 //统计分析 日 各厂详情
 import S_DayDetailPage from './analysis/home/S_DayDetailPage'
 import S_HomeDetailPage from './analysis/home/S_HomeDetailPage'
+import S_SelasTotalDetailPage from './analysis/home/detail/S_SelasTotalDetailPage'
+import S_Person4GroupDetailPage from './analysis/home/detail/S_Person4GroupDetailPage'
 //系列
 import S_SeriesContainer from './analysis/S_SeriesContainer'
 //系列详情
@@ -107,13 +111,27 @@ import S_ProductDetailContainer from './analysis/product/S_ProductDetailContaine
 //顾客
 import S_CustomerContainer from './analysis/S_CustomerContainer'
 
+//销售组
+import S_SaleGroupContainer from './analysis/S_SaleGroupContainer'
+//报表 首页
+
+import BigCustomerPage from './analysis/work/BigCustomerPage'
+//销售组 销售情况
+import EmployeeSaleDetailPage from './analysis/salegroup/EmployeeSaleDetailPage'
+import CustomerSaleDetailPage from './analysis/salegroup/CustomerSaleDetailPage'
+import ProductSaleDetailPage from './analysis/salegroup/ProductSaleDetailPage'
+
+//未收 详情
+import UnReceivePage from './analysis/home/UnReceive/UnReceivePage'
+import PriceDetailPage from './analysis/home/PriceDetail/PriceDetailPage'
 import QRPage from '../pages/QRPage'
 
 const AnalysisTabContainer = TabNavigator(
   {
+    S_Work: { screen: S_WorkContainer },
     S_Home: { screen: S_HomeContainer },
     S_Series: { screen: S_SeriesContainer },
-    // S_Product: { screen: S_ProductContainer },
+    S_Product: { screen: S_SaleGroupContainer },
     Setting: { screen: SettingContainer }
   },
   {
@@ -197,12 +215,12 @@ const App = StackNavigator(
     GetCarstockProductList: {
       screen: GetCarstockProductListContainer
     },
-    GetCarSurplusGoodsList:{
-      screen:GetCarSurplusGoodsListContainer
+    GetCarSurplusGoodsList: {
+      screen: GetCarSurplusGoodsListContainer
     },
     //欠款单
-    GetDebtPayNoteList:{
-      screen:GetDebtPayNoteListContainer
+    GetDebtPayNoteList: {
+      screen: GetDebtPayNoteListContainer
     },
     SelectCar: {
       screen: SelectCarContainer
@@ -271,14 +289,14 @@ const App = StackNavigator(
       screen: CustDetailContainer
     },
 
-    CustContact:{
+    CustContact: {
       screen: CustContactContainer
     },
     AddBalanceAccouts: {
       screen: AddBalanceAccoutsContainer
     },
-    UpdateReceivedUnpaid:{
-      screen:UpdateReceivedUnpaidContainer
+    UpdateReceivedUnpaid: {
+      screen: UpdateReceivedUnpaidContainer
     },
     //卸货单
     UnloadBill: {
@@ -296,7 +314,7 @@ const App = StackNavigator(
     SelectMuUser: {
       screen: SelectMuUserContainer
     },
-    
+
     ReturnGoodList: {
       screen: ReturnGoodListContainer
     },
@@ -326,8 +344,37 @@ const App = StackNavigator(
     },
     S_SeriesDetailChart: {
       screen: S_SeriesDetailChartPage
+    },
+    //销售总额明细
+    S_SelasTotalDetailPage: {
+      screen: S_SelasTotalDetailPage
+    },
+    S_SelasTotalDetailPage: {
+      screen: S_SelasTotalDetailPage
+    },
+    //销售组 人员明细
+    S_Person4GroupDetailPage: {
+      screen: S_Person4GroupDetailPage
+    },
+    //产品大客户
+    BigCustomerPage: {
+      screen: BigCustomerPage
+    },
+    EmployeeSaleDetailPage:{
+      screen:EmployeeSaleDetailPage
+    },
+    CustomerSaleDetailPage:{
+      screen:CustomerSaleDetailPage
+    },
+    ProductSaleDetailPage:{
+      screen:ProductSaleDetailPage
+    },
+    UnReceivePage:{
+      screen:UnReceivePage
+    },
+    PriceDetailPage:{
+      screen:PriceDetailPage
     }
-    //
 
   },
   {

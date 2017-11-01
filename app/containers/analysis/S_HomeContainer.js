@@ -25,10 +25,10 @@ import S_DayPage from './home/S_DayPage'
 
 class S_HomeContainer extends React.Component {
   static navigationOptions = {
-    title: '首页',
+    title: '销售统计',
     header: null,
     tabBarIcon: ({ tintColor }) => (
-      <Iconfont icon='e6aa' iconSize={24} iconColor={tintColor} />
+      <Iconfont icon='e7a7' iconSize={22} iconColor={tintColor} />
     ),
   };
 

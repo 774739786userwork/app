@@ -10,16 +10,15 @@ import ScrollableTabView, {
     DefaultTabBar
 } from 'react-native-scrollable-tab-view';
 
-import S_ProductDetailPage from './S_ProductDetailPage';
-import S_CustDetailPage from './S_CustDetailPage'
-import S_PersonDetailPage from './S_PersonDetailPage'
+import UnReceiveCustomerPage from './UnReceiveCustomerPage';
+import UnReceiveYWYPage from './UnReceiveYWYPage'
 /**
- * 查询系列本年度与月度的详情 */
-class S_SelasTotalDetail extends React.Component {
+ * 未收明细 */
+class UnReceivePage extends React.Component {
     static navigationOptions = ({ navigation }) => {
         const { state, setParams } = navigation;
         return {
-            title: `销售总额明细`
+            title: `未收明细`
         };
     };
     render() {
@@ -33,11 +32,10 @@ class S_SelasTotalDetail extends React.Component {
                 tabBarActiveTextColor="#3e9ce9"
                 tabBarInactiveTextColor="#aaaaaa"
             >
-                <S_CustDetailPage key={'0'} tabLabel={'产品'} {...this.props} />
-                <S_ProductDetailPage key={'1'} tabLabel={'客户'} {...this.props} />
-                <S_PersonDetailPage key={'2'} tabLabel={'业务员'} {...this.props}/>
+                <UnReceiveYWYPage key={'1'} tabLabel={'业务员'} {...this.props} />
+                <UnReceiveCustomerPage key={'2'} tabLabel={'客户'} {...this.props}/>
             </ScrollableTabView>
         </View>);
     }
 }
-export default S_SelasTotalDetail;
+export default UnReceivePage;

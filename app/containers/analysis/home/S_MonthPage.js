@@ -20,6 +20,8 @@ export default class S_MonthPage extends React.Component {
     super(props);
     this.loadData = this.loadData.bind(this);
     this.onMoreAction = this.onMoreAction.bind(this);
+    this.onNuShowAction = this.onNuShowAction.bind(this);
+    this.onTotalAction = this.onTotalAction.bind(this);
     let { year, month } = DateUtils.yearMonth();
 
     this.state = {
@@ -39,9 +41,9 @@ export default class S_MonthPage extends React.Component {
       FetchManger.getUri('dataCenter/appHomePage/getMonthAll.page', { month }).then((responseData) => {
         if (responseData.status === '0' || responseData.status === 0) {
           let data = responseData.data;
-          let monthTotalSum = data.monthTotalSum ? data.monthTotalSum :0;
-          let monthUnReceiveSum = data.monthUnReceiveSum ? data.monthUnReceiveSum :0;
-          this.setState({ monthTotalSum,monthUnReceiveSum })
+          let monthTotalSum = data.monthTotalSum ? data.monthTotalSum : 0;
+          let monthUnReceiveSum = data.monthUnReceiveSum ? data.monthUnReceiveSum : 0;
+          this.setState({ monthTotalSum, monthUnReceiveSum })
         }
       }).catch((error) => {
 
@@ -69,16 +71,26 @@ export default class S_MonthPage extends React.Component {
     });
   }
   //点击更多查看
- //点击更多查看
- onMoreAction() {
-  const { navigation } = this.props;
-  let _month = this.state.selM;
-  let month = this.state.selY + '-' + (_month < 10 ? '0' + _month : _month)
-  
-   let param = {month:month};
-   let reqUrl = "dataCenter/appHomePage/getMonthMoreFactory.page";
-   navigation.navigate('S_HomeDetail',{reqUrl:reqUrl,param,param})
-}
+  //点击更多查看
+  onMoreAction() {
+    const { navigation } = this.props;
+    let _month = this.state.selM;
+    let month = this.state.selY + '-' + (_month < 10 ? '0' + _month : _month)
+
+    let param = { month: month };
+    let reqUrl = "dataCenter/appHomePage/getMonthMoreFactory.page";
+    navigation.navigate('S_HomeDetail', { reqUrl: reqUrl, param, param })
+  }
+  onTotalAction() {
+    const { navigation } = this.props;
+    let param = { year: this.state.selY };
+    navigation.navigate('S_SelasTotalDetailPage', { param })
+  }
+  onNuShowAction() {
+    const { navigation } = this.props;
+    let param = { year: this.state.selY };
+    navigation.navigate('UnReceivePage', { param })
+  }
 
   render() {
     let yearData = [];
@@ -92,10 +104,10 @@ export default class S_MonthPage extends React.Component {
     let charList = [];
     let old_charList = this.state.charList
     for (var i = 0; i < old_charList.length; i++) {
-        if (i < 3) {
-            let item = old_charList[i];
-            charList.push(item)
-        }
+      if (i < 3) {
+        let item = old_charList[i];
+        charList.push(item)
+      }
     }
     let seriesData = [];
     let xData = []
@@ -118,8 +130,8 @@ export default class S_MonthPage extends React.Component {
     })
     const option = {
       legend: {
-        data:legend
-    },
+        data: legend
+      },
       xAxis: {
         type: 'category',
         boundaryGap: false,
@@ -231,9 +243,13 @@ export default class S_MonthPage extends React.Component {
                   }} >
                     <Text style={{ color: '#333', flex: 1 }}>{item.orgName}</Text>
                     <Text style={{ color: '#666' }}>{'总销售额'}</Text>
-                    <Text style={{ marginLeft: 4, width: 68, color: '#17c6c1' }}>{`${item.factoryTotalSum}万`}</Text>
+                    <TouchableOpacity onPress={this.onTotalAction}>
+                      <Text style={{ marginLeft: 4, width: 68, color: '#17c6c1' }}>{`${item.factoryTotalSum}万`}</Text>
+                    </TouchableOpacity>
                     <Text style={{ color: '#666' }}>{'未收'}</Text>
-                    <Text style={{ marginLeft: 4, width: 68, color: '#f80000' }}>{`${item.factoryUnReceiveSum}万`}</Text>
+                    <TouchableOpacity onPress={this.onNuShowAction}>
+                      <Text style={{ marginLeft: 4, width: 68, color: '#f80000' }}>{`${item.factoryUnReceiveSum}万`}</Text>
+                    </TouchableOpacity>
                   </View>
                   <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#dedede' }}></View>
                 </View>)

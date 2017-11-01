@@ -6,17 +6,28 @@ export function getYearMonth() {
     let yearMonth = year.toString() + month.toString()
     return yearMonth
 }
+
 export function yearMonth() {
     let date = new Date()
     let year = date.getFullYear()
     let month = date.getMonth() + 1
     return { year, month }
 }
-export function getYearMonthDay() {
-    let date = new Date()
+export function getYearMonthDay(i = 0) {
+    let date = new Date();
     let year = date.getFullYear()
-    let month = date.getMonth() + 1
-    let day = date.getDate()
+    let month = date.getMonth() + 1 - i;
+    let day = date.getDate();
+    month = (month < 10 ? "0" + month : month)
+    day = (day < 10 ? "0" + day : day)
+    let yearMonth = year.toString() + '-' + month.toString() + '-' + day.toString()
+    return yearMonth
+}
+export function getYearPreMonthDay() {
+    let date = new Date();
+    let year = date.getFullYear()
+    let month = date.getMonth();
+    let day = date.getDate();
     month = (month < 10 ? "0" + month : month)
     day = (day < 10 ? "0" + day : day)
     let yearMonth = year.toString() + '-' + month.toString() + '-' + day.toString()

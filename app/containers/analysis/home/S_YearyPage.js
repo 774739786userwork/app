@@ -20,7 +20,9 @@ export default class S_YearyPage extends React.Component {
         super(props);
         this.loadData = this.loadData.bind(this);
         this.onMoreAction = this.onMoreAction.bind(this);
-        let { year} = DateUtils.yearMonth();
+        this.onNuShowAction = this.onNuShowAction.bind(this);
+        this.onTotalAction = this.onTotalAction.bind(this);
+        let { year } = DateUtils.yearMonth();
         this.state = {
             selY: year,
             yearTotalSum: 0.00,
@@ -37,9 +39,9 @@ export default class S_YearyPage extends React.Component {
             FetchManger.getUri('dataCenter/appHomePage/getYearAll.page', { year }).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
-                    let yearTotalSum = data.yearTotalSum ? data.yearTotalSum :0;
-                    let yearUnReceiveSum = data.yearUnReceiveSum ? data.yearUnReceiveSum :0;
-                    this.setState({ yearTotalSum,yearUnReceiveSum })
+                    let yearTotalSum = data.yearTotalSum ? data.yearTotalSum : 0;
+                    let yearUnReceiveSum = data.yearUnReceiveSum ? data.yearUnReceiveSum : 0;
+                    this.setState({ yearTotalSum, yearUnReceiveSum })
                 }
             }).catch((error) => {
 
@@ -69,9 +71,20 @@ export default class S_YearyPage extends React.Component {
     //点击更多查看
     onMoreAction() {
         const { navigation } = this.props;
-         let param = {year:this.state.selY};
-         let reqUrl = "dataCenter/appHomePage/getYearMoreFactory.page";
-         navigation.navigate('S_HomeDetail',{reqUrl:reqUrl,param,param})
+        let param = { year: this.state.selY };
+        let reqUrl = "dataCenter/appHomePage/getYearMoreFactory.page";
+        navigation.navigate('S_HomeDetail', { reqUrl: reqUrl, param, param })
+    }
+
+    onTotalAction(){
+        const { navigation } = this.props;
+        let param = { year: this.state.selY };
+        navigation.navigate('S_SelasTotalDetailPage', { param })
+    }
+    onNuShowAction(){
+        const { navigation } = this.props;
+        let param = { year: this.state.selY };
+        navigation.navigate('UnReceivePage', { param })
     }
     render() {
         let yearData = [];
@@ -111,7 +124,7 @@ export default class S_YearyPage extends React.Component {
         })
         const option = {
             legend: {
-                data:legend
+                data: legend
             },
             xAxis: {
                 type: 'category',
@@ -214,9 +227,13 @@ export default class S_YearyPage extends React.Component {
                                     }} key={`row_${item}`}>
                                         <Text style={{ color: '#333', flex: 1 }}>{item.orgName}</Text>
                                         <Text style={{ color: '#666' }}>{'总销售额'}</Text>
-                                        <Text style={{ width: 68, color: '#17c6c1' }}>{`${item.factoryTotalSum}万`}</Text>
+                                        <TouchableOpacity onPress={this.onTotalAction}>
+                                            <Text style={{ width: 68, color: '#17c6c1' }}>{`${item.factoryTotalSum}万`}</Text>
+                                        </TouchableOpacity>
                                         <Text style={{ color: '#666' }}>{'未收'}</Text>
-                                        <Text style={{ marginLeft: 2, width: 68, color: '#f80000' }}>{`${item.factoryUnReceiveSum}万`}</Text>
+                                        <TouchableOpacity onPress={this.onNuShowAction}>
+                                            <Text style={{ marginLeft: 2, width: 68, color: '#f80000' }}>{`${item.factoryUnReceiveSum}万`}</Text>
+                                        </TouchableOpacity>
                                     </View>
                                     <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#dedede' }}></View>
                                 </View>)
@@ -237,7 +254,7 @@ export default class S_YearyPage extends React.Component {
                         </TouchableOpacity>
                         <View style={{ flex: 1 }} />
                     </View>
-                    <Echarts option={option}/>
+                    <Echarts option={option} />
                 </View >
             </ScrollView>
         );
