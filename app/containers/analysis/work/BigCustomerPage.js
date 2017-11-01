@@ -45,17 +45,18 @@ class BigCustomerPage extends React.Component {
     }
     componentDidMount() {
         const { params } = this.props.navigation.state;
+        const userId = LoginInfo.getUserInfo().user_id;
         this.setState({ loading: true });
         InteractionManager.runAfterInteractions(() => {
-            FetchManger.getUri('dataCenter/appHomePage/getMyFocusFactory.page', { userId: '100130' }, 30 * 60).then((responseData) => {
+            FetchManger.getUri('dataCenter/appHomePage/getMyFocusFactory.page?userId='+userId, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
                     const { startDate, endDate } = this.state;
                     let orgId = undefined;
                     if (data.length > 0) {
-                        data[0].selected = true;
-                        orgId = data[0].orgId;
-                        this.loadDetail(startDate, endDate, orgId);
+                        data[1].selected = true;
+                        orgId = data[1].orgId;
+                        this.loadDetail(startDate, endDate, orgId, userId);
                     }
                     this.setState({ branchFactoryList: data, orgId, loading: false })
 
@@ -69,8 +70,8 @@ class BigCustomerPage extends React.Component {
 
 
     }
-    loadDetail(startDate, endDate, orgId) {
-        let p = { startDate, endDate, orgId, userId: '100130' };
+    loadDetail(startDate, endDate, orgId, userId) {
+        let p = { startDate, endDate, orgId, userId };
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getProductBigCustomer.page', p, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {

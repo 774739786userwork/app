@@ -189,10 +189,13 @@ class RowView extends React.Component {
     }}>
       <View style={{ backgroundColor: '#fff', padding: 16 }}>
         <View style={{ flexDirection: 'row' }}>
-          <Text style={{ color: '#333', flex: 1 }}>{'智慧马格里'}</Text>
-          <Text style={{ color: '#999', fontSize: 12, flex: 1, textAlign: 'right' }}>{'138****5566'}</Text>
+          <Text style={{ color: '#333', flex: 1 }}>{item.customerName}</Text>
+          <Text style={{ color: '#999', fontSize: 12, flex: 1, textAlign: 'right' }}>{item.cusPhone}</Text>
         </View>
-        <Text style={{ color: '#f80000', marginTop: 10 }}>{'销售2000元'}</Text>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={{ color: '#f80000', fontSize: 12,marginTop: 5,flex: 1 }}>{`销售 ${item.customerSalerSum}元`}</Text>
+          <Text style={{ color: '#f80000', fontSize: 12, marginTop: 5,flex: 1, textAlign: 'right' }}>{`未收'${item.unpaidSum}元`}</Text>
+        </View>
       </View>
       <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#d9d9d9' }} />
     </TouchableOpacity>

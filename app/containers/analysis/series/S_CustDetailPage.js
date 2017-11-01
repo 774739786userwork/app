@@ -26,8 +26,7 @@ class S_CustDetailPage extends React.Component {
     }
     componentDidMount() {
         const { params } = this.props.navigation.state;
-        //type=0&orgId=109&seriesId=100002
-        let p = { orgId: '109', type: 0, currTime: 2017, seriesId: '100012' };
+        let p = { orgId: params.factoryId, type: params.type, seriesId: params.seriesId };
         this.setState({ loading: true });
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getYearMonthCustomerSeriesDetails.page', p, 30 * 60).then((responseData) => {
@@ -60,7 +59,7 @@ class S_CustDetailPage extends React.Component {
                         <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                             <View style={{ flex: 3, flexDirection: 'row' }}>
                                 <Text style={{ color: '#999', fontSize: 12 }}>{'金额：'}</Text>
-                                <Text style={{ color: '#999', fontSize: 12 }}>{`${item.customerTotalSum}万元`}</Text>
+                                <Text style={{ color: '#999', fontSize: 12 }}>{`${item.customerTotalSum}元`}</Text>
                             </View>
                             <View style={{ flex: 2, flexDirection: 'row' }}>
                                 <Text style={{ color: '#999', fontSize: 12 }}>{'销量：'}</Text>
@@ -68,17 +67,17 @@ class S_CustDetailPage extends React.Component {
                             </View>
                             <View style={{ flex: 2, flexDirection: 'row' }}>
                                 <Text style={{ color: '#999', fontSize: 12 }}>{'平均价：'}</Text>
-                                <Text style={{ color: '#999', fontSize: 12, marginRight: 4 }}>{`${item.customerAveragePrice}`}</Text>
+                                <Text style={{ color: '#999', fontSize: 12, marginRight: 8 }}>{`${item.customerAveragePrice}元`}</Text>
                             </View>
                         </View>
                         <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                             <View style={{ flex: 3, flexDirection: 'row' }}>
                                 <Text style={{ color: '#999', fontSize: 12 }}>{'最高价：'}</Text>
-                                <Text style={{ color: '#999', fontSize: 12 }}>{`${item.customerHighestPrice}`}</Text>
+                                <Text style={{ color: '#999', fontSize: 12 }}>{`${item.customerHighestPrice}元`}</Text>
                             </View>
                             <View style={{ flex: 2, flexDirection: 'row' }}>
                                 <Text style={{ color: '#999', fontSize: 12 }}>{'最低价：'}</Text>
-                                <Text style={{ color: '#999', fontSize: 12 }}>{`${item.customerLowestPrice}`}</Text>
+                                <Text style={{ color: '#999', fontSize: 12 }}>{`${item.customerLowestPrice}元`}</Text>
                             </View>
                             <View style={{ flex: 2, flexDirection: 'row' }}>
                                 <Text style={{ color: '#999', fontSize: 12 }}>{'多厂送货：'}</Text>

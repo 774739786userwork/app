@@ -32,10 +32,10 @@ class S_PersonDetailPage extends React.Component {
     componentDidMount() {
         const { params } = this.props.navigation.state;
         //type=0&groupId=100130&currTime=2017
-        let p = { groupId: '100130', type: 0, currTime: 2017 };
+        let p = { orgId: params.factoryId, type: params.type, seriesId: params.seriesId };
         this.setState({ loading: true });
         InteractionManager.runAfterInteractions(() => {
-            FetchManger.getUri('ataCenter/appHomePage/getYearMonthEmployeeSeriesDetails.page', p, 30 * 60).then((responseData) => {
+            FetchManger.getUri('dataCenter/appHomePage/getYearMonthEmployeeSeriesDetails.page', p, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
                     this.setState({ dataList: data, loading: false })
@@ -95,13 +95,13 @@ class S_PersonDetailPage extends React.Component {
                             <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
                                     <Text style={{ color: '#999', fontSize: 12 }}>{'销量：'}</Text>
-                                    <Text style={{ color: '#999', fontSize: 12 }}>{`${item.productSales}万元`}</Text>
+                                    <Text style={{ color: '#999', fontSize: 12 }}>{`${item.productSales}`}</Text>
                                 </View>
                             </View>
                             <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
                                     <Text style={{ color: '#999', fontSize: 12 }}>{'平均价：'}</Text>
-                                    <Text style={{ color: '#f80000', fontSize: 12, marginRight: 4 }}>{`${item.productAveragePrice}`}</Text>
+                                    <Text style={{ color: '#f80000', fontSize: 12, marginRight: 4 }}>{`${item.productAveragePrice}元`}</Text>
                                 </View>
                             </View>
                         </View>

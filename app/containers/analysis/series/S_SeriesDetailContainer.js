@@ -19,7 +19,7 @@ class S_SelasTotalDetail extends React.Component {
     static navigationOptions = ({ navigation }) => {
         const { state, setParams } = navigation;
         return {
-            title: `销售总额明细`
+            title: `${navigation.state.params.orgName}`
         };
     };
     render() {
@@ -33,8 +33,8 @@ class S_SelasTotalDetail extends React.Component {
                 tabBarActiveTextColor="#3e9ce9"
                 tabBarInactiveTextColor="#aaaaaa"
             >
-                <S_CustDetailPage key={'0'} tabLabel={'产品'} {...this.props} />
-                <S_ProductDetailPage key={'1'} tabLabel={'客户'} {...this.props} />
+                <S_CustDetailPage key={'0'} tabLabel={'客户'} {...this.props} />
+                <S_ProductDetailPage key={'1'} tabLabel={'产品'} {...this.props} />
                 <S_PersonDetailPage key={'2'} tabLabel={'业务员'} {...this.props}/>
             </ScrollableTabView>
         </View>);
