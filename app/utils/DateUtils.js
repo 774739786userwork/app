@@ -3,7 +3,7 @@ export function getYearMonth() {
     let year = date.getFullYear()
     let month = date.getMonth() + 1
     month = (month < 10 ? "0" + month : month)
-    let yearMonth = year.toString() + month.toString()
+    let yearMonth = year.toString() +'-'+ month.toString()
     return yearMonth
 }
 

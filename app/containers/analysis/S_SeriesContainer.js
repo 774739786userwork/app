@@ -20,6 +20,7 @@ import ScrollableTabView, {
 } from 'react-native-scrollable-tab-view';
 import { FetchManger, LoginInfo, LoadingView, Toast } from 'react-native-go'
 import LoadingListView from '../../components/LoadingListView'
+import * as DateUtils from '../../utils/DateUtils'
 
 var detail_ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -102,6 +103,13 @@ class S_SeriesPage extends React.Component {
     const { navigation, tabLabel } = this.props;
     let selectItem = this.state.selectItem;
     let param = { factoryId: selectItem.serieslId, orgName: selectItem.serieslName + item.orgName, seriesId: item.orgId, type: tabLabel };
+
+    if('0' === tabLabel){
+      param.currTime = DateUtils.yearMonth().year;
+    }else{
+      param.currTime = DateUtils.getYearMonth();
+    }
+    //
     navigation.navigate('S_SeriesDetail', param)
   }
   onFactoryAction(item) {
