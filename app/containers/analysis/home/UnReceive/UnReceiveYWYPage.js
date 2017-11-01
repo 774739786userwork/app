@@ -57,15 +57,15 @@ class UnReceiveCustomerPage extends React.Component {
                         <View style={{ height: 24, paddingLeft: 12,paddingBottom:4, flexDirection: 'row', alignItems: 'center' }}>
                             <View style={{ flex: 3, flexDirection: 'row' }}>
                                 <Text style={{ color: '#999', fontSize: 12 }}>{'未收：'}</Text>
-                                <Text style={{ color: '#999', fontSize: 12 }}>{`${item.unReceive}万元`}</Text>
+                                <Text style={{ color: '#999', fontSize: 12 }}>{`${item.unReceive}元`}</Text>
                             </View>
                             <View style={{ flex: 2, flexDirection: 'row' }}>
                                 <Text style={{ color: '#999', fontSize: 12 }}>{'占比：'}</Text>
-                                <Text style={{ color: '#999', fontSize: 12, marginRight: 4 }}>{`${item.precent}`}</Text>
+                                <Text style={{ color: '#999', fontSize: 12, marginRight: 4 }}>{`${item.precent}%`}</Text>
                             </View>
                             <View style={{ flex: 2, flexDirection: 'row' }}>
                                 <Text style={{ color: '#999', fontSize: 12 }}>{'客户数：'}</Text>
-                                <Text style={{ color: '#999', fontSize: 12, marginRight: 4 }}>{`${item.customerQuantity}`}</Text>
+                                <Text style={{ color: '#999', fontSize: 12, marginRight: 4 }}>{`${item.customerQuantity}家`}</Text>
                             </View>
                         </View>
                     </View>
