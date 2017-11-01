@@ -31,11 +31,9 @@ class EmployeeSaleDetailPage extends React.Component {
     }
     componentDidMount() {
         const { params } = this.props.navigation.state;
-        //groupId=100149&type=0&currTime=2017
-        let p = { groupId: '100149', type: 0, currTime: 2017 };
         this.setState({ loading: true });
         InteractionManager.runAfterInteractions(() => {
-            FetchManger.getUri('dataCenter/appHomePage/getSimpleEmployeeSaleDetail.page', p, 30 * 60).then((responseData) => {
+            FetchManger.getUri('dataCenter/appHomePage/getSimpleEmployeeSaleDetail.page', params, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
                     this.setState({ dataList: data, loading: false })
