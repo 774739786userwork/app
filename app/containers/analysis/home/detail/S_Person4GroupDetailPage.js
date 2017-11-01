@@ -70,7 +70,7 @@ class S_Person4GroupDetailPage extends React.Component {
                 >
                     <View style={{ padding: 8, flexDirection: 'row' }}>
                         <Text style={{ color: '#333', flex: 1 }}>{item.employeeName}</Text>
-                        <Text style={{ color: '#f80000', fontSize: 12, marginRight: 4, }}>{`金额:${item.employeeTotalSum}元`}</Text>
+                        <Text style={{ color: '#f80000', fontSize: 12, marginRight: 4, }}>{`金额:${item.employeeTotalSum}万元`}</Text>
                         <Text style={{ color: '#f80000', fontSize: 12, marginRight: 4, }}>{`销量:${item.employeeTotalSales}`}</Text>
 
                     </View>
@@ -101,13 +101,13 @@ class S_Person4GroupDetailPage extends React.Component {
                             <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
                                     <Text style={{ color: '#999', fontSize: 12 }}>{'销量：'}</Text>
-                                    <Text style={{ color: '#999', fontSize: 12 }}>{`${item.productSales}万元`}</Text>
+                                    <Text style={{ color: '#999', fontSize: 12 }}>{`${item.productSales}`}</Text>
                                 </View>
                             </View>
                             <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
                                     <Text style={{ color: '#999', fontSize: 12 }}>{'平均价：'}</Text>
-                                    <Text style={{ color: '#f80000', fontSize: 12, marginRight: 4 }}>{`${item.productAveragePrice}`}</Text>
+                                    <Text style={{ color: '#f80000', fontSize: 12, marginRight: 4 }}>{`${item.productAveragePrice}元`}</Text>
                                 </View>
                             </View>
                         </View>
