@@ -93,14 +93,10 @@ class S_SaleGroupPage extends React.Component {
   }
 
 
-  _rowOnPress(groupId,item) {
+  _rowOnPress(groupId, item) {
     const { navigation } = this.props;
     let currentDate = this.state.currentDate;
-<<<<<<< HEAD
-    let param = { type: 0, groupId,currTime: currentDate, seriesId: item.seriesId, seriesName: item.seriesName };
-=======
-    let param = { type: 0, currTime: currentDate,seriesId: item.seriesId, seriesName: item.seriesName };
->>>>>>> a48cc419c07df17a20c259ee8df9555a391639c7
+    let param = { type: 0, groupId, currTime: currentDate, seriesId: item.seriesId, seriesName: item.seriesName };
     navigation.navigate('ProductSaleDetailPage', param)
   }
   _onEmployeeSaleDetailPress(item) {
@@ -117,10 +113,10 @@ class S_SaleGroupPage extends React.Component {
     navigation.navigate('CustomerSaleDetailPage', param)
   }
 
-  _renderRow(groupId,item, index) {
+  _renderRow(groupId, item, index) {
     return (
       <TouchableOpacity
-        onPress={this._rowOnPress.bind(this,groupId, item)}
+        onPress={this._rowOnPress.bind(this, groupId, item)}
         key={`row_${index}`}
       >
         <View style={{ backgroundColor: '#fff' }} key={`row_${index}`}>
@@ -128,11 +124,11 @@ class S_SaleGroupPage extends React.Component {
             <View style={{ flex: 1 }}>
               <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                  <Text style={{ color: '#999', fontSize: 13}}>{`${item.seriesName}：`}</Text>
-                  <Text style={{ color: '#999', fontSize: 13}}>{`${item.seriesSalerSum}元`}</Text>
+                  <Text style={{ color: '#999', fontSize: 13 }}>{`${item.seriesName}：`}</Text>
+                  <Text style={{ color: '#999', fontSize: 13 }}>{`${item.seriesSalerSum}元`}</Text>
                 </View>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                  <Text style={{ color: '#999', fontSize: 13}}>{`销量：${item.seriesSales}`}</Text>
+                  <Text style={{ color: '#999', fontSize: 13 }}>{`销量：${item.seriesSales}`}</Text>
                 </View>
               </View>
             </View>
@@ -168,7 +164,7 @@ class S_SaleGroupPage extends React.Component {
         </View>
         {
           item.seriesList.map((item, index) => {
-            return this._renderRow(groupId,item, index)
+            return this._renderRow(groupId, item, index)
           })
         }
       </View>
@@ -275,7 +271,7 @@ class S_SaleMonthGroupPage extends React.Component {
     this._rowOnBranchPress = this._rowOnBranchPress.bind(this);
     this.loadDetail = this.loadDetail.bind(this);
     let { year, month } = DateUtils.yearMonth();
-    
+
     this.state = {
       selY: year, selM: month,
       dataList: [],
@@ -289,7 +285,7 @@ class S_SaleMonthGroupPage extends React.Component {
     const { navigation, tabLabel } = this.props;
     this.setState({ loading: true });
     let userId = LoginInfo.getUserInfo().user_id;
-    
+
     InteractionManager.runAfterInteractions(() => {
       FetchManger.getUri('dataCenter/appHomePage/getMyFocusFactory.page', { userId }, 30 * 60).then((responseData) => {
         if (responseData.status === '0' || responseData.status === 0) {
@@ -365,11 +361,11 @@ class S_SaleMonthGroupPage extends React.Component {
             <View style={{ flex: 1 }}>
               <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                  <Text style={{ color: '#999', fontSize: 12,flex:2 }}>{`${item.seriesName}：`}</Text>
-                  <Text style={{ color: '#999', fontSize: 12,flex:2 }}>{`${item.seriesSalerSum}元`}</Text>
-                  </View>
+                  <Text style={{ color: '#999', fontSize: 12, flex: 2 }}>{`${item.seriesName}：`}</Text>
+                  <Text style={{ color: '#999', fontSize: 12, flex: 2 }}>{`${item.seriesSalerSum}元`}</Text>
+                </View>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                  <Text style={{ color: '#999', fontSize: 12}}>{`销量：${item.seriesSales}`}</Text>
+                  <Text style={{ color: '#999', fontSize: 12 }}>{`销量：${item.seriesSales}`}</Text>
                 </View>
               </View>
             </View>
@@ -468,7 +464,7 @@ class S_SaleMonthGroupPage extends React.Component {
           onDateChange={(selY, selM, ymStr) => {
             let month = selY + '-' + (selM < 10 ? '0' + selM : selM)
             this.loadDetail(month)
-            this.setState({ selY,selM })
+            this.setState({ selY, selM })
           }}
         />
         <TouchableOpacity style={{ marginLeft: 4 }} onPress={() => {

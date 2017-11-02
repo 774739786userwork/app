@@ -47,7 +47,7 @@ class BigCustomerPage extends React.Component {
     componentDidMount() {
         const { params } = this.props.navigation.state;
         const userId = LoginInfo.getUserInfo().user_id;
-        this.setState({ loading: true });
+        this.setState({ loading: true ,groupLoading:true});
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getMyFocusFactory.page?userId=' + userId, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
@@ -59,13 +59,13 @@ class BigCustomerPage extends React.Component {
                         orgId = data[1].orgId;
                         this.loadDetail(startDate, endDate, orgId, userId);
                     }
-                    this.setState({ branchFactoryList: data, orgId, loading: false })
+                    this.setState({ branchFactoryList: data, orgId, groupLoading:false,loading: false })
 
                 } else {
-                    this.setState({ loading: false });
+                    this.setState({ loading: false ,groupLoading:false});
                 }
             }).catch((error) => {
-                this.setState({ loading: false });
+                this.setState({ loading: false,groupLoading:false });
             })
         });
 
