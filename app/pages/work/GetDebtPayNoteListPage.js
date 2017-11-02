@@ -69,7 +69,7 @@ class GetDebtPayNoteListPage extends React.Component {
 
     _renderItem = (item, index) => {
         let payment_sum = item.payment_sum ? item.payment_sum : 0
-        alert(item.debt_sum)
+      //  alert(item.debt_sum)
         return (
             <TouchableHighlight
                 onPress={this._rowOnPress.bind(this,item)}

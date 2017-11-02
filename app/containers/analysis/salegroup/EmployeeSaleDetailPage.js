@@ -45,8 +45,14 @@ class EmployeeSaleDetailPage extends React.Component {
             })
         });
     }
-    _rowOnPress(item) {
-
+    _rowOnPress(employeeId,item) {
+        //seriesName
+        const { navigation } = this.props;
+        let param = navigation.state.params;
+        param.employeeId = employeeId;
+        param.seriesName = item.seriesName;
+        param.seriesId = item.seriesId;
+        navigation.navigate('ProductSaleDetailPage', param)
     }
     _onCustomerSaleDetailPress(item) {
         const { params } = this.props.navigation.state;
@@ -57,6 +63,7 @@ class EmployeeSaleDetailPage extends React.Component {
 
 
     _renderGroup(item, sectionID, index) {
+        let employeeId = item.employeeId;
         return (
             <View key={`row_${index}`} style={{ backgroundColor: '#f9f9f9' }}>
                 <View style={{ height: StyleSheet.hairlineWidth, marginTop: 8, flex: 1, backgroundColor: '#c4c4c4' }} />
@@ -75,16 +82,16 @@ class EmployeeSaleDetailPage extends React.Component {
                 </View>
                 {
                     item.seriesList.map((item, index) => {
-                        return this._renderRow(item, index)
+                        return this._renderRow(employeeId,item, index)
                     })
                 }
             </View>
         );
     }
-    _renderRow(item, index) {
+    _renderRow(employeeId,item, index) {
         return (
             <TouchableOpacity
-                onPress={this._rowOnPress.bind(this, item)}
+                onPress={this._rowOnPress.bind(this, employeeId,item)}
                 key={`row_${index}`}
             >
             <View style={{ backgroundColor: '#fff' }} key={`row_${index}`}>

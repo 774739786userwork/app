@@ -93,10 +93,10 @@ class S_SaleGroupPage extends React.Component {
   }
 
 
-  _rowOnPress(item) {
+  _rowOnPress(groupId,item) {
     const { navigation } = this.props;
     let currentDate = this.state.currentDate;
-    let param = { type: 0, currTime: currentDate, seriesId: item.seriesId, seriesName: item.seriesName };
+    let param = { type: 0, groupId,currTime: currentDate, seriesId: item.seriesId, seriesName: item.seriesName };
     navigation.navigate('ProductSaleDetailPage', param)
   }
   _onEmployeeSaleDetailPress(item) {
@@ -113,10 +113,10 @@ class S_SaleGroupPage extends React.Component {
     navigation.navigate('CustomerSaleDetailPage', param)
   }
 
-  _renderRow(item, index) {
+  _renderRow(groupId,item, index) {
     return (
       <TouchableOpacity
-        onPress={this._rowOnPress.bind(this, item)}
+        onPress={this._rowOnPress.bind(this,groupId, item)}
         key={`row_${index}`}
       >
         <View style={{ backgroundColor: '#fff' }} key={`row_${index}`}>
@@ -140,6 +140,7 @@ class S_SaleGroupPage extends React.Component {
   }
 
   _renderGroup(item, sectionID, index) {
+    let groupId = item.groupId;
     return (
       <View key={`row_${index}`} style={{ backgroundColor: '#f9f9f9' }}>
         <View style={{ height: StyleSheet.hairlineWidth, marginTop: 8, flex: 1, backgroundColor: '#c4c4c4' }} />
@@ -163,7 +164,7 @@ class S_SaleGroupPage extends React.Component {
         </View>
         {
           item.seriesList.map((item, index) => {
-            return this._renderRow(item, index)
+            return this._renderRow(groupId,item, index)
           })
         }
       </View>

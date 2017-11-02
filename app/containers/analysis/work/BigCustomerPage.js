@@ -41,6 +41,7 @@ class BigCustomerPage extends React.Component {
             branchFactoryList: [],
             loading: false,
             orgId: undefined,
+            groupLoading:false,
         }
     }
     componentDidMount() {
@@ -48,7 +49,7 @@ class BigCustomerPage extends React.Component {
         const userId = LoginInfo.getUserInfo().user_id;
         this.setState({ loading: true });
         InteractionManager.runAfterInteractions(() => {
-            FetchManger.getUri('dataCenter/appHomePage/getMyFocusFactory.page?userId='+userId, 30 * 60).then((responseData) => {
+            FetchManger.getUri('dataCenter/appHomePage/getMyFocusFactory.page?userId=' + userId, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
                     const { startDate, endDate } = this.state;
@@ -72,16 +73,17 @@ class BigCustomerPage extends React.Component {
     }
     loadDetail(startDate, endDate, orgId, userId) {
         let p = { startDate, endDate, orgId, userId };
+        this.setState({groupLoading:true})
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getProductBigCustomer.page', p, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
-                    this.setState({ listData: data, loading: false })
+                    this.setState({ listData: data, loading: false,groupLoading:false })
                 } else {
-                    this.setState({ loading: false });
+                    this.setState({ loading: false ,groupLoading:false});
                 }
             }).catch((error) => {
-                this.setState({ loading: false });
+                this.setState({ loading: false ,groupLoading:false});
             })
         });
     }
@@ -118,7 +120,7 @@ class BigCustomerPage extends React.Component {
         let orgId = item.orgId;
         this.loadDetail(startDate, endDate, orgId);
 
-        this.setState({ branchFactoryList, orgId})
+        this.setState({ branchFactoryList, orgId })
     }
     _renderBranchRow(item, sectionID, index) {
         let selected = item.selected;
@@ -135,7 +137,7 @@ class BigCustomerPage extends React.Component {
 
     _selectByDate(_startDate, _endDate) {
         let orgId = this.state.orgId;
-        this.loadDetail(_startDate, _endDate,orgId);
+        this.loadDetail(_startDate, _endDate, orgId);
         if (_startDate) {
             this.setState({ startDate: _startDate });
         }
@@ -202,35 +204,39 @@ class BigCustomerPage extends React.Component {
                 <View style={{ flex: 1 }} /><Text style={{ color: '#666', fontSize: 16 }}>{'排名前20'}</Text><View style={{ flex: 1 }} />
             </View>
             <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#c4c4c4' }} />
-            <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#fff' }}>
-                <View style={{ width: 80, justifyContent: 'center', alignItems: 'center' }}>
-                    <LeftTabComponet
-                        data={this.state.listData}
-                        sectionAction={(item) => {
-                            let itemListData = item.customerList;
-                            this.setState({ itemListData })
-                        }}
-                    />
-                </View>
-                <View style={{ flex: 1, padding: 10, backgroundColor: '#f2f2f2' }}>
-                    <View style={{ backgroundColor: '#fff', borderColor: '#f2f2f2', borderWidth: 1, flex: 1 }}>
-                        <View style={{ flexDirection: 'row', backgroundColor: '#66b3e5' }}>
-                            <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'客户'}</Text>
-                            <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                            <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'电话'}</Text>
-                            <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                            <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'金额(万)'}</Text>
-                            <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                            <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'占比%'}</Text>
+            {
+                this.state.groupLoading ? <LoadingView />
+                    :
+                    <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#fff' }}>
+                        <View style={{ width: 80, justifyContent: 'center', alignItems: 'center' }}>
+                            <LeftTabComponet
+                                data={this.state.listData}
+                                sectionAction={(item) => {
+                                    let itemListData = item.customerList;
+                                    this.setState({ itemListData })
+                                }}
+                            />
                         </View>
-                        <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                        <LoadingListView
-                            loading={this.state.loading}
-                            listData={ds.cloneWithRows(this.state.itemListData)}
-                            renderRowView={this._renderRow} />
+                        <View style={{ flex: 1, padding: 10, backgroundColor: '#f2f2f2' }}>
+                            <View style={{ backgroundColor: '#fff', borderColor: '#f2f2f2', borderWidth: 1, flex: 1 }}>
+                                <View style={{ flexDirection: 'row', backgroundColor: '#66b3e5' }}>
+                                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'客户'}</Text>
+                                    <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'电话'}</Text>
+                                    <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'金额(万)'}</Text>
+                                    <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'占比%'}</Text>
+                                </View>
+                                <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                                <LoadingListView
+                                    loading={this.state.loading}
+                                    listData={ds.cloneWithRows(this.state.itemListData)}
+                                    renderRowView={this._renderRow} />
+                            </View>
+                        </View>
                     </View>
-                </View>
-            </View>
+            }
         </View>;
     }
 }
@@ -251,7 +257,7 @@ class LeftTabComponet extends React.Component {
         this.props.sectionAction && this.props.sectionAction(item)
         this.setState({ preSelect: item.productId })
     }
-    renderSectionListItem(item,index) {
+    renderSectionListItem(item, index) {
         let productId = item.productId;
         let preSelect = this.state.preSelect;
         if (!this.preSelect) {
@@ -271,7 +277,7 @@ class LeftTabComponet extends React.Component {
     render() {
         return <ScrollView>
             {
-                this.props.data.map((item,index) => this.renderSectionListItem(item,index))
+                this.props.data.map((item, index) => this.renderSectionListItem(item, index))
             }
         </ScrollView>
     }
