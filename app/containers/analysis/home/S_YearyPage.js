@@ -35,6 +35,8 @@ export default class S_YearyPage extends React.Component {
         this.loadData(this.state.selY)
     }
     loadData(year) {
+        const userId = LoginInfo.getUserInfo().user_id;
+        let param = { year: year, userId: userId };
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getYearAll.page', { year }).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
@@ -48,7 +50,7 @@ export default class S_YearyPage extends React.Component {
             })
         });
         InteractionManager.runAfterInteractions(() => {
-            FetchManger.getUri('dataCenter/appHomePage/getYearFactory.page', { year }).then((responseData) => {
+            FetchManger.getUri('dataCenter/appHomePage/getYearFactory.page', param).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
                     this.setState({ yearFactory: data })

@@ -37,6 +37,9 @@ export default class S_MonthPage extends React.Component {
   }
   loadData(_year, _month) {
     let month = _year + '-' + (_month < 10 ? '0' + _month : _month)
+
+    const userId = LoginInfo.getUserInfo().user_id;
+    let param = { month: month, userId: userId };
     InteractionManager.runAfterInteractions(() => {
       FetchManger.getUri('dataCenter/appHomePage/getMonthAll.page', { month }).then((responseData) => {
         if (responseData.status === '0' || responseData.status === 0) {
@@ -50,7 +53,7 @@ export default class S_MonthPage extends React.Component {
       })
     });
     InteractionManager.runAfterInteractions(() => {
-      FetchManger.getUri('dataCenter/appHomePage/getMonthFactory.page', { month }).then((responseData) => {
+      FetchManger.getUri('dataCenter/appHomePage/getMonthFactory.page', param).then((responseData) => {
         if (responseData.status === '0' || responseData.status === 0) {
           let data = responseData.data;
           this.setState({ yearFactory: data })

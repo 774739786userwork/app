@@ -96,7 +96,11 @@ class S_SaleGroupPage extends React.Component {
   _rowOnPress(groupId,item) {
     const { navigation } = this.props;
     let currentDate = this.state.currentDate;
+<<<<<<< HEAD
     let param = { type: 0, groupId,currTime: currentDate, seriesId: item.seriesId, seriesName: item.seriesName };
+=======
+    let param = { type: 0, currTime: currentDate,seriesId: item.seriesId, seriesName: item.seriesName };
+>>>>>>> a48cc419c07df17a20c259ee8df9555a391639c7
     navigation.navigate('ProductSaleDetailPage', param)
   }
   _onEmployeeSaleDetailPress(item) {

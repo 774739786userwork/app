@@ -82,9 +82,11 @@ class S_SeriesPage extends React.Component {
 
   componentDidMount() {
     const { navigation, tabLabel } = this.props;
+    const userId = LoginInfo.getUserInfo().user_id;
+    let param = { type: tabLabel, userId: userId };
     this.setState({ loading: true });
     InteractionManager.runAfterInteractions(() => {
-      FetchManger.getUri('dataCenter/appHomePage/getYearMonthProductSeries.page', { type: tabLabel }, 30 * 60).then((responseData) => {
+      FetchManger.getUri('dataCenter/appHomePage/getYearMonthProductSeries.page', param, 30 * 60).then((responseData) => {
         if (responseData.status === '0' || responseData.status === 0) {
           let salerList = responseData.salerList;
           let branchFactoryList = responseData.branchFactoryList;
