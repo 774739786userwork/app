@@ -59,8 +59,8 @@ class S_SaleGroupPage extends React.Component {
           const { currentDate } = this.state;
           let orgId = undefined;
           if (data.length > 0) {
-            data[0].selected = true;
-            orgId = data[0].orgId;
+            data[1].selected = true;
+            orgId = data[1].orgId;
             this.loadDetail(currentDate, orgId);
           }
           this.setState({ branchFactoryList: data, orgId, loading: false })
@@ -124,8 +124,11 @@ class S_SaleGroupPage extends React.Component {
             <View style={{ flex: 1 }}>
               <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                  <Text style={{ color: '#999', fontSize: 12 }}>{`${item.seriesName}：`}</Text>
-                  <Text style={{ color: '#999', fontSize: 12 }}>{`${item.seriesSales}`}</Text>
+                  <Text style={{ color: '#999', fontSize: 13}}>{`${item.seriesName}：`}</Text>
+                  <Text style={{ color: '#999', fontSize: 13}}>{`${item.seriesSalerSum}元`}</Text>
+                </View>
+                <View style={{ flex: 1, flexDirection: 'row' }}>
+                  <Text style={{ color: '#999', fontSize: 13}}>{`销量：${item.seriesSales}`}</Text>
                 </View>
               </View>
             </View>
@@ -145,18 +148,18 @@ class S_SaleGroupPage extends React.Component {
           <TouchableOpacity
             onPress={this._onEmployeeSaleDetailPress.bind(this, item)}
           >
-            <Text style={{ color: '#333', flex: 1 }}>{item.groupName}</Text>
+            <Text style={{ color: '#FF33FF', flex: 1 }}>{item.groupName}</Text>
           </TouchableOpacity>
           <View style={{ flex: 1 }} />
           <TouchableOpacity
             onPress={this._onCustomerSaleDetailPress.bind(this, item)}
           >
-            <Text style={{ color: '#333', marginRight: 4, }}>{`客户情况`}</Text>
+            <Text style={{ color: '#FF33FF', marginRight: 4, }}>{`客户情况`}</Text>
           </TouchableOpacity>
         </View>
 
         <View style={{ height: 30, backgroundColor: '#fff', paddingLeft: 20, paddingBottom: 4, paddingTop: 8, flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={{ color: '#f80000', fontSize: 12 }}>{`销售总额：${item.totalSum}`}</Text>
+          <Text style={{ color: '#f80000', fontSize: 14 }}>{`销售总额：${item.totalSum}元`}</Text>
         </View>
         {
           item.seriesList.map((item, index) => {
@@ -174,9 +177,9 @@ class S_SaleGroupPage extends React.Component {
         _item.selected = true;
       }
     })
-    const { startDate, endDate } = this.state;
+    const { currentDate } = this.state;
     let orgId = item.orgId;
-    // this.loadDetail(startDate, endDate, orgId);
+    this.loadDetail(currentDate, orgId);
 
     this.setState({ branchFactoryList, orgId })
   }
@@ -357,8 +360,11 @@ class S_SaleMonthGroupPage extends React.Component {
             <View style={{ flex: 1 }}>
               <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                  <Text style={{ color: '#999', fontSize: 12 }}>{`${item.seriesName}：`}</Text>
-                  <Text style={{ color: '#999', fontSize: 12 }}>{`${item.seriesSales}`}</Text>
+                  <Text style={{ color: '#999', fontSize: 12,flex:2 }}>{`${item.seriesName}：`}</Text>
+                  <Text style={{ color: '#999', fontSize: 12,flex:2 }}>{`${item.seriesSalerSum}元`}</Text>
+                  </View>
+                <View style={{ flex: 1, flexDirection: 'row' }}>
+                  <Text style={{ color: '#999', fontSize: 12}}>{`销量：${item.seriesSales}`}</Text>
                 </View>
               </View>
             </View>

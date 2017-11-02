@@ -48,24 +48,31 @@ class EmployeeSaleDetailPage extends React.Component {
     _rowOnPress(item) {
 
     }
-    _OnGropPress(item) {
-
-    }
+    _onCustomerSaleDetailPress(item) {
+        const { params } = this.props.navigation.state;
+        const { navigation } = this.props;
+        let param = { type: params.type, currTime: params.currTime, employeeId: item.employeeId, groupName: item.employeeName };
+        navigation.navigate('CustomerSaleDetailPage', param)
+      }
 
 
     _renderGroup(item, sectionID, index) {
         return (
-            <View key={`row_${index}`} style={{ backgroundColor: '#fff' }}>
+            <View key={`row_${index}`} style={{ backgroundColor: '#f9f9f9' }}>
                 <View style={{ height: StyleSheet.hairlineWidth, marginTop: 8, flex: 1, backgroundColor: '#c4c4c4' }} />
-                <TouchableOpacity
-                    onPress={this._OnGropPress.bind(this, item)}
-                >
-                    <View style={{ padding: 8, flexDirection: 'row' }}>
-                        <Text style={{ color: '#333', flex: 1 }}>{item.employeeName}</Text>
-                        <Text style={{ color: '#f80000', fontSize: 12, marginRight: 4, }}>{`金额:${item.totalSum}元`}</Text>
-
-                    </View>
-                </TouchableOpacity>
+                
+                <View style={{ padding: 8, flexDirection: 'row' }}>
+                    <Text style={{ color: '#333', flex: 1 }}>{item.employeeName}</Text>
+                    <View style={{ flex: 1 }} />
+                    <TouchableOpacity
+                        onPress={this._onCustomerSaleDetailPress.bind(this, item)}
+                    >
+                    <Text style={{ color: '#FF33FF', marginRight: 4, }}>{`客户情况`}</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={{ height: 30, backgroundColor: '#fff', paddingLeft: 20, paddingBottom: 4, paddingTop: 8, flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={{ color: '#f80000', fontSize: 14 }}>{`销售总额：${item.totalSum}元`}</Text>
+                </View>
                 {
                     item.seriesList.map((item, index) => {
                         return this._renderRow(item, index)
@@ -80,31 +87,22 @@ class EmployeeSaleDetailPage extends React.Component {
                 onPress={this._rowOnPress.bind(this, item)}
                 key={`row_${index}`}
             >
-                <View style={{ backgroundColor: '#fff' }} key={`row_${index}`}>
-                    <View style={{ flexDirection: 'row', paddingLeft: 8, }}>
-                        <View style={{ alignItems: 'center', justifyContent: 'center', height: 110 }}>
-                            <ImageView source={{ uri: item.productImage }} style={{ width: 80, height: 80, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} />
-                        </View>
-                        <View style={{ flex: 1 }}>
-                            <View style={{ height: 24, paddingLeft: 12, marginBottom: 4, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
-                                <Text style={{ color: '#333', fontSize: 16 }}>{`${item.productName}`}</Text>
-                            </View>
-                            <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
-                                <View style={{ flex: 1, flexDirection: 'row' }}>
-                                    <Text style={{ color: '#999', fontSize: 12 }}>{'销量：'}</Text>
-                                    <Text style={{ color: '#999', fontSize: 12 }}>{`${item.productSales}万元`}</Text>
-                                </View>
-                            </View>
-                            <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
-                                <View style={{ flex: 1, flexDirection: 'row' }}>
-                                    <Text style={{ color: '#999', fontSize: 12 }}>{'平均价：'}</Text>
-                                    <Text style={{ color: '#f80000', fontSize: 12, marginRight: 4 }}>{`${item.productAveragePrice}`}</Text>
-                                </View>
-                            </View>
-                        </View>
+            <View style={{ backgroundColor: '#fff' }} key={`row_${index}`}>
+            <View style={{ flexDirection: 'row', paddingLeft: 8, }}>
+                <View style={{ flex: 1 }}>
+                    <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{ flex: 1, flexDirection: 'row' }}>
+                        <Text style={{ color: '#999', fontSize: 13}}>{`${item.seriesName}：`}</Text>
+                        <Text style={{ color: '#999', fontSize: 13}}>{`${item.seriesSalerSum}元`}</Text>
                     </View>
-                    <View style={{ height: StyleSheet.hairlineWidth, marginTop: 4, flex: 1, backgroundColor: '#c4c4c4' }} />
+                    <View style={{ flex: 1, flexDirection: 'row' }}>
+                        <Text style={{ color: '#999', fontSize: 13}}>{`销量：${item.seriesSales}`}</Text>
+                    </View>
+                    </View>
                 </View>
+                </View>
+                <View style={{ height: StyleSheet.hairlineWidth, marginTop: 4, flex: 1, backgroundColor: '#c4c4c4' }} />
+            </View>
             </TouchableOpacity>
         );
     }
