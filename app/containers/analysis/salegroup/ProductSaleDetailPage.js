@@ -28,9 +28,10 @@ class ProductSaleDetailPage extends React.Component {
     }
     componentDidMount() {
         const { params } = this.props.navigation.state;
+        alert(JSON.stringify(params))
         this.setState({ loading: true });
         InteractionManager.runAfterInteractions(() => {
-            FetchManger.getUri('dataCenter/appHomePage/getYearProductTotalDetail.page',params , 30 * 60).then((responseData) => {
+            FetchManger.getUri('dataCenter/appHomePage/getProductSaleDetail.page',params , 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
                     this.setState({ dataList: data, loading: false })
@@ -62,8 +63,8 @@ class ProductSaleDetailPage extends React.Component {
                             </View>
                             <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                                    <Text style={{ color: '#999', fontSize: 12 }}>{'销量：'}</Text>
-                                    <Text style={{ color: '#999', fontSize: 12 }}>{`${item.productTotalSum}万元`}</Text>
+                                    <Text style={{ color: '#999', fontSize: 12 }}>{'销售：'}</Text>
+                                    <Text style={{ color: '#999', fontSize: 12 }}>{`${item.totalSum}万元`}</Text>
                                 </View>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
                                     <Text style={{ color: '#999', fontSize: 12 }}>{'平均价：'}</Text>
@@ -83,7 +84,7 @@ class ProductSaleDetailPage extends React.Component {
                             <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
                                     <Text style={{ color: '#999', fontSize: 12 }}>{'占比:'}</Text>
-                                    <Text style={{ color: '#f80000', fontSize: 12 }}>{`${item.productTotalPrecent ? item.productTotalPrecent : 0}`}</Text>
+                                    <Text style={{ color: '#f80000', fontSize: 12 }}>{`${item.productPrecent ? item.productPrecent : 0}%`}</Text>
                                 </View>
                             </View>
                         </View>
