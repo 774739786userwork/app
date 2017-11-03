@@ -29,6 +29,7 @@ import MonthPicker from '../../components/MonthPicker'
 var detail_ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 var hl_ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+
 //销售组
 class S_SaleGroupPage extends React.Component {
   constructor(props) {
@@ -44,6 +45,7 @@ class S_SaleGroupPage extends React.Component {
       branchFactoryList: [],
       selectItem: undefined,
       loading: false,
+      orgId:undefined,
       currentDate: DateUtils.yearMonth().year
     }
   }
@@ -96,13 +98,13 @@ class S_SaleGroupPage extends React.Component {
   _rowOnPress(groupId, item) {
     const { navigation } = this.props;
     let currentDate = this.state.currentDate;
-    let param = { type: 0, groupId, currTime: currentDate, seriesId: item.seriesId, seriesName: item.seriesName };
+    let param = { type: 0, groupId,orgId:this.state.orgId, currTime: currentDate, seriesId: item.seriesId, seriesName: item.seriesName };
     navigation.navigate('ProductSaleDetailPage', param)
   }
   _onEmployeeSaleDetailPress(item) {
     const { navigation } = this.props;
     let currentDate = this.state.currentDate;
-    let param = { type: 0, currTime: currentDate, groupId: item.groupId, groupName: item.groupName };
+    let param = { type: 0,orgId:this.state.orgId, currTime: currentDate, groupId: item.groupId, groupName: item.groupName };
     navigation.navigate('EmployeeSaleDetailPage', param)
   }
 
@@ -179,6 +181,7 @@ class S_SaleGroupPage extends React.Component {
       }
     })
     const { currentDate } = this.state;
+    
     let orgId = item.orgId;
     this.loadDetail(currentDate, orgId);
 
@@ -277,6 +280,7 @@ class S_SaleMonthGroupPage extends React.Component {
       dataList: [],
       branchFactoryList: [],
       selectItem: undefined,
+      orgId:undefined,
       loading: false,
     }
   }
@@ -296,8 +300,8 @@ class S_SaleMonthGroupPage extends React.Component {
           let currentDate = selY + '-' + (selM < 10 ? '0' + selM : selM)
           let orgId = undefined;
           if (data.length > 0) {
-            data[0].selected = true;
-            orgId = data[0].orgId;
+            data[1].selected = true;
+            orgId = data[1].orgId;
             this.loadDetail(currentDate, orgId);
           }
           this.setState({ branchFactoryList: data, orgId, loading: false })
@@ -330,10 +334,10 @@ class S_SaleMonthGroupPage extends React.Component {
   }
 
 
-  _rowOnPress(item) {
+  _rowOnPress(groupId, item) {
     const { navigation } = this.props;
     let currentDate = this.state.currentDate;
-    let param = { type: 1, currTime: currentDate, seriesId: item.seriesId, seriesName: item.seriesName };
+    let param = { type: 1,groupId,orgId:this.state.orgId, currTime: currentDate, seriesId: item.seriesId, seriesName: item.seriesName };
     navigation.navigate('ProductSaleDetailPage', param)
   }
   _onEmployeeSaleDetailPress(item) {
@@ -350,10 +354,10 @@ class S_SaleMonthGroupPage extends React.Component {
     navigation.navigate('CustomerSaleDetailPage', param)
   }
 
-  _renderRow(item, index) {
+  _renderRow(groupId,item, index) {
     return (
       <TouchableOpacity
-        onPress={this._rowOnPress.bind(this, item)}
+        onPress={this._rowOnPress.bind(this,groupId, item)}
         key={`row_${index}`}
       >
         <View style={{ backgroundColor: '#fff' }} key={`row_${index}`}>
@@ -377,6 +381,7 @@ class S_SaleMonthGroupPage extends React.Component {
   }
 
   _renderGroup(item, sectionID, index) {
+    let groupId = item.groupId;
     return (
       <View key={`row_${index}`} style={{ backgroundColor: '#f9f9f9' }}>
         <View style={{ height: StyleSheet.hairlineWidth, marginTop: 8, flex: 1, backgroundColor: '#c4c4c4' }} />
@@ -400,7 +405,7 @@ class S_SaleMonthGroupPage extends React.Component {
         </View>
         {
           item.seriesList.map((item, index) => {
-            return this._renderRow(item, index)
+            return this._renderRow(groupId,item, index)
           })
         }
       </View>
@@ -416,7 +421,7 @@ class S_SaleMonthGroupPage extends React.Component {
     })
     const { startDate, endDate } = this.state;
     let orgId = item.orgId;
-    // this.loadDetail(startDate, endDate, orgId);
+    this.loadDetail(startDate, endDate, orgId);
 
     this.setState({ branchFactoryList, orgId })
   }

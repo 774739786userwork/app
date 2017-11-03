@@ -25,7 +25,7 @@ export default class S_DayPage extends React.Component {
     super(props);
     this.onItemPress = this.onItemPress.bind(this)
     this._selectByDate = this._selectByDate.bind(this);
-    let { day } = DateUtils.getYearMonthDay();
+    let day = DateUtils.getYearMonthDay();
     this.state = {
       data: [],
       day: day,
@@ -38,9 +38,11 @@ export default class S_DayPage extends React.Component {
     this._selectByDate(this.state.day);
   }
   _selectByDate(day) {
-    this.setState({ day, loading: true })
+    const userId = LoginInfo.getUserInfo().user_id;
+    let param = { day: day, userId: userId };
+    this.setState({day, loading: true })
     InteractionManager.runAfterInteractions(() => {
-      FetchManger.getUri('dataCenter/appHomePage/getDayFactory.page', { day }).then((responseData) => {
+      FetchManger.getUri('dataCenter/appHomePage/getDayFactory.page', param).then((responseData) => {
         if (responseData.status === '0' || responseData.status === 0) {
           let data = responseData.data.dayList;
           this.setState({ data, loading: false })

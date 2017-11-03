@@ -60,7 +60,7 @@ export default class S_YearyPage extends React.Component {
             })
         });
         InteractionManager.runAfterInteractions(() => {
-            FetchManger.getUri('dataCenter/appHomePage/getYearFactoryChart.page', { year }).then((responseData) => {
+            FetchManger.getUri('dataCenter/appHomePage/getYearFactoryChart.page', param).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
                     this.setState({ charList: data })

@@ -168,7 +168,7 @@ class S_WorkContainer extends React.Component {
     render() {
         return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
-                <HomeBar title='报表'/>
+                <HomeBar title='决策分析'/>
                 {
                     this.state.swiperShow ? <Swiper
                         nextButton={<Text style={{

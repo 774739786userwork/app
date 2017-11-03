@@ -63,7 +63,7 @@ export default class S_MonthPage extends React.Component {
       })
     });
     InteractionManager.runAfterInteractions(() => {
-      FetchManger.getUri('dataCenter/appHomePage/getMonthFactoryChart.page', { month }).then((responseData) => {
+      FetchManger.getUri('dataCenter/appHomePage/getMonthFactoryChart.page', param).then((responseData) => {
         if (responseData.status === '0' || responseData.status === 0) {
           let data = responseData.data;
           this.setState({ charList: data })
