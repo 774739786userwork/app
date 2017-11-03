@@ -93,8 +93,9 @@ export default class S_MonthPage extends React.Component {
   }
   onNuShowAction(item) {
     const { navigation } = this.props;
-
-    let param = { type: 1, orgId: item.orgId };
+    let _month = this.state.selM;
+    let month = this.state.selY + '-' + (_month < 10 ? '0' + _month : _month)
+    let param = { type: 1, orgId: item.orgId,currTime:month };
     navigation.navigate('UnReceivePage', { param })
   }
 

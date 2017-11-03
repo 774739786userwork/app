@@ -109,6 +109,7 @@ class BigCustomerPage extends React.Component {
             </TouchableOpacity>);
     }
     _rowOnBranchPress(item) {
+        const userId = LoginInfo.getUserInfo().user_id;
         let branchFactoryList = this.state.branchFactoryList;
         branchFactoryList.map((_item) => {
             _item.selected = false;
@@ -118,7 +119,7 @@ class BigCustomerPage extends React.Component {
         })
         const { startDate, endDate } = this.state;
         let orgId = item.orgId;
-        this.loadDetail(startDate, endDate, orgId);
+        this.loadDetail(startDate, endDate, orgId, userId);
 
         this.setState({ branchFactoryList, orgId })
     }
@@ -139,10 +140,10 @@ class BigCustomerPage extends React.Component {
         let orgId = this.state.orgId;
         this.loadDetail(_startDate, _endDate, orgId);
         if (_startDate) {
-            this.setState({ startDate: _startDate });
+            this.setState({ startDate: _startDate});
         }
         if (_endDate) {
-            this.setState({ endDate: _endDate });
+            this.setState({ endDate: _endDate});
         }
     }
     render() {
@@ -269,6 +270,7 @@ class LeftTabComponet extends React.Component {
             <View>
                 <View style={{ width: 80, padding: 10, backgroundColor: preSelect != productId ? '#fff' : '#f9f9f9' }}>
                     <ImageView source={{ uri: item.productImage }} style={{ width: 60, height: 60, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} />
+                    <Text>{item.productName}</Text>
                 </View>
                 <View style={{ height: StyleSheet.hairlineWidth, width: 60, backgroundColor: '#f9f9f9' }} />
             </View>

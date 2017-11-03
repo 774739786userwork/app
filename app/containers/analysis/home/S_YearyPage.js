@@ -85,7 +85,7 @@ export default class S_YearyPage extends React.Component {
     }
     onNuShowAction(item) {
         const { navigation } = this.props;
-        let param = { type: 0, orgId: item.orgId };
+        let param = { type: 0, orgId: item.orgId,currTime:this.state.selY };
         navigation.navigate('UnReceivePage', { param })
     }
     render() {
