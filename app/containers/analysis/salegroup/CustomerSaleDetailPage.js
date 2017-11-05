@@ -17,7 +17,7 @@ var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 class CustomerSaleDetailPage extends React.Component {
 
     static navigationOptions = ({ navigation }) => ({
-        title: ` ${navigation.state.params.groupName}销售情况`,
+        title: ` ${navigation.state.params.groupName}客户销售情况`,
     });
 
     constructor(props) {

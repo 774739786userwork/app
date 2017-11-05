@@ -55,8 +55,8 @@ class BigCustomerPage extends React.Component {
                     const { startDate, endDate } = this.state;
                     let orgId = undefined;
                     if (data.length > 0) {
-                        data[1].selected = true;
-                        orgId = data[1].orgId;
+                        data[0].selected = true;
+                        orgId = data[0].orgId;
                         this.loadDetail(startDate, endDate, orgId, userId);
                     }
                     this.setState({ branchFactoryList: data, orgId, groupLoading:false,loading: false })
@@ -225,7 +225,7 @@ class BigCustomerPage extends React.Component {
                                     <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
                                     <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'电话'}</Text>
                                     <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'金额(万)'}</Text>
+                                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'金额(元)'}</Text>
                                     <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
                                     <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'占比%'}</Text>
                                 </View>

@@ -71,7 +71,7 @@ class S_ProductDetailPage extends React.Component {
                             <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
                                     <Text style={{ color: '#999', fontSize: 12 }}>{'销售：'}</Text>
-                                    <Text style={{ color: '#999', fontSize: 12 }}>{`${item.productTotalSum}元`}</Text>
+                                    <Text style={{ color: '#999', fontSize: 12 }}>{`${item.productTotalSum}万元`}</Text>
                                 </View>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
                                     <Text style={{ color: '#999', fontSize: 12 }}>{'平均价：'}</Text>

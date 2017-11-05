@@ -26,7 +26,6 @@ class UnReceiveCustomerPage extends React.Component {
     componentDidMount() {
         const { params } = this.props.navigation.state;
         let p = params.param;
-        
         this.setState({ loading: true });
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getYearUnReceive.page', p, 30 * 60).then((responseData) => {

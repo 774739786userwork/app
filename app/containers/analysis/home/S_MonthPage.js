@@ -41,7 +41,7 @@ export default class S_MonthPage extends React.Component {
     const userId = LoginInfo.getUserInfo().user_id;
     let param = { month: month, userId: userId };
     InteractionManager.runAfterInteractions(() => {
-      FetchManger.getUri('dataCenter/appHomePage/getMonthAll.page', { month }).then((responseData) => {
+      FetchManger.getUri('dataCenter/appHomePage/getMonthAll.page', param).then((responseData) => {
         if (responseData.status === '0' || responseData.status === 0) {
           let data = responseData.data;
           let monthTotalSum = data.monthTotalSum ? data.monthTotalSum : 0;
@@ -76,10 +76,11 @@ export default class S_MonthPage extends React.Component {
   //点击更多查看
   onMoreAction() {
     const { navigation } = this.props;
+    const userId = LoginInfo.getUserInfo().user_id
     let _month = this.state.selM;
     let month = this.state.selY + '-' + (_month < 10 ? '0' + _month : _month)
 
-    let param = { month: month, type: 1 };
+    let param = { month: month, type: 1,userId:userId };
     let reqUrl = "dataCenter/appHomePage/getMonthMoreFactory.page";
     navigation.navigate('S_HomeDetail', { reqUrl: reqUrl, param, param })
   }

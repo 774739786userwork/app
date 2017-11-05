@@ -52,6 +52,7 @@ class S_HomeDetailPage extends React.Component {
     onNuShowAction(item) {
         const { navigation } = this.props;
         let param = navigation.state.params.param;
+        
         param.orgId = item.orgId;
         navigation.navigate('UnReceivePage', { param })
     }

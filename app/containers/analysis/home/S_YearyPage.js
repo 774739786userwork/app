@@ -38,7 +38,7 @@ export default class S_YearyPage extends React.Component {
         const userId = LoginInfo.getUserInfo().user_id;
         let param = { year: year, userId: userId };
         InteractionManager.runAfterInteractions(() => {
-            FetchManger.getUri('dataCenter/appHomePage/getYearAll.page', { year }).then((responseData) => {
+            FetchManger.getUri('dataCenter/appHomePage/getYearAll.page', param).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
                     let yearTotalSum = data.yearTotalSum ? data.yearTotalSum : 0;
@@ -73,7 +73,8 @@ export default class S_YearyPage extends React.Component {
     //点击更多查看
     onMoreAction() {
         const { navigation } = this.props;
-        let param = { year: this.state.selY, type: 0 };
+        const userId = LoginInfo.getUserInfo().user_id
+        let param = { year: this.state.selY, type: 0 ,userId: userId };
         let reqUrl = "dataCenter/appHomePage/getYearMoreFactory.page";
         navigation.navigate('S_HomeDetail', { reqUrl: reqUrl, param:param })
     }
