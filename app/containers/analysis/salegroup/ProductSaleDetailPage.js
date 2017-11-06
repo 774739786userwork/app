@@ -28,6 +28,7 @@ class ProductSaleDetailPage extends React.Component {
     }
     componentDidMount() {
         const { params } = this.props.navigation.state;
+        
         this.setState({ loading: true });
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getProductSaleDetail.page',params , 30 * 60).then((responseData) => {
@@ -63,7 +64,7 @@ class ProductSaleDetailPage extends React.Component {
                             <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
                                     <Text style={{ color: '#999', fontSize: 12 }}>{'销售：'}</Text>
-                                    <Text style={{ color: '#999', fontSize: 12 }}>{`${item.totalSum}元`}</Text>
+                                    <Text style={{ color: '#999', fontSize: 12 }}>{`${item.totalSum}万元`}</Text>
                                 </View>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
                                     <Text style={{ color: '#999', fontSize: 12 }}>{'平均价：'}</Text>

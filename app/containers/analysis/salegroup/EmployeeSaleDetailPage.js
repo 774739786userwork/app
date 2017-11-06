@@ -78,7 +78,7 @@ class EmployeeSaleDetailPage extends React.Component {
                     </TouchableOpacity>
                 </View>
                 <View style={{ height: 30, backgroundColor: '#fff', paddingLeft: 20, paddingBottom: 4, paddingTop: 8, flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={{ color: '#f80000', fontSize: 14 }}>{`销售总额：${item.totalSum}元`}</Text>
+                    <Text style={{ color: '#f80000', fontSize: 14 }}>{`销售总额：${item.totalSum}万元`}</Text>
                 </View>
                 {
                     item.seriesList.map((item, index) => {
@@ -100,7 +100,7 @@ class EmployeeSaleDetailPage extends React.Component {
                     <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
                         <Text style={{ color: '#999', fontSize: 13}}>{`${item.seriesName}：`}</Text>
-                        <Text style={{ color: '#999', fontSize: 13}}>{`${item.seriesSalerSum}元`}</Text>
+                        <Text style={{ color: '#999', fontSize: 13}}>{`${item.seriesSalerSum}万元`}</Text>
                     </View>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
                         <Text style={{ color: '#999', fontSize: 13}}>{`销量：${item.seriesSales}`}</Text>

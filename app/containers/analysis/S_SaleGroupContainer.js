@@ -127,7 +127,7 @@ class S_SaleGroupPage extends React.Component {
               <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                   <Text style={{ color: '#999', fontSize: 13 }}>{`${item.seriesName}：`}</Text>
-                  <Text style={{ color: '#999', fontSize: 13 }}>{`${item.seriesSalerSum}元`}</Text>
+                  <Text style={{ color: '#999', fontSize: 13 }}>{`${item.seriesSalerSum}万元`}</Text>
                 </View>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                   <Text style={{ color: '#999', fontSize: 13 }}>{`销量：${item.seriesSales}`}</Text>
@@ -162,7 +162,7 @@ class S_SaleGroupPage extends React.Component {
         </View>
 
         <View style={{ height: 30, backgroundColor: '#fff', paddingLeft: 20, paddingBottom: 4, paddingTop: 8, flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={{ color: '#f80000', fontSize: 14 }}>{`销售总额：${item.totalSum}元`}</Text>
+          <Text style={{ color: '#f80000', fontSize: 14 }}>{`销售总额：${item.totalSum}万元`}</Text>
         </View>
         {
           item.seriesList.map((item, index) => {
@@ -228,7 +228,7 @@ class S_SaleGroupPage extends React.Component {
           }}
           selY={this.state.selY}
           onDateChange={(selY, ymStr) => {
-            this.loadDetail(selY);
+            this.loadDetail(selY,this.state.orgId);
             this.setState({ selY })
           }}
         />
@@ -318,7 +318,6 @@ class S_SaleMonthGroupPage extends React.Component {
   //orgId=108&type=0&currTime=2017
   loadDetail(currTime, orgId) {
     let p = { orgId, type: 1, currTime }
-    alert(JSON.stringify(p))
     this.setState({ loading: true });
     InteractionManager.runAfterInteractions(() => {
       FetchManger.getUri('dataCenter/appHomePage/getSimpleFactorySaleDetail.page', p, 30 * 60).then((responseData) => {
@@ -350,7 +349,7 @@ class S_SaleMonthGroupPage extends React.Component {
     let selM = this.state.selM;
 
     let currentDate = selY + '-' + (selM < 10 ? '0' + selM : selM)
-    let param = { type: 1, currTime: currentDate, groupId: item.groupId, groupName: item.groupName };
+    let param = { type: 1,orgId:this.state.orgId, currTime: currentDate, groupId: item.groupId, groupName: item.groupName };
     navigation.navigate('EmployeeSaleDetailPage', param)
   }
 
@@ -376,7 +375,7 @@ class S_SaleMonthGroupPage extends React.Component {
               <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                   <Text style={{ color: '#999', fontSize: 13, flex: 2 }}>{`${item.seriesName}：`}</Text>
-                  <Text style={{ color: '#999', fontSize: 13, flex: 2 }}>{`${item.seriesSalerSum}元`}</Text>
+                  <Text style={{ color: '#999', fontSize: 13, flex: 2 }}>{`${item.seriesSalerSum}万元`}</Text>
                 </View>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                   <Text style={{ color: '#999', fontSize: 13 }}>{`销量：${item.seriesSales}`}</Text>
@@ -411,7 +410,7 @@ class S_SaleMonthGroupPage extends React.Component {
         </View>
 
         <View style={{ height: 30, backgroundColor: '#fff', paddingLeft: 20, paddingBottom: 4, paddingTop: 8, flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={{ color: '#f80000', fontSize: 14 }}>{`销售总额：${item.totalSum}`}</Text>
+          <Text style={{ color: '#f80000', fontSize: 14 }}>{`销售总额：${item.totalSum}万元`}</Text>
         </View>
         {
           item.seriesList.map((item, index) => {
@@ -481,7 +480,7 @@ class S_SaleMonthGroupPage extends React.Component {
           selM={this.state.selM}
           onDateChange={(selY, selM, ymStr) => {
             let month = selY + '-' + (selM < 10 ? '0' + selM : selM)
-            this.loadDetail(month)
+            this.loadDetail(month,this.state.orgId)
             this.setState({ selY, selM })
           }}
         />

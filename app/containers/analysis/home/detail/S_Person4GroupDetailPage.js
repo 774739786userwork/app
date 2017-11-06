@@ -38,7 +38,6 @@ class S_Person4GroupDetailPage extends React.Component {
         if(param.month){
             param.currTime = param.month;
         }
-
         this.setState({ loading: true });
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getYearEmployeeTotalDetail.page', param, 30 * 60).then((responseData) => {
