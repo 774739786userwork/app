@@ -27,7 +27,7 @@ import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 import SearchBar from '../../components/SearchBar';
 import ImageView from '../../components/ImageView'
-import ContactsWrapper from 'react-native-contacts-wrapper';
+import ContactsWrapper from 'react-native-go-contacts';
 import * as ValidateUtils from '../../utils/ValidateUtils';
 import EleRNLocation from 'ele-react-native-location';
 

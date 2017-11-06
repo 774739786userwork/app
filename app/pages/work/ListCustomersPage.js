@@ -28,7 +28,7 @@ import ImageView from '../../components/ImageView'
 import NavigationBar from '../../components/NavigationBar'
 import * as ValidateUtils from '../../utils/ValidateUtils';
 import EleRNLocation from 'ele-react-native-location';
-import ContactsWrapper from 'react-native-contacts-wrapper';
+import ContactsWrapper from 'react-native-go-contacts';
 
 
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });

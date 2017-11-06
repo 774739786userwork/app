@@ -1,8 +1,8 @@
 rootProject.name = 'shengyibao'
+include ':react-native-go-contacts'
+project(':react-native-go-contacts').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-go-contacts/android/app')
 include ':react-native-orientation'
 project(':react-native-orientation').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-orientation/android')
-include ':react-native-contacts-wrapper'
-project(':react-native-contacts-wrapper').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-contacts-wrapper/android/app')
 include ':ele-react-native-location'
 project(':ele-react-native-location').projectDir = new File(rootProject.projectDir, '../node_modules/ele-react-native-location/android')
 include ':react-native-image-picker'
