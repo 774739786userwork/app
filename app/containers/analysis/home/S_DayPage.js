@@ -40,12 +40,16 @@ export default class S_DayPage extends React.Component {
   _selectByDate(day) {
     const userId = LoginInfo.getUserInfo().user_id;
     let param = { day: day, userId: userId };
-    this.setState({day, loading: true })
+    this.setState({ day, loading: true })
     InteractionManager.runAfterInteractions(() => {
       FetchManger.getUri('dataCenter/appHomePage/getDayFactory.page', param).then((responseData) => {
         if (responseData.status === '0' || responseData.status === 0) {
-          let data = responseData.data.dayList;
-          this.setState({ data, loading: false })
+          let dayList = responseData.data.dayList;
+          let selectItem = [];
+          if (dayList && dayList.length > 0) {
+            selectItem = dayList[0];
+          }
+          this.setState({ data: dayList, selectItem: selectItem, loading: false })
         } else {
           this.setState({ loading: false })
         }
@@ -66,12 +70,10 @@ export default class S_DayPage extends React.Component {
   render() {
     let listData = this.state.data;
     let selectItem = this.state.selectItem;
-    if (!selectItem) {
-      selectItem = {}
-      if (listData[0]) {
-        selectItem = listData[0]
-      }
+    if(!selectItem){
+      selectItem = {};
     }
+
     let customerList = [];
     let employeeList = [];
     if (selectItem && selectItem.salerList) {
@@ -172,7 +174,7 @@ export default class S_DayPage extends React.Component {
                     {
                       this.state.selectCust ?
                         employeeList.map((item, index) => <RowRightView key={`index_${index}`} item={item} />)
-                        :                      
+                        :
                         customerList.map((item, index) => <RowLeftView key={`index_${index}`} item={item} />)
                     }
                   </View>

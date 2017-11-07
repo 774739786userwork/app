@@ -79,7 +79,11 @@ class BigCustomerPage extends React.Component {
             FetchManger.getUri('dataCenter/appHomePage/getProductBigCustomer.page', p, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
-                    this.setState({ listData: data, loading: false,groupLoading:false })
+                    let itemListData = [];
+                    if(data && data.length > 0){
+                        itemListData =  data[0].customerList;
+                    }
+                    this.setState({ listData: data, itemListData,loading: false,groupLoading:false })
                 } else {
                     this.setState({ loading: false ,groupLoading:false});
                 }
