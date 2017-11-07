@@ -57,7 +57,7 @@ class BigCustomerPage extends React.Component {
                     if (data.length > 0) {
                         data[0].selected = true;
                         orgId = data[0].orgId;
-                        this.loadDetail(startDate, endDate, orgId, userId);
+                        this.loadDetail(startDate, endDate, orgId);
                     }
                     this.setState({ branchFactoryList: data, orgId, groupLoading:false,loading: false })
 
@@ -71,7 +71,8 @@ class BigCustomerPage extends React.Component {
 
 
     }
-    loadDetail(startDate, endDate, orgId, userId) {
+    loadDetail(startDate, endDate, orgId) {
+        const userId = LoginInfo.getUserInfo().user_id;
         let p = { startDate, endDate, orgId, userId };
         this.setState({groupLoading:true})
         InteractionManager.runAfterInteractions(() => {
@@ -109,7 +110,6 @@ class BigCustomerPage extends React.Component {
             </TouchableOpacity>);
     }
     _rowOnBranchPress(item) {
-        const userId = LoginInfo.getUserInfo().user_id;
         let branchFactoryList = this.state.branchFactoryList;
         branchFactoryList.map((_item) => {
             _item.selected = false;
@@ -119,7 +119,7 @@ class BigCustomerPage extends React.Component {
         })
         const { startDate, endDate } = this.state;
         let orgId = item.orgId;
-        this.loadDetail(startDate, endDate, orgId, userId);
+        this.loadDetail(startDate, endDate, orgId);
 
         this.setState({ branchFactoryList, orgId })
     }
@@ -138,11 +138,14 @@ class BigCustomerPage extends React.Component {
 
     _selectByDate(_startDate, _endDate) {
         let orgId = this.state.orgId;
-        this.loadDetail(_startDate, _endDate, orgId);
+        const { startDate, endDate } = this.state;
+        
         if (_startDate) {
+            this.loadDetail(_startDate, endDate, orgId);
             this.setState({ startDate: _startDate});
         }
         if (_endDate) {
+            this.loadDetail(startDate, _endDate, orgId);
             this.setState({ endDate: _endDate});
         }
     }
