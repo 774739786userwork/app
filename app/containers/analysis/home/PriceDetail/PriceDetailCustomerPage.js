@@ -37,7 +37,6 @@ class PriceDetailCustomerPage extends React.Component {
         if(param.month){
             param.currTime = param.month;
         }
-
         this.setState({ loading: true });
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getYearCustomerPriceDetail.page', param, 30 * 60).then((responseData) => {

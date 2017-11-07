@@ -68,7 +68,7 @@ class S_GroupDetailPage extends React.Component {
                     onPress={this._OnGropPress.bind(this, item)}
                 >
                     <View style={{ padding: 8, flexDirection: 'row' }}>
-                        <Text style={{ color: '#333', flex: 1 }}>{item.groupName}</Text>
+                        <Text style={{ color: '#FF33FF', flex: 1 }}>{item.groupName}</Text>
                         <Text style={{ color: '#f80000', fontSize: 12, marginRight: 4, }}>{`销售:${item.groupTotalSum}元`}</Text>
                     </View>
                 </TouchableOpacity>

@@ -114,6 +114,11 @@ class S_SeriesPage extends React.Component {
     //
     navigation.navigate('S_SeriesDetail', param)
   }
+
+  onItemUpAction(){
+    Toast.show('改功能暂未开放！')
+  }
+
   onFactoryAction(item) {
     const { navigation, tabLabel } = this.props;
 

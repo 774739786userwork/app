@@ -13,7 +13,7 @@ import ImageView from '../../../../components/ImageView'
 
 var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 //销售总额明细 销售组
-class S_Person4GroupDetailPage extends React.Component {
+class S_DiShiPersonDetailPage extends React.Component {
 
     static navigationOptions = ({ navigation }) => ({
         title: ` ${navigation.state.params.groupName}销售情况`,
@@ -38,6 +38,7 @@ class S_Person4GroupDetailPage extends React.Component {
         if(param.month){
             param.currTime = param.month;
         }
+        // alert(JSON.stringify(param))
         this.setState({ loading: true });
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getYearEmployeeTotalDetail.page', param, 30 * 60).then((responseData) => {
@@ -56,13 +57,6 @@ class S_Person4GroupDetailPage extends React.Component {
 
     }
     _OnGropPress(item) {
-        const { navigation } = this.props;
-        let param = navigation.state.params.param;
-        // alert(param.groupId)
-        if(param.groupId === 100087){
-            // param.groupId = param.groupId;
-            navigation.navigate('S_DiShiPersonDetailPage', { param,groupName:'岳阳业务员'})//item.groupName 
-        }
         
     }
 
@@ -133,4 +127,4 @@ class S_Person4GroupDetailPage extends React.Component {
         </View>;
     }
 }
-export default S_Person4GroupDetailPage;
+export default S_DiShiPersonDetailPage;
