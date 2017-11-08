@@ -56,13 +56,7 @@ class S_Person4GroupDetailPage extends React.Component {
 
     }
     _OnGropPress(item) {
-        const { navigation } = this.props;
-        let param = navigation.state.params.param;
-        // alert(param.groupId)
-        if(param.groupId === 100087){
-            // param.groupId = param.groupId;
-            navigation.navigate('S_DiShiPersonDetailPage', { param,groupName:'岳阳业务员'})//item.groupName 
-        }
+        
         
     }
 

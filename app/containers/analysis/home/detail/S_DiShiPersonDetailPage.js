@@ -12,7 +12,7 @@ import LoadingListView from '../../../../components/LoadingListView'
 import ImageView from '../../../../components/ImageView'
 
 var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-//销售总额明细 销售组
+//销售总额明细 地市组
 class S_DiShiPersonDetailPage extends React.Component {
 
     static navigationOptions = ({ navigation }) => ({
@@ -38,10 +38,9 @@ class S_DiShiPersonDetailPage extends React.Component {
         if(param.month){
             param.currTime = param.month;
         }
-        // alert(JSON.stringify(param))
         this.setState({ loading: true });
         InteractionManager.runAfterInteractions(() => {
-            FetchManger.getUri('dataCenter/appHomePage/getYearEmployeeTotalDetail.page', param, 30 * 60).then((responseData) => {
+            FetchManger.getUri('dataCenter/appHomePage/getYearOrganizeTotalDetail.page', param, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
                     this.setState({ dataList: data, loading: false })
@@ -57,7 +56,10 @@ class S_DiShiPersonDetailPage extends React.Component {
 
     }
     _OnGropPress(item) {
-        
+        const { navigation } = this.props;
+        let param = navigation.state.params.param;
+        param.groupId = item.groupId;
+        navigation.navigate('S_Person4GroupDetailPage', { param,groupName:item.groupName })
     }
 
 
@@ -69,9 +71,8 @@ class S_DiShiPersonDetailPage extends React.Component {
                     onPress={this._OnGropPress.bind(this, item)}
                 >
                     <View style={{ padding: 8, flexDirection: 'row' }}>
-                        <Text style={{ color: '#333', flex: 1 }}>{item.employeeName}</Text>
-                        <Text style={{ color: '#f80000', fontSize: 12, marginRight: 4, }}>{`金额:${item.employeeTotalSum}元`}</Text>
-                        <Text style={{ color: '#f80000', fontSize: 12, marginRight: 4, }}>{`销量:${item.employeeTotalSales}`}</Text>
+                        <Text style={{ color: '#FF33FF', flex: 1 }}>{item.groupName}</Text>
+                        <Text style={{ color: '#f80000', fontSize: 12, marginRight: 4, }}>{`金额:${item.groupTotalSum}元`}</Text>
 
                     </View>
                 </TouchableOpacity>

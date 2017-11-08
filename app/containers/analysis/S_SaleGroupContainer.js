@@ -99,13 +99,22 @@ class S_SaleGroupPage extends React.Component {
     const { navigation } = this.props;
     let currentDate = this.state.currentDate;
     let param = { type: 0, groupId,orgId:this.state.orgId, currTime: currentDate, seriesId: item.seriesId, seriesName: item.seriesName };
-    navigation.navigate('ProductSaleDetailPage', param)
+    if(groupId === 0){
+      
+    }else{
+      navigation.navigate('ProductSaleDetailPage', param)
+    }
   }
   _onEmployeeSaleDetailPress(item) {
     const { navigation } = this.props;
     let currentDate = this.state.currentDate;
     let param = { type: 0,orgId:this.state.orgId, currTime: currentDate, groupId: item.groupId, groupName: item.groupName };
-    navigation.navigate('EmployeeSaleDetailPage', param)
+    //区分地市组与销售组
+    if(item.groupId === 0){
+      navigation.navigate('DiShiSaleDetailPage', param)
+    }else{
+      navigation.navigate('EmployeeSaleDetailPage', param)
+    }
   }
 
   _onCustomerSaleDetailPress(item) {
@@ -347,10 +356,13 @@ class S_SaleMonthGroupPage extends React.Component {
     const { navigation } = this.props;
     let selY = this.state.selY;
     let selM = this.state.selM;
-
     let currentDate = selY + '-' + (selM < 10 ? '0' + selM : selM)
     let param = { type: 1,orgId:this.state.orgId, currTime: currentDate, groupId: item.groupId, groupName: item.groupName };
-    navigation.navigate('EmployeeSaleDetailPage', param)
+    if(item.groupId === 0){
+      navigation.navigate('DiShiSaleDetailPage', param)
+    }else{
+      navigation.navigate('EmployeeSaleDetailPage', param)
+    }
   }
 
   _onCustomerSaleDetailPress(item) {
