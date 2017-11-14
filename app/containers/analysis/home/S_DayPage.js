@@ -145,7 +145,7 @@ export default class S_DayPage extends React.Component {
                     <View style={{ width: 12, backgroundColor: '#f9f9f9', }} />
                     <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onItemAction}>
                       <View style={{ borderWidth: 1, borderColor: '#61aee0', flex: 1, backgroundColor: '#61aee0', borderRadius: 4, flexDirection: 'row' }}>
-                        <Text style={{ fontSize: 12, padding: 8, color: '#fff' }}>{`未收 ${selectItem.unReceiverSum ? selectItem.unReceiverSum : 0}万元`}</Text>
+                        <Text style={{ fontSize: 12, padding: 8, color: '#fff' }}>{`未收 ${selectItem.unReceiverSum ? selectItem.unReceiverSum : 0}元`}</Text>
                       </View>
                     </TouchableOpacity>
                   </View>

@@ -81,7 +81,7 @@ export default class S_YearyPage extends React.Component {
 
     onTotalAction(item) {
         const { navigation } = this.props;
-        let param = { type: 0, orgId: item.orgId , year: this.state.selY};
+        let param = { type: 0, orgId: item.orgId ,orgName:item.orgName, year: this.state.selY};
         navigation.navigate('S_SelasTotalDetailPage', { param })
     }
     onNuShowAction(item) {

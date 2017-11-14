@@ -49,14 +49,16 @@ class S_SeriesDetailPage extends React.Component {
     }
     _rowOnPress(item) {
         const { navigation } = this.props;
-        let param = navigation.state.params.param//{seriesId:item.seriesId}
+        let param = navigation.state.params.param
         param.seriesId = item.seriesId;
+        param.seriesName = item.seriesName;
         navigation.navigate('PriceDetailPage',{param});
     }
     _rowSalesPress(item) {
         const { navigation } = this.props;
-        let param = navigation.state.params.param//{seriesId:item.seriesId}
+        let param = navigation.state.params.param
         param.seriesId = item.seriesId;
+        param.seriesName = item.seriesName;
         navigation.navigate('S_ProductlPage', { param });
     }
     getColor(index) {

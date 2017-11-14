@@ -18,8 +18,16 @@ import S_GroupDetailPage from './S_GroupDetailPage';
 class S_SelasTotalDetail extends React.Component {
     static navigationOptions = ({ navigation }) => {
         const { state, setParams } = navigation;
+        let type = state.params.param.type;
+        let currentTime;
+        if(type === 0){
+            currentTime = state.params.param.year+'年';
+        }else{
+            currentTime = state.params.param.month+'月';
+        }
         return {
-            title: `销售总额明细`
+            headerTitleStyle: {fontSize: 16},
+            title: currentTime+`${navigation.state.params.param.orgName}销售总额明细`
         };
     };
     render() {

@@ -14,9 +14,15 @@ import ImageView from '../../../components/ImageView'
 var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 //销售组 产品情况
 class ProductSaleDetailPage extends React.Component {
-    static navigationOptions = ({ navigation }) => ({
-        title: ` ${navigation.state.params.seriesName}情况分析`,
-    });
+    static navigationOptions = ({ navigation }) => {
+        const { state, setParams } = navigation;
+        let title = state.params.currTime+state.params.orgName+state.params.seriesName;
+
+        return {
+            headerTitleStyle: {fontSize: 16},
+            title: title
+        };
+    };
     constructor(props) {
         super(props)
         this._rowOnPress = this._rowOnPress.bind(this);

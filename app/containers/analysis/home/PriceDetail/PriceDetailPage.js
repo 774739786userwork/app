@@ -13,12 +13,22 @@ import ScrollableTabView, {
 import PriceDetailCustomerPage from './PriceDetailCustomerPage';
 import PriceDetailYWYPage from './PriceDetailYWYPage'
 /**
- * 未收明细 */
+ * 价格明细 */
 class PriceDetailPage extends React.Component {
     static navigationOptions = ({ navigation }) => {
         const { state, setParams } = navigation;
+        let param = state.params.param;
+        if (param.year) {
+            param.currTime = param.year+'年';
+        }
+        if (param.month) {
+            param.currTime = param.month+'月';
+        }
+        let title = param.currTime+param.orgName+param.seriesName;
+
         return {
-            title: `最高价/最低价情况`
+            headerTitleStyle: {fontSize: 16},
+            title: title+`最高价/最低价`
         };
     };
     render() {

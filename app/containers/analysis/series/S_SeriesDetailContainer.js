@@ -18,8 +18,10 @@ import S_PersonDetailPage from './S_PersonDetailPage'
 class S_SelasTotalDetail extends React.Component {
     static navigationOptions = ({ navigation }) => {
         const { state, setParams } = navigation;
+        let title = state.params.orgName;
         return {
-            title: `${navigation.state.params.orgName}`
+            headerTitleStyle: {fontSize: 16},
+            title: title
         };
     };
     render() {

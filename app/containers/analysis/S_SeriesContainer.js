@@ -104,14 +104,14 @@ class S_SeriesPage extends React.Component {
   onItemAction(item) {
     const { navigation, tabLabel } = this.props;
     let selectItem = this.state.selectItem;
-    let param = { factoryId: selectItem.serieslId, orgName: selectItem.serieslName + item.orgName, seriesId: item.orgId, type: tabLabel };
-
+    
+    let currTime;
     if('0' === tabLabel){
-      param.currTime = DateUtils.yearMonth().year;
+      currTime = DateUtils.yearMonth().year+'年';
     }else{
-      param.currTime = DateUtils.getYearMonth();
+      currTime = DateUtils.getYearMonth()+'月';
     }
-    //
+    let param = { factoryId: selectItem.serieslId,currTime:currTime, orgName: currTime+selectItem.serieslName + item.orgName, seriesId: item.orgId, type: tabLabel };
     navigation.navigate('S_SeriesDetail', param)
   }
 

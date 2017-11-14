@@ -89,7 +89,7 @@ export default class S_MonthPage extends React.Component {
     let _month = this.state.selM;
     let month = this.state.selY + '-' + (_month < 10 ? '0' + _month : _month)
 
-    let param = { type: 1, orgId: item.orgId, month: month };
+    let param = { type: 1, orgId: item.orgId,orgName:item.orgName, month: month };
     navigation.navigate('S_SelasTotalDetailPage', { param })
   }
   onNuShowAction(item) {

@@ -14,10 +14,22 @@ import ImageView from '../../../../components/ImageView'
 var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 //销售总额明细 销售组
 class S_Person4GroupDetailPage extends React.Component {
+    static navigationOptions = ({ navigation }) => {
+        const { state, setParams } = navigation;
+        let param = state.params.param;
+        if (param.year) {
+            param.currTime = param.year+'年';
+        }
+        if (param.month) {
+            param.currTime = param.month+'月';
+        }
+        let title = param.currTime+state.params.groupName;
 
-    static navigationOptions = ({ navigation }) => ({
-        title: ` ${navigation.state.params.groupName}销售情况`,
-    });
+        return {
+            headerTitleStyle: {fontSize: 16},
+            title: title
+        };
+    };
 
     constructor(props) {
         super(props)

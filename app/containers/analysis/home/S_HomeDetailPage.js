@@ -14,9 +14,20 @@ import LoadingListView from '../../../components/LoadingListView'
 var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 //统计分析 厂 详情
 class S_HomeDetailPage extends React.Component {
-    static navigationOptions = ({ navigation }) => ({
-        title: `各分厂数据`
-    });
+    static navigationOptions = ({ navigation }) => {
+        const { state, setParams } = navigation;
+        let type = state.params.param.type;
+        let currentTime;
+        if(type === 0){
+            currentTime = state.params.param.year+'年';
+        }else{
+            currentTime = state.params.param.month+'月';
+        }
+        return {
+            headerTitleStyle: {fontSize: 16},
+            title: currentTime+`各分厂销售数据`
+        };
+    };
     constructor(props) {
         super(props)
         this._renderSeperator = this._renderSeperator.bind(this);

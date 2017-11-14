@@ -15,8 +15,17 @@ class S_ProductlPage extends React.Component {
 
     static navigationOptions = ({ navigation }) => {
         const { state, setParams } = navigation;
+        let param = state.params.param;
+        if (param.year) {
+            param.currTime = param.year+'年';
+        }
+        if (param.month) {
+            param.currTime = param.month+'月';
+        }
+        let title = param.currTime+param.orgName+param.seriesName;
         return {
-            title: `销售总额产品明细`
+            headerTitleStyle: {fontSize: 16},
+            title: title
         };
     };
     render() {
