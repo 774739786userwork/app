@@ -60,7 +60,6 @@ class S_SaleGroupPage extends React.Component {
         if (responseData.status === '0' || responseData.status === 0) {
           let data = responseData.data;
           const { currentDate,orgId,orgName } = this.state;
-          // let orgId = undefined;
           if (data.length > 0) {
             data[0].selected = true;
             orgId = data[0].orgId;
@@ -109,8 +108,8 @@ class S_SaleGroupPage extends React.Component {
   }
   _onEmployeeSaleDetailPress(item) {
     const { navigation } = this.props;
-    let currentDate = this.state.currentDate;
-    let param = { type: 0,orgId:this.state.orgId, currTime: currentDate, groupId: item.groupId, groupName: item.groupName };
+    let currentDate = this.state.currentDate+'年';
+    let param = { type: 0,orgId:this.state.orgId,currTime: currentDate, groupId: item.groupId, groupName: item.groupName };
     //区分地市组与销售组
     if(item.groupId === 0){
       navigation.navigate('DiShiSaleDetailPage', param)
@@ -121,7 +120,7 @@ class S_SaleGroupPage extends React.Component {
 
   _onCustomerSaleDetailPress(item) {
     const { navigation } = this.props;
-    let currentDate = this.state.currentDate;
+    let currentDate = this.state.currentDate+'年';
     let param = { type: 0, currTime: currentDate, groupId: item.groupId, groupName: item.groupName };
     navigation.navigate('CustomerSaleDetailPage', param)
   }
@@ -192,7 +191,6 @@ class S_SaleGroupPage extends React.Component {
       }
     })
     const { currentDate } = this.state;
-    
     let orgId = item.orgId;
     let orgName = item.orgName;
     this.loadDetail(currentDate, orgId);
@@ -240,8 +238,9 @@ class S_SaleGroupPage extends React.Component {
           }}
           selY={this.state.selY}
           onDateChange={(selY, ymStr) => {
-            this.loadDetail(selY,this.state.orgId);
-            this.setState({ selY })
+            this.setState({ selY });
+            this.state.currentDate = selY;
+            this.loadDetail(this.state.currentDate,this.state.orgId);
           }}
         />
         <TouchableOpacity style={{ marginLeft: 4 }} onPress={() => {
@@ -293,6 +292,7 @@ class S_SaleMonthGroupPage extends React.Component {
       branchFactoryList: [],
       selectItem: undefined,
       orgId:undefined,
+      orgName:undefined,
       loading: false,
     }
   }
@@ -310,13 +310,15 @@ class S_SaleMonthGroupPage extends React.Component {
           let selM = this.state.selM;
 
           let currentDate = selY + '-' + (selM < 10 ? '0' + selM : selM)
-          let orgId = undefined;
+          const {orgId,orgName} = this.state;
+          // let orgId = undefined;
           if (data.length > 0) {
             data[0].selected = true;
             orgId = data[0].orgId;
+            orgName = data[0].orgName;
             this.loadDetail(currentDate, orgId);
           }
-          this.setState({ branchFactoryList: data, orgId, loading: false })
+          this.setState({ branchFactoryList: data, orgId,orgName, loading: false })
 
         } else {
           this.setState({ loading: false });
@@ -351,8 +353,8 @@ class S_SaleMonthGroupPage extends React.Component {
     let selY = this.state.selY;
     let selM = this.state.selM;
 
-    let currentDate = selY + '-' + (selM < 10 ? '0' + selM : selM)
-    let param = { type: 1,groupId,orgId:this.state.orgId, currTime: currentDate, seriesId: item.seriesId, seriesName: item.seriesName };
+    let currentDate = selY + '-' + (selM < 10 ? '0' + selM : selM);
+    let param = { type: 1,groupId,orgId:this.state.orgId,orgName:this.state.orgName, currTime: currentDate, seriesId: item.seriesId, seriesName: item.seriesName };
     if(groupId === 0){
       
     }else{
@@ -363,7 +365,7 @@ class S_SaleMonthGroupPage extends React.Component {
     const { navigation } = this.props;
     let selY = this.state.selY;
     let selM = this.state.selM;
-    let currentDate = selY + '-' + (selM < 10 ? '0' + selM : selM)
+    let currentDate = selY + '-' + (selM < 10 ? '0' + selM : selM);
     let param = { type: 1,orgId:this.state.orgId, currTime: currentDate, groupId: item.groupId, groupName: item.groupName };
     if(item.groupId === 0){
       navigation.navigate('DiShiSaleDetailPage', param)
@@ -377,7 +379,7 @@ class S_SaleMonthGroupPage extends React.Component {
     let selY = this.state.selY;
     let selM = this.state.selM;
 
-    let currentDate = selY + '-' + (selM < 10 ? '0' + selM : selM)
+    let currentDate = selY + '-' + (selM < 10 ? '0' + selM : selM);
     let param = { type: 1, currTime: currentDate, groupId: item.groupId, groupName: item.groupName };
     navigation.navigate('CustomerSaleDetailPage', param)
   }
@@ -452,9 +454,10 @@ class S_SaleMonthGroupPage extends React.Component {
 
     let currentDate = selY + '-' + (selM < 10 ? '0' + selM : selM)
     let orgId = item.orgId;
+    let orgName = item.orgName;
     this.loadDetail(currentDate, orgId);
 
-    this.setState({ branchFactoryList, orgId })
+    this.setState({ branchFactoryList, orgId,orgName })
   }
   _renderBranchRow(item, sectionID, index) {
     let selected = item.selected;

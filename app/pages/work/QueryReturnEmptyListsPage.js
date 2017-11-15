@@ -32,8 +32,8 @@ class QueryReturnEmptyListsPage extends React.Component {
             listData: [],
             returnTotalSum: 0.0,
             smallChangeTotalSum: 0.0,
-            startDate: DateUtils.getYearMonthDay(),
-            endDate: DateUtils.getYearMonthDay(),
+            startDate: DateUtils.getYearMonthDayKD(),
+            endDate: DateUtils.getYearMonthDayKD(),
             count: 0,
         }
     }

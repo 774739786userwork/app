@@ -189,7 +189,8 @@ class ReturnGoodComfirmPage extends React.Component {
           { text: `电话:${params.contactId[3]}` },
           { text: `退货人:${LoginInfo.getUserInfo().user_real_name}` },
           { text: `联系方式:${LoginInfo.getUserInfo().mobile_number}` },
-          { text: `车牌号:${carNumber}` }];
+          { text: `车牌号:${carNumber}` },
+          { text: `退货原因:${returnReason}`}];
 
         bleParams.detailList = [];
 

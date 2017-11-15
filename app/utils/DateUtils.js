@@ -23,6 +23,18 @@ export function getYearMonthDay(i = 0) {
     let yearMonth = year.toString() + '-' + month.toString() + '-' + day.toString()
     return yearMonth
 }
+
+export function getYearMonthDayKD(i = 0) {
+    let date = new Date();
+    let year = date.getFullYear()
+    let month = date.getMonth() + 1 - i;
+    let day = date.getDate();
+    month = (month < 10 ? "0" + month : month)
+    day = (day < 10 ? "0" + day : day)
+    let yearMonth = year.toString() + '-' + month.toString() + '-' + day.toString()
+    return yearMonth
+}
+
 export function getYearPreMonthDay() {
     let date = new Date();
     let year = date.getFullYear()

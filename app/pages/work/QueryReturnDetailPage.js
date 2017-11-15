@@ -118,7 +118,8 @@ class QueryReturnDetailPage extends React.Component {
           { text: `电话:${params.customerMobile}` },
           { text: `退货人:${LoginInfo.getUserInfo().user_real_name}` },
           { text: `联系方式:${LoginInfo.getUserInfo().mobile_number}` },
-          { text: `车牌号:${params.carNumber}` }];
+          { text: `车牌号:${params.carNumber}` },
+          { text: `退货原因:${params.returnReason}` }];
 
         bleParams.detailList = [];
           

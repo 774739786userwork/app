@@ -15,10 +15,15 @@ import ImageView from '../../../components/ImageView'
 var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 //查询该组或者个人客户销售情况
 class CustomerSaleDetailPage extends React.Component {
+    static navigationOptions = ({ navigation }) => {
+        const { state, setParams } = navigation;
+        let title = state.params.currTime+state.params.groupName+'客户销售情况';
 
-    static navigationOptions = ({ navigation }) => ({
-        title: ` ${navigation.state.params.groupName}客户销售情况`,
-    });
+        return {
+            headerTitleStyle: {fontSize: 16},
+            title: title
+        };
+    };
 
     constructor(props) {
         super(props)

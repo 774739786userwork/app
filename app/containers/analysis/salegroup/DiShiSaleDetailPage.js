@@ -14,10 +14,15 @@ import ImageView from '../../../components/ImageView'
 var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 //地市组  销售情况
 class DiShiSaleDetailPage extends React.Component {
+    static navigationOptions = ({ navigation }) => {
+        const { state, setParams } = navigation;
+        let title = state.params.currTime+state.params.groupName+'销售情况';
 
-    static navigationOptions = ({ navigation }) => ({
-        title: ` ${navigation.state.params.groupName}销售情况`,
-    });
+        return {
+            headerTitleStyle: {fontSize: 16},
+            title: title
+        };
+    };
 
     constructor(props) {
         super(props)
@@ -45,11 +50,11 @@ class DiShiSaleDetailPage extends React.Component {
             })
         });
     }
-    _rowOnPress(groupId,item) {
-        //seriesName
+    _rowOnPress(groupId,orgName,item) {
         const { navigation } = this.props;
         let params = navigation.state.params;
         params.groupId = groupId;
+        params.orgName = orgName;
         params.seriesName = item.seriesName;
         params.seriesId = item.seriesId;
         params.level = '3'
@@ -75,6 +80,7 @@ class DiShiSaleDetailPage extends React.Component {
 
     _renderGroup(item, sectionID, index) {
         let groupId = item.groupId;
+        let orgName = item.groupName;
         return (
             <View key={`row_${index}`} style={{ backgroundColor: '#f9f9f9' }}>
                 <View style={{ height: StyleSheet.hairlineWidth, marginTop: 8, flex: 1, backgroundColor: '#c4c4c4' }} />
@@ -97,16 +103,16 @@ class DiShiSaleDetailPage extends React.Component {
                 </View>
                 {
                     item.seriesList.map((item, index) => {
-                        return this._renderRow(groupId,item, index)
+                        return this._renderRow(groupId,orgName,item, index)
                     })
                 }
             </View>
         );
     }
-    _renderRow(groupId,item, index) {
+    _renderRow(groupId,orgName,item, index) {
         return (
             <TouchableOpacity
-                onPress={this._rowOnPress.bind(this, groupId,item)}
+                onPress={this._rowOnPress.bind(this, groupId,orgName,item)}
                 key={`row_${index}`}
             >
             <View style={{ backgroundColor: '#fff' }} key={`row_${index}`}>

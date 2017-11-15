@@ -15,9 +15,15 @@ var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 //销售组  销售情况
 class EmployeeSaleDetailPage extends React.Component {
 
-    static navigationOptions = ({ navigation }) => ({
-        title: ` ${navigation.state.params.groupName}销售情况`,
-    });
+    static navigationOptions = ({ navigation }) => {
+        const { state, setParams } = navigation;
+        let title = state.params.currTime+state.params.groupName;
+
+        return {
+            headerTitleStyle: {fontSize: 16},
+            title: title
+        };
+    };
 
     constructor(props) {
         super(props)
@@ -45,11 +51,11 @@ class EmployeeSaleDetailPage extends React.Component {
             })
         });
     }
-    _rowOnPress(employeeId,item) {
-        //seriesName
+    _rowOnPress(employeeId,employeeName,item) {
         const { navigation } = this.props;
         let param = navigation.state.params;
         param.employeeId = employeeId;
+        param.employeeName = employeeName;
         param.seriesName = item.seriesName;
         param.seriesId = item.seriesId;
         navigation.navigate('ProductSaleDetailPage', param)
@@ -64,6 +70,7 @@ class EmployeeSaleDetailPage extends React.Component {
 
     _renderGroup(item, sectionID, index) {
         let employeeId = item.employeeId;
+        let employeeName = item.employeeName;
         return (
             <View key={`row_${index}`} style={{ backgroundColor: '#f9f9f9' }}>
                 <View style={{ height: StyleSheet.hairlineWidth, marginTop: 8, flex: 1, backgroundColor: '#c4c4c4' }} />
@@ -82,16 +89,16 @@ class EmployeeSaleDetailPage extends React.Component {
                 </View>
                 {
                     item.seriesList.map((item, index) => {
-                        return this._renderRow(employeeId,item, index)
+                        return this._renderRow(employeeId,employeeName,item, index)
                     })
                 }
             </View>
         );
     }
-    _renderRow(employeeId,item, index) {
+    _renderRow(employeeId,employeeName,item, index) {
         return (
             <TouchableOpacity
-                onPress={this._rowOnPress.bind(this, employeeId,item)}
+                onPress={this._rowOnPress.bind(this, employeeId,employeeName,item)}
                 key={`row_${index}`}
             >
             <View style={{ backgroundColor: '#fff' }} key={`row_${index}`}>

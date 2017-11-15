@@ -58,6 +58,7 @@ class S_HomeDetailPage extends React.Component {
         const { navigation } = this.props;
         let param = navigation.state.params.param;
         param.orgId = item.orgId;
+        param.orgName = item.orgName;
         navigation.navigate('S_SelasTotalDetailPage', { param })
     }
     onNuShowAction(item) {

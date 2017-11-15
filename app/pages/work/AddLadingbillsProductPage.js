@@ -230,7 +230,7 @@ class AddLadingbillsProductPage extends React.Component {
                 key={`row_${index}`}
             >
                 <View style={{ backgroundColor: '#fff' }}>
-                    <View style={{ flexDirection: 'row', paddingLeft: 8, }}>
+                    <View style={{ flexDirection: 'row', marginLeft: 5, }}>
                         <View style={{ alignItems: 'center', justifyContent: 'center', height: 110 }}>
                             <ImageView source={{ uri: item.image }} style={{ width: 80, height: 80, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} />
                         </View>
@@ -461,7 +461,7 @@ class AddLadingbillsProductPage extends React.Component {
                             </View>
                             :
                             <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#fff' }}>
-                                <View style={{ width: 60, justifyContent: 'center', alignItems: 'center' }}>
+                                <View style={{ width: 80, justifyContent: 'center', alignItems: 'center' }}>
                                     <LeftTabComponet
                                         data={this.state.listData}
                                         sectionAction={(item) => {
@@ -548,7 +548,7 @@ class LeftTabComponet extends React.Component {
 
         return <TouchableOpacity onPress={this.sectionAction.bind(this, item)} key={`index_${productKindId}`}>
             <View>
-                <View style={{ width: 60, padding: 10, backgroundColor: preSelect != productKindId ? '#fff' : '#f9f9f9' }}>
+                <View style={{ width: 100, padding: 10, backgroundColor: preSelect != productKindId ? '#fff' : '#f9f9f9' }}>
                     <Text style={{ color: preSelect != productKindId ? '#333' : '#0081d4' }}>{item.series_name}</Text>
                 </View>
                 <View style={{ height: StyleSheet.hairlineWidth, width: 60, backgroundColor: '#f9f9f9' }} />

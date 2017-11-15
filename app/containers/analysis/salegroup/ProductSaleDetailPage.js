@@ -16,7 +16,15 @@ var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 class ProductSaleDetailPage extends React.Component {
     static navigationOptions = ({ navigation }) => {
         const { state, setParams } = navigation;
-        let title = state.params.currTime+state.params.orgName+state.params.seriesName;
+        let name;
+        if(!state.params.orgName){
+            name = state.params.groupName+state.params.employeeName;
+        }else if(!state.params.employeeName){
+            name = state.params.orgName;
+        }else{
+            name = state.params.orgName+state.params.employeeName;
+        }
+        let title = state.params.currTime+name+state.params.seriesName;
 
         return {
             headerTitleStyle: {fontSize: 16},
