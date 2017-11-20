@@ -18,7 +18,13 @@ import S_PersonDetailPage from './S_PersonDetailPage'
 class S_SelasTotalDetail extends React.Component {
     static navigationOptions = ({ navigation }) => {
         const { state, setParams } = navigation;
-        let title = state.params.orgName;
+        let title;
+        let type = state.params.type;
+        if('0' === type){
+            title = state.params.currTime+'年'+state.params.orgName;
+        }else{
+            title = state.params.currTime+'月'+state.params.orgName;
+        }
         return {
             headerTitleStyle: {fontSize: 16},
             title: title
