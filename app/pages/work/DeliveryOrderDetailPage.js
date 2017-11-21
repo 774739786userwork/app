@@ -241,18 +241,22 @@ class DeliveryOrderDetailPage extends React.Component {
                                     </View>
                                 </TouchableHighlight>
                                 <View style={{ width: 12 }} />
-                                <TouchableHighlight style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} onPress={this._onItemPress.bind(this, 1)}>
-                                    <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: '#17c6c1', borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
-                                        <Iconfont
-                                            icon={'e62c'} // 图标
-                                            iconColor={'#fff'}
-                                            iconSize={22}
-                                            label={'已收未付修改'}
-                                            labelColor={'#fff'}
-                                        />
-                                    </View>
-                                </TouchableHighlight>
+                                {
+                                    global.userStyle ? null :
+                                    <TouchableHighlight style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} onPress={this._onItemPress.bind(this, 1)}>
+                                        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: '#17c6c1', borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
+                                            <Iconfont
+                                                icon={'e62c'} // 图标
+                                                iconColor={'#fff'}
+                                                iconSize={22}
+                                                label={'已收未付修改'}
+                                                labelColor={'#fff'}
+                                            />
+                                        </View>
+                                    </TouchableHighlight>
+                                }
                                 <View style={{ width: 12 }} />
+                                
                                 <TouchableHighlight style={{ flex: 1, alignItems: 'center', height: 40, borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} onPress={this._onItemPress.bind(this, 2)}>
                                     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: '#17c6c1', borderColor: '#17c6c1', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
                                         <Iconfont
