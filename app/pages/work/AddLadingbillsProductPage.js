@@ -223,7 +223,8 @@ class AddLadingbillsProductPage extends React.Component {
             })
         }
         item.loading_quantity = item.loading_quantity ? item.loading_quantity : 0;
-
+        let url = global.baseUrl + item.image;
+        
         return (
             <TouchableOpacity
                 onPress={this._rowOnPress.bind(this, item)}
@@ -232,7 +233,12 @@ class AddLadingbillsProductPage extends React.Component {
                 <View style={{ backgroundColor: '#fff' }}>
                     <View style={{ flexDirection: 'row', marginLeft: 5, }}>
                         <View style={{ alignItems: 'center', justifyContent: 'center', height: 110 }}>
-                            <ImageView source={{ uri: item.image }} style={{ width: 80, height: 80, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} />
+                            {
+                                url ?
+                            <Image source={{ uri: url }} style={{ width: 70, height: 70, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} /> 
+                            :
+                            <Image source={require('../../imgs/ic_product.png')} style={{ width: 70, height: 70, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} />
+                            }
                         </View>
                         <View style={{ flex: 1 }}>
                             <View style={{ height: 24, paddingLeft: 12, marginBottom: 4, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>

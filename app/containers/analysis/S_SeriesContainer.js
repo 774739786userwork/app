@@ -107,11 +107,11 @@ class S_SeriesPage extends React.Component {
     
     let currTime;
     if('0' === tabLabel){
-      currTime = DateUtils.yearMonth().year+'年';
+      currTime = DateUtils.yearMonth().year;
     }else{
-      currTime = DateUtils.getYearMonth()+'月';
+      currTime = DateUtils.getYearMonth();
     }
-    let param = { factoryId: selectItem.serieslId,currTime:currTime, orgName: currTime+selectItem.serieslName + item.orgName, seriesId: item.orgId, type: tabLabel };
+    let param = { factoryId: selectItem.serieslId,currTime:currTime, orgName: selectItem.serieslName + item.orgName, seriesId: item.orgId, type: tabLabel };
     navigation.navigate('S_SeriesDetail', param)
   }
 
