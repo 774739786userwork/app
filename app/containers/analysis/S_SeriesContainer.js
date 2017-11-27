@@ -21,6 +21,8 @@ import ScrollableTabView, {
 import { FetchManger, LoginInfo, LoadingView, Toast } from 'react-native-go'
 import LoadingListView from '../../components/LoadingListView'
 import * as DateUtils from '../../utils/DateUtils'
+import YearPicker from '../../components/YearPicker'
+import MonthPicker from '../../components/MonthPicker'
 
 var detail_ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -41,7 +43,7 @@ class LeftTabComponet extends React.Component {
   }
   renderSectionListItem(item) {
     let serieslId = item.serieslId;
-
+    
     let preSelect = this.state.preSelect;
 
     if (!this.preSelect) {
@@ -77,13 +79,19 @@ class S_SeriesPage extends React.Component {
       branchFactoryList: [],
       selectItem: undefined,
       loading: false,
+      currentDate:DateUtils.yearMonth().year
     }
   }
 
   componentDidMount() {
+    const { currentDate } = this.state;
+    this.loadDetail(currentDate);
+  }
+
+  loadDetail(currTime) {
     const { navigation, tabLabel } = this.props;
     const userId = LoginInfo.getUserInfo().user_id;
-    let param = { type: tabLabel, userId: userId };
+    let param = { type: tabLabel, userId: userId,currTime };
     this.setState({ loading: true });
     InteractionManager.runAfterInteractions(() => {
       FetchManger.getUri('dataCenter/appHomePage/getYearMonthProductSeries.page', param, 30 * 60).then((responseData) => {
@@ -101,16 +109,17 @@ class S_SeriesPage extends React.Component {
       })
     });
   }
+
   onItemAction(item) {
     const { navigation, tabLabel } = this.props;
     let selectItem = this.state.selectItem;
     
-    let currTime;
-    if('0' === tabLabel){
-      currTime = DateUtils.yearMonth().year;
-    }else{
-      currTime = DateUtils.getYearMonth();
-    }
+    let currTime = this.state.currentDate;
+    // if('0' === tabLabel){
+    //   currTime = DateUtils.yearMonth().year;
+    // }else{
+    //   currTime = DateUtils.getYearMonth();
+    // }
     let param = { factoryId: selectItem.serieslId,currTime:currTime, orgName: selectItem.serieslName + item.orgName, seriesId: item.orgId, type: tabLabel };
     navigation.navigate('S_SeriesDetail', param)
   }
@@ -160,7 +169,48 @@ class S_SeriesPage extends React.Component {
       listData = this.state.selectItem.factoryList;
     }
     return (<View style={{ flex: 1 }}>
+      <View style={{
+        paddingTop: 6,
+        paddingBottom: 6,
+        alignContent: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#f9f9f9',
+        flexDirection: 'row'
+      }}>
+        <View style={{ flex: 1 }} />
+        <TouchableOpacity onPress={() => {
 
+        }}>
+          <Iconfont
+            icon={'e688'} // 图标
+            iconColor={'#aaa'}
+            iconSize={26} />
+        </TouchableOpacity>
+        <YearPicker
+          style={{ width: 120 }}
+          customStyles={{
+            dateText: {
+              fontSize: 18,
+              color: '#000',
+            }
+          }}
+          selY={this.state.selY}
+          onDateChange={(selY, ymStr) => {
+            this.setState({ selY });
+            this.state.currentDate = selY;
+            this.loadDetail(this.state.currentDate);
+          }}
+        />
+        <TouchableOpacity style={{ marginLeft: 4 }} onPress={() => {
+
+        }}>
+          <Iconfont
+            icon={'e657'} // 图标
+            iconColor={'#aaa'}
+            iconSize={26} />
+        </TouchableOpacity>
+        <View style={{ flex: 1 }} />
+      </View>
       <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#fff' }}>
         <View style={{ width: 90, justifyContent: 'center', alignItems: 'center' }}>
           <LeftTabComponet
@@ -215,8 +265,205 @@ class S_SeriesPage extends React.Component {
     </View >
     );
   }
+}
 
+class S_SeriesMonthPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this._renderRow = this._renderRow.bind(this);
+    this._renderRow_Detail = this._renderRow_Detail.bind(this);
+    let { year, month } = DateUtils.yearMonth();
+    this.state = {
+      selY: year, selM: month,
+      salerList: [],
+      branchFactoryList: [],
+      selectItem: undefined,
+      loading: false
+    }
+  }
 
+  componentDidMount() {
+    let selY = this.state.selY;
+    let selM = this.state.selM;
+
+    let month = selY + '-' + (selM < 10 ? '0' + selM : selM)
+    this.loadDetail(month);
+  }
+
+  loadDetail(currTime) {
+    const { navigation, tabLabel } = this.props;
+    const userId = LoginInfo.getUserInfo().user_id;
+    let param = { type: tabLabel, userId: userId,currTime };
+    this.setState({ loading: true });
+    InteractionManager.runAfterInteractions(() => {
+      FetchManger.getUri('dataCenter/appHomePage/getYearMonthProductSeries.page', param, 30 * 60).then((responseData) => {
+        if (responseData.status === '0' || responseData.status === 0) {
+          let salerList = responseData.salerList;
+          let branchFactoryList = responseData.branchFactoryList;
+          let selectItem = salerList[0];
+          this.setState({ selectItem, salerList, branchFactoryList, loading: false })
+        } else {
+          this.setState({ loading: false });
+        }
+
+      }).catch((error) => {
+        this.setState({ loading: false });
+      })
+    });
+  }
+
+  onItemAction(item) {
+    const { navigation, tabLabel } = this.props;
+    let selectItem = this.state.selectItem;
+    let selY = this.state.selY;
+    let selM = this.state.selM;
+    let currTime = selY + '-' + (selM < 10 ? '0' + selM : selM);
+    let param = { factoryId: selectItem.serieslId,currTime:currTime, orgName: selectItem.serieslName + item.orgName, seriesId: item.orgId, type: tabLabel };
+    navigation.navigate('S_SeriesDetail', param)
+  }
+
+  onItemUpAction(){
+    Toast.show('改功能暂未开放！')
+  }
+
+  onFactoryAction(item) {
+    const { navigation, tabLabel } = this.props;
+
+    let param = { type: tabLabel, factoryId: item.factoryId, factoryName: item.factoryName };
+    navigation.navigate('S_SeriesDetailChart', param)
+  }
+  _renderRow(item, rowID) {
+    return (
+      <TouchableOpacity onPress={this.onFactoryAction.bind(this, item)} key={`index_${rowID}`}>
+        <View style={{ padding: 12 }}>
+          <Text style={{ color: '#333' }}>{`${item.factoryName}`}</Text>
+        </View>
+      </TouchableOpacity>);
+  }
+  /**
+   * 
+
+   */
+  _renderRow_Detail(item, rowID) {
+    return (
+      <TouchableOpacity onPress={this.onItemAction.bind(this, item)} key={`index_${rowID}`}>
+        <View>
+          <View style={{ flexDirection: 'row', backgroundColor: '#fff' }}>
+            <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.orgName}`}</Text>
+            <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+            <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.salerQuantity}`}</Text>
+            <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+            <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.totalSum}`}</Text>
+            <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+            <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.proportion}`}</Text>
+          </View>
+          <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+        </View>
+      </TouchableOpacity>);
+  }
+  render() {
+    let listData = [];
+    if (this.state.selectItem) {
+      listData = this.state.selectItem.factoryList;
+    }
+    return (<View style={{ flex: 1 }}>
+      <View style={{
+        paddingTop: 6,
+        paddingBottom: 6,
+        alignContent: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#f9f9f9',
+        flexDirection: 'row'
+      }}>
+        <View style={{ flex: 1 }} />
+        <TouchableOpacity onPress={() => {
+
+        }}>
+          <Iconfont
+            icon={'e688'} // 图标
+            iconColor={'#aaa'}
+            iconSize={26} />
+        </TouchableOpacity>
+        <MonthPicker
+        style={{ width: 120 }}
+        customStyles={{
+          dateText: {
+            fontSize: 18,
+            color: '#000',
+          }
+        }}
+        selY={this.state.selY}
+        selM={this.state.selM}
+        onDateChange={(selY, selM, ymStr) => {
+          let month = selY + '-' + (selM < 10 ? '0' + selM : selM)
+          this.loadDetail(month)
+          this.setState({ selY, selM })
+        }}
+      />
+        <TouchableOpacity style={{ marginLeft: 4 }} onPress={() => {
+
+        }}>
+          <Iconfont
+            icon={'e657'} // 图标
+            iconColor={'#aaa'}
+            iconSize={26} />
+        </TouchableOpacity>
+        <View style={{ flex: 1 }} />
+      </View>
+      <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#fff' }}>
+        <View style={{ width: 90, justifyContent: 'center', alignItems: 'center' }}>
+          <LeftTabComponet
+            data={this.state.salerList}
+            sectionAction={(item) => {
+              this.setState({ selectItem: item })
+            }}
+          />
+        </View>
+        <View style={{ flex: 1, backgroundColor: '#f9f9f9', flexDirection: 'column' }}>
+          <View style={{ backgroundColor: '#fff', marginTop: 12, marginRight: 12, marginLeft: 12, flexDirection: 'row' }}>
+            <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onItemUpAction}>
+              <View style={{ borderWidth: 1,justifyContent:'center', borderColor: '#61aee0', flex: 1, backgroundColor: '#61aee0', borderRadius: 4, flexDirection: 'row' }}>
+                <Text style={{ fontSize: 12, padding: 8, color: '#fff'}}>{`系列趋势分析`}</Text>
+              </View>
+            </TouchableOpacity>
+            <View style={{ width: 12, backgroundColor: '#f9f9f9', }} />
+            <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onItemUpAction}>
+              <View style={{ borderWidth: 1,justifyContent:'center', borderColor: '#61aee0', flex: 1, backgroundColor: '#61aee0', borderRadius: 4, flexDirection: 'row' }}>
+                <Text style={{ fontSize: 12, padding: 8, color: '#fff' }}>{`系列交叉分析`}</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View style={{ margin: 10, backgroundColor: '#fff', flex: 1 }}>
+            <View style={{ flexDirection: 'row', backgroundColor: '#66b3e5' }}>
+              <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'系列'}</Text>
+              <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+              <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'销量'}</Text>
+              <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+              <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'金额(万)'}</Text>
+              <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+              <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'占比%'}</Text>
+            </View>
+            <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+            <LoadingListView
+              loading={this.state.loading}
+              listData={detail_ds.cloneWithRows(listData)}
+              renderRowView={this._renderRow_Detail} />
+          </View>
+          <View>
+            <ListView
+              enableEmptySections={true}
+              dataSource={hl_ds.cloneWithRows(this.state.branchFactoryList)}
+              renderRow={this._renderRow}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
+            />
+          </View>
+        </View>
+      </View >
+    </View >
+    );
+  }
 }
 
 class S_SeriesContainer extends React.Component {
@@ -265,7 +512,7 @@ class S_SeriesContainer extends React.Component {
         locked={true}
         renderTabBar={this.renderTabBar} >
         <S_SeriesPage key={'0'} {...this.props} tabLabel={'0'} />
-        <S_SeriesPage key={'1'}  {...this.props} tabLabel={'1'} />
+        <S_SeriesMonthPage key={'1'}  {...this.props} tabLabel={'1'} />
       </ScrollableTabView>
     </View>)
   }

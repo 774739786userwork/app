@@ -24,7 +24,7 @@ import YearPicker from '../../components/YearPicker'
 import * as DateUtils from '../../utils/DateUtils'
 import ImageView from '../../components/ImageView';
 import MonthPicker from '../../components/MonthPicker'
-
+import DatePicker from 'react-native-datepicker'
 
 var detail_ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -271,11 +271,9 @@ class S_SaleGroupPage extends React.Component {
     </View >
     );
   }
-
-
 }
 
-//销售组
+//销售组月
 class S_SaleMonthGroupPage extends React.Component {
   constructor(props) {
     super(props);
@@ -311,7 +309,6 @@ class S_SaleMonthGroupPage extends React.Component {
 
           let currentDate = selY + '-' + (selM < 10 ? '0' + selM : selM)
           const {orgId,orgName} = this.state;
-          // let orgId = undefined;
           if (data.length > 0) {
             data[0].selected = true;
             orgId = data[0].orgId;
@@ -534,8 +531,255 @@ class S_SaleMonthGroupPage extends React.Component {
     </View >
     );
   }
+}
+
+//销售组日
+class S_SaleDayGroupPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this._renderRow = this._renderRow.bind(this);
+    this._renderGroup = this._renderGroup.bind(this);
+    this._renderBranchRow = this._renderBranchRow.bind(this);
+    this._rowOnBranchPress = this._rowOnBranchPress.bind(this);
+    this.loadDetail = this.loadDetail.bind(this);
+    let day = DateUtils.getYearMonthDay();
+
+    this.state = {
+      day: day,
+      dataList: [],
+      branchFactoryList: [],
+      selectItem: undefined,
+      orgId:undefined,
+      orgName:undefined,
+      loading: false,
+    }
+  }
+
+  componentDidMount() {
+    const { navigation, tabLabel } = this.props;
+    this.setState({ loading: true });
+    let userId = LoginInfo.getUserInfo().user_id;
+
+    InteractionManager.runAfterInteractions(() => {
+      FetchManger.getUri('dataCenter/appHomePage/getMyFocusFactory.page', { userId }, 30 * 60).then((responseData) => {
+        if (responseData.status === '0' || responseData.status === 0) {
+          let data = responseData.data;
+
+          let currentDate = this.state.day;
+          const {orgId,orgName} = this.state;
+          if (data.length > 0) {
+            data[0].selected = true;
+            orgId = data[0].orgId;
+            orgName = data[0].orgName;
+            this.loadDetail(currentDate, orgId);
+          }
+          this.setState({ branchFactoryList: data, orgId,orgName, loading: false })
+
+        } else {
+          this.setState({ loading: false });
+        }
+      }).catch((error) => {
+        this.setState({ loading: false });
+      })
+    });
+  }
+  //加载数据
+  //orgId=108&type=0&currTime=2017
+  loadDetail(currTime, orgId) {
+    let p = { orgId, type: 1, currTime }
+    this.setState({ loading: true });
+    InteractionManager.runAfterInteractions(() => {
+      FetchManger.getUri('dataCenter/appHomePage/getSimpleFactorySaleDetail.page', p, 30 * 60).then((responseData) => {
+        if (responseData.status === '0' || responseData.status === 0) {
+          let data = responseData.data;
+          this.setState({ dataList: data, loading: false })
+        } else {
+          this.setState({ loading: false });
+        }
+      }).catch((error) => {
+        this.setState({ loading: false });
+      })
+    });
+  }
 
 
+  _rowOnPress(groupId, item) {
+    const { navigation } = this.props;
+
+    let currentDate = this.state.day;
+    let param = { type: 2,groupId,orgId:this.state.orgId,orgName:this.state.orgName, currTime: currentDate, seriesId: item.seriesId, seriesName: item.seriesName };
+    if(groupId === 0){
+      
+    }else{
+      navigation.navigate('ProductSaleDetailPage', param)
+    }
+  }
+  _onEmployeeSaleDetailPress(item) {
+    const { navigation } = this.props;
+    let currentDate = this.state.day;
+    let param = { type: 2,orgId:this.state.orgId, currTime: currentDate, groupId: item.groupId, groupName: item.groupName };
+    if(item.groupId === 0){
+      navigation.navigate('DiShiSaleDetailPage', param)
+    }else{
+      navigation.navigate('EmployeeSaleDetailPage', param)
+    }
+  }
+
+  _onCustomerSaleDetailPress(item) {
+    const { navigation } = this.props;
+    let currentDate = this.state.day;
+    let param = { type: 2, currTime: currentDate, groupId: item.groupId, groupName: item.groupName };
+    navigation.navigate('CustomerSaleDetailPage', param)
+  }
+
+  _renderRow(groupId,item, index) {
+    return (
+      <TouchableOpacity
+        onPress={this._rowOnPress.bind(this,groupId, item)}
+        key={`row_${index}`}
+      >
+        <View style={{ backgroundColor: '#fff' }} key={`row_${index}`}>
+          <View style={{ flexDirection: 'row', paddingLeft: 8, }}>
+            <View style={{ flex: 1 }}>
+              <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
+                <View style={{ flex: 1, flexDirection: 'row' }}>
+                  <Text style={{ color: '#999', fontSize: 13, flex: 2 }}>{`${item.seriesName}：`}</Text>
+                  <Text style={{ color: '#999', fontSize: 13, flex: 2 }}>{`${item.seriesSalerSum}万元`}</Text>
+                </View>
+                <View style={{ flex: 1, flexDirection: 'row' }}>
+                  <Text style={{ color: '#999', fontSize: 13 }}>{`销量：${item.seriesSales}`}</Text>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View style={{ height: StyleSheet.hairlineWidth, marginTop: 4, flex: 1, backgroundColor: '#c4c4c4' }} />
+        </View>
+      </TouchableOpacity>
+    );
+  }
+
+  _renderGroup(item, sectionID, index) {
+    let groupId = item.groupId;
+    return (
+      <View key={`row_${index}`} style={{ backgroundColor: '#f9f9f9' }}>
+        <View style={{ height: StyleSheet.hairlineWidth, marginTop: 8, flex: 1, backgroundColor: '#c4c4c4' }} />
+
+        <View style={{ padding: 8, flexDirection: 'row' }}>
+          <TouchableOpacity
+            onPress={this._onEmployeeSaleDetailPress.bind(this, item)}
+          >
+            <Text style={{ color: '#FF33FF', flex: 1 }}>{item.groupName}</Text>
+          </TouchableOpacity>
+          <View style={{ flex: 1 }} />
+          <TouchableOpacity
+            onPress={this._onCustomerSaleDetailPress.bind(this, item)}
+          >
+            <Text style={{ color: '#FF33FF', marginRight: 4, }}>{`客户情况`}</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={{ height: 30, backgroundColor: '#fff', paddingLeft: 20, paddingBottom: 4, paddingTop: 8, flexDirection: 'row', alignItems: 'center' }}>
+          <Text style={{ color: '#f80000', fontSize: 14 }}>{`销售总额：${item.totalSum}万元`}</Text>
+        </View>
+        {
+          item.seriesList.map((item, index) => {
+            return this._renderRow(groupId,item, index)
+          })
+        }
+      </View>
+    );
+  }
+  _rowOnBranchPress(item) {
+    let branchFactoryList = this.state.branchFactoryList;
+    branchFactoryList.map((_item) => {
+      _item.selected = false;
+      if (_item.orgId === item.orgId) {
+        _item.selected = true;
+      }
+    })
+    let currentDate = this.state.day;
+    let orgId = item.orgId;
+    let orgName = item.orgName;
+    this.loadDetail(currentDate, orgId);
+
+    this.setState({ branchFactoryList, orgId,orgName })
+  }
+  _renderBranchRow(item, sectionID, index) {
+    let selected = item.selected;
+    return <TouchableOpacity
+      onPress={this._rowOnBranchPress.bind(this, item)}
+      key={`row_${index}`}
+    >
+      <View style={{ width: 120, height: 40, backgroundColor: '#fff' }}>
+        <Text style={{ color: selected ? '#0081d4' : '#000', textAlign: 'center', lineHeight: 38, width: 120 }}>{item.orgName}</Text>
+        <View style={{ height: 2, width: 120, backgroundColor: selected ? '#0081d4' : '#fff' }} />
+      </View>
+    </TouchableOpacity>
+  }
+  render() {
+    return (<View style={{ flex: 1, backgroundColor: '#f9f9f9' }} >
+      <View style={{
+        paddingTop: 6,
+        paddingBottom: 6,
+        alignContent: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#f9f9f9',
+        flexDirection: 'row'
+      }}>
+        <View style={{ flex: 1 }} />
+        <TouchableOpacity onPress={() => {
+
+        }}>
+          <Iconfont
+            icon={'e688'} // 图标
+            iconColor={'#aaa'}
+            iconSize={26} />
+        </TouchableOpacity>
+        <DatePicker
+            style={{ width: 100, }}
+            date={this.state.day}
+            customStyles={{
+              dateInput: { borderWidth: 0 },
+              dateText: { fontSize: 18, color: '#000', textAlign: 'left' }
+            }}
+            mode="date"
+            showIcon={false}
+            format="YYYY-MM-DD"
+            confirmBtnText="确定"
+            cancelBtnText="取消"
+            onDateChange={(date) => {
+              this.state.day = date;
+              this.loadDetail(this.state.day,this.state.orgId)
+            }}
+          />
+        <TouchableOpacity style={{ marginLeft: 4 }} onPress={() => {
+
+        }}>
+          <Iconfont
+            icon={'e657'} // 图标
+            iconColor={'#aaa'}
+            iconSize={26} />
+        </TouchableOpacity>
+        <View style={{ flex: 1 }} />
+      </View>
+      <View>
+        <ListView
+          enableEmptySections={true}
+          dataSource={hl_ds.cloneWithRows(this.state.branchFactoryList)}
+          renderRow={this._renderBranchRow}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
+      <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+      <LoadingListView
+        loading={this.state.loading}
+        listData={ds.cloneWithRows(this.state.dataList)}
+        renderRowView={this._renderGroup} />
+    </View >
+    );
+  }
 }
 
 class S_SaleGroupContainer extends React.Component {
@@ -552,6 +796,8 @@ class S_SaleGroupContainer extends React.Component {
     let tColor0 = tab.activeTab == 0 ? "#0081d4" : "#fff";
     let color1 = tab.activeTab == 1 ? "#fff" : "#0081d4"; // 判断i是否是当前选中的tab，设置不同的颜色
     let tColor1 = tab.activeTab == 1 ? "#0081d4" : "#fff";
+    let color2 = tab.activeTab == 2 ? "#fff" : "#0081d4"; 
+    let tColor2 = tab.activeTab == 2 ? "#0081d4" : "#fff";
     return (
       <View style={{
         height: 48, backgroundColor: '#0081d4', flexDirection: 'row', justifyContent: 'center',
@@ -567,6 +813,11 @@ class S_SaleGroupContainer extends React.Component {
           <TouchableWithoutFeedback onPress={() => tab.goToPage(1)} style={styles.tab}>
             <View style={[styles.tabItem1, { backgroundColor: color1 }]} >
               <Text style={{ color: tColor1 }}>{'月'}</Text>
+            </View>
+          </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={() => tab.goToPage(2)} style={styles.tab}>
+            <View style={[styles.tabItem2, { backgroundColor: color2 }]} >
+              <Text style={{ color: tColor2 }}>{'日'}</Text>
             </View>
           </TouchableWithoutFeedback>
         </View>
@@ -585,6 +836,7 @@ class S_SaleGroupContainer extends React.Component {
         renderTabBar={this.renderTabBar} >
         <S_SaleGroupPage key={'0'} {...this.props} tabLabel={'0'} />
         <S_SaleMonthGroupPage key={'1'}  {...this.props} tabLabel={'1'} />
+        <S_SaleDayGroupPage key={'2'}  {...this.props} tabLabel={'2'} />
       </ScrollableTabView>
     </View>)
   }
@@ -619,6 +871,17 @@ const styles = StyleSheet.create({
 
   },
   tabItem1: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 80,
+    height: 34,
+    borderColor: '#fff',
+    borderWidth: StyleSheet.hairlineWidth,
+    borderTopRightRadius: 4,
+    borderBottomRightRadius: 4,
+  },
+  tabItem2: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
