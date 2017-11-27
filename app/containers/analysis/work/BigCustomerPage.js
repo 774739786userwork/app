@@ -186,7 +186,7 @@ class BigCustomerPage extends React.Component {
                     onDateChange={(date) => { this._selectByDate(date) }}
                 />
                 <Text style={{ color: '#999', marginLeft: 8, marginRight: 8 }}>
-                    {'--'}
+                    {'～'}
                 </Text>
                 <DatePicker
                     style={{ width: 80 }}

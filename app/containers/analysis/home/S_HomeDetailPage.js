@@ -69,6 +69,18 @@ class S_HomeDetailPage extends React.Component {
         navigation.navigate('UnReceivePage', { param })
     }
 
+    onItemOrgAction(item){
+        const { navigation } = this.props;
+        let param = navigation.state.params.param;
+        param.orgId = item.orgId;
+        param.orgName = item.orgName;
+        if(param.type === 0){
+            param.currTime = param.year;
+        }else if(param.type === 1){
+            param.currTime = param.month;
+        }
+        // navigation.navigate('S_DiShiDetailPage',{param})
+    }
 
     _renderRow_old(rowData, rowID) {
         return <View key={`index_${rowID}`}>
@@ -119,7 +131,9 @@ class S_HomeDetailPage extends React.Component {
 
                 <View style={{ paddingLeft: 10, paddingRight: 10, paddingBottom: 10, }}>
                     <View style={{ height: 34, paddingLeft: 10, marginBottom: 6, marginTop: 5, flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{ color: '#333', fontSize: 16 }}>{rowData.orgName}</Text>
+                        <TouchableOpacity onPress={this.onItemOrgAction.bind(this,rowData)}>
+                            <Text style={{ color: '#FF33FF', fontSize: 16 }}>{rowData.orgName}</Text>
+                        </TouchableOpacity>
                     </View>
                     <View style={{ height: 30, paddingLeft: 10, flexDirection: 'row', alignItems: 'center' }}>
                         <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onTotalAction.bind(this,rowData)}>

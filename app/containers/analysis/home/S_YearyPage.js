@@ -126,6 +126,9 @@ export default class S_YearyPage extends React.Component {
             seriesData.push(chartItem)
         })
         const option = {
+            tooltip: {    //点击弹框
+                trigger: 'axis'
+            },
             legend: {
                 data: legend
             },

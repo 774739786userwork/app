@@ -97,6 +97,7 @@ import S_HomeContainer from './analysis/S_HomeContainer'
 //统计分析 日 各厂详情
 import S_DayDetailPage from './analysis/home/S_DayDetailPage'
 import S_HomeDetailPage from './analysis/home/S_HomeDetailPage'
+import S_DiShiDetailPage from './analysis/home/S_DiShiDetailPage'
 import S_SelasTotalDetailPage from './analysis/home/detail/S_SelasTotalDetailPage'
 import S_Person4GroupDetailPage from './analysis/home/detail/S_Person4GroupDetailPage'
 import S_DiShiPersonDetailPage from './analysis/home/detail/S_DiShiPersonDetailPage'
@@ -340,6 +341,9 @@ const App = StackNavigator(
     },
     S_HomeDetail: {
       screen: S_HomeDetailPage
+    },
+    S_DiShiDetailPage:{
+      screen:S_DiShiDetailPage
     },
     S_ProductDetail: {
       screen: S_ProductDetailContainer
