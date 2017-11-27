@@ -115,8 +115,12 @@ import S_CustomerContainer from './analysis/S_CustomerContainer'
 //销售组
 import S_SaleGroupContainer from './analysis/S_SaleGroupContainer'
 //报表 首页
-
+//大客户
 import BigCustomerPage from './analysis/work/BigCustomerPage'
+//大客户排名
+import BigCustomerSortPage from './analysis/work/BigCustomerSortPage'
+//产品销量
+import ProductSalesPage from './analysis/work/ProductSalesPage';
 //销售组 销售情况
 import EmployeeSaleDetailPage from './analysis/salegroup/EmployeeSaleDetailPage'
 import CustomerSaleDetailPage from './analysis/salegroup/CustomerSaleDetailPage'
@@ -369,6 +373,13 @@ const App = StackNavigator(
     //产品大客户
     BigCustomerPage: {
       screen: BigCustomerPage
+    },
+    //大客户排名
+    BigCustomerSortPage:{
+        screen:BigCustomerSortPage
+    },
+    ProductSalesPage: {
+      screen: ProductSalesPage
     },
     EmployeeSaleDetailPage: {
       screen: EmployeeSaleDetailPage

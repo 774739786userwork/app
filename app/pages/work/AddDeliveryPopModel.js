@@ -10,8 +10,10 @@ import {
     TouchableOpacity,
     InteractionManager,
     Modal,
-    TouchableHighlight
+    TouchableHighlight,
+    Platform
 } from 'react-native';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 import * as utils from './utils'
 import LoadingListView from '../../components/LoadingListView'
@@ -142,6 +144,10 @@ export default class AddDeliveryPopModel extends React.Component {
                         </TouchableHighlight>
                     </View>
                 </View>
+                {
+                    Platform.OS === 'ios' ?
+                        <KeyboardSpacer /> : null
+                }
             </View>
         </Modal>)
     }

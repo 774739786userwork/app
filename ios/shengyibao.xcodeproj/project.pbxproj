@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
@@ -34,6 +35,7 @@
 		2DCD954D1E0B4F2C00145EB5 /* shengyibaoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* shengyibaoTests.m */; };
 		3FD042CE43A2459C970FBFAE /* libRCTBluetoothSerial.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0C0EF3BBB444963A58BFF30 /* libRCTBluetoothSerial.a */; };
 		4BF681F19DEF4F4DA1BFA3E3 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EED6499DEE8B4CBFA097396D /* libRNDeviceInfo.a */; };
+		4D8AC8F04CA74EA0994A786A /* libRCTContactsWrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D38F54D84F74826A8CE653F /* libRCTContactsWrapper.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8D881E97B7324FF2BC767874 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C30948088AF942FC805CAA63 /* libRCTCamera.a */; };
@@ -50,7 +52,6 @@
 		9DDD87961F263BC900240EEC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DDD87951F263BC900240EEC /* SystemConfiguration.framework */; };
 		ACE6F6FBF48C49F9B1D0D6D2 /* libELMRNLocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6789E35024274F87A51A805B /* libELMRNLocation.a */; };
 		DEBF345DA8D442C4B83FA5CA /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45123F1677C84BA99C41B632 /* libRNImagePicker.a */; };
-		4D8AC8F04CA74EA0994A786A /* libRCTContactsWrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D38F54D84F74826A8CE653F /* libRCTContactsWrapper.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -257,6 +258,13 @@
 			remoteGlobalIDString = B37986F61DDC0DFA006E2A3C;
 			remoteInfo = ELMRNLocation;
 		};
+		9D826B471FC972FC00759210 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8E1B19ECEE554B768F062AE2 /* ContactsWrapper.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2B58405A1D10DE8700235F31;
+			remoteInfo = RCTContactsWrapper;
+		};
 		9DF5BECE1EFB3DF900FFE6FD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 628648E762F54C75B41D0982 /* FastImage.xcodeproj */;
@@ -314,9 +322,11 @@
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		628648E762F54C75B41D0982 /* FastImage.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = FastImage.xcodeproj; path = "../node_modules/react-native-fast-image/ios/FastImage.xcodeproj"; sourceTree = "<group>"; };
 		6789E35024274F87A51A805B /* libELMRNLocation.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libELMRNLocation.a; sourceTree = "<group>"; };
+		6D38F54D84F74826A8CE653F /* libRCTContactsWrapper.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTContactsWrapper.a; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7D24E30BF63B4288A7B2009D /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		8E1B19ECEE554B768F062AE2 /* ContactsWrapper.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ContactsWrapper.xcodeproj; path = "../node_modules/react-native-go-contacts/ios/ContactsWrapper.xcodeproj"; sourceTree = "<group>"; };
 		9D6C84C31F35F6AE0077DC4F /* AMapFoundationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapFoundationKit.framework; sourceTree = "<group>"; };
 		9D6C84C41F35F6AE0077DC4F /* AMapLocationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapLocationKit.framework; sourceTree = "<group>"; };
 		9D6C84C71F35F6F70077DC4F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -335,8 +345,6 @@
 		E0C0EF3BBB444963A58BFF30 /* libRCTBluetoothSerial.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTBluetoothSerial.a; sourceTree = "<group>"; };
 		ECE291A103AC4A6083C6AAF1 /* libFastImage.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libFastImage.a; sourceTree = "<group>"; };
 		EED6499DEE8B4CBFA097396D /* libRNDeviceInfo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNDeviceInfo.a; sourceTree = "<group>"; };
-		8E1B19ECEE554B768F062AE2 /* ContactsWrapper.xcodeproj */ = {isa = PBXFileReference; name = "ContactsWrapper.xcodeproj"; path = "../node_modules/react-native-go-contacts/ios/ContactsWrapper.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		6D38F54D84F74826A8CE653F /* libRCTContactsWrapper.a */ = {isa = PBXFileReference; name = "libRCTContactsWrapper.a"; path = "libRCTContactsWrapper.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -607,6 +615,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		9D826B441FC972FC00759210 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9D826B481FC972FC00759210 /* libRCTContactsWrapper.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		9D9754DB1F07955B005046A7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -769,6 +785,10 @@
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = 9D826B441FC972FC00759210 /* Products */;
+					ProjectRef = 8E1B19ECEE554B768F062AE2 /* ContactsWrapper.xcodeproj */;
+				},
 				{
 					ProductGroup = 9D6C84A11F35F5C90077DC4F /* Products */;
 					ProjectRef = 1D00DB1ECA044E6F99D4309E /* ELMRNLocation.xcodeproj */;
@@ -1036,6 +1056,13 @@
 			fileType = archive.ar;
 			path = libELMRNLocation.a;
 			remoteRef = 9D6C84A41F35F5CA0077DC4F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9D826B481FC972FC00759210 /* libRCTContactsWrapper.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTContactsWrapper.a;
+			remoteRef = 9D826B471FC972FC00759210 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		9DF5BECF1EFB3DF900FFE6FD /* libFastImage.a */ = {
