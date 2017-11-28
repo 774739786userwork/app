@@ -82,7 +82,7 @@ export default class S_MonthPage extends React.Component {
 
     let param = { month: month, type: 1,userId:userId };
     let reqUrl = "dataCenter/appHomePage/getMonthMoreFactory.page";
-    navigation.navigate('S_HomeDetail', { reqUrl: reqUrl, param, param })
+    navigation.navigate('S_HomeDetail', { reqUrl: reqUrl, param:param })
   }
   onTotalAction(item) {
     const { navigation } = this.props;

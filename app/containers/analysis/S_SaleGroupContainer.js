@@ -586,7 +586,7 @@ class S_SaleDayGroupPage extends React.Component {
   //加载数据
   //orgId=108&type=0&currTime=2017
   loadDetail(currTime, orgId) {
-    let p = { orgId, type: 1, currTime }
+    let p = { orgId, type: 2, currTime }
     this.setState({ loading: true });
     InteractionManager.runAfterInteractions(() => {
       FetchManger.getUri('dataCenter/appHomePage/getSimpleFactorySaleDetail.page', p, 30 * 60).then((responseData) => {
