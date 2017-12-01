@@ -35,7 +35,7 @@ class SettingUrlPage extends React.Component {
     constructor(props){
         super(props)
         this.onSaveAction = this.onSaveAction.bind(this);
-        inputUrl = DeviceInfo.getInfo() ? DeviceInfo.getInfo() : "http://app.duobangjc.com:1009/csbboss/";
+        inputUrl = DeviceInfo.getInfo() ? DeviceInfo.getInfo() : "http://app.duobangjc.com:11009/csbboss/";
     }
 
     componentDidMount() {

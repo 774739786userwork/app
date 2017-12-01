@@ -31,13 +31,13 @@ class CanEditItem extends React.Component {
         super(props)
         this.updateNewCount = this.updateNewCount.bind(this)
         this.state = {
-            real_loading_count: this.props.item.real_loading_count
+            real_loading_count: this.props.item.loading_quantity
         }
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            real_loading_count:nextProps.item.real_loading_count
+            real_loading_count:nextProps.item.loading_quantity
         });
     }
     updateNewCount(count) {
@@ -60,11 +60,11 @@ class CanEditItem extends React.Component {
             </View>
             <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                    <Text style={{ color: '#666' }}>{'总数：'}</Text>
-                    <Text style={{ color: '#f80000' }}>{`${item.loading_quantity ? item.loading_quantity : 0}`}</Text>
+                    <Text style={{ color: '#666' }}>{'实提：'}</Text>
+                    <Text style={{ color: '#f80000' }}>{`${item.real_loading_count ? item.real_loading_count : 0}`}</Text>
                 </View>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                    <Text style={{ color: '#666' }}>{'实提：'}</Text>
+                    <Text style={{ color: '#666' }}>{'总数：'}</Text>
                     <View style={{ flex: 3, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                         <TouchableOpacity style={{ marginLeft: 8, marginRight: 6 }} onPress={() => {
                             let newCount = parseInt(this.state.real_loading_count) - 1;
