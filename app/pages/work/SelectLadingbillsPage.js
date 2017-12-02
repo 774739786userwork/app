@@ -98,7 +98,7 @@ class SelectLadingbillsPage extends React.Component {
                             <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                                 <Text style={{ color: '#333' }}>{goodsItem.name}</Text>
                                 <Text style={{ color: '#333' }}>{': '}</Text>
-                                <Text style={{ color: '#f80000' }}>{goodsItem.quantity}</Text>
+                                <Text style={{ color: '#f80000' }}>{goodsItem.product_total_count}</Text>
                                 <View style={{ width: 8 }} />
                                 <Text style={{ color: '#333' }}>{goodsItem.unit}</Text>
                             </View>))

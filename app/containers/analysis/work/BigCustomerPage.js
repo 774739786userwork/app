@@ -14,8 +14,8 @@ import DatePicker from 'react-native-datepicker'
 import { FetchManger, LoginInfo, LoadingView, Toast, Iconfont } from 'react-native-go';
 import LoadingListView from '../../../components/LoadingListView';
 import ImageView from '../../../components/ImageView';
-import * as DateUtils from '../../../utils/DateUtils'
-
+import * as DateUtils from '../../../utils/DateUtils';
+import MonthPicker from '../../../components/MonthPicker';
 var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 var hl_ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
@@ -32,10 +32,9 @@ class BigCustomerPage extends React.Component {
         this._renderBranchRow = this._renderBranchRow.bind(this);
         this._rowOnBranchPress = this._rowOnBranchPress.bind(this);
         this.loadDetail = this.loadDetail.bind(this);
-        this._selectByDate = this._selectByDate.bind(this);
+        let { year, month } = DateUtils.yearMonth();
         this.state = {
-            startDate: DateUtils.getYearMonthDay(1),
-            endDate: DateUtils.getYearMonthDay(),
+            selY: year, selM: month,
             listData: [],
             itemListData: [],
             branchFactoryList: [],
@@ -52,12 +51,11 @@ class BigCustomerPage extends React.Component {
             FetchManger.getUri('dataCenter/appHomePage/getMyFocusFactory.page?userId=' + userId, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
-                    const { startDate, endDate } = this.state;
-                    let orgId = undefined;
+                    const { selY, selM,orgId } = this.state;
                     if (data.length > 0) {
                         data[0].selected = true;
                         orgId = data[0].orgId;
-                        this.loadDetail(startDate, endDate, orgId);
+                        this.loadDetail(selY, selM, orgId);
                     }
                     this.setState({ branchFactoryList: data, orgId, groupLoading:false,loading: false })
 
@@ -71,9 +69,10 @@ class BigCustomerPage extends React.Component {
 
 
     }
-    loadDetail(startDate, endDate, orgId) {
+    loadDetail(_year, _month, orgId) {
+        let currTime = _year + '-' + (_month < 10 ? '0' + _month : _month)
         const userId = LoginInfo.getUserInfo().user_id;
-        let p = { startDate, endDate, orgId, userId };
+        let p = { currTime,type:1, orgId, userId };
         this.setState({groupLoading:true})
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getProductBigCustomer.page', p, 30 * 60).then((responseData) => {
@@ -121,9 +120,9 @@ class BigCustomerPage extends React.Component {
                 _item.selected = true;
             }
         })
-        const { startDate, endDate } = this.state;
+        const { selY, selM } = this.state;
         let orgId = item.orgId;
-        this.loadDetail(startDate, endDate, orgId);
+        this.loadDetail(selY, selM, orgId);
 
         this.setState({ branchFactoryList, orgId })
     }
@@ -140,19 +139,6 @@ class BigCustomerPage extends React.Component {
         </TouchableOpacity>
     }
 
-    _selectByDate(_startDate, _endDate) {
-        let orgId = this.state.orgId;
-        const { startDate, endDate } = this.state;
-        
-        if (_startDate) {
-            this.loadDetail(_startDate, endDate, orgId);
-            this.setState({ startDate: _startDate});
-        }
-        if (_endDate) {
-            this.loadDetail(startDate, _endDate, orgId);
-            this.setState({ endDate: _endDate});
-        }
-    }
     render() {
         return <View style={{ flex: 1, backgroundColor: '#f9f9f9' }}>
             <View>
@@ -171,37 +157,21 @@ class BigCustomerPage extends React.Component {
                     icon={'e688'} // 图标
                     iconColor={'#aaa'}
                     iconSize={24} />
-                <DatePicker
-                    style={{ width: 80 }}
-                    date={this.state.startDate}
-                    customStyles={{
-                        dateInput: { borderWidth: 0 },
-                        dateText: { color: '#999' }
-                    }}
-                    mode="date"
-                    showIcon={false}
-                    format="YYYY-MM-DD"
-                    confirmBtnText="确定"
-                    cancelBtnText="取消"
-                    onDateChange={(date) => { this._selectByDate(date) }}
-                />
-                <Text style={{ color: '#999', marginLeft: 8, marginRight: 8 }}>
-                    {'～'}
-                </Text>
-                <DatePicker
-                    style={{ width: 80 }}
-                    date={this.state.endDate}
-                    customStyles={{
-                        dateInput: { borderWidth: 0 },
-                        dateText: { color: '#999' }
-                    }}
-                    mode="date"
-                    showIcon={false}
-                    format="YYYY-MM-DD"
-                    confirmBtnText="确定"
-                    cancelBtnText="取消"
-                    onDateChange={(date) => { this._selectByDate(null, date) }}
-                />
+                    <MonthPicker
+                        style={{ width: 120 }}
+                        customStyles={{
+                        dateText: {
+                            fontSize: 18,
+                            color: '#000',
+                        }
+                        }}
+                        selY={this.state.selY}
+                        selM={this.state.selM}
+                        onDateChange={(selY, selM, ymStr) => {
+                            this.loadDetail(selY, selM,this.state.orgId)
+                            this.setState({ selY, selM })
+                        }}
+                    />
                 <Iconfont
                     icon={'e657'} // 图标
                     iconColor={'#aaa'}

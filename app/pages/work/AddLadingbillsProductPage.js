@@ -90,7 +90,7 @@ class AddLadingbillsProductPage extends React.Component {
                 let oldGoodItem = {}
                 oldGoodItem.product_id = item.product_id
                 oldGoodItem.product_name = item.name
-                oldGoodItem.loading_quantity = item.quantity
+                oldGoodItem.loading_quantity = item.product_total_count
                 if (item.purchaseOrderId) {
                     oldGoodItem.purchaseOrderId = item.purchaseOrderId
                 }
@@ -99,7 +99,7 @@ class AddLadingbillsProductPage extends React.Component {
                 oldGoodItem.product_weight = item.product_weight
                 oldGoodItem.specifications = item.specifications
                 oldGoodItem.housestock = item.housestock
-                oldGoodItem.real_loading_count = item.product_total_count
+                oldGoodItem.real_loading_count = item.quantity
                 good_list.push(oldGoodItem);
             });
         }
@@ -177,7 +177,6 @@ class AddLadingbillsProductPage extends React.Component {
         });
     }
     initUpdate(listData) {
-
         let totalWeight = 0;
         let totalNum = 0;
         let goodsList = this.state.good_list;

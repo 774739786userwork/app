@@ -98,13 +98,19 @@ export function addDeliveryOrder(car_id,ladingdate,customersId,purchaseId, start
  * 开送货单 车牌查询接口
  * mobileServiceManager/customers/getCarInfoJson.page?user_id=100002&token=xKJ6ZrR6ws0Z
  */
-export function getCar4Delivery() {
+export function getCar4Delivery(purchaseId) {
     const token = LoginInfo.getUserInfo().token;
     const user_id = LoginInfo.getUserInfo().user_id;
+    let param = '';
+    if (purchaseId) {
+        param = {token,user_id,purchaseId}
+    } else {
+        param = {token,user_id}
+    }
     return {
         type: types.AddDeliveryOrdering4Car_ACTION,
         api: 'mobileServiceManager/customers/getCarInfoJson.page',
-        param: { token, user_id }
+        param: param
     };
 
 }

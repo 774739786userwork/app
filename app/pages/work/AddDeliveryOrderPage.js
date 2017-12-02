@@ -46,10 +46,6 @@ class AddDeliveryOrderPage extends React.Component {
         this.selectCarAction = this.selectCarAction.bind(this)
         this.selectUserAction = this.selectUserAction.bind(this)
         this.carbaseinfo_id = null;
-        //数量总计
-        this.num = 0;
-        //金额总计
-        this.numberCarsh = 0;
 
         this.state = {
             modalVisible: false,
@@ -60,7 +56,9 @@ class AddDeliveryOrderPage extends React.Component {
             chooseList: [],
             good_list: [],
             downEmployeeIds : '',
-            downEmployeeNames : ''
+            downEmployeeNames : '',
+            num:0,   //数量总计
+            numberCarsh:0  //金额总计
         };
     }
 
@@ -86,10 +84,8 @@ class AddDeliveryOrderPage extends React.Component {
             this.carbaseinfo_id = selectCar.carbaseinfo_id
             action.addDeliveryOrder(selectCar.carbaseinfo_id, ladingdate, params.customersId,params.purchaseId)
         }
-
-
-        this.setState({ good_list: addDeliveryOrder.result.good_list })
-
+        this.setState({ good_list: addDeliveryOrder.result.good_list });
+        this.initUpdate(addDeliveryOrder.result.good_list); //初始化数据
     }
     _selectByDate(ladingdate) {
         const { action, navigation } = this.props;
@@ -128,22 +124,39 @@ class AddDeliveryOrderPage extends React.Component {
         const { action, navigation } = this.props;
         const { params } = navigation.state;
         InteractionManager.runAfterInteractions(() => {
-            action.getCar4Delivery();
+            action.getCar4Delivery(params.purchaseId);
         });
+    }
+
+    initUpdate(listData){
+        let num = 0;
+        let numberCarsh = 0;
+        let goodList = [];
+        if(listData){
+            listData.map((a) => {
+                if(a.purchase_quantity > 0){
+                    a.delivery_remember_person = LoginInfo.getUserInfo().user_id;
+                    a.delivery_remember_person_name = LoginInfo.getUserInfo().user_real_name;
+                    goodList.push(a);
+                    num += a.sale_quantity + a.gifts_quantity
+                    numberCarsh += a.price * a.sale_quantity + a.foregift * a.sale_quantity + a.foregift * a.gifts_quantity
+                }
+            })
+        }
+        this.setState({ num, numberCarsh,chooseList:goodList});
     }
     _rowOnPress(selectItem) {
         this.setState({ modalVisible: true, selectItem });
     }
 
     _renderItem = (item, index) => {
+       
         let num = this.state.clear ? 0 : (item.sale_quantity ? parseInt(item.sale_quantity) : 0) + (item.gifts_quantity ? parseInt(item.gifts_quantity) : 0)
-
         let url =  item.image;
         let empty = item.stock === 0;
         if(empty){
            url = "ic_empty";
         }
-
         return (
             <TouchableHighlight
                 onPress={this._rowOnPress.bind(this, item)}
@@ -156,14 +169,15 @@ class AddDeliveryOrderPage extends React.Component {
                             <ImageView style={{ width: 90, height: 90, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} source={{ uri: url }} />
                         </View>
                         <View style={{ flex: 1 }}>
-                            <View style={{ height: 34, paddingLeft: 12, marginBottom: 8, marginTop: 5, flexDirection: 'row', alignItems: 'center' }}>
+                            <View style={{ height: 34, paddingLeft: 12, marginBottom: 3, marginTop: 5, flexDirection: 'row', alignItems: 'center' }}>
                                 <Text style={{ color: '#333', fontSize: 16 }}>{item.name}</Text>
                                 <View style={{ flex: 1 }} />
                                 <Text style={{ color: '#666', marginRight: 8, fontSize: 12 }}></Text>
                             </View>
                             <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
-                                <View style={{ flex: 1, flexDirection: 'row' }}>
+                                <View style={{ flex: 1, flexDirection: 'column' }}>
                                     <Text style={{ color: '#666' }}>{item.specifications ? item.specifications : ''}</Text>
+                                    <Text style={{ color: '#666' }}>{item.salePolicy ? item.salePolicy : ''}</Text>
                                 </View>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
                                     <Text style={{ color: '#666' }}>{'库存：'}</Text>
@@ -200,8 +214,10 @@ class AddDeliveryOrderPage extends React.Component {
             item.gifts_quantity = 0
             new_good_list.push(item)
         }
+        let num = 0;
+        let numberCarsh = 0;
 
-        this.setState({ good_list: new_good_list, chooseList: [] })
+        this.setState({num,numberCarsh, good_list: new_good_list, chooseList: [] })
     }
 
     onConfirmPress(newItem) {
@@ -235,7 +251,6 @@ class AddDeliveryOrderPage extends React.Component {
                 oldItem.delivery_remember_person = newItem.delivery_remember_person;
                 oldItem.delivery_remember_person_name = newItem.delivery_remember_person_name;
             } else {
-
                 chooseList.push(newItem)
             }
         }
@@ -245,7 +260,16 @@ class AddDeliveryOrderPage extends React.Component {
                 chooseList.splice(i, 1);
             }
         }
-        this.setState({ modalVisible: false, modalPopVisible: false, chooseList });
+        let num = 0;
+        let numberCarsh = 0;
+        chooseList.map((item) => {
+            num += item.sale_quantity + item.gifts_quantity
+            if (!item.isDistribution) {
+                numberCarsh += item.price * item.sale_quantity + item.foregift * item.sale_quantity + item.foregift * item.gifts_quantity
+            }
+        })
+        numberCarsh = NumberUtils.fc(numberCarsh)
+        this.setState({ modalVisible: false, modalPopVisible: false,chooseList, num,numberCarsh });
     }
     onCancelPress() {
         this.setState({ modalVisible: false, modalPopVisible: false });
@@ -261,9 +285,9 @@ class AddDeliveryOrderPage extends React.Component {
         let selectCar = this.state.selectCar;
         params.selectCar = selectCar;
         params.downEmployeeIds = this.state.downEmployeeIds;
-        params.num = this.num
-        params.numberCarsh = this.numberCarsh
-
+        params.num = this.state.num
+        params.numberCarsh = this.state.numberCarsh
+        
         // if(!this.state.downEmployeeNames){
         //     Toast.show('请选择搬运工！');
         //     return;
@@ -321,20 +345,11 @@ class AddDeliveryOrderPage extends React.Component {
     render() {
         const { addDeliveryOrder } = this.props;
         let chooseList = this.state.chooseList;
-        this.num = 0
-        this.numberCarsh = 0
-        chooseList.map((item) => {
-            this.num += item.sale_quantity + item.gifts_quantity
-            if (!item.isDistribution) {
-                this.numberCarsh += item.price * item.sale_quantity + item.foregift * item.sale_quantity + item.foregift * item.gifts_quantity
-            }
-        })
-        this.numberCarsh = NumberUtils.fc(this.numberCarsh)
         let list = addDeliveryOrder.result ? this.state.good_list : [];
         list = list ? list : []
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
-                <AddDeliveryPopModel onClear={this.onClear} onEndAction={this.onEndAction.bind(this)} chooseList={this.state.chooseList} modalVisible={this.state.modalPopVisible} onCancelPress={this.onPopCancelPress.bind(this)} />
+                <AddDeliveryPopModel onClear={this.onClear} onEndAction={this.onEndAction.bind(this)} chooseList={chooseList} modalVisible={this.state.modalPopVisible} onCancelPress={this.onPopCancelPress.bind(this)} />
                 <AddDeliveryEditeModel modalVisible={this.state.modalVisible} onCancelPress={this.onCancelPress} item={this.state.selectItem} onConfirmPress={this.onConfirmPress} />
                 {
                     this.renderHeader()
@@ -355,13 +370,13 @@ class AddDeliveryOrderPage extends React.Component {
                                 iconSize={30}
                             />
                             {
-                                this.num > 0 ?
-                                    <Text style={{ position: 'absolute', fontSize: 10, padding: 4, top: 6, right: 6, backgroundColor: '#fe6732', color: '#fff', borderRadius: 12 }}>{'' + this.num}</Text>
+                                this.state.num > 0 ?
+                                    <Text style={{ position: 'absolute', fontSize: 10, padding: 4, top: 6, right: 6, backgroundColor: '#fe6732', color: '#fff', borderRadius: 12 }}>{'' + this.state.num}</Text>
                                     : null
                             }
                         </View>
                     </TouchableHighlight>
-                    <Text style={{ color: '#f80000' }}>￥{this.numberCarsh + '元'}</Text>
+                    <Text style={{ color: '#f80000' }}>￥{this.state.numberCarsh + '元'}</Text>
                     <View style={{ flex: 1 }} />
                     {
                         this.state.chooseList.length > 0 ?
