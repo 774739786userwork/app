@@ -1,0 +1,141 @@
+//客户产品系列
+import React from 'react';
+import {
+    View,
+    Text,
+    InteractionManager,
+    ListView
+} from 'react-native';
+
+import ScrollableTabView, {
+    DefaultTabBar
+} from 'react-native-scrollable-tab-view';
+
+import { FetchManger, LoginInfo, LoadingView, Toast, Iconfont } from 'react-native-go'
+import LoadingListView from '../../../components/LoadingListView'
+import ImageView from '../../../components/ImageView'
+
+var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+/**
+ * '客户产品系列'*/
+class CustormerProductPage extends React.Component {
+    static navigationOptions = {
+        title: '客户产品系列'
+    };
+
+    constructor(props){
+        super(props);
+        this.state = {
+            items:[]
+        }
+    }
+
+    render() {
+        return (<View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
+            <ScrollableTabView
+                renderTabBar={() => (
+                    <DefaultTabBar tabStyle={{ paddingBottom: 0 }} textStyle={{ fontSize: 16 }} style={{ height: 40 }} />
+                )}
+                tabBarBackgroundColor="#fcfcfc"
+                tabBarUnderlineStyle={{ backgroundColor: '#3e9ce9', height: 2 }}
+                tabBarActiveTextColor="#3e9ce9"
+                tabBarInactiveTextColor="#aaaaaa"
+            >
+            {
+                this.state.items.map((item,index)=><CustomerSaleDetailPage key={index} tabLabel={'系列'} {...this.props} />)
+            }
+            </ScrollableTabView>
+        </View>);
+    }
+}
+export default CustormerProductPage;
+
+
+//查询该组或者个人客户销售情况
+class CustomerSaleDetailPage extends React.Component {
+    static navigationOptions = ({ navigation }) => {
+        const { state, setParams } = navigation;
+        let title = state.params.currTime+state.params.groupName+'客户销售情况';
+
+        return {
+            headerTitleStyle: {fontSize: 16},
+            title: title
+        };
+    };
+
+    constructor(props) {
+        super(props)
+        this._renderRow = this._renderRow.bind(this);
+        this.onItemAction = this.onItemAction.bind(this);
+        this.state = {
+            dataList: [],
+            loading: false
+        }
+    }
+    componentDidMount() {
+        const { params } = this.props.navigation.state;
+        //groupId=100101&currTime=2017&employeeId=&page=1&rows=10&type=0
+        this.setState({ loading: true });
+        InteractionManager.runAfterInteractions(() => {
+            FetchManger.getUri('dataCenter/appHomePage/getCustomerSaleDetail.page', params, 30 * 60).then((responseData) => {
+                if (responseData.status === '0' || responseData.status === 0) {
+                    let data = responseData.data;
+                    this.setState({ dataList: data, loading: false })
+                } else {
+                    this.setState({ loading: false });
+                }
+            }).catch((error) => {
+                this.setState({ loading: false });
+            })
+        });
+    }
+    onItemAction(item) {
+
+    }
+   
+    _renderRow(item, rowID) {
+        return (
+            <TouchableOpacity onPress={this.onItemAction.bind(this, item)} key={`index_${rowID}`}>
+                <View>
+                    <View style={{ flexDirection: 'row', backgroundColor: '#fff' }}>
+                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.customerName}`}</Text>
+                        <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.customerPhone}`}</Text>
+                        <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.totalSum}万元`}</Text>
+                        <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.purchaseDate}`}</Text>
+                        <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, width:38, textAlign: 'center', color: '#666' }}>{`${item.purchaseCount}`}</Text>
+                   
+                    </View>
+                    <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                </View>
+            </TouchableOpacity>);
+    }
+
+    render() {
+        return <View style={{ flex: 1, backgroundColor: '#f9f9f9' }}>
+            <View style={{ backgroundColor: '#fff', borderColor: '#f2f2f2', borderWidth: 1, flex: 1 }}>
+                <View style={{ flexDirection: 'row', backgroundColor: '#66b3e5' }}>
+                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'客户'}</Text>
+                    <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'电话'}</Text>
+                    <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'总金额'}</Text>
+                    <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'最近时间'}</Text>
+                    <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, width:38, textAlign: 'center', color: '#fff' }}>{'次数'}</Text>
+           
+                </View>
+                <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                <LoadingListView
+                    loading={this.state.loading}
+                    listData={ds.cloneWithRows(this.state.dataList)}
+                    renderRowView={this._renderRow} />
+            </View>
+        </View>;
+    }
+}
+

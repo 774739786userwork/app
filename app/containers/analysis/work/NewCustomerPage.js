@@ -21,11 +21,11 @@ import * as DateUtils from '../../../utils/DateUtils'
 var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 var hl_ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
-//产品销量主页面
-class ProductSalesPage extends React.Component {
+//新发展客户
+class NewCustomerPage extends React.Component {
 
     static navigationOptions = ({ navigation }) => ({
-        title: `产品销量`,
+        title: `新发展客户`,
     });
 
     constructor(props) {
@@ -159,15 +159,15 @@ class ProductSalesPage extends React.Component {
         }
     }
     ontabSelect(index) {
-        this.setState({activeTab:index});
+        this.setState({ activeTab: index });
     }
     renderTabBar() {
         let activeTab = this.state.activeTab;
-       
+
         let color0 = activeTab === 0 ? "#0081d4" : "#fff";
         let tColor0 = activeTab === 0 ? "#fff" : "#0081d4";
         let color1 = activeTab === 1 ? "#0081d4" : "#fff"; // 判断i是否是当前选中的tab，设置不同的颜色
-        let tColor1 = activeTab ===1 ? "#fff" : "#0081d4";
+        let tColor1 = activeTab === 1 ? "#fff" : "#0081d4";
         let color2 = activeTab === 2 ? "#0081d4" : "#fff"; // 判断i是否是当前选中的tab，设置不同的颜色
         let tColor2 = activeTab === 2 ? "#fff" : "#0081d4";
         return (
@@ -180,27 +180,18 @@ class ProductSalesPage extends React.Component {
                     <TouchableWithoutFeedback onPress={() => this.ontabSelect(0)} style={styles.tab}>
                         <View style={[styles.tabItem0, { backgroundColor: color0 }]} >
                             <Text style={{ color: tColor0 }}>
-                                周
+                                年
 							</Text>
                         </View>
                     </TouchableWithoutFeedback>
                     <TouchableWithoutFeedback onPress={() => this.ontabSelect(1)} style={styles.tab}>
-                        <View style={[styles.tabItem1, { backgroundColor: color1 }]} >
+                        <View style={[styles.tabItem2, { backgroundColor: color1 }]} >
                             <Text style={{ color: tColor1 }}>
                                 月
 							</Text>
                         </View>
                     </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback onPress={() => this.ontabSelect(2)} style={styles.tab}>
-                        <View style={[styles.tabItem2, { backgroundColor: color2 }]} >
-                            <Text style={{ color: tColor2 }}>
-                                季
-							</Text>
-                        </View>
-                    </TouchableWithoutFeedback>
                 </View>
-                <View style={{ flex: 1 }} />
-                
                 <View style={{ flex: 1 }} />
             </View>
         );
@@ -211,15 +202,28 @@ class ProductSalesPage extends React.Component {
             {
                 this.renderTabBar()
             }
-            <View style={{ height: 40, backgroundColor: '#fff' }}>
-                <ListView
-                    enableEmptySections={true}
-                    dataSource={hl_ds.cloneWithRows(this.state.branchFactoryList)}
-                    renderRow={this._renderBranchRow}
-                    horizontal={true}
-                    showsHorizontalScrollIndicator={false}
-                    showsVerticalScrollIndicator={false}
-                />
+            <View style={{
+                padding: 14,
+                alignContent: 'center',
+                justifyContent: 'center',
+                backgroundColor: '#fff',
+                flexDirection: 'row'
+            }}>
+                <View style={{ flex: 1 }} />
+                <TouchableOpacity onPress={() => {}}>
+                    <Iconfont
+                        icon={'e688'} // 图标
+                        iconColor={'#aaa'}
+                        iconSize={26} />
+                </TouchableOpacity>
+                <Text style={{ color: '#666', fontSize: 16 }}>{'排名前20'}</Text>
+                <TouchableOpacity style={{ marginLeft: 4 }} onPress={() => {}}>
+                    <Iconfont
+                        icon={'e657'} // 图标
+                        iconColor={'#aaa'}
+                        iconSize={26} />
+                </TouchableOpacity>
+                <View style={{ flex: 1 }} />
             </View>
             <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#c4c4c4' }} />
             {
@@ -228,25 +232,14 @@ class ProductSalesPage extends React.Component {
                     <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#fff' }}>
                         <View style={{ width: 80, justifyContent: 'center', alignItems: 'center' }}>
                             <LeftTabComponet
-                                data={this.state.listData}
+                                data={this.state.branchFactoryList}
                                 sectionAction={(item) => {
-                                    let itemListData = item.customerList;
-                                    this.setState({ itemListData })
+                                    this.setState({orgId:item.orgId})
                                 }}
                             />
                         </View>
                         <View style={{ flex: 1, padding: 10, backgroundColor: '#f2f2f2' }}>
                             <View style={{ backgroundColor: '#fff', borderColor: '#f2f2f2', borderWidth: 1, flex: 1 }}>
-                                <View style={{ flexDirection: 'row', backgroundColor: '#66b3e5' }}>
-                                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'客户'}</Text>
-                                    <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'电话'}</Text>
-                                    <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'金额(元)'}</Text>
-                                    <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'占比%'}</Text>
-                                </View>
-                                <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
                                 <LoadingListView
                                     loading={this.state.loading}
                                     listData={ds.cloneWithRows(this.state.itemListData)}
@@ -260,7 +253,7 @@ class ProductSalesPage extends React.Component {
 }
 
 
-export default ProductSalesPage;
+export default NewCustomerPage;
 
 class LeftTabComponet extends React.Component {
     constructor(props) {
@@ -273,21 +266,20 @@ class LeftTabComponet extends React.Component {
     }
     sectionAction(item) {
         this.props.sectionAction && this.props.sectionAction(item)
-        this.setState({ preSelect: item.productId })
+        this.setState({ preSelect: item.orgId })
     }
     renderSectionListItem(item, index) {
-        let productId = item.productId;
+        let orgId = item.orgId;
         let preSelect = this.state.preSelect;
         if (!this.preSelect) {
-            this.preSelect = productId
+            this.preSelect = orgId
         }
         preSelect = preSelect ? preSelect : this.preSelect
 
         return <TouchableOpacity onPress={this.sectionAction.bind(this, item)} key={`index_${index}`}>
             <View>
-                <View style={{ width: 80, padding: 10, backgroundColor: preSelect != productId ? '#fff' : '#f9f9f9' }}>
-                    <ImageView source={{ uri: item.productImage }} style={{ width: 60, height: 60, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} />
-                    <Text>{item.productName}</Text>
+                <View style={{ width: 80, padding: 10,height:60,justifyContent:'center', backgroundColor: preSelect != orgId ? '#fff' : '#f9f9f9' }}>
+                    <Text style={{color: preSelect != orgId ? '#333' : '#0081d4'}}>{item.orgName}</Text>
                 </View>
                 <View style={{ height: StyleSheet.hairlineWidth, width: 60, backgroundColor: '#f9f9f9' }} />
             </View>

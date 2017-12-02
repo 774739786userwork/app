@@ -120,6 +120,11 @@ import S_SaleGroupContainer from './analysis/S_SaleGroupContainer'
 import BigCustomerPage from './analysis/work/BigCustomerPage'
 //大客户排名
 import BigCustomerSortPage from './analysis/work/BigCustomerSortPage'
+//客户产品系列
+import CustormerProductPage from './analysis/work/CustormerProductPage'
+//活跃客户
+import ActiveProductPage from './analysis/work/ActiveProductPage'
+import NewCustomerPage from './analysis/work/NewCustomerPage'
 //产品销量
 import ProductSalesPage from './analysis/work/ProductSalesPage';
 //销售组 销售情况
@@ -381,6 +386,17 @@ const App = StackNavigator(
     //大客户排名
     BigCustomerSortPage:{
         screen:BigCustomerSortPage
+    },
+    //新发展客户
+    NewCustomerPage:{
+      screen:NewCustomerPage
+    },
+    //活跃客户
+    ActiveProductPage:{
+        screen:ActiveProductPage
+    },
+    CustormerProductPage:{
+       screen:CustormerProductPage
     },
     ProductSalesPage: {
       screen: ProductSalesPage

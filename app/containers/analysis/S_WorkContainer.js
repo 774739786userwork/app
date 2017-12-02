@@ -20,10 +20,10 @@ const WINDOW_WIDTH = Dimensions.get('window').width;
 const HomeItem = [
     { name: '各系列分厂比较', open: false, typeName: 'SelectLadingbills', image: require('../../imgs/work/s_gexiliefengchangbijiao.png') },
     { name: '核心系列', open: false, typeName: 'SelectDeliveryOrder', image: require('../../imgs/work/s_kexinxilie.png') },
-    { name: '客户产品系列', open: false, typeName: 'PurchaseOrderInfo', image: require('../../imgs/work/s_kehucanpingxilie.png') },
+    { name: '客户产品系列', open: true, typeName: 'CustormerProductPage', image: require('../../imgs/work/s_kehucanpingxilie.png') },
     { name: '大客户', open: true, typeName: 'BigCustomerSortPage', image: require('../../imgs/work/s_dakehu.png') },
-    { name: '新发展客户', open: false, typeName: 'GetCarSurplusGoodsList', image: require('../../imgs/work/s_xinfazhankehu.png') },
-    { name: '活跃客户', open: false, typeName: 'UnLoadBillDetailList', image: require('../../imgs/work/s_huyuekehu.png') },
+    { name: '新发展客户', open: true, typeName: 'NewCustomerPage', image: require('../../imgs/work/s_xinfazhankehu.png') },
+    { name: '活跃客户', open: true, typeName: 'ActiveProductPage', image: require('../../imgs/work/s_huyuekehu.png') },
     { name: '分段客户', open: false, typeName: 'QueryReturnLists', image: require('../../imgs/work/s_fengduankehu.png') },
     { name: '产品大客户', open: true, typeName: 'BigCustomerPage', image: require('../../imgs/work/s_canpingdakehu.png') },
     { name: '产品销量', open: true, typeName: 'ProductSalesPage', image: require('../../imgs/work/s_canpingxiaoliang.png') },

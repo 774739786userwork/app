@@ -253,7 +253,7 @@ class S_SaleGroupPage extends React.Component {
         </TouchableOpacity>
         <View style={{ flex: 1 }} />
       </View>
-      <View>
+      <View style={{ height: 40, backgroundColor: '#fff' }}>
         <ListView
           enableEmptySections={true}
           dataSource={hl_ds.cloneWithRows(this.state.branchFactoryList)}
@@ -513,7 +513,7 @@ class S_SaleMonthGroupPage extends React.Component {
         </TouchableOpacity>
         <View style={{ flex: 1 }} />
       </View>
-      <View>
+      <View style={{ height: 40, backgroundColor: '#fff' }}>
         <ListView
           enableEmptySections={true}
           dataSource={hl_ds.cloneWithRows(this.state.branchFactoryList)}
@@ -762,7 +762,7 @@ class S_SaleDayGroupPage extends React.Component {
         </TouchableOpacity>
         <View style={{ flex: 1 }} />
       </View>
-      <View>
+      <View style={{ height: 40, backgroundColor: '#fff' }}>
         <ListView
           enableEmptySections={true}
           dataSource={hl_ds.cloneWithRows(this.state.branchFactoryList)}

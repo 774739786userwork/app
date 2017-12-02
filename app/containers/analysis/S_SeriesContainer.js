@@ -250,7 +250,7 @@ class S_SeriesPage extends React.Component {
               listData={detail_ds.cloneWithRows(listData)}
               renderRowView={this._renderRow_Detail} />
           </View>
-          <View>
+          <View style={{ height: 40, backgroundColor: '#fff' }}>
             <ListView
               enableEmptySections={true}
               dataSource={hl_ds.cloneWithRows(this.state.branchFactoryList)}
@@ -449,7 +449,7 @@ class S_SeriesMonthPage extends React.Component {
               listData={detail_ds.cloneWithRows(listData)}
               renderRowView={this._renderRow_Detail} />
           </View>
-          <View>
+          <View style={{ height: 40, backgroundColor: '#fff' }}>
             <ListView
               enableEmptySections={true}
               dataSource={hl_ds.cloneWithRows(this.state.branchFactoryList)}
