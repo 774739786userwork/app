@@ -62,7 +62,7 @@ class BigCustomerSortPage extends React.Component {
                     if (data.length > 0) {
                         data[0].selected = true;
                         orgId = data[0].orgId;
-                        this.loadDetail(startDate, endDate, orgId);
+                        this.loadDetail(orgId);
                     }
                     this.setState({ branchFactoryList: data, orgId, groupLoading: false, loading: false })
 
@@ -76,19 +76,19 @@ class BigCustomerSortPage extends React.Component {
 
 
     }
-    loadDetail(startDate, endDate, orgId) {
+    loadDetail(orgId) {
         const userId = LoginInfo.getUserInfo().user_id;
-        let p = { startDate, endDate, orgId, userId };
+        let p = { orgId, userId };
+        p.rankId = 2;
+        p.currTime = 2017;
+        p.type = 0;
+        p.orgId = orgId;
         this.setState({ groupLoading: true })
         InteractionManager.runAfterInteractions(() => {
-            FetchManger.getUri('dataCenter/appHomePage/getProductBigCustomer.page', p, 30 * 60).then((responseData) => {
+            FetchManger.getUri('dataCenter/appHomePage/getBigCustomerRanking.page', p, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
-                    let itemListData = [];
-                    if (data && data.length > 0) {
-                        itemListData = data[0].customerList;
-                    }
-                    this.setState({ listData: data, itemListData, loading: false, groupLoading: false })
+                    this.setState({ listData: data, loading: false, groupLoading: false })
                 } else {
                     this.setState({ loading: false, groupLoading: false });
                 }
@@ -98,25 +98,34 @@ class BigCustomerSortPage extends React.Component {
         });
     }
     onItemAction(item) {
-
+        // BigCustSortDetailPage
+        const { navigate } = this.props.navigation;
+        navigate('BigCustSortDetailPage',item);
     }
 
     _renderRow(item, rowID) {
-        return (
-            <TouchableOpacity onPress={this.onItemAction.bind(this, item)} key={`index_${rowID}`}>
-                <View>
-                    <View style={{ flexDirection: 'row', backgroundColor: '#fff' }}>
-                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.customerName}`}</Text>
-                        <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.customerPhone}`}</Text>
-                        <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.totalSum}`}</Text>
-                        <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.customerPrecent}`}</Text>
+        return (<View key={`index_${rowID}`}>
+            <TouchableOpacity onPress={this.onItemAction.bind(this, item)} >
+                <View style={{ borderRadius: 4, backgroundColor: '#fff' }}>
+                    <View style={{ height: 24, paddingLeft: 12, marginBottom: 4, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
+                        <Text style={{ color: '#333', }}>{`${item.customerName}`}</Text>
+                        <Text style={{ color: '#333', marginLeft: 8 }}>{`${item.customerPhone}`}</Text>
                     </View>
-                    <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                    <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{ flex: 3, flexDirection: 'row' }}>
+                            <Text style={{ color: '#f80000', fontSize: 12 }}>{'金额：'}</Text>
+                            <Text style={{ color: '#f80000', fontSize: 12 }}>{`${item.totalSum}元`}</Text>
+                        </View>
+                        <View style={{ flex: 2, flexDirection: 'row' }}>
+                            <Text style={{ color: '#f80000', fontSize: 12 }}>{'未收：'}</Text>
+                            <Text style={{ color: '#f80000', fontSize: 12, marginRight: 4 }}>{`${item.unPaidSum}`}</Text>
+                        </View>
+                    </View>
                 </View>
-            </TouchableOpacity>);
+            </TouchableOpacity>
+            <View style={{ height: 12, backgroundColor: '#f2f2f2' }}></View>
+        </View>
+        );
     }
     _rowOnBranchPress(item) {
         let branchFactoryList = this.state.branchFactoryList;
@@ -210,14 +219,14 @@ class BigCustomerSortPage extends React.Component {
                 flexDirection: 'row'
             }}>
                 <View style={{ flex: 1 }} />
-                <TouchableOpacity onPress={() => {}}>
+                <TouchableOpacity onPress={() => { }}>
                     <Iconfont
                         icon={'e688'} // 图标
                         iconColor={'#aaa'}
                         iconSize={26} />
                 </TouchableOpacity>
                 <Text style={{ color: '#666', fontSize: 16 }}>{'排名前20'}</Text>
-                <TouchableOpacity style={{ marginLeft: 4 }} onPress={() => {}}>
+                <TouchableOpacity style={{ marginLeft: 4 }} onPress={() => { }}>
                     <Iconfont
                         icon={'e657'} // 图标
                         iconColor={'#aaa'}
@@ -233,8 +242,10 @@ class BigCustomerSortPage extends React.Component {
                         <View style={{ width: 80, justifyContent: 'center', alignItems: 'center' }}>
                             <LeftTabComponet
                                 data={this.state.branchFactoryList}
+                                orgId={this.state.orgId}
                                 sectionAction={(item) => {
-                                    this.setState({orgId:item.orgId})
+                                    this.setState({ orgId: item.orgId })
+                                    this.loadDetail(item.orgId);
                                 }}
                             />
                         </View>
@@ -242,7 +253,7 @@ class BigCustomerSortPage extends React.Component {
                             <View style={{ backgroundColor: '#fff', borderColor: '#f2f2f2', borderWidth: 1, flex: 1 }}>
                                 <LoadingListView
                                     loading={this.state.loading}
-                                    listData={ds.cloneWithRows(this.state.itemListData)}
+                                    listData={ds.cloneWithRows(this.state.listData)}
                                     renderRowView={this._renderRow} />
                             </View>
                         </View>
@@ -260,9 +271,9 @@ class LeftTabComponet extends React.Component {
         super(props)
         this.renderSectionListItem = this.renderSectionListItem.bind(this);
         this.state = {
-            preSelect: undefined
+            preSelect: this.props.orgId
         }
-        this.preSelect = undefined
+        this.preSelect = this.props.orgId
     }
     sectionAction(item) {
         this.props.sectionAction && this.props.sectionAction(item)
@@ -278,8 +289,8 @@ class LeftTabComponet extends React.Component {
 
         return <TouchableOpacity onPress={this.sectionAction.bind(this, item)} key={`index_${index}`}>
             <View>
-                <View style={{ width: 80, padding: 10,height:60,justifyContent:'center', backgroundColor: preSelect != orgId ? '#fff' : '#f9f9f9' }}>
-                    <Text style={{color: preSelect != orgId ? '#333' : '#0081d4'}}>{item.orgName}</Text>
+                <View style={{ width: 80, padding: 10, height: 60, justifyContent: 'center', backgroundColor: preSelect != orgId ? '#fff' : '#f9f9f9' }}>
+                    <Text style={{ color: preSelect != orgId ? '#333' : '#0081d4' }}>{item.orgName}</Text>
                 </View>
                 <View style={{ height: StyleSheet.hairlineWidth, width: 60, backgroundColor: '#f9f9f9' }} />
             </View>

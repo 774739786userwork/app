@@ -118,6 +118,7 @@ import S_SaleGroupContainer from './analysis/S_SaleGroupContainer'
 //报表 首页
 //大客户
 import BigCustomerPage from './analysis/work/BigCustomerPage'
+import BigCustSortDetailPage from './analysis/work/bigcustsort/BigCustSortDetailPage'
 //大客户排名
 import BigCustomerSortPage from './analysis/work/BigCustomerSortPage'
 //客户产品系列
@@ -386,6 +387,10 @@ const App = StackNavigator(
     //大客户排名
     BigCustomerSortPage:{
         screen:BigCustomerSortPage
+    },
+    //大客户排名详情
+    BigCustSortDetailPage:{
+      screen:BigCustSortDetailPage
     },
     //新发展客户
     NewCustomerPage:{

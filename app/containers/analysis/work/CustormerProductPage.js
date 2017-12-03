@@ -4,7 +4,9 @@ import {
     View,
     Text,
     InteractionManager,
-    ListView
+    ListView,
+    StyleSheet,
+    TouchableOpacity
 } from 'react-native';
 
 import ScrollableTabView, {
@@ -26,9 +28,35 @@ class CustormerProductPage extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            items:[]
+            branchFactoryList:[]
         }
     }
+
+  componentDidMount() {
+    const { navigation, tabLabel } = this.props;
+    let userId = LoginInfo.getUserInfo().user_id;
+    this.setState({ loading: true });
+    InteractionManager.runAfterInteractions(() => {
+      FetchManger.getUri('dataCenter/appHomePage/getMyFocusFactory.page', { userId }, 30 * 60).then((responseData) => {
+        if (responseData.status === '0' || responseData.status === 0) {
+          let data = responseData.data;
+          const { currentDate,orgId,orgName } = this.state;
+          if (data.length > 0) {
+            data[0].selected = true;
+            orgId = data[0].orgId;
+            orgName = data[0].orgName;
+           
+          }
+          this.setState({ branchFactoryList: data, orgId,orgName, loading: false })
+
+        } else {
+          this.setState({ loading: false });
+        }
+      }).catch((error) => {
+        this.setState({ loading: false });
+      })
+    });
+  }
 
     render() {
         return (<View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
@@ -42,7 +70,7 @@ class CustormerProductPage extends React.Component {
                 tabBarInactiveTextColor="#aaaaaa"
             >
             {
-                this.state.items.map((item,index)=><CustomerSaleDetailPage key={index} tabLabel={'系列'} {...this.props} />)
+                this.state.branchFactoryList.map((item,index)=><CustomerSaleDetailPage key={index} itemId={item.orgId} tabLabel={item.orgName} {...this.props} />)
             }
             </ScrollableTabView>
         </View>);
@@ -73,22 +101,23 @@ class CustomerSaleDetailPage extends React.Component {
         }
     }
     componentDidMount() {
-        const { params } = this.props.navigation.state;
-        //groupId=100101&currTime=2017&employeeId=&page=1&rows=10&type=0
-        this.setState({ loading: true });
-        InteractionManager.runAfterInteractions(() => {
-            FetchManger.getUri('dataCenter/appHomePage/getCustomerSaleDetail.page', params, 30 * 60).then((responseData) => {
-                if (responseData.status === '0' || responseData.status === 0) {
-                    let data = responseData.data;
-                    this.setState({ dataList: data, loading: false })
-                } else {
-                    this.setState({ loading: false });
-                }
-            }).catch((error) => {
-                this.setState({ loading: false });
-            })
-        });
-    }
+         const  orgId  = this.props.itemId;
+         let params = {};
+         params.orgId = orgId;
+         this.setState({ loading: true });
+         InteractionManager.runAfterInteractions(() => {
+             FetchManger.getUri('dataCenter/appHomePage/getCusSeriesCoverage.page', params, 30 * 60).then((responseData) => {
+                 if (responseData.status === '0' || responseData.status === 0) {
+                     let data = responseData.data;
+                     this.setState({ dataList: data, loading: false })
+                 } else {
+                     this.setState({ loading: false });
+                 }
+             }).catch((error) => {
+                 this.setState({ loading: false });
+             })
+         });
+     }
     onItemAction(item) {
 
     }
@@ -102,11 +131,11 @@ class CustomerSaleDetailPage extends React.Component {
                         <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
                         <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.customerPhone}`}</Text>
                         <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.seriesName}`}</Text>
+                        <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
                         <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.totalSum}万元`}</Text>
                         <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.purchaseDate}`}</Text>
-                        <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, width:38, textAlign: 'center', color: '#666' }}>{`${item.purchaseCount}`}</Text>
+                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, width:38, textAlign: 'center', color: '#666' }}>{`${item.seriesCoverage}`}</Text>
                    
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
@@ -122,11 +151,11 @@ class CustomerSaleDetailPage extends React.Component {
                     <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
                     <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'电话'}</Text>
                     <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'总金额'}</Text>
+                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'优质系列'}</Text>
                     <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'最近时间'}</Text>
+                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'总销售额'}</Text>
                     <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, width:38, textAlign: 'center', color: '#fff' }}>{'次数'}</Text>
+                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, width:42, textAlign: 'center', color: '#fff' }}>{'覆盖率'}</Text>
            
                 </View>
                 <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />

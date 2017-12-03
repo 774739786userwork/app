@@ -4,7 +4,9 @@ import {
     View,
     Text,
     InteractionManager,
-    ListView
+    ListView,
+    StyleSheet,
+    TouchableOpacity
 } from 'react-native';
 
 import ScrollableTabView, {
@@ -23,11 +25,38 @@ class ActiveProductPage extends React.Component {
         title: '活跃客户'
     };
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            items:[]
+            branchFactoryList: []
         }
+    }
+
+
+    componentDidMount() {
+        const { navigation, tabLabel } = this.props;
+        let userId = LoginInfo.getUserInfo().user_id;
+        this.setState({ loading: true });
+        InteractionManager.runAfterInteractions(() => {
+            FetchManger.getUri('dataCenter/appHomePage/getMyFocusFactory.page', { userId }, 30 * 60).then((responseData) => {
+                if (responseData.status === '0' || responseData.status === 0) {
+                    let data = responseData.data;
+                    const { currentDate, orgId, orgName } = this.state;
+                    if (data.length > 0) {
+                        data[0].selected = true;
+                        orgId = data[0].orgId;
+                        orgName = data[0].orgName;
+
+                    }
+                    this.setState({ branchFactoryList: data, orgId, orgName, loading: false })
+
+                } else {
+                    this.setState({ loading: false });
+                }
+            }).catch((error) => {
+                this.setState({ loading: false });
+            })
+        });
     }
 
     render() {
@@ -41,9 +70,9 @@ class ActiveProductPage extends React.Component {
                 tabBarActiveTextColor="#3e9ce9"
                 tabBarInactiveTextColor="#aaaaaa"
             >
-            {
-                this.state.items.map((item,index)=><CustomerSaleDetailPage key={index} tabLabel={'系列'} {...this.props} />)
-            }
+                {
+                    this.state.branchFactoryList.map((item, index) => <CustomerSaleDetailPage key={index} itemId={item.orgId} tabLabel={item.orgName} {...this.props} />)
+                }
             </ScrollableTabView>
         </View>);
     }
@@ -55,10 +84,10 @@ export default ActiveProductPage;
 class CustomerSaleDetailPage extends React.Component {
     static navigationOptions = ({ navigation }) => {
         const { state, setParams } = navigation;
-        let title = state.params.currTime+state.params.groupName+'客户销售情况';
+        let title = state.params.currTime + state.params.groupName + '客户销售情况';
 
         return {
-            headerTitleStyle: {fontSize: 16},
+            headerTitleStyle: { fontSize: 16 },
             title: title
         };
     };
@@ -73,11 +102,14 @@ class CustomerSaleDetailPage extends React.Component {
         }
     }
     componentDidMount() {
-        const { params } = this.props.navigation.state;
-        //groupId=100101&currTime=2017&employeeId=&page=1&rows=10&type=0
+        const  orgId  = this.props.itemId;
+        let params = {};
+        params.orgId = orgId;
+        params.cycleId = 3;
+        params.timesId = 3;
         this.setState({ loading: true });
         InteractionManager.runAfterInteractions(() => {
-            FetchManger.getUri('dataCenter/appHomePage/getCustomerSaleDetail.page', params, 30 * 60).then((responseData) => {
+            FetchManger.getUri('dataCenter/appHomePage/getCustomerVitalityDetail.page', params, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
                     this.setState({ dataList: data, loading: false })
@@ -92,7 +124,7 @@ class CustomerSaleDetailPage extends React.Component {
     onItemAction(item) {
 
     }
-   
+
     _renderRow(item, rowID) {
         return (
             <TouchableOpacity onPress={this.onItemAction.bind(this, item)} key={`index_${rowID}`}>
@@ -106,8 +138,8 @@ class CustomerSaleDetailPage extends React.Component {
                         <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
                         <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.purchaseDate}`}</Text>
                         <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, width:38, textAlign: 'center', color: '#666' }}>{`${item.purchaseCount}`}</Text>
-                   
+                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, width: 38, textAlign: 'center', color: '#666' }}>{`${item.purchaseTimes}`}</Text>
+
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
                 </View>
@@ -116,18 +148,32 @@ class CustomerSaleDetailPage extends React.Component {
 
     render() {
         return <View style={{ flex: 1, backgroundColor: '#f9f9f9' }}>
+            <View style={{ backgroundColor: '#fff', height: 40, flexDirection: 'row', }}>
+                <View style={{ flex: 1, flexDirection: 'row',justifyContent:'center' }}>
+                    <Text style={{ height: 40, width: 80,color:'#999', lineHeight: 40, textAlign: 'right' }}>{'周期:'}</Text>
+                    <View style={{ flex: 1, backgroundColor: '#f2f2f2',justifyContent:'center',paddingLeft:4, margin: 6, height: 28 }}>
+                      <Text style={{color:'#999',}}>近一个月</Text>
+                    </View>
+                </View>
+                <View style={{ flex: 1, flexDirection: 'row',marginRight:12 }}>
+                    <Text style={{ height: 40, width: 80, color:'#999',lineHeight: 40, textAlign: 'right' }}>{'进货次数:'}</Text>
+                    <View style={{ flex: 1, backgroundColor: '#f2f2f2',justifyContent:'center',paddingLeft:4, margin: 6, height: 28 }}>
+                    <Text style={{color:'#999',}}>0</Text>
+                  </View>
+                </View>
+            </View>
             <View style={{ backgroundColor: '#fff', borderColor: '#f2f2f2', borderWidth: 1, flex: 1 }}>
                 <View style={{ flexDirection: 'row', backgroundColor: '#66b3e5' }}>
                     <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'客户'}</Text>
                     <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
                     <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'电话'}</Text>
                     <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'总金额'}</Text>
+                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'总销售额'}</Text>
                     <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
                     <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'最近时间'}</Text>
                     <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, width:38, textAlign: 'center', color: '#fff' }}>{'次数'}</Text>
-           
+                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, width: 38, textAlign: 'center', color: '#fff' }}>{'次数'}</Text>
+
                 </View>
                 <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
                 <LoadingListView

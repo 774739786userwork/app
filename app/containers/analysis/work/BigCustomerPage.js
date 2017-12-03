@@ -40,30 +40,30 @@ class BigCustomerPage extends React.Component {
             branchFactoryList: [],
             loading: false,
             orgId: undefined,
-            groupLoading:false,
+            groupLoading: false,
         }
     }
     componentDidMount() {
         const { params } = this.props.navigation.state;
         const userId = LoginInfo.getUserInfo().user_id;
-        this.setState({ loading: true ,groupLoading:true});
+        this.setState({ loading: true, groupLoading: true });
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getMyFocusFactory.page?userId=' + userId, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
-                    const { selY, selM,orgId } = this.state;
+                    const { selY, selM, orgId } = this.state;
                     if (data.length > 0) {
                         data[0].selected = true;
                         orgId = data[0].orgId;
                         this.loadDetail(selY, selM, orgId);
                     }
-                    this.setState({ branchFactoryList: data, orgId, groupLoading:false,loading: false })
+                    this.setState({ branchFactoryList: data, orgId, groupLoading: false, loading: false })
 
                 } else {
-                    this.setState({ loading: false ,groupLoading:false});
+                    this.setState({ loading: false, groupLoading: false });
                 }
             }).catch((error) => {
-                this.setState({ loading: false,groupLoading:false });
+                this.setState({ loading: false, groupLoading: false });
             })
         });
 
@@ -72,22 +72,22 @@ class BigCustomerPage extends React.Component {
     loadDetail(_year, _month, orgId) {
         let currTime = _year + '-' + (_month < 10 ? '0' + _month : _month)
         const userId = LoginInfo.getUserInfo().user_id;
-        let p = { currTime,type:1, orgId, userId };
-        this.setState({groupLoading:true})
+        let p = { currTime, type: 1, orgId, userId };
+        this.setState({ groupLoading: true })
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getProductBigCustomer.page', p, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
                     let itemListData = [];
-                    if(data && data.length > 0){
-                        itemListData =  data[0].customerList;
+                    if (data && data.length > 0) {
+                        itemListData = data[0].customerList;
                     }
-                    this.setState({ listData: data, itemListData,loading: false,groupLoading:false })
+                    this.setState({ listData: data, itemListData, loading: false, groupLoading: false })
                 } else {
-                    this.setState({ loading: false ,groupLoading:false});
+                    this.setState({ loading: false, groupLoading: false });
                 }
             }).catch((error) => {
-                this.setState({ loading: false ,groupLoading:false});
+                this.setState({ loading: false, groupLoading: false });
             })
         });
     }
@@ -141,7 +141,7 @@ class BigCustomerPage extends React.Component {
 
     render() {
         return <View style={{ flex: 1, backgroundColor: '#f9f9f9' }}>
-            <View>
+            <View style={{ height: 40, backgroundColor: '#fff' }}>
                 <ListView
                     enableEmptySections={true}
                     dataSource={hl_ds.cloneWithRows(this.state.branchFactoryList)}
@@ -157,21 +157,21 @@ class BigCustomerPage extends React.Component {
                     icon={'e688'} // 图标
                     iconColor={'#aaa'}
                     iconSize={24} />
-                    <MonthPicker
-                        style={{ width: 120 }}
-                        customStyles={{
+                <MonthPicker
+                    style={{ width: 120 }}
+                    customStyles={{
                         dateText: {
                             fontSize: 18,
                             color: '#000',
                         }
-                        }}
-                        selY={this.state.selY}
-                        selM={this.state.selM}
-                        onDateChange={(selY, selM, ymStr) => {
-                            this.loadDetail(selY, selM,this.state.orgId)
-                            this.setState({ selY, selM })
-                        }}
-                    />
+                    }}
+                    selY={this.state.selY}
+                    selM={this.state.selM}
+                    onDateChange={(selY, selM, ymStr) => {
+                        this.loadDetail(selY, selM, this.state.orgId)
+                        this.setState({ selY, selM })
+                    }}
+                />
                 <Iconfont
                     icon={'e657'} // 图标
                     iconColor={'#aaa'}
