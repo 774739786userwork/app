@@ -9,7 +9,8 @@ import {
     TouchableOpacity,
     InteractionManager,
     TouchableWithoutFeedback,
-    ScrollView
+    ScrollView,
+    Dimensions
 } from 'react-native';
 
 import DatePicker from 'react-native-datepicker'
@@ -17,6 +18,7 @@ import { FetchManger, LoginInfo, LoadingView, Toast, Iconfont } from 'react-nati
 import LoadingListView from '../../../components/LoadingListView';
 import ImageView from '../../../components/ImageView';
 import * as DateUtils from '../../../utils/DateUtils'
+const WINDOW_WIDTH = Dimensions.get('window').width;
 
 var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 var hl_ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -210,14 +212,14 @@ class NewCustomerPage extends React.Component {
                 flexDirection: 'row'
             }}>
                 <View style={{ flex: 1 }} />
-                <TouchableOpacity onPress={() => {}}>
+                <TouchableOpacity onPress={() => { }}>
                     <Iconfont
                         icon={'e688'} // 图标
                         iconColor={'#aaa'}
                         iconSize={26} />
                 </TouchableOpacity>
                 <Text style={{ color: '#666', fontSize: 16 }}>{'排名前20'}</Text>
-                <TouchableOpacity style={{ marginLeft: 4 }} onPress={() => {}}>
+                <TouchableOpacity style={{ marginLeft: 4 }} onPress={() => { }}>
                     <Iconfont
                         icon={'e657'} // 图标
                         iconColor={'#aaa'}
@@ -234,18 +236,11 @@ class NewCustomerPage extends React.Component {
                             <LeftTabComponet
                                 data={this.state.branchFactoryList}
                                 sectionAction={(item) => {
-                                    this.setState({orgId:item.orgId})
+                                    this.setState({ orgId: item.orgId })
                                 }}
                             />
                         </View>
-                        <View style={{ flex: 1, padding: 10, backgroundColor: '#f2f2f2' }}>
-                            <View style={{ backgroundColor: '#fff', borderColor: '#f2f2f2', borderWidth: 1, flex: 1 }}>
-                                <LoadingListView
-                                    loading={this.state.loading}
-                                    listData={ds.cloneWithRows(this.state.itemListData)}
-                                    renderRowView={this._renderRow} />
-                            </View>
-                        </View>
+                        <RightComponent />
                     </View>
             }
         </View>;
@@ -254,6 +249,56 @@ class NewCustomerPage extends React.Component {
 
 
 export default NewCustomerPage;
+
+
+class RightComponent extends React.Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            
+        }
+    }
+    swithItemPress(){
+
+    }
+    _renderRow(){
+        return <View/>
+    }
+    render() {
+        return <View style={{ flex: 1, padding: 10, backgroundColor: '#f2f2f2' }}>
+            <Text style={{ color: '#999', marginLeft: 12, marginTop: 12 }}>{'新增客户数:230家'}</Text>
+            <View style={{ backgroundColor: '#fff', margin: 10 }}>
+                <View style={{ height: 38, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', height: 38 }}>
+                        <TouchableOpacity style={{ flex: 1, height: 38, alignItems: 'center', justifyContent: 'center' }} onPress={this.swithItemPress.bind(this, 0)}>
+                            <Text style={{ color: !this.state.selectCust ? '#0081d4' : '#222' }}>{'新建档'}</Text>
+                        </TouchableOpacity>
+                        <View style={{ height: 1, backgroundColor: !this.state.selectCust ? '#0081d4' : '#c4c4c4', width: (WINDOW_WIDTH - 120) / 2 }} />
+                    </View>
+                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', height: 38 }}>
+                        <TouchableOpacity style={{ flex: 1, height: 38, alignItems: 'center', justifyContent: 'center' }} onPress={this.swithItemPress.bind(this, 1)}>
+                            <Text style={{ color: this.state.selectCust ? '#0081d4' : '#222' }}>{'已归档'}</Text>
+                        </TouchableOpacity>
+                        <View style={{ height: 1, backgroundColor: this.state.selectCust ? '#0081d4' : '#c4c4c4', width: (WINDOW_WIDTH - 120) / 2 }} />
+                    </View>
+                </View>
+                <View style={{ flexDirection: 'row', backgroundColor: '#66b3e5' }}>
+                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'业务员'}</Text>
+                    <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'客户数'}</Text>
+                    <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'排名'}</Text>
+                   
+                </View>
+                <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                <LoadingListView
+                    loading={this.state.loading}
+                    listData={ds.cloneWithRows([])}
+                    renderRowView={this._renderRow} />
+            </View>
+        </View>
+    }
+}
 
 class LeftTabComponet extends React.Component {
     constructor(props) {
@@ -278,8 +323,8 @@ class LeftTabComponet extends React.Component {
 
         return <TouchableOpacity onPress={this.sectionAction.bind(this, item)} key={`index_${index}`}>
             <View>
-                <View style={{ width: 80, padding: 10,height:60,justifyContent:'center', backgroundColor: preSelect != orgId ? '#fff' : '#f9f9f9' }}>
-                    <Text style={{color: preSelect != orgId ? '#333' : '#0081d4'}}>{item.orgName}</Text>
+                <View style={{ width: 80, padding: 10, height: 60, justifyContent: 'center', backgroundColor: preSelect != orgId ? '#fff' : '#f9f9f9' }}>
+                    <Text style={{ color: preSelect != orgId ? '#333' : '#0081d4' }}>{item.orgName}</Text>
                 </View>
                 <View style={{ height: StyleSheet.hairlineWidth, width: 60, backgroundColor: '#f9f9f9' }} />
             </View>
