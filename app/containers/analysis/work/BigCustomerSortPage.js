@@ -17,6 +17,7 @@ import { FetchManger, LoginInfo, LoadingView, Toast, Iconfont } from 'react-nati
 import LoadingListView from '../../../components/LoadingListView';
 import ImageView from '../../../components/ImageView';
 import * as DateUtils from '../../../utils/DateUtils'
+import RankModel from './model/RankModel'
 
 var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 var hl_ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -31,12 +32,9 @@ class BigCustomerSortPage extends React.Component {
     constructor(props) {
         super(props)
         this._renderRow = this._renderRow.bind(this);
-        this._renderBranchRow = this._renderBranchRow.bind(this);
-        this._rowOnBranchPress = this._rowOnBranchPress.bind(this);
         this.loadDetail = this.loadDetail.bind(this);
         this.renderTabBar = this.renderTabBar.bind(this)
         this.ontabSelect = this.ontabSelect.bind(this)
-        this._selectByDate = this._selectByDate.bind(this);
         this.state = {
             startDate: DateUtils.getYearMonthDay(1),
             endDate: DateUtils.getYearMonthDay(),
@@ -47,6 +45,10 @@ class BigCustomerSortPage extends React.Component {
             orgId: undefined,
             groupLoading: false,
             activeTab: 0,
+            rankModelShow: false,
+            rankName: '排名前20',
+            rankId: 1
+
         }
     }
     componentDidMount() {
@@ -62,7 +64,8 @@ class BigCustomerSortPage extends React.Component {
                     if (data.length > 0) {
                         data[0].selected = true;
                         orgId = data[0].orgId;
-                        this.loadDetail(orgId);
+                        const { activeTab, rankId } = this.state;
+                        this.loadDetail(orgId, activeTab, rankId);
                     }
                     this.setState({ branchFactoryList: data, orgId, groupLoading: false, loading: false })
 
@@ -76,13 +79,11 @@ class BigCustomerSortPage extends React.Component {
 
 
     }
-    loadDetail(orgId) {
+    loadDetail(orgId, activeTab, rankId) {
         const userId = LoginInfo.getUserInfo().user_id;
         let p = { orgId, userId };
-        p.rankId = 2;
-        p.currTime = 2017;
-        p.type = 0;
-        p.orgId = orgId;
+        p.rankId = rankId;
+        p.type = activeTab;
         this.setState({ groupLoading: true })
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getBigCustomerRanking.page', p, 30 * 60).then((responseData) => {
@@ -98,9 +99,11 @@ class BigCustomerSortPage extends React.Component {
         });
     }
     onItemAction(item) {
-        // BigCustSortDetailPage
         const { navigate } = this.props.navigation;
-        navigate('BigCustSortDetailPage',item);
+        const { activeTab, orgId } = this.state;
+        item.orgId = orgId;
+        item.type = activeTab;
+        navigate('BigCustSortDetailPage', item);
     }
 
     _renderRow(item, rowID) {
@@ -127,48 +130,10 @@ class BigCustomerSortPage extends React.Component {
         </View>
         );
     }
-    _rowOnBranchPress(item) {
-        let branchFactoryList = this.state.branchFactoryList;
-        branchFactoryList.map((_item) => {
-            _item.selected = false;
-            if (_item.orgId === item.orgId) {
-                _item.selected = true;
-            }
-        })
-        const { startDate, endDate } = this.state;
-        let orgId = item.orgId;
-        this.loadDetail(startDate, endDate, orgId);
-
-        this.setState({ branchFactoryList, orgId })
-    }
-    _renderBranchRow(item, sectionID, index) {
-        let selected = item.selected;
-        return <TouchableOpacity
-            onPress={this._rowOnBranchPress.bind(this, item)}
-            key={`row_${index}`}
-        >
-            <View style={{ width: 120, height: 40, backgroundColor: '#fff' }}>
-                <Text style={{ color: selected ? '#0081d4' : '#000', textAlign: 'center', lineHeight: 38, width: 120 }}>{item.orgName}</Text>
-                <View style={{ height: 2, width: 120, backgroundColor: selected ? '#0081d4' : '#fff' }} />
-            </View>
-        </TouchableOpacity>
-    }
-
-    _selectByDate(_startDate, _endDate) {
-        let orgId = this.state.orgId;
-        const { startDate, endDate } = this.state;
-
-        if (_startDate) {
-            this.loadDetail(_startDate, endDate, orgId);
-            this.setState({ startDate: _startDate });
-        }
-        if (_endDate) {
-            this.loadDetail(startDate, _endDate, orgId);
-            this.setState({ endDate: _endDate });
-        }
-    }
     ontabSelect(index) {
         this.setState({ activeTab: index });
+        const { orgId, rankId } = this.state;
+        this.loadDetail(orgId, index, rankId);
     }
     renderTabBar() {
         let activeTab = this.state.activeTab;
@@ -177,8 +142,6 @@ class BigCustomerSortPage extends React.Component {
         let tColor0 = activeTab === 0 ? "#fff" : "#0081d4";
         let color1 = activeTab === 1 ? "#0081d4" : "#fff"; // 判断i是否是当前选中的tab，设置不同的颜色
         let tColor1 = activeTab === 1 ? "#fff" : "#0081d4";
-        let color2 = activeTab === 2 ? "#0081d4" : "#fff"; // 判断i是否是当前选中的tab，设置不同的颜色
-        let tColor2 = activeTab === 2 ? "#fff" : "#0081d4";
         return (
             <View style={{
                 height: 48, backgroundColor: '#f9f9f9', flexDirection: 'row', justifyContent: 'center',
@@ -219,19 +182,24 @@ class BigCustomerSortPage extends React.Component {
                 flexDirection: 'row'
             }}>
                 <View style={{ flex: 1 }} />
-                <TouchableOpacity onPress={() => { }}>
+
+                <View style={{ marginLeft: 4 }} >
                     <Iconfont
                         icon={'e688'} // 图标
                         iconColor={'#aaa'}
                         iconSize={26} />
+                </View>
+                <TouchableOpacity onPress={() => {
+                    this.setState({ rankModelShow: true })
+                }}>
+                    <Text style={{ color: '#666', fontSize: 16 }}>{this.state.rankName}</Text>
                 </TouchableOpacity>
-                <Text style={{ color: '#666', fontSize: 16 }}>{'排名前20'}</Text>
-                <TouchableOpacity style={{ marginLeft: 4 }} onPress={() => { }}>
+                <View style={{ marginLeft: 4 }} >
                     <Iconfont
                         icon={'e657'} // 图标
                         iconColor={'#aaa'}
                         iconSize={26} />
-                </TouchableOpacity>
+                </View>
                 <View style={{ flex: 1 }} />
             </View>
             <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#c4c4c4' }} />
@@ -259,6 +227,22 @@ class BigCustomerSortPage extends React.Component {
                         </View>
                     </View>
             }
+            <RankModel modalVisible={this.state.rankModelShow} onCancelPress={() => {
+                this.setState({
+                    rankModelShow: false,
+                })
+            }}
+                onConfirmPress={
+                    (rank) => {
+                        this.setState({
+                            rankName: rank.rankName,
+                            rankId: rank.rankId,
+                            rankModelShow: false,
+                        })
+                        const { orgId, activeTab } = this.state;
+                        this.loadDetail(orgId, activeTab, rank.rankId);
+                    }
+                } />
         </View>;
     }
 }

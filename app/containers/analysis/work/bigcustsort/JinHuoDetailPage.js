@@ -33,14 +33,13 @@ class JinHuoDetailPage extends React.Component {
     componentDidMount() {
         const { params } = this.props.navigation.state;
         this.setState({ loading: true });
-        let p = {};
-        p.currTime = '2017-10';
-        p.orgId = 108;
-        p.customerId = 85065453;
-        p.type = 0;
-        //dataCenter/appHomePage/getBigCustomerSupply.page?type=1&currTime=2017-10&orgId=108&customerId=108850591 
+        let param = {};
+        param.currTime = params.currTime;
+        param.orgId = params.orgId;;
+        param.type = params.type;;
+        param.customerId = params.customerId;
         InteractionManager.runAfterInteractions(() => {
-            FetchManger.getUri('dataCenter/appHomePage/getBigCustomerSupply.page', p, 30 * 60).then((responseData) => {
+            FetchManger.getUri('dataCenter/appHomePage/getBigCustomerSupply.page', param, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
                     this.setState({

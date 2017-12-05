@@ -29,11 +29,11 @@ class S_SeriesDetailPage extends React.Component {
     }
     componentDidMount() {
         const { params } = this.props.navigation.state;
-        let param = params;
-        param.currTime = 2017;
-        param.orgId = 109;
-        param.type = 0;
-        param.customerId = 85063990;
+        let param = {};
+        param.currTime = params.currTime;
+        param.orgId = params.orgId;;
+        param.type = params.type;;
+        param.customerId = params.customerId;
         this.setState({ loading: true });
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getBigCustomerSeries.page', param, 30 * 60).then((responseData) => {

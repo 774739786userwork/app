@@ -26,16 +26,14 @@ class S_ProductDetailPage extends React.Component {
     }
     componentDidMount() {
         const { params } = this.props.navigation.state;
-        // let p = { orgId: params.factoryId, type: params.type, seriesId: params.seriesId,currTime:params.currTime };
-        let p = {};
-        p.currTime = 2017;
-        p.orgId = 109;
-        p.customerId = 85065453;
-        p.type = 0;
+        let param = {};
+        param.currTime = params.currTime;
+        param.orgId = params.orgId;;
+        param.type = params.type;;
+        param.customerId = params.customerId;
         this.setState({ loading: true });
-        //dataCenter/appHomePage/getBigCustomerProduct.page?currTime=2017-10&orgId=109&customerId=85065453&type=1
         InteractionManager.runAfterInteractions(() => {
-            FetchManger.getUri('dataCenter/appHomePage/getBigCustomerProduct.page', p, 30 * 60).then((responseData) => {
+            FetchManger.getUri('dataCenter/appHomePage/getBigCustomerProduct.page', param, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
                     this.setState({ dataList: responseData.data, loading: false })

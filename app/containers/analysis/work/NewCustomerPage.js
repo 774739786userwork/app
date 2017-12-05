@@ -33,12 +33,9 @@ class NewCustomerPage extends React.Component {
     constructor(props) {
         super(props)
         this._renderRow = this._renderRow.bind(this);
-        this._renderBranchRow = this._renderBranchRow.bind(this);
-        this._rowOnBranchPress = this._rowOnBranchPress.bind(this);
         this.loadDetail = this.loadDetail.bind(this);
         this.renderTabBar = this.renderTabBar.bind(this)
         this.ontabSelect = this.ontabSelect.bind(this)
-        this._selectByDate = this._selectByDate.bind(this);
         this.state = {
             startDate: DateUtils.getYearMonthDay(1),
             endDate: DateUtils.getYearMonthDay(),
@@ -49,6 +46,8 @@ class NewCustomerPage extends React.Component {
             orgId: undefined,
             groupLoading: false,
             activeTab: 0,
+            selectNew: true,
+            loading: false,
         }
     }
     componentDidMount() {
@@ -59,12 +58,12 @@ class NewCustomerPage extends React.Component {
             FetchManger.getUri('dataCenter/appHomePage/getMyFocusFactory.page?userId=' + userId, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
-                    const { startDate, endDate } = this.state;
                     let orgId = undefined;
                     if (data.length > 0) {
                         data[0].selected = true;
                         orgId = data[0].orgId;
-                        this.loadDetail(startDate, endDate, orgId);
+                        const { selectNew, activeTab } = this.state
+                        this.loadDetail(orgId, activeTab, selectNew)
                     }
                     this.setState({ branchFactoryList: data, orgId, groupLoading: false, loading: false })
 
@@ -75,103 +74,66 @@ class NewCustomerPage extends React.Component {
                 this.setState({ loading: false, groupLoading: false });
             })
         });
-
-
     }
-    loadDetail(startDate, endDate, orgId) {
-        const userId = LoginInfo.getUserInfo().user_id;
-        let p = { startDate, endDate, orgId, userId };
-        this.setState({ groupLoading: true })
+    loadDetail(orgId, activeTab, selectNew) {
+        let param = {};
+        param.orgId = orgId;
+        param.type = activeTab;
+        param.customerType = selectNew ? 'new' : 'old';
+        param.userId = LoginInfo.getUserInfo().user_id;
+        this.setState({ loading: true });
         InteractionManager.runAfterInteractions(() => {
-            FetchManger.getUri('dataCenter/appHomePage/getProductBigCustomer.page', p, 30 * 60).then((responseData) => {
+            FetchManger.getUri('dataCenter/appHomePage/getNewCustomer.page', param, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
-                    let itemListData = [];
-                    if (data && data.length > 0) {
-                        itemListData = data[0].customerList;
-                    }
-                    this.setState({ listData: data, itemListData, loading: false, groupLoading: false })
+                    this.setState({ listData: data, loading: false })
+
                 } else {
-                    this.setState({ loading: false, groupLoading: false });
+                    this.setState({ loading: false });
                 }
             }).catch((error) => {
-                this.setState({ loading: false, groupLoading: false });
+                this.setState({ loading: false });
             })
         });
     }
+    //人员选择
     onItemAction(item) {
 
     }
 
-    _renderRow(item, rowID) {
+    _renderRow(item, rowID, index) {
         return (
-            <TouchableOpacity onPress={this.onItemAction.bind(this, item)} key={`index_${rowID}`}>
+            <TouchableOpacity onPress={this.onItemAction.bind(this, item)} key={`index_${index}`}>
                 <View>
                     <View style={{ flexDirection: 'row', backgroundColor: '#fff' }}>
-                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.customerName}`}</Text>
+                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.employeeName}`}</Text>
                         <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.customerPhone}`}</Text>
+                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.customerBase}`}</Text>
                         <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.totalSum}`}</Text>
-                        <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.customerPrecent}`}</Text>
+                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.ranking}`}</Text>
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
                 </View>
             </TouchableOpacity>);
     }
-    _rowOnBranchPress(item) {
-        let branchFactoryList = this.state.branchFactoryList;
-        branchFactoryList.map((_item) => {
-            _item.selected = false;
-            if (_item.orgId === item.orgId) {
-                _item.selected = true;
-            }
-        })
-        const { startDate, endDate } = this.state;
-        let orgId = item.orgId;
-        this.loadDetail(startDate, endDate, orgId);
+   
+    swithItemPress(selectNew) {
 
-        this.setState({ branchFactoryList, orgId })
-    }
-    _renderBranchRow(item, sectionID, index) {
-        let selected = item.selected;
-        return <TouchableOpacity
-            onPress={this._rowOnBranchPress.bind(this, item)}
-            key={`row_${index}`}
-        >
-            <View style={{ width: 120, height: 40, backgroundColor: '#fff' }}>
-                <Text style={{ color: selected ? '#0081d4' : '#000', textAlign: 'center', lineHeight: 38, width: 120 }}>{item.orgName}</Text>
-                <View style={{ height: 2, width: 120, backgroundColor: selected ? '#0081d4' : '#fff' }} />
-            </View>
-        </TouchableOpacity>
-    }
-
-    _selectByDate(_startDate, _endDate) {
-        let orgId = this.state.orgId;
-        const { startDate, endDate } = this.state;
-
-        if (_startDate) {
-            this.loadDetail(_startDate, endDate, orgId);
-            this.setState({ startDate: _startDate });
-        }
-        if (_endDate) {
-            this.loadDetail(startDate, _endDate, orgId);
-            this.setState({ endDate: _endDate });
-        }
+        this.setState({ selectNew: !selectNew ? true : false })
+        const { orgId, activeTab } = this.state
+        this.loadDetail(orgId, activeTab, !selectNew)
     }
     ontabSelect(index) {
         this.setState({ activeTab: index });
+        const { orgId, selectNew } = this.state
+        this.loadDetail(orgId, index, selectNew)
     }
     renderTabBar() {
         let activeTab = this.state.activeTab;
-
         let color0 = activeTab === 0 ? "#0081d4" : "#fff";
         let tColor0 = activeTab === 0 ? "#fff" : "#0081d4";
         let color1 = activeTab === 1 ? "#0081d4" : "#fff"; // 判断i是否是当前选中的tab，设置不同的颜色
         let tColor1 = activeTab === 1 ? "#fff" : "#0081d4";
-        let color2 = activeTab === 2 ? "#0081d4" : "#fff"; // 判断i是否是当前选中的tab，设置不同的颜色
-        let tColor2 = activeTab === 2 ? "#fff" : "#0081d4";
         return (
             <View style={{
                 height: 48, backgroundColor: '#f9f9f9', flexDirection: 'row', justifyContent: 'center',
@@ -199,34 +161,12 @@ class NewCustomerPage extends React.Component {
         );
 
     }
+
     render() {
         return <View style={{ flex: 1, backgroundColor: '#f9f9f9' }}>
             {
                 this.renderTabBar()
             }
-            <View style={{
-                padding: 14,
-                alignContent: 'center',
-                justifyContent: 'center',
-                backgroundColor: '#fff',
-                flexDirection: 'row'
-            }}>
-                <View style={{ flex: 1 }} />
-                <TouchableOpacity onPress={() => { }}>
-                    <Iconfont
-                        icon={'e688'} // 图标
-                        iconColor={'#aaa'}
-                        iconSize={26} />
-                </TouchableOpacity>
-                <Text style={{ color: '#666', fontSize: 16 }}>{'排名前20'}</Text>
-                <TouchableOpacity style={{ marginLeft: 4 }} onPress={() => { }}>
-                    <Iconfont
-                        icon={'e657'} // 图标
-                        iconColor={'#aaa'}
-                        iconSize={26} />
-                </TouchableOpacity>
-                <View style={{ flex: 1 }} />
-            </View>
             <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#c4c4c4' }} />
             {
                 this.state.groupLoading ? <LoadingView />
@@ -236,11 +176,47 @@ class NewCustomerPage extends React.Component {
                             <LeftTabComponet
                                 data={this.state.branchFactoryList}
                                 sectionAction={(item) => {
-                                    this.setState({ orgId: item.orgId })
+                                    const { activeTab, selectNew } = this.state
+                                    this.setState({ orgId: item.orgId });
+                                    this.loadDetail(item.orgId, activeTab, selectNew)
                                 }}
                             />
                         </View>
-                        <RightComponent />
+                        <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
+                            <View style={{ backgroundColor: '#fff', margin: 10 }}>
+                                <View style={{ height: 38, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
+                                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', height: 38 }}>
+                                        <TouchableOpacity style={{ flex: 1, height: 38, alignItems: 'center', justifyContent: 'center' }} onPress={this.swithItemPress.bind(this, 0)}>
+                                            <Text style={{ color: this.state.selectNew ? '#0081d4' : '#222' }}>{'新建档'}</Text>
+                                        </TouchableOpacity>
+                                        <View style={{ height: 1, backgroundColor: this.state.selectNew ? '#0081d4' : '#c4c4c4', width: (WINDOW_WIDTH - 100) / 2 }} />
+                                    </View>
+                                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', height: 38 }}>
+                                        <TouchableOpacity style={{ flex: 1, height: 38, alignItems: 'center', justifyContent: 'center' }} onPress={this.swithItemPress.bind(this, 1)}>
+                                            <Text style={{ color: !this.state.selectNew ? '#0081d4' : '#222' }}>{'已归档'}</Text>
+                                        </TouchableOpacity>
+                                        <View style={{ height: 1, backgroundColor: !this.state.selectNew ? '#0081d4' : '#c4c4c4', width: (WINDOW_WIDTH - 100) / 2 }} />
+                                    </View>
+                                </View>
+                                <View style={{ flexDirection: 'row', backgroundColor: '#66b3e5' }}>
+                                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'业务员'}</Text>
+                                    <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'客户数'}</Text>
+                                    <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'排名'}</Text>
+                                </View>
+                                <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                                {
+                                    this.state.loading ? <LoadingView />
+                                        : <ListView
+                                            enableEmptySections={true}
+                                            dataSource={ds.cloneWithRows(this.state.listData)}
+                                            renderRow={this._renderRow}
+                                        />
+                                }
+                                <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                            </View>
+                        </View>
                     </View>
             }
         </View>;
@@ -249,57 +225,6 @@ class NewCustomerPage extends React.Component {
 
 
 export default NewCustomerPage;
-
-
-class RightComponent extends React.Component {
-    constructor(props){
-        super(props)
-        this.state = {
-            
-        }
-    }
-    swithItemPress(){
-
-    }
-    _renderRow(){
-        return <View/>
-    }
-    render() {
-        return <View style={{ flex: 1, padding: 10, backgroundColor: '#f2f2f2' }}>
-            <Text style={{ color: '#999', marginLeft: 12, marginTop: 12 }}>{'新增客户数:230家'}</Text>
-            <View style={{ backgroundColor: '#fff', margin: 10 }}>
-                <View style={{ height: 38, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', height: 38 }}>
-                        <TouchableOpacity style={{ flex: 1, height: 38, alignItems: 'center', justifyContent: 'center' }} onPress={this.swithItemPress.bind(this, 0)}>
-                            <Text style={{ color: !this.state.selectCust ? '#0081d4' : '#222' }}>{'新建档'}</Text>
-                        </TouchableOpacity>
-                        <View style={{ height: 1, backgroundColor: !this.state.selectCust ? '#0081d4' : '#c4c4c4', width: (WINDOW_WIDTH - 120) / 2 }} />
-                    </View>
-                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', height: 38 }}>
-                        <TouchableOpacity style={{ flex: 1, height: 38, alignItems: 'center', justifyContent: 'center' }} onPress={this.swithItemPress.bind(this, 1)}>
-                            <Text style={{ color: this.state.selectCust ? '#0081d4' : '#222' }}>{'已归档'}</Text>
-                        </TouchableOpacity>
-                        <View style={{ height: 1, backgroundColor: this.state.selectCust ? '#0081d4' : '#c4c4c4', width: (WINDOW_WIDTH - 120) / 2 }} />
-                    </View>
-                </View>
-                <View style={{ flexDirection: 'row', backgroundColor: '#66b3e5' }}>
-                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'业务员'}</Text>
-                    <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'客户数'}</Text>
-                    <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'排名'}</Text>
-                   
-                </View>
-                <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                <LoadingListView
-                    loading={this.state.loading}
-                    listData={ds.cloneWithRows([])}
-                    renderRowView={this._renderRow} />
-            </View>
-        </View>
-    }
-}
-
 class LeftTabComponet extends React.Component {
     constructor(props) {
         super(props)
@@ -309,6 +234,7 @@ class LeftTabComponet extends React.Component {
         }
         this.preSelect = undefined
     }
+
     sectionAction(item) {
         this.props.sectionAction && this.props.sectionAction(item)
         this.setState({ preSelect: item.orgId })

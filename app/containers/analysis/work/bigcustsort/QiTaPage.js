@@ -27,13 +27,13 @@ class QiTaPage extends React.Component {
     componentDidMount() {
         const { params } = this.props.navigation.state;
         this.setState({ loading: true });
-        let p = {};
-        p.currTime = '2017-10';
-        p.orgId = 108;
-        p.customerId = 108850591;
-        p.type = 0;
+        let param = {};
+        param.currTime = params.currTime;
+        param.orgId = params.orgId;;
+        param.type = params.type;;
+        param.customerId = params.customerId;
         InteractionManager.runAfterInteractions(() => {
-            FetchManger.getUri('dataCenter/appHomePage/getBigCustomerOther.page', p, 30 * 60).then((responseData) => {
+            FetchManger.getUri('dataCenter/appHomePage/getBigCustomerOther.page', param, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData;
                     this.setState({ salerList: data.salerList,cusList:data.cusList, loading: false })
