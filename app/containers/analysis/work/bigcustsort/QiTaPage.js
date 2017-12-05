@@ -19,7 +19,8 @@ class QiTaPage extends React.Component {
         super(props)
 
         this.state = {
-            dataList: [],
+            cusList: [],
+            salerList:[],
             loading: false
         }
     }
@@ -27,16 +28,15 @@ class QiTaPage extends React.Component {
         const { params } = this.props.navigation.state;
         this.setState({ loading: true });
         let p = {};
-        p.currTime = 2017;
-        p.orgId = 109;
-        p.customerId = 85065453;
-        p.type = 1;
-        //dataCenter/appHomePage/getBigCustomerSupply.page?type=1&currTime=2017-10&orgId=108&customerId=108850591 
+        p.currTime = '2017-10';
+        p.orgId = 108;
+        p.customerId = 108850591;
+        p.type = 0;
         InteractionManager.runAfterInteractions(() => {
-            FetchManger.getUri('dataCenter/appHomePage/getBigCustomerSupply.page', p, 30 * 60).then((responseData) => {
+            FetchManger.getUri('dataCenter/appHomePage/getBigCustomerOther.page', p, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
-                    let data = responseData.data;
-                    this.setState({ dataList: data, loading: false })
+                    let data = responseData;
+                    this.setState({ salerList: data.salerList,cusList:data.cusList, loading: false })
                 } else {
                     this.setState({ loading: false });
                 }
@@ -45,8 +45,31 @@ class QiTaPage extends React.Component {
             })
         });
     }
-    _renderRow(item, index) {
-        return <View></View>;
+    _renderCusListRow(item, rowID) {
+        return <View key={`index_${rowID}`}>
+        <View style={{ flexDirection: 'row', backgroundColor: '#fff' }}>
+            <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.customerName}`}</Text>
+            <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+            <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.customerPhone}`}</Text>
+            <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+            <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.salesVolume}元`}</Text>
+         </View>
+        <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+    </View>;
+    }
+    _renderSalerListRow(item, rowID) {
+        return <View key={`index_${rowID}`}>
+        <View style={{ flexDirection: 'row', backgroundColor: '#fff' }}>
+            <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.salerName}`}</Text>
+            <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+            <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.totalSalesVolume}`}</Text>
+            <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+            <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.precent ? item.precent : 0}`}</Text>
+            <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+            <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.deliveryStatus}`}</Text>
+        </View>
+        <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+    </View>;
     }
 
     render() {
@@ -63,8 +86,8 @@ class QiTaPage extends React.Component {
             </View>
             <LoadingListView
                 loading={this.state.loading}
-                listData={ds.cloneWithRows(this.state.dataList)}
-                renderRowView={this._renderRow} />
+                listData={ds.cloneWithRows(this.state.cusList)}
+                renderRowView={this._renderCusListRow} />
             <View style={{ height: 24, paddingLeft: 12, marginBottom: 8, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={{ color: '#999', }}>{`与其他业务员情况`}</Text>
             </View>
@@ -79,8 +102,8 @@ class QiTaPage extends React.Component {
             </View>
             <LoadingListView
                 loading={this.state.loading}
-                listData={ds.cloneWithRows(this.state.dataList)}
-                renderRowView={this._renderRow} />
+                listData={ds.cloneWithRows(this.state.salerList)}
+                renderRowView={this._renderSalerListRow} />
         </View>;
     }
 }

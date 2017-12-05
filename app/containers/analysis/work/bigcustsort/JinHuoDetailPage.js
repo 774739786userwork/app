@@ -21,6 +21,12 @@ class JinHuoDetailPage extends React.Component {
         this._renderGroup = this._renderGroup.bind(this);
         this.state = {
             dataList: [],
+            supplyWeek: '',
+            supplyTotalSum: '',
+            LongSupplySpace: '',
+            LastSupplySpace: '',
+            deliveryFactory: '',
+            isExistSaler: '',
             loading: false
         }
     }
@@ -28,16 +34,25 @@ class JinHuoDetailPage extends React.Component {
         const { params } = this.props.navigation.state;
         this.setState({ loading: true });
         let p = {};
-        p.currTime = 2017;
-        p.orgId = 109;
+        p.currTime = '2017-10';
+        p.orgId = 108;
         p.customerId = 85065453;
-        p.type = 1;
+        p.type = 0;
         //dataCenter/appHomePage/getBigCustomerSupply.page?type=1&currTime=2017-10&orgId=108&customerId=108850591 
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getBigCustomerSupply.page', p, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
-                    this.setState({ dataList: data, loading: false })
+                    this.setState({
+                        dataList: data.supplyList,
+                        supplyWeek: data.supplyWeek,
+                        supplyTotalSum: data.supplyTotalSum,
+                        LongSupplySpace: data.LongSupplySpace,
+                        LastSupplySpace: data.LastSupplySpace,
+                        deliveryFactory: data.deliveryFactory,
+                        isExistSaler: data.isExistSaler,
+                        loading: false
+                    })
                 } else {
                     this.setState({ loading: false });
                 }
@@ -64,46 +79,43 @@ class JinHuoDetailPage extends React.Component {
 
 
     _renderGroup(item, sectionID, index) {
-        let employeeId = item.employeeId;
-        let employeeName = item.employeeName;
         return (
-            <View key={`row_${index}`} style={{ backgroundColor: '#f9f9f9' }}>
+            <View key={`row_${index}`} style={{ backgroundColor: '#ffff' }}>
                 <View style={{ height: StyleSheet.hairlineWidth, marginTop: 8, flex: 1, backgroundColor: '#c4c4c4' }} />
-                <View style={{ padding: 8, flexDirection: 'row' }}>
-                    <Text style={{ color: '#333', flex: 1 }}>{item.employeeName}</Text>
+                <View style={{ padding: 8, flexDirection: 'row' ,backgroundColor: '#f9f9f9' }}>
+                    <Text style={{ color: '#333', flex: 1 }}>{item.orgName}</Text>
                     <View style={{ flex: 1 }} />
-                    <Text style={{ color: '#FF33FF', marginRight: 4, }}>{`2017-10-11`}</Text>
+                    <Text style={{ color: '#FF33FF', marginRight: 4, }}>{item.lastPurchaseDate}</Text>
+                </View>
+                {
+                    item.goodList.map((goodItem) => <View>
+                        <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
+                            <View style={{ flex: 1, flexDirection: 'row' }}>
+                                <Text style={{ color: '#999', fontSize: 13 }}>{`${goodItem.productName}：`}</Text>
+                                <Text style={{ color: '#999', fontSize: 13 }}>{`${goodItem.productSalesQuantity} ${goodItem.productUnit}`}</Text>
+                            </View>
+                        </View>
+                    </View>)
+                }
+                <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{ flex: 1, flexDirection: 'row' }}>
+                        <Text style={{ color: '#999', fontSize: 13 }}>{`送货人:`}</Text>
+                        <Text style={{ color: '#999', fontSize: 13 }}>{`${item.deliverySaler}`}</Text>
+                    </View>
                 </View>
                 <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
-                        <Text style={{ color: '#999', fontSize: 13 }}>{`${item.seriesName}：`}</Text>
-                        <Text style={{ color: '#999', fontSize: 13 }}>{`${item.seriesSalerSum}万元`}</Text>
+                        <Text style={{ color: '#f80000', fontSize: 13 }}>{`总价:`}</Text>
+                        <Text style={{ color: '#f80000', fontSize: 13 }}>{`${item.totalSum}`}</Text>
                     </View>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
-                        <Text style={{ color: '#999', fontSize: 13 }}>{`单位`}</Text>
-                        <Text style={{ color: '#999', fontSize: 13 }}>{`${item.seriesSalerSum}万元`}</Text>
-                    </View>
-                </View>
-                <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{ flex: 1, flexDirection: 'row' }}>
-                        <Text style={{ color: '#999', fontSize: 13 }}>{`送货人`}</Text>
-                        <Text style={{ color: '#999', fontSize: 13 }}>{`${item.seriesSalerSum}万元`}</Text>
-                    </View>
-                </View>
-                <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{ flex: 1, flexDirection: 'row' }}>
-                        <Text style={{ color: '#f80000', fontSize: 13 }}>{`总价`}</Text>
-                        <Text style={{ color: '#f80000', fontSize: 13 }}>{`${item.seriesSalerSum}万元`}</Text>
-                    </View>
-                    <View style={{ flex: 1, flexDirection: 'row' }}>
-                        <Text style={{ color: '#f80000', fontSize: 13 }}>{`未收`}</Text>
-                        <Text style={{ color: '#f80000', fontSize: 13 }}>{`${item.seriesSalerSum}万元`}</Text>
+                        <Text style={{ color: '#f80000', fontSize: 13 }}>{`未收:`}</Text>
+                        <Text style={{ color: '#f80000', fontSize: 13 }}>{`${item.unPaidSum}`}</Text>
                     </View>
                 </View>
             </View>
         );
     }
-
     render() {
         return <View style={{ flex: 1, backgroundColor: '#f9f9f9' }}>
             <View style={{ height: 24, backgroundColor: '#f8f9fa', paddingLeft: 12, marginBottom: 4, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
@@ -112,31 +124,31 @@ class JinHuoDetailPage extends React.Component {
             <View style={{ height: 24, backgroundColor: '#f8f9fa', paddingLeft: 12, paddingTop: 12, flexDirection: 'row', alignItems: 'center' }}>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                     <Text style={{ color: '#f80000', }}>{'平均进货周期：'}</Text>
-                    <Text style={{ color: '#f80000', }}>{`${this.state.productsCovering}`}</Text>
+                    <Text style={{ color: '#f80000', }}>{`${this.state.supplyWeek}`}</Text>
                 </View>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                     <Text style={{ color: '#f80000' }}>{'平均进货总额：'}</Text>
-                    <Text style={{ color: '#f80000', marginRight: 4 }}>{`0`}</Text>
+                    <Text style={{ color: '#f80000', marginRight: 4 }}>{`${this.state.supplyTotalSum}`}</Text>
                 </View>
             </View>
             <View style={{ height: 24, backgroundColor: '#f8f9fa', paddingLeft: 12, paddingTop: 12, flexDirection: 'row', alignItems: 'center' }}>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                     <Text style={{ color: '#f80000', }}>{'最长进货间隔：'}</Text>
-                    <Text style={{ color: '#f80000', }}>{`${this.state.productsCovering}`}</Text>
+                    <Text style={{ color: '#f80000', }}>{`${this.state.LongSupplySpace}`}</Text>
                 </View>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                     <Text style={{ color: '#f80000' }}>{'最近进货间隔：'}</Text>
-                    <Text style={{ color: '#f80000', marginRight: 4 }}>{`0`}</Text>
+                    <Text style={{ color: '#f80000', marginRight: 4 }}>{`${this.state.LastSupplySpace}`}</Text>
                 </View>
             </View>
             <View style={{ height: 24, backgroundColor: '#f8f9fa', marginBottom: 12, paddingLeft: 12, paddingTop: 12, flexDirection: 'row', alignItems: 'center' }}>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                     <Text style={{ color: '#f80000', }}>{'配送工厂：'}</Text>
-                    <Text style={{ color: '#f80000', }}>{`${this.state.productsCovering}`}</Text>
+                    <Text style={{ color: '#f80000', }}>{`${this.state.deliveryFactory}`}</Text>
                 </View>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                     <Text style={{ color: '#f80000' }}>{'同产品不同业务员：'}</Text>
-                    <Text style={{ color: '#f80000', marginRight: 4 }}>{`0`}</Text>
+                    <Text style={{ color: '#f80000', marginRight: 4 }}>{`${this.state.isExistSaler}`}</Text>
                 </View>
             </View>
             <LoadingListView

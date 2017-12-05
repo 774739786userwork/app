@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import ScrollableTabView, {
-    DefaultTabBar
+    ScrollableTabBar
 } from 'react-native-scrollable-tab-view';
 
 import { FetchManger, LoginInfo, LoadingView, Toast, Iconfont } from 'react-native-go'
@@ -62,7 +62,7 @@ class CustormerProductPage extends React.Component {
         return (<View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
             <ScrollableTabView
                 renderTabBar={() => (
-                    <DefaultTabBar tabStyle={{ paddingBottom: 0 }} textStyle={{ fontSize: 16 }} style={{ height: 40 }} />
+                    <ScrollableTabBar textStyle={{ fontSize: 16 }} />
                 )}
                 tabBarBackgroundColor="#fcfcfc"
                 tabBarUnderlineStyle={{ backgroundColor: '#3e9ce9', height: 2 }}
@@ -133,7 +133,7 @@ class CustomerSaleDetailPage extends React.Component {
                         <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
                         <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.seriesName}`}</Text>
                         <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.totalSum}万元`}</Text>
+                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.totalSum}元`}</Text>
                         <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
                         <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, width:38, textAlign: 'center', color: '#666' }}>{`${item.seriesCoverage}`}</Text>
                    

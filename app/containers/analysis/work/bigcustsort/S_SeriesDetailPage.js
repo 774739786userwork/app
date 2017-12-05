@@ -23,6 +23,7 @@ class S_SeriesDetailPage extends React.Component {
             dataList: [],
             totalSum: 0,
             productsCovering: 0,
+            seriesCovering:0,
             loading: false
         }
     }
@@ -30,15 +31,15 @@ class S_SeriesDetailPage extends React.Component {
         const { params } = this.props.navigation.state;
         let param = params;
         param.currTime = 2017;
-        param.orgId = 108;
-        param.type = 1;
+        param.orgId = 109;
+        param.type = 0;
+        param.customerId = 85063990;
         this.setState({ loading: true });
-        //dataCenter/appHomePage/getBigCustomerSeries.page?currTime=2017-10&orgId=108&customerId=1088505378&type=1
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getBigCustomerSeries.page', param, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
-                    this.setState({ dataList: data.seriesList, totalSum: data.totalSum, productsCovering: data.productsCovering, loading: false })
+                    this.setState({ dataList: data.seriesList, totalSum: data.totalSum, productsCovering: data.productsCovering,seriesCovering:data.seriesCovering, loading: false })
                 } else {
                     this.setState({ loading: false });
                 }
@@ -66,36 +67,36 @@ class S_SeriesDetailPage extends React.Component {
         i = i % colorArr.length;
         return colorArr[i];
     }
-    _renderRow(rowData, sectionID, rowID) {
+    _renderRow(item, sectionID, rowID) {
         return (<View key={`row_${rowID}`} style={{ borderColor: '#e9e9e9', borderWidth: StyleSheet.hairlineWidth, borderRadius: 6, backgroundColor: '#fff', marginTop: 10, marginLeft: 10, marginRight: 10 }}>
             <View style={{ height: 34, backgroundColor: '#f9f9f9', paddingLeft: 10, borderTopLeftRadius: 6, borderTopRightRadius: 6, paddingTop: 5, flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={{ color: '#333' }}>{`${rowData.seriesName}`}</Text>
+                <Text style={{ color: '#333' }}>{`${item.seriesName}`}</Text>
             </View>
             <View style={{ paddingLeft: 10, paddingBottom: 8, paddingTop: 8, flexDirection: 'row', alignItems: 'center' }}>
                 <View>
                     <View style={{ backgroundColor: this.getColor(rowID), justifyContent: 'center', padding: 2, width: 60, height: 60, borderRadius: 30 }}>
-                        <Text style={{ color: '#fff', textAlign: 'center', margin: 2, }}>{`${rowData.seriesName}`}</Text>
+                        <Text style={{ color: '#fff', textAlign: 'center', margin: 2, }}>{`${item.seriesName}`}</Text>
                     </View>
                 </View>
                 <View style={{ flex: 1, paddingLeft: 12 }}>
                     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#666', }}>{'销售额:'}</Text>
-                            <Text style={{ color: '#666', }}>{`0`}</Text>
+                            <Text style={{ color: '#666', }}>{`${item.salesVolume}`}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#666' }}>{'覆盖产品：'}</Text>
-                            <Text style={{ color: '#666', marginRight: 4 }}>{`0`}</Text>
+                            <Text style={{ color: '#666', marginRight: 4 }}>{`${item.coverProduct}`}</Text>
                         </View>
                     </View>
                     <View style={{flex: 1,flexDirection: 'row', alignItems: 'center' }}>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#666', }}>{'系列占比：'}</Text>
-                            <Text style={{ color: '#666', }}>{`0`}</Text>
+                            <Text style={{ color: '#666', }}>{`${item.seriesPrecent}`}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#666' }}>{'平均价格：'}</Text>
-                            <Text style={{ color: '#666', marginRight: 4 }}>{`0`}</Text>
+                            <Text style={{ color: '#666', marginRight: 4 }}>{`${item.averagePrice}`}</Text>
                         </View>
                     </View>
                 </View>
@@ -109,12 +110,12 @@ class S_SeriesDetailPage extends React.Component {
             <View style={{ height: 24, backgroundColor: '#f8f9fa', paddingLeft: 12, paddingTop: 12, flexDirection: 'row', alignItems: 'center' }}>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                     <Text style={{ color: '#333', }}>{'系列覆盖率：'}</Text>
-                    <Text style={{ color: '#333', }}>{`${this.state.productsCovering}`}</Text>
+                    <Text style={{ color: '#333', }}>{`${this.state.seriesCovering}`}</Text>
                 </View>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                    <Text style={{ color: '#333' }}>{'许昌覆盖率：'}</Text>
-                    <Text style={{ color: '#333', marginRight: 4 }}>{`0`}</Text>
-                </View>
+                    <Text style={{ color: '#333' }}>{'产品覆盖率：'}</Text>
+                    <Text style={{ color: '#333', }}>{`${this.state.productsCovering}`}</Text>
+                    </View>
             </View>
             <View style={{ height: 24, backgroundColor: '#f8f9fa', paddingLeft: 12, marginBottom: 4, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={{ color: '#f80000', }}>{`总销售额:`}</Text>

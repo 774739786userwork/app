@@ -31,14 +31,14 @@ class S_ProductDetailPage extends React.Component {
         p.currTime = 2017;
         p.orgId = 109;
         p.customerId = 85065453;
-        p.type = 1;
+        p.type = 0;
         this.setState({ loading: true });
         //dataCenter/appHomePage/getBigCustomerProduct.page?currTime=2017-10&orgId=109&customerId=85065453&type=1
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getBigCustomerProduct.page', p, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
-                    this.setState({ dataList: responseData, loading: false })
+                    this.setState({ dataList: responseData.data, loading: false })
                 } else {
                     this.setState({ loading: false });
                 }
@@ -68,31 +68,31 @@ class S_ProductDetailPage extends React.Component {
                             <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
                                     <Text style={{ color: '#999', fontSize: 12 }}>{'销量：'}</Text>
-                                    <Text style={{ color: '#999', fontSize: 12 }}>{`${item.productTotalSum}万元`}</Text>
+                                    <Text style={{ color: '#999', fontSize: 12 }}>{`${item.salesSum}`}</Text>
                                 </View>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                                    <Text style={{ color: '#999', fontSize: 12 }}>{'销售：'}</Text>
-                                    <Text style={{ color: '#999', fontSize: 12, marginRight: 4 }}>{`${item.productAveragePrice}元`}</Text>
+                                    <Text style={{ color: '#999', fontSize: 12 }}>{'销售额：'}</Text>
+                                    <Text style={{ color: '#999', fontSize: 12, marginRight: 4 }}>{`${item.salesVolume}`}</Text>
                                 </View>
                             </View>
                             <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
                                     <Text style={{ color: '#999', fontSize: 12 }}>{'单价：'}</Text>
-                                    <Text style={{ color: '#999', fontSize: 12 }}>{`${item.productHighestPrice}元`}</Text>
+                                    <Text style={{ color: '#999', fontSize: 12 }}>{`${item.price}元`}</Text>
                                 </View>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                                    <Text style={{ color: '#999', fontSize: 12 }}>{'占比户额：'}</Text>
-                                    <Text style={{ color: '#999', fontSize: 12 }}>{`${item.productLowestPrice}元`}</Text>
+                                    <Text style={{ color: '#999', fontSize: 12 }}>{'占客户额：'}</Text>
+                                    <Text style={{ color: '#999', fontSize: 12 }}>{`${item.customerPrecent}`}</Text>
                                 </View>
                             </View>
                             <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
                                     <Text style={{ color: '#f80000', fontSize: 12 }}>{'总销售额:'}</Text>
-                                    <Text style={{ color: '#f80000', fontSize: 12 }}>{`${item.productTotalPrecent ? item.productTotalPrecent : 0}`}</Text>
+                                    <Text style={{ color: '#f80000', fontSize: 12 }}>{`${item.totalSalesVolume ? item.totalSalesVolume : 0}`}</Text>
                                 </View>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                                    <Text style={{ color: '#f80000', fontSize: 12 }}>{'总额:'}</Text>
-                                    <Text style={{ color: '#f80000', fontSize: 12 }}>{`${item.productTotalPrecent ? item.productTotalPrecent : 0}`}</Text>
+                                    <Text style={{ color: '#f80000', fontSize: 12 }}>{'总额占比:'}</Text>
+                                    <Text style={{ color: '#f80000', fontSize: 12 }}>{`${item.totalSumPrecent ? item.totalSumPrecent : 0}`}</Text>
                                 </View>
                             </View>
                         </View>
