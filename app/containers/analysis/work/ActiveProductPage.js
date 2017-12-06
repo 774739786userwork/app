@@ -163,24 +163,25 @@ class CustomerSaleDetailPage extends React.Component {
 
     render() {
         return <View style={{ flex: 1, backgroundColor: '#f9f9f9' }}>
-            <View style={{ backgroundColor: '#fff', height: 40, flexDirection: 'row', }}>
-                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
-                    <Text style={{ height: 38, width: 80, color: '#999', lineHeight: 38, textAlign: 'right' }}>{'周期:'}</Text>
+            <View style={{ backgroundColor: '#fff',padding:8, flexDirection: 'row', }}>
+                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignContent: 'center' }}>
+                    <View style={{ justifyContent: 'center', alignContent: 'center', height: 36, }}><Text style={{ color: '#999' }}>{'  周  期:'}</Text></View>
                     <TouchableOpacity style={{ flex: 1, }} onPress={() => {
                         this.setState({ cycleTypeModelShow: true })
                     }}>
-                        <View style={{ flex: 1, backgroundColor: '#f2f2f2', flexDirection: 'row', justifyContent: 'center', paddingLeft: 4, margin: 6, height: 28 }}>
-                            <Text style={{ color: '#999', lineHeight: 28, flex: 1 }}>{this.state.cycleName}</Text><Iconfont icon={'e686'} iconColor={'#aaa'} />
+                        <View style={{ flex: 1, backgroundColor: '#f2f2f2', flexDirection: 'row', justifyContent: 'center', alignContent: 'center', paddingLeft: 4, height: 28 }}>
+                            <View style={{ justifyContent: 'center', alignContent: 'center', height: 36, }}><Text style={{ color: '#999' }}>{this.state.cycleName}</Text></View><View style={{ flex: 1 }} /><View><Iconfont icon={'e686'} iconColor={'#aaa'} /></View>
                         </View>
                     </TouchableOpacity>
                 </View>
-                <View style={{ flex: 1, flexDirection: 'row', marginRight: 12 }}>
-                    <Text style={{ height: 38, width: 80, color: '#999', lineHeight: 38, textAlign: 'right' }}>{'进货次数:'}</Text>
+                <View style={{width:8}}/>
+                <View style={{ flex: 1, flexDirection: 'row'}}>
+                    <View style={{ justifyContent: 'center', alignContent: 'center', height: 36, }}><Text style={{ color: '#999' }}>{'进货次数:'}</Text></View>
                     <TouchableOpacity style={{ flex: 1, }} onPress={() => {
                         this.setState({ timesModelShow: true })
                     }}>
-                        <View style={{ flex: 1, backgroundColor: '#f2f2f2', flexDirection: 'row', justifyContent: 'center', paddingLeft: 4, margin: 6, height: 28 }}>
-                            <Text style={{ color: '#999', lineHeight: 28, flex: 1 }}>{this.state.timmesName}</Text><Iconfont icon={'e686'} iconColor={'#aaa'} />
+                        <View style={{ flex: 1, height: 36, backgroundColor: '#f2f2f2', flexDirection: 'row', justifyContent: 'center', alignContent: 'center', paddingLeft: 4, height: 28 }}>
+                            <View style={{ justifyContent: 'center', alignContent: 'center', height: 36, }}><Text style={{ color: '#999' }}>{this.state.timmesName}</Text></View><View style={{ flex: 1 }} /><View><Iconfont icon={'e686'} iconColor={'#aaa'} /></View>
                         </View>
                     </TouchableOpacity>
                 </View>
