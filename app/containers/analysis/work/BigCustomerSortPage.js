@@ -59,7 +59,6 @@ class BigCustomerSortPage extends React.Component {
             FetchManger.getUri('dataCenter/appHomePage/getMyFocusFactory.page?userId=' + userId, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
-                    const { startDate, endDate } = this.state;
                     let orgId = undefined;
                     if (data.length > 0) {
                         data[0].selected = true;
@@ -214,7 +213,8 @@ class BigCustomerSortPage extends React.Component {
                                 orgId={this.state.orgId}
                                 sectionAction={(item) => {
                                     this.setState({ orgId: item.orgId })
-                                    this.loadDetail(item.orgId);
+                                     const { activeTab, rankId } = this.state;
+                                    this.loadDetail(item.orgId,activeTab,rankId);
                                 }}
                             />
                         </View>
