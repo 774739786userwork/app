@@ -142,6 +142,12 @@ class S_HomeDetailPage extends React.Component {
                                 <Text style={{ color: '#17c6c1' }}>{`${rowData.factoryTotalSum}万`}</Text>
                             </View>
                         </TouchableOpacity>
+                        <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }}>
+                            <View style={{ flex: 1,justifyContent: 'center', flexDirection: 'row'}}>
+                                <Text style={{ color: '#666', }}>{'退货: '}</Text>
+                                <Text style={{ color: '#17c6c1' }}>{`${rowData.returnTotalSum}万`}</Text>
+                            </View>
+                        </TouchableOpacity>
                         <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onNuShowAction.bind(this,rowData)}>
                             <View style={{ flex: 1, flexDirection: 'row' }}>
                                 <Text style={{ color: '#666', }}>{'未收: '}</Text>
