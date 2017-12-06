@@ -145,7 +145,7 @@ class BigCustomerSortPage extends React.Component {
         return (
             <View style={{
                 height: 48, backgroundColor: '#f9f9f9', flexDirection: 'row', justifyContent: 'center',
-                alignItems: 'center', elevation: 5,
+                alignItems: 'center'
             }}>
                 <View style={{ flex: 1 }} />
                 <View style={styles.tabs}>

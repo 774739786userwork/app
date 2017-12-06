@@ -43,8 +43,8 @@ class SplashPage extends React.Component {
 //        NavigationUtil.reset(this.props.navigation, 'Home');
         NavigationUtil.reset(this.props.navigation, 'Analysis');
       } else {
-//        NavigationUtil.reset(this.props.navigation, 'Login');
-        NavigationUtil.reset(this.props.navigation, 'Analysis');
+        NavigationUtil.reset(this.props.navigation, 'Login');
+ //       NavigationUtil.reset(this.props.navigation, 'Analysis');
 
       }
     }, 1000);
