@@ -7,6 +7,7 @@ import {
     View,
     ListView,
     Dimensions,
+    Alert,
     TouchableOpacity,
     InteractionManager,
     DatePickerAndroid,
@@ -46,7 +47,10 @@ class GetCarstockProductListPage extends React.Component {
         this.onCancelPress = this.onCancelPress.bind(this);
         this._selectByDate = this._selectByDate.bind(this);
         this._selectCar = this._selectCar.bind(this);
-
+        this._onItemCarStockPress = this._onItemCarStockPress.bind(this);
+        this._onItemUnLoadingPress = this._onItemUnLoadingPress.bind(this);
+        this._onPrintPress = this._onPrintPress.bind(this);
+        this._onSurePrintPress = this._onSurePrintPress.bind(this);
         this.loadCar = this.loadCar.bind(this);
         this.onSetCar = this.onSetCar.bind(this);
 
@@ -137,6 +141,16 @@ class GetCarstockProductListPage extends React.Component {
                 </View>
             </TouchableHighlight>);
     }
+
+    _onItemCarStockPress(){
+        Alert.alert('','是否保存车存货单据?',
+            [
+                { text: '是', onPress: this._onPrintPress },
+                { text: '否', onPress: () => console.log('Cancel Pressed!') }
+            ]
+        )
+    }
+    //车存货确认
     _onPrintPress() {
         let params = { CH: true }
         params.chooseList = this.state.data;
@@ -151,6 +165,16 @@ class GetCarstockProductListPage extends React.Component {
         })
         navigation.dispatch(navigationAction)
     }
+
+    _onItemUnLoadingPress(){
+        Alert.alert('','是否保存卸货单据?',
+            [
+                { text: '是', onPress: this._onSurePrintPress },
+                { text: '否', onPress: () => console.log('Cancel Pressed!') }
+            ]
+        )
+    }
+    //卸货确认
     _onSurePrintPress() {
         let params = { XH: true }
         let goods_list = [];
@@ -296,13 +320,13 @@ class GetCarstockProductListPage extends React.Component {
                 {
                     list.length > 0 ?
                         <View style={{ height: 50, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
-                            <TouchableHighlight onPress={this._onPrintPress.bind(this)}>
+                            <TouchableHighlight onPress={this._onItemCarStockPress}>
                                 <View style={{ width: 100, height: 50, backgroundColor: '#fe6732', justifyContent: 'center', alignItems: 'center' }}>
                                     <Text style={{ color: '#fff' }}>{'车存货打印'}</Text>
                                 </View>
                             </TouchableHighlight>
                             <View style={{ flex: 1 }} />
-                            <TouchableHighlight onPress={this._onSurePrintPress.bind(this)}>
+                            <TouchableHighlight onPress={this._onItemUnLoadingPress}>
                                 <View style={{ width: 100, height: 50, backgroundColor: '#fe6732', justifyContent: 'center', alignItems: 'center' }}>
                                     <Text style={{ color: '#fff' }}>{'卸货确认'}</Text>
                                 </View>

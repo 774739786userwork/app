@@ -27,6 +27,7 @@ export default class S_YearyPage extends React.Component {
             selY: year,
             yearTotalSum: 0.00,
             yearUnReceiveSum: 0.00,
+            yearReturnTotalSum:0.00,
             yearFactory: [],
             charList: []
         }
@@ -43,7 +44,8 @@ export default class S_YearyPage extends React.Component {
                     let data = responseData.data;
                     let yearTotalSum = data.yearTotalSum ? data.yearTotalSum : 0;
                     let yearUnReceiveSum = data.yearUnReceiveSum ? data.yearUnReceiveSum : 0;
-                    this.setState({ yearTotalSum, yearUnReceiveSum })
+                    let yearReturnTotalSum = data.returnTotalSum ? data.returnTotalSum : 0;
+                    this.setState({ yearTotalSum, yearUnReceiveSum, yearReturnTotalSum })
                 }
             }).catch((error) => {
 
@@ -209,12 +211,16 @@ export default class S_YearyPage extends React.Component {
                         paddingBottom: 12
                     }}>
                         <View style={{ flex: 1, justifyContent: 'center', flexDirection: 'row' }}>
-                            <Text style={{ lineHeight: 24, color: '#666', fontSize: 12 }}>{'总销售额'}</Text>
-                            <Text style={{ lineHeight: 24, marginLeft: 4, color: '#17c6c1', fontSize: 20 }}>{`${this.state.yearTotalSum}万`}</Text>
+                            <Text style={{ lineHeight: 24, color: '#666', fontSize: 12 }}>{'总额'}</Text>
+                            <Text style={{ lineHeight: 24, marginLeft: 2, color: '#17c6c1', fontSize: 20 }}>{`${this.state.yearTotalSum}万`}</Text>
+                        </View>
+                        <View style={{ flex: 1, justifyContent: 'center', flexDirection: 'row' }}>
+                            <Text style={{ lineHeight: 24, color: '#666', fontSize: 12 }}>{'退货'}</Text>
+                            <Text style={{ lineHeight: 24, marginLeft: 2, color: '#17c6c1', fontSize: 20 }}>{`${this.state.yearReturnTotalSum}万`}</Text>
                         </View>
                         <View style={{ flex: 1, justifyContent: 'center', flexDirection: 'row' }}>
                             <Text style={{ lineHeight: 24, color: '#666', fontSize: 12 }}>{'未收'}</Text>
-                            <Text style={{ lineHeight: 24, marginLeft: 4, color: '#f80000', fontSize: 20 }}>{`${this.state.yearUnReceiveSum}万`}</Text>
+                            <Text style={{ lineHeight: 24, marginLeft: 2, color: '#f80000', fontSize: 20 }}>{`${this.state.yearUnReceiveSum}万`}</Text>
                         </View>
                     </View>
                     <View style={{
@@ -229,16 +235,18 @@ export default class S_YearyPage extends React.Component {
                                         alignContent: 'center',
                                         justifyContent: 'center',
                                         flexDirection: 'row',
-                                        padding: 12
+                                        padding: 10
                                     }} key={`row_${item}`}>
                                         <Text style={{ color: '#333', flex: 1 }}>{item.orgName}</Text>
-                                        <Text style={{ color: '#666' }}>{'总销售额'}</Text>
+                                        <Text style={{ color: '#666' }}>{'总'}</Text>
                                         <TouchableOpacity onPress={this.onTotalAction.bind(this, item)}>
                                             <Text style={{ width: 68, color: '#17c6c1' }}>{`${item.factoryTotalSum}万`}</Text>
                                         </TouchableOpacity>
-                                        <Text style={{ color: '#666' }}>{'未收'}</Text>
+                                        <Text style={{ color: '#666' }}>{'退'}</Text>
+                                        <Text style={{ width: 68, color: '#17c6c1' }}>{`${item.returnTotalSum}万`}</Text>
+                                        <Text style={{ color: '#666' }}>{'未'}</Text>
                                         <TouchableOpacity onPress={this.onNuShowAction.bind(this, item)}>
-                                            <Text style={{ marginLeft: 2, width: 68, color: '#f80000' }}>{`${item.factoryUnReceiveSum}万`}</Text>
+                                            <Text style={{ width: 68, color: '#f80000' }}>{`${item.factoryUnReceiveSum}万`}</Text>
                                         </TouchableOpacity>
                                     </View>
                                     <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#dedede' }}></View>

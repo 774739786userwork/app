@@ -6,6 +6,7 @@ import {
     Image,
     View,
     ListView,
+    Alert,
     Dimensions,
     TouchableOpacity,
     InteractionManager,
@@ -45,7 +46,8 @@ class GetCarSurplusGoodsListPage extends React.Component {
         this.onCancelPress = this.onCancelPress.bind(this)
         this._selectByDate = this._selectByDate.bind(this)
         this._selectCar = this._selectCar.bind(this)
-
+        this._onItemCarSurplusPress = this._onItemCarSurplusPress.bind(this)
+        this._onSurePrintPress = this._onSurePrintPress.bind(this)
         this.onSetCar = this.onSetCar.bind(this);
         
         let today = GetDateStr(0);
@@ -136,6 +138,14 @@ class GetCarSurplusGoodsListPage extends React.Component {
             </TouchableHighlight>);
     }
     
+    _onItemCarSurplusPress(){
+        Alert.alert('','是否保存车余货单据?',
+            [
+                { text: '是', onPress: this._onSurePrintPress },
+                { text: '否', onPress: () => console.log('Cancel Pressed!') }
+            ]
+        )
+    }
     _onSurePrintPress() {
         let params = { YH: true }
         // let goods_list = [];
@@ -284,7 +294,7 @@ class GetCarSurplusGoodsListPage extends React.Component {
                         <View style={{ height: 50, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
                             
                             <View style={{ flex: 1 }} />
-                            <TouchableHighlight onPress={this._onSurePrintPress.bind(this)}>
+                            <TouchableHighlight onPress={this._onItemCarSurplusPress}>
                                 <View style={{ width: 100, height: 50, backgroundColor: '#fe6732', justifyContent: 'center', alignItems: 'center' }}>
                                     <Text style={{ color: '#fff' }}>{'车余货打印'}</Text>
                                 </View>

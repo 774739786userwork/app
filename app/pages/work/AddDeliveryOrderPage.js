@@ -134,7 +134,7 @@ class AddDeliveryOrderPage extends React.Component {
         let goodList = [];
         if(listData){
             listData.map((a) => {
-                if(a.purchase_quantity > 0){
+                if(a.purchase_quantity > 0 && a.stock > 0){
                     a.delivery_remember_person = LoginInfo.getUserInfo().user_id;
                     a.delivery_remember_person_name = LoginInfo.getUserInfo().user_real_name;
                     goodList.push(a);
@@ -347,6 +347,7 @@ class AddDeliveryOrderPage extends React.Component {
         let chooseList = this.state.chooseList;
         let list = addDeliveryOrder.result ? this.state.good_list : [];
         list = list ? list : []
+        
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <AddDeliveryPopModel onClear={this.onClear} onEndAction={this.onEndAction.bind(this)} chooseList={chooseList} modalVisible={this.state.modalPopVisible} onCancelPress={this.onPopCancelPress.bind(this)} />
