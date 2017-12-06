@@ -102,7 +102,7 @@ class CustomerSaleDetailPage extends React.Component {
         this.state = {
             dataList: [],
             loading: false,
-            cycleType: 1,
+            cycleId: 1,
             cycleName: '近一月',
             cycleTypeModelShow: false,
             timesId: 1,
