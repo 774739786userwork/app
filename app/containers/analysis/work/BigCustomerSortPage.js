@@ -121,7 +121,7 @@ class BigCustomerSortPage extends React.Component {
                         </View>
                         <View style={{ flex: 2, flexDirection: 'row' }}>
                             <Text style={{ color: '#f80000', fontSize: 12 }}>{'未收：'}</Text>
-                            <Text style={{ color: '#f80000', fontSize: 12, marginRight: 4 }}>{`${item.unPaidSum}`}</Text>
+                            <Text style={{ color: '#f80000', fontSize: 12, marginRight: 4 }}>{`${item.unPaidSum}元`}</Text>
                         </View>
                     </View>
                 </View>

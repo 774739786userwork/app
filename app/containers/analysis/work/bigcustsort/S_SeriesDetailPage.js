@@ -13,7 +13,7 @@ import LoadingListView from '../../../../components/LoadingListView'
 
 var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 let colorArr = ['#8855fa', '#fc2e9d', '#18c5c1', '#f8ae0f', '#ea325e', '#60c43a'];
-//销售总额明细 系列
+//大客户 系列
 class S_SeriesDetailPage extends React.Component {
 
     constructor(props) {
@@ -82,7 +82,7 @@ class S_SeriesDetailPage extends React.Component {
                     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#666', }}>{'销售额:'}</Text>
-                            <Text style={{ color: '#666', }}>{`${item.salesVolume}`}</Text>
+                            <Text style={{ color: '#666', }}>{`${item.salesVolume}元`}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#666' }}>{'覆盖产品：'}</Text>
@@ -96,7 +96,7 @@ class S_SeriesDetailPage extends React.Component {
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#666' }}>{'平均价格：'}</Text>
-                            <Text style={{ color: '#666', marginRight: 4 }}>{`${item.averagePrice}`}</Text>
+                            <Text style={{ color: '#666', marginRight: 4 }}>{`${item.averagePrice}元`}</Text>
                         </View>
                     </View>
                 </View>
@@ -107,7 +107,7 @@ class S_SeriesDetailPage extends React.Component {
 
     render() {
         return <View style={{ flex: 1, backgroundColor: '#f9f9f9' }}>
-            <View style={{ height: 24, backgroundColor: '#f8f9fa', paddingLeft: 12, paddingTop: 12, flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ height: 24, backgroundColor: '#f8f9fa', paddingLeft: 12, paddingTop: 10, flexDirection: 'row', alignItems: 'center' }}>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                     <Text style={{ color: '#333', }}>{'系列覆盖率：'}</Text>
                     <Text style={{ color: '#333', }}>{`${this.state.seriesCovering}`}</Text>
@@ -119,7 +119,7 @@ class S_SeriesDetailPage extends React.Component {
             </View>
             <View style={{ height: 24, backgroundColor: '#f8f9fa', paddingLeft: 12, marginBottom: 4, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={{ color: '#f80000', }}>{`总销售额:`}</Text>
-                <Text style={{ color: '#f80000', }}>{`${this.state.totalSum}`}</Text>
+                <Text style={{ color: '#f80000', }}>{`${this.state.totalSum}元`}</Text>
             </View>
             <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f2f2f2' }}></View>
             <LoadingListView
