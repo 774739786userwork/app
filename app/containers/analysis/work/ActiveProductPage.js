@@ -230,7 +230,7 @@ class CustomerSaleDetailPage extends React.Component {
                     (item) => {
                         this.setState({
                             timesId: item.timesId,
-                            timmesName: item.timmesName,
+                            timmesName: item.timesName,
                             timesModelShow: false,
                         })
                         const { cycleId } = this.state
