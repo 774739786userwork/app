@@ -164,9 +164,8 @@ class CustomerSaleDetailPage extends React.Component {
     render() {
         return <View style={{ flex: 1, backgroundColor: '#f9f9f9' }}>
             <View style={{ backgroundColor: '#fff', height: 40, flexDirection: 'row', }}>
-
                 <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
-                    <Text style={{ height: 40, width: 80, color: '#999', lineHeight: 40, textAlign: 'right' }}>{'周期:'}</Text>
+                    <Text style={{ height: 38, width: 80, color: '#999', lineHeight: 38, textAlign: 'right' }}>{'周期:'}</Text>
                     <TouchableOpacity style={{ flex: 1, }} onPress={() => {
                         this.setState({ cycleTypeModelShow: true })
                     }}>
@@ -175,10 +174,8 @@ class CustomerSaleDetailPage extends React.Component {
                         </View>
                     </TouchableOpacity>
                 </View>
-
-
                 <View style={{ flex: 1, flexDirection: 'row', marginRight: 12 }}>
-                    <Text style={{ height: 40, width: 80, color: '#999', lineHeight: 40, textAlign: 'right' }}>{'进货次数:'}</Text>
+                    <Text style={{ height: 38, width: 80, color: '#999', lineHeight: 38, textAlign: 'right' }}>{'进货次数:'}</Text>
                     <TouchableOpacity style={{ flex: 1, }} onPress={() => {
                         this.setState({ timesModelShow: true })
                     }}>

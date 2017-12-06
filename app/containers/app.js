@@ -126,6 +126,8 @@ import CustormerProductPage from './analysis/work/CustormerProductPage'
 //活跃客户
 import ActiveProductPage from './analysis/work/ActiveProductPage'
 import NewCustomerPage from './analysis/work/NewCustomerPage'
+//新发展客户详情
+import NewCustomerDetailPage from './analysis/work/NewCustomerDetailPage'
 //产品销量
 import ProductSalesPage from './analysis/work/ProductSalesPage';
 //销售组 销售情况
@@ -395,6 +397,9 @@ const App = StackNavigator(
     //新发展客户
     NewCustomerPage:{
       screen:NewCustomerPage
+    },
+    NewCustomerDetailPage:{
+      screen:NewCustomerDetailPage
     },
     //活跃客户
     ActiveProductPage:{

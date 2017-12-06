@@ -102,6 +102,7 @@ class BigCustomerSortPage extends React.Component {
         const { navigate } = this.props.navigation;
         const { activeTab, orgId } = this.state;
         item.orgId = orgId;
+        item.currTime = !activeTab ?  DateUtils.yearMonth().year : DateUtils.getYearMonth();
         item.type = activeTab;
         navigate('BigCustSortDetailPage', item);
     }

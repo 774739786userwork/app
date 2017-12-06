@@ -98,7 +98,11 @@ class NewCustomerPage extends React.Component {
     }
     //人员选择
     onItemAction(item) {
-
+        const { navigation } = this.props;
+        const { orgId, activeTab } = this.state
+        item.orgId = orgId;
+        item.type = activeTab;
+        navigation.navigate('NewCustomerDetailPage', item)
     }
 
     _renderRow(item, rowID, index) {
