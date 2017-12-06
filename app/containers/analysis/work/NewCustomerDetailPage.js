@@ -17,8 +17,10 @@ class NewCustomerDetailPage extends React.Component {
 
     static navigationOptions = ({ navigation }) => {
         const { state, setParams } = navigation;
-        let title = state.params.customerName;
-        return { title: '新发展客户分析' };
+        let employeeName = state.params.employeeName;
+        let orgName = state.params.orgName;
+        
+        return { title: orgName + employeeName+'新发展客户分析' };
     };
 
     constructor(props) {

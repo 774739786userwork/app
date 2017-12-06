@@ -44,10 +44,12 @@ class NewCustomerPage extends React.Component {
             branchFactoryList: [],
             loading: false,
             orgId: undefined,
+            orgName: '',
             groupLoading: false,
             activeTab: 0,
             selectNew: true,
             loading: false,
+            totalCustomerBase:0
         }
     }
     componentDidMount() {
@@ -59,13 +61,15 @@ class NewCustomerPage extends React.Component {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
                     let orgId = undefined;
+                    let orgName = '';
                     if (data.length > 0) {
                         data[0].selected = true;
                         orgId = data[0].orgId;
+                        orgName = data[0].orgName;
                         const { selectNew, activeTab } = this.state
                         this.loadDetail(orgId, activeTab, selectNew)
                     }
-                    this.setState({ branchFactoryList: data, orgId, groupLoading: false, loading: false })
+                    this.setState({ branchFactoryList: data, orgId, orgName, groupLoading: false, loading: false })
 
                 } else {
                     this.setState({ loading: false, groupLoading: false });
@@ -86,7 +90,7 @@ class NewCustomerPage extends React.Component {
             FetchManger.getUri('dataCenter/appHomePage/getNewCustomer.page', param, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
-                    this.setState({ listData: data, loading: false })
+                    this.setState({ listData: data,totalCustomerBase:responseData.totalCustomerBase,loading: false })
 
                 } else {
                     this.setState({ loading: false });
@@ -99,8 +103,9 @@ class NewCustomerPage extends React.Component {
     //人员选择
     onItemAction(item) {
         const { navigation } = this.props;
-        const { orgId, activeTab } = this.state
+        const { orgId, activeTab,orgName } = this.state
         item.orgId = orgId;
+        item.orgName = orgName;
         item.type = activeTab;
         navigation.navigate('NewCustomerDetailPage', item)
     }
@@ -120,7 +125,7 @@ class NewCustomerPage extends React.Component {
                 </View>
             </TouchableOpacity>);
     }
-   
+
     swithItemPress(selectNew) {
 
         this.setState({ selectNew: !selectNew ? true : false })
@@ -181,12 +186,15 @@ class NewCustomerPage extends React.Component {
                                 data={this.state.branchFactoryList}
                                 sectionAction={(item) => {
                                     const { activeTab, selectNew } = this.state
-                                    this.setState({ orgId: item.orgId });
+                                    this.setState({ orgId: item.orgId, orgName: item.orgName });
                                     this.loadDetail(item.orgId, activeTab, selectNew)
                                 }}
                             />
                         </View>
                         <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
+                            <View style={{ flexDirection: 'row'}}>
+                                <Text style={{ fontSize: 12, paddingTop: 10, marginLeft:10,color: '#666' }}>{`总计客户数:${this.state.totalCustomerBase}家`}</Text>
+                            </View>
                             <View style={{ backgroundColor: '#fff', margin: 10 }}>
                                 <View style={{ height: 38, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
                                     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', height: 38 }}>
