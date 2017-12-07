@@ -227,8 +227,8 @@ class BigCustomerSortPage extends React.Component {
                             rankId: rank.rankId,
                             rankModelShow: false,
                         })
-                        const { orgId, activeTab } = this.state;
-                        this.loadDetail(orgId, activeTab, rank.rankId);
+                        const { orgId, activeTab,currTime } = this.state;
+                        this.loadDetail(orgId, activeTab, rank.rankId,currTime);
                     }
                 } />
         </View>;

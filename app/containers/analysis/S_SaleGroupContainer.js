@@ -25,7 +25,7 @@ import * as DateUtils from '../../utils/DateUtils'
 import ImageView from '../../components/ImageView';
 import MonthPicker from '../../components/MonthPicker'
 import DatePicker from 'react-native-datepicker'
-
+import NumberUtils from '../../utils/NumberUtils'
 var detail_ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 var hl_ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -335,6 +335,7 @@ class S_SaleMonthGroupPage extends React.Component {
         if (responseData.status === '0' || responseData.status === 0) {
           let data = responseData.data;
           this.setState({ dataList: data, loading: false })
+          this.initMonthData(data)
         } else {
           this.setState({ loading: false });
         }
@@ -344,6 +345,25 @@ class S_SaleMonthGroupPage extends React.Component {
     });
   }
 
+  initMonthData(mlist){
+    
+    let xlList = [];
+    let num = 0;
+    if(mlist){
+      mlist.map((a) => {
+        num = NumberUtils.FloatAdd(num, a.totalSum);
+      });
+      alert(num)
+      // for(var i = 0; i < mlist.length; i++){
+      //   let listitem = mlist[i];
+      //   listitem.seriesList.map((a) => {
+      //       xlList.push(a);
+      //       let seriesSalerSum = a.seriesSalerSum;
+      //     });
+       
+      // }
+    }
+  }
 
   _rowOnPress(groupId, item) {
     const { navigation } = this.props;
@@ -833,6 +853,7 @@ class S_SaleGroupContainer extends React.Component {
       <View style={{ height: iosTop, backgroundColor: '#0081d4' }} />
       <ScrollableTabView
         locked={true}
+        initialPage={1}
         renderTabBar={this.renderTabBar} >
         <S_SaleGroupPage key={'0'} {...this.props} tabLabel={'0'} />
         <S_SaleMonthGroupPage key={'1'}  {...this.props} tabLabel={'1'} />

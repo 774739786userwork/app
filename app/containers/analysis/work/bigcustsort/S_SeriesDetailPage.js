@@ -39,7 +39,10 @@ class S_SeriesDetailPage extends React.Component {
             FetchManger.getUri('dataCenter/appHomePage/getBigCustomerSeries.page', param, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
-                    this.setState({ dataList: data.seriesList, totalSum: data.totalSum, productsCovering: data.productsCovering,seriesCovering:data.seriesCovering, loading: false })
+                    let seriesCovering = data.seriesCovering ? data.seriesCovering :0;
+                    let productsCovering = data.productsCovering ? data.productsCovering : 0;
+                    let totalSum = data.totalSum ? data.totalSum : 0;
+                    this.setState({ dataList: data.seriesList, totalSum: totalSum, productsCovering: productsCovering,seriesCovering:seriesCovering, loading: false })
                 } else {
                     this.setState({ loading: false });
                 }
