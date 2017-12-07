@@ -19,6 +19,7 @@ import LoadingListView from '../../../components/LoadingListView';
 import ImageView from '../../../components/ImageView';
 import * as DateUtils from '../../../utils/DateUtils'
 const WINDOW_WIDTH = Dimensions.get('window').width;
+const WINDOW_HEIGHT = Dimensions.get('window').height;
 
 var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 var hl_ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -49,7 +50,7 @@ class NewCustomerPage extends React.Component {
             activeTab: 0,
             selectNew: true,
             loading: false,
-            totalCustomerBase:0
+            totalCustomerBase: 0
         }
     }
     componentDidMount() {
@@ -90,7 +91,7 @@ class NewCustomerPage extends React.Component {
             FetchManger.getUri('dataCenter/appHomePage/getNewCustomer.page', param, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
-                    this.setState({ listData: data,totalCustomerBase:responseData.totalCustomerBase,loading: false })
+                    this.setState({ listData: data, totalCustomerBase: responseData.totalCustomerBase, loading: false })
 
                 } else {
                     this.setState({ loading: false });
@@ -103,7 +104,7 @@ class NewCustomerPage extends React.Component {
     //人员选择
     onItemAction(item) {
         const { navigation } = this.props;
-        const { orgId, activeTab,orgName } = this.state
+        const { orgId, activeTab, orgName } = this.state
         item.orgId = orgId;
         item.orgName = orgName;
         item.type = activeTab;
@@ -177,60 +178,59 @@ class NewCustomerPage extends React.Component {
                 this.renderTabBar()
             }
             <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#c4c4c4' }} />
-            {
-                this.state.groupLoading ? <LoadingView />
-                    :
-                    <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#fff' }}>
-                        <View style={{ width: 80, justifyContent: 'center', alignItems: 'center' }}>
-                            <LeftTabComponet
-                                data={this.state.branchFactoryList}
-                                sectionAction={(item) => {
-                                    const { activeTab, selectNew } = this.state
-                                    this.setState({ orgId: item.orgId, orgName: item.orgName });
-                                    this.loadDetail(item.orgId, activeTab, selectNew)
-                                }}
-                            />
-                        </View>
-                        <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
-                            <View style={{ flexDirection: 'row'}}>
-                                <Text style={{ fontSize: 12, paddingTop: 10, marginLeft:10,color: '#666' }}>{`总计客户数:${this.state.totalCustomerBase}家`}</Text>
-                            </View>
-                            <View style={{ backgroundColor: '#fff', margin: 10 }}>
-                                <View style={{ height: 38, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
-                                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', height: 38 }}>
-                                        <TouchableOpacity style={{ flex: 1, height: 38, alignItems: 'center', justifyContent: 'center' }} onPress={this.swithItemPress.bind(this, 0)}>
-                                            <Text style={{ color: this.state.selectNew ? '#0081d4' : '#222' }}>{'新建档'}</Text>
-                                        </TouchableOpacity>
-                                        <View style={{ height: 1, backgroundColor: this.state.selectNew ? '#0081d4' : '#c4c4c4', width: (WINDOW_WIDTH - 100) / 2 }} />
-                                    </View>
-                                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', height: 38 }}>
-                                        <TouchableOpacity style={{ flex: 1, height: 38, alignItems: 'center', justifyContent: 'center' }} onPress={this.swithItemPress.bind(this, 1)}>
-                                            <Text style={{ color: !this.state.selectNew ? '#0081d4' : '#222' }}>{'已归档'}</Text>
-                                        </TouchableOpacity>
-                                        <View style={{ height: 1, backgroundColor: !this.state.selectNew ? '#0081d4' : '#c4c4c4', width: (WINDOW_WIDTH - 100) / 2 }} />
-                                    </View>
-                                </View>
-                                <View style={{ flexDirection: 'row', backgroundColor: '#66b3e5' }}>
-                                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'业务员'}</Text>
-                                    <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'客户数'}</Text>
-                                    <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'排名'}</Text>
-                                </View>
-                                <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                                {
-                                    this.state.loading ? <LoadingView />
-                                        : <ListView
-                                            enableEmptySections={true}
-                                            dataSource={ds.cloneWithRows(this.state.listData)}
-                                            renderRow={this._renderRow}
-                                        />
-                                }
-                                <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                            </View>
-                        </View>
+            <View style={{flex:1, flexDirection: 'row', backgroundColor: '#fff' }}>
+                <View style={{ width: 80, justifyContent: 'center', alignItems: 'center' }}>
+                    <LeftTabComponet
+                        data={this.state.branchFactoryList}
+                        sectionAction={(item) => {
+                            const { activeTab, selectNew } = this.state
+                            this.setState({ orgId: item.orgId, orgName: item.orgName });
+                            this.loadDetail(item.orgId, activeTab, selectNew)
+                        }}
+                    />
+                </View>
+                <View style={{ width: WINDOW_WIDTH - 80, backgroundColor: '#f2f2f2' }}>
+                    <View style={{ flexDirection: 'row' ,margin:12}}>
+                        <Text style={{ fontSize: 12,color: '#666' }}>{`总计客户数:${this.state.totalCustomerBase}家`}</Text>
                     </View>
-            }
+                    <View style={{ backgroundColor: '#fff', marginLeft:10,marginRight:10 }}>
+                        <View style={{ height: 38, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
+                            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', height: 38 }}>
+                                <TouchableOpacity style={{ flex: 1, height: 38, alignItems: 'center', justifyContent: 'center' }} onPress={this.swithItemPress.bind(this, 0)}>
+                                    <Text style={{ color: this.state.selectNew ? '#0081d4' : '#222' }}>{'新建档'}</Text>
+                                </TouchableOpacity>
+                                <View style={{ height: 1, backgroundColor: this.state.selectNew ? '#0081d4' : '#c4c4c4', width: (WINDOW_WIDTH - 100) / 2 }} />
+                            </View>
+                            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', height: 38 }}>
+                                <TouchableOpacity style={{ flex: 1, height: 38, alignItems: 'center', justifyContent: 'center' }} onPress={this.swithItemPress.bind(this, 1)}>
+                                    <Text style={{ color: !this.state.selectNew ? '#0081d4' : '#222' }}>{'已归档'}</Text>
+                                </TouchableOpacity>
+                                <View style={{ height: 1, backgroundColor: !this.state.selectNew ? '#0081d4' : '#c4c4c4', width: (WINDOW_WIDTH - 100) / 2 }} />
+                            </View>
+                        </View>
+                        <View style={{ flexDirection: 'row', backgroundColor: '#66b3e5' }}>
+                            <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'业务员'}</Text>
+                            <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                            <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'客户数'}</Text>
+                            <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                            <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'排名'}</Text>
+                        </View>
+                        <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+
+                    </View>
+                    <View style={{ flex: 1,marginLeft:10,marginRight:10,marginBottom:8, justifyContent: 'center', alignContent: 'center' }}>
+                        {
+                            this.state.loading ? <LoadingView />
+                                : <ListView
+                                    enableEmptySections={true}
+                                    dataSource={ds.cloneWithRows(this.state.listData)}
+                                    renderRow={this._renderRow}
+                                />
+                        }
+                    </View>
+                </View>
+
+            </View>
         </View>;
     }
 }
