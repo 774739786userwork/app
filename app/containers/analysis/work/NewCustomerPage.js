@@ -104,10 +104,11 @@ class NewCustomerPage extends React.Component {
     //人员选择
     onItemAction(item) {
         const { navigation } = this.props;
-        const { orgId, activeTab, orgName } = this.state
+        const { orgId, activeTab, orgName, selectNew } = this.state
         item.orgId = orgId;
         item.orgName = orgName;
         item.type = activeTab;
+        item.customerType = selectNew ? 'new' : 'old';
         navigation.navigate('NewCustomerDetailPage', item)
     }
 
@@ -178,7 +179,7 @@ class NewCustomerPage extends React.Component {
                 this.renderTabBar()
             }
             <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#c4c4c4' }} />
-            <View style={{flex:1, flexDirection: 'row', backgroundColor: '#fff' }}>
+            <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#fff' }}>
                 <View style={{ width: 80, justifyContent: 'center', alignItems: 'center' }}>
                     <LeftTabComponet
                         data={this.state.branchFactoryList}
@@ -190,10 +191,10 @@ class NewCustomerPage extends React.Component {
                     />
                 </View>
                 <View style={{ width: WINDOW_WIDTH - 80, backgroundColor: '#f2f2f2' }}>
-                    <View style={{ flexDirection: 'row' ,margin:12}}>
-                        <Text style={{ fontSize: 12,color: '#666' }}>{`总计客户数:${this.state.totalCustomerBase}家`}</Text>
+                    <View style={{ flexDirection: 'row', margin: 12 }}>
+                        <Text style={{ fontSize: 12, color: '#666' }}>{`总计客户数:${this.state.totalCustomerBase}家`}</Text>
                     </View>
-                    <View style={{ backgroundColor: '#fff', marginLeft:10,marginRight:10 }}>
+                    <View style={{ backgroundColor: '#fff', marginLeft: 10, marginRight: 10 }}>
                         <View style={{ height: 38, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
                             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', height: 38 }}>
                                 <TouchableOpacity style={{ flex: 1, height: 38, alignItems: 'center', justifyContent: 'center' }} onPress={this.swithItemPress.bind(this, 0)}>
@@ -218,7 +219,7 @@ class NewCustomerPage extends React.Component {
                         <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
 
                     </View>
-                    <View style={{ flex: 1,marginLeft:10,marginRight:10,marginBottom:8, justifyContent: 'center', alignContent: 'center' }}>
+                    <View style={{ flex: 1, marginLeft: 10, marginRight: 10, marginBottom: 8, justifyContent: 'center', alignContent: 'center' }}>
                         {
                             this.state.loading ? <LoadingView />
                                 : <ListView
