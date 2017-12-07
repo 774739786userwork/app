@@ -85,6 +85,7 @@ export default class BuildingMaterialModel extends React.Component {
                 data={this.state.dataList}
                 ref='_Picker0'
                 name='rankName'
+                selectTo={this.rowIndex0}
                 onRowChange={index => {
                     this.rowIndex0 = index;
                 }}
