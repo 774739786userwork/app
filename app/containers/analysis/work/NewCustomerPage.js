@@ -103,10 +103,11 @@ class NewCustomerPage extends React.Component {
     //人员选择
     onItemAction(item) {
         const { navigation } = this.props;
-        const { orgId, activeTab,orgName } = this.state
+        const { orgId, activeTab,orgName,selectNew } = this.state
         item.orgId = orgId;
         item.orgName = orgName;
         item.type = activeTab;
+        item.customerType = selectNew ? 'new' : 'old';
         navigation.navigate('NewCustomerDetailPage', item)
     }
 

@@ -10,7 +10,7 @@ import {
 import { FetchManger, LoginInfo, LoadingView, Toast, Iconfont } from 'react-native-go'
 import LoadingListView from '../../../components/LoadingListView'
 import ImageView from '../../../components/ImageView'
-
+import * as DateUtils from '../../../utils/DateUtils'
 var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 //新发展客户详情
 class NewCustomerDetailPage extends React.Component {
@@ -25,21 +25,31 @@ class NewCustomerDetailPage extends React.Component {
 
     constructor(props) {
         super(props)
+        let { year, month } = DateUtils.yearMonth();
         this._rowOnPress = this._rowOnPress.bind(this);
         this._renderGroup = this._renderGroup.bind(this);
         this.state = {
             dataList: [],
-            loading: false
+            loading: false,
+            selY: year, selM: month
         }
     }
     componentDidMount() {
         const { params } = this.props.navigation.state;
         this.setState({ loading: true });
+        let selY = this.state.selY;
+        let selM = this.state.selM;
         let param = {};
         const userId = LoginInfo.getUserInfo().user_id;
         param.userId = userId;
-        param.orgId = params.orgId;;
-        param.type = params.type;;
+        param.orgId = params.orgId;
+        param.type = params.type;
+        if(param.type === 0){
+            param.currTime =  DateUtils.yearMonth().year;
+        }else{
+            param.currTime =  selY + '-' + (selM < 10 ? '0' + selM : selM)
+        }
+        param.customerType = params.customerType;
         param.employeeId = params.employeeId;
         //http://112.74.47.41:11009/csbboss/dataCenter/appHomePage/getNewCustomerDetail.page?orgId=&type=1&employeeId=100185&userId=
         InteractionManager.runAfterInteractions(() => {

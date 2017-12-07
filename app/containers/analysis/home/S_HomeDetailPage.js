@@ -129,27 +129,27 @@ class S_HomeDetailPage extends React.Component {
         return <View key={`index_${rowID}`}>
             <View style={{ borderColor: '#f2f2f2', borderWidth: StyleSheet.hairlineWidth, borderRadius: 6, backgroundColor: '#fff', marginTop: 10, marginLeft: 10, marginRight: 10 }}>
 
-                <View style={{ paddingLeft: 10, paddingRight: 10, paddingBottom: 10, }}>
+                <View style={{paddingBottom: 10, }}>
                     <View style={{ height: 34, paddingLeft: 10, marginBottom: 6, marginTop: 5, flexDirection: 'row', alignItems: 'center' }}>
                         <TouchableOpacity onPress={this.onItemOrgAction.bind(this,rowData)}>
                             <Text style={{ color: '#FF33FF', fontSize: 16 }}>{rowData.orgName}</Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={{ height: 30, paddingLeft: 10, flexDirection: 'row', alignItems: 'center' }}>
-                        <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onTotalAction.bind(this,rowData)}>
-                            <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <View style={{ height: 30, flexDirection: 'row', alignItems: 'center' }}>
+                        <TouchableOpacity style={{ flex: 1, flexDirection: 'row',marginLeft:5 }} onPress={this.onTotalAction.bind(this,rowData)}>
+                            <View style={{ flexDirection: 'row' }}>
                                 <Text style={{ color: '#666', }}>{'销售总额: '}</Text>
                                 <Text style={{ color: '#17c6c1' }}>{`${rowData.factoryTotalSum}万`}</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }}>
-                            <View style={{ flex: 1,justifyContent: 'center', flexDirection: 'row'}}>
+                            <View style={{ justifyContent: 'center', flexDirection: 'row'}}>
                                 <Text style={{ color: '#666', }}>{'退货: '}</Text>
                                 <Text style={{ color: '#17c6c1' }}>{`${rowData.returnTotalSum}万`}</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onNuShowAction.bind(this,rowData)}>
-                            <View style={{ flex: 1, flexDirection: 'row' }}>
+                            <View style={{ flexDirection: 'row' }}>
                                 <Text style={{ color: '#666', }}>{'未收: '}</Text>
                                 <Text style={{ color: '#f80000' }}>{`${rowData.factoryUnReceiveSum}万`}</Text>
                             </View>
