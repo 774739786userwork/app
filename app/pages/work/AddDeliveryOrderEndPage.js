@@ -341,7 +341,7 @@ class AddDeliveryOrderEndPage extends React.Component {
 
     _renderItem = (item, index) => {
         let num = (item.sale_quantity ? parseInt(item.sale_quantity) : 0) + (item.gifts_quantity ? parseInt(item.gifts_quantity) : 0)
-        let product_sum = item.price * item.sale_quantity + NumberUtils.FloatMul(NumberUtils.fc(item.foregift),(item.gifts_quantity  + item.sale_quantity))
+        // let product_sum = item.price * item.sale_quantity + NumberUtils.FloatMul(NumberUtils.fc(item.foregift),(item.gifts_quantity  + item.sale_quantity))
        
         return (
             <View style={{ backgroundColor: '#fff' }} key={`row_${index}`} >
@@ -359,7 +359,7 @@ class AddDeliveryOrderEndPage extends React.Component {
                                 <Text style={{ color: '#f80000' }}>¥{`${item.price}`}X{`${item.sale_quantity}`}</Text>
                             </View>
                             <View style={{ flex: 1, flexDirection: 'row' }}>
-                                <Text style={{ color: '#f80000', marginLeft: 20 }}>¥{`${NumberUtils.fc(product_sum)}`}</Text>
+                                <Text style={{ color: '#f80000', marginLeft: 20 }}>¥{`${NumberUtils.fc(item.product_sum)}`}</Text>
                             </View>
                         </View>
                         <View style={{ height: 30, paddingLeft: 10, flexDirection: 'row', alignItems: 'center' }}>

@@ -137,6 +137,8 @@ class AddDeliveryOrderPage extends React.Component {
                 if(a.purchase_quantity > 0 && a.stock > 0){
                     a.delivery_remember_person = LoginInfo.getUserInfo().user_id;
                     a.delivery_remember_person_name = LoginInfo.getUserInfo().user_real_name;
+                    a.product_sum = a.price * a.sale_quantity + NumberUtils.FloatMul(NumberUtils.fc(a.foregift),(a.gifts_quantity  + a.sale_quantity))
+                    a.product_foregift_sum = NumberUtils.FloatMul(a.foregift, (a.gifts_quantity + a.sale_quantity))
                     goodList.push(a);
                     num += a.sale_quantity + a.gifts_quantity
                     numberCarsh += a.price * a.sale_quantity + a.foregift * a.sale_quantity + a.foregift * a.gifts_quantity
