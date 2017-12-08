@@ -26,7 +26,7 @@ const HomeItem = [
     { name: '活跃客户', open: true, typeName: 'ActiveProductPage', image: require('../../imgs/work/s_huyuekehu.png') },
     { name: '分段客户', open: false, typeName: 'QueryReturnLists', image: require('../../imgs/work/s_fengduankehu.png') },
     { name: '产品大客户', open: true, typeName: 'BigCustomerPage', image: require('../../imgs/work/s_canpingdakehu.png') },
-    { name: '产品销量', open: true, typeName: 'ProductSalesPage', image: require('../../imgs/work/s_canpingxiaoliang.png') },
+    { name: '产品销量', open: false, typeName: 'ProductSalesPage', image: require('../../imgs/work/s_canpingxiaoliang.png') },
     { name: '产品趋势', open: false, typeName: 'NewReturnGood', image: require('../../imgs/work/s_canpingqushi.png') },
     { name: '产品业务排名', open: false,typeName: 'PurchaseOrder', image: require('../../imgs/work/s_yewuyuanpaiming.png') },
     { name: '数据预测', open: false, typeName: 'AddBalanceAccouts', image: require('../../imgs/work/s_shujuyuce.png') },
@@ -100,7 +100,7 @@ const Slide = props => {
 class S_WorkContainer extends React.Component {
 
     static navigationOptions = {
-        title: '首页',
+        title: '工作台',
         header: null,
         tabBarIcon: ({ tintColor }) => (
             <Iconfont icon='e6aa' iconSize={24} iconColor={tintColor} />

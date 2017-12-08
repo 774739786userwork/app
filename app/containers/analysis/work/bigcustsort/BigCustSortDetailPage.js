@@ -19,8 +19,17 @@ import QiTaPage from './QiTaPage'
 class BigCustSortDetailPage extends React.Component {
     static navigationOptions = ({ navigation }) => {
         const { state, setParams } = navigation;
-        let title = state.params.customerName;
-        return { title: title };
+        let type = state.params.type;
+        let title = '';
+        if(type === 0){
+            title = state.params.currTime + '年' +state.params.customerName;
+        }else{
+            title = state.params.currTime + '月' +state.params.customerName;
+        }
+        return { 
+            headerTitleStyle: {fontSize: 16},
+            title: title
+        };
     };
     render() {
         return (<View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>

@@ -68,7 +68,7 @@ class CustormerProductPage extends React.Component {
                 tabBarUnderlineStyle={{ backgroundColor: '#3e9ce9', height: 2 }}
                 tabBarActiveTextColor="#3e9ce9"
                 tabBarInactiveTextColor="#aaaaaa"
-            >
+                locked={true}>
             {
                 this.state.branchFactoryList.map((item,index)=><CustomerSaleDetailPage key={index} itemId={item.orgId} tabLabel={item.orgName} {...this.props} />)
             }

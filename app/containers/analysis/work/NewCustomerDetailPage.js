@@ -19,39 +19,39 @@ class NewCustomerDetailPage extends React.Component {
         const { state, setParams } = navigation;
         let employeeName = state.params.employeeName;
         let orgName = state.params.orgName;
-        
-        return { title: orgName + employeeName+'新发展客户分析' };
+        let type = state.params.type;
+        let currTime = '';
+        if(type === 0){
+            currTime = state.params.currTime + '年'
+        }else{
+            currTime = state.params.currTime + '月'
+        }
+        return { 
+            headerTitleStyle: {fontSize: 16},
+            title: currTime + orgName + employeeName+'新发展客户分析' 
+        };
     };
 
     constructor(props) {
         super(props)
-        let { year, month } = DateUtils.yearMonth();
         this._rowOnPress = this._rowOnPress.bind(this);
         this._renderGroup = this._renderGroup.bind(this);
         this.state = {
             dataList: [],
-            loading: false,
-            selY: year, selM: month
+            loading: false
         }
     }
     componentDidMount() {
         const { params } = this.props.navigation.state;
         this.setState({ loading: true });
-        let selY = this.state.selY;
-        let selM = this.state.selM;
         let param = {};
         const userId = LoginInfo.getUserInfo().user_id;
         param.userId = userId;
         param.orgId = params.orgId;
         param.type = params.type;
-        if(param.type === 0){
-            param.currTime =  DateUtils.yearMonth().year;
-        }else{
-            param.currTime =  selY + '-' + (selM < 10 ? '0' + selM : selM)
-        }
+        param.currTime = params.currTime;
         param.customerType = params.customerType;
         param.employeeId = params.employeeId;
-        //http://112.74.47.41:11009/csbboss/dataCenter/appHomePage/getNewCustomerDetail.page?orgId=&type=1&employeeId=100185&userId=
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getNewCustomerDetail.page', param, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
@@ -80,6 +80,7 @@ class NewCustomerDetailPage extends React.Component {
 
 
     _renderGroup(item, sectionID, index) {
+        const { params } = this.props.navigation.state;
         return (
             <View key={`row_${index}`} style={{ backgroundColor: '#ffff' }}>
                 <View style={{ height: 8, backgroundColor: '#f9f9f9' }} />
@@ -110,7 +111,7 @@ class NewCustomerDetailPage extends React.Component {
                 }
                 <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
-                        <Text style={{ color: '#999', fontSize: 13 }}>{`${item.createTime}由${item.employeeName}开发成客户`}</Text>
+                        <Text style={{ color: '#999', fontSize: 13 }}>{`${item.createTime}由${item.employeeName}开发成${params.orgName}客户`}</Text>
                     </View>
                 </View>
                 <View style={{ height: StyleSheet.hairlineWidth, flex: 1, backgroundColor: '#c4c4c4' }} />

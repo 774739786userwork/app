@@ -37,9 +37,8 @@ class NewCustomerPage extends React.Component {
         this.loadDetail = this.loadDetail.bind(this);
         this.renderTabBar = this.renderTabBar.bind(this)
         this.ontabSelect = this.ontabSelect.bind(this)
+        let { year, month } = DateUtils.yearMonth();
         this.state = {
-            startDate: DateUtils.getYearMonthDay(1),
-            endDate: DateUtils.getYearMonthDay(),
             listData: [],
             itemListData: [],
             branchFactoryList: [],
@@ -50,7 +49,8 @@ class NewCustomerPage extends React.Component {
             activeTab: 0,
             selectNew: true,
             loading: false,
-            totalCustomerBase: 0
+            totalCustomerBase: 0,
+            selY: year, selM: month
         }
     }
     componentDidMount() {
@@ -81,9 +81,16 @@ class NewCustomerPage extends React.Component {
         });
     }
     loadDetail(orgId, activeTab, selectNew) {
+        let selY = this.state.selY;
+        let selM = this.state.selM;
         let param = {};
         param.orgId = orgId;
         param.type = activeTab;
+        if(param.type === 0){
+            param.currTime =  selY;
+        }else{
+            param.currTime =  selY + '-' + (selM < 10 ? '0' + selM : selM)
+        }
         param.customerType = selectNew ? 'new' : 'old';
         param.userId = LoginInfo.getUserInfo().user_id;
         this.setState({ loading: true });
@@ -104,10 +111,15 @@ class NewCustomerPage extends React.Component {
     //人员选择
     onItemAction(item) {
         const { navigation } = this.props;
-        const { orgId, activeTab, orgName, selectNew } = this.state
+        const { orgId, activeTab, orgName, selectNew,selY, selM} = this.state
         item.orgId = orgId;
         item.orgName = orgName;
         item.type = activeTab;
+        if(item.type === 0){
+            item.currTime =  selY;
+        }else{
+            item.currTime =  selY + '-' + (selM < 10 ? '0' + selM : selM)
+        }
         item.customerType = selectNew ? 'new' : 'old';
         navigation.navigate('NewCustomerDetailPage', item)
     }

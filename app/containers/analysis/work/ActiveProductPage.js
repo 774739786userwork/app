@@ -37,7 +37,7 @@ class ActiveProductPage extends React.Component {
 
     componentDidMount() {
         const { navigation, tabLabel } = this.props;
-        let userId = 100130//LoginInfo.getUserInfo().user_id;
+        let userId = LoginInfo.getUserInfo().user_id;
         this.setState({ loading: true });
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getMyFocusFactory.page', { userId }, 30 * 60).then((responseData) => {
@@ -71,7 +71,7 @@ class ActiveProductPage extends React.Component {
                 tabBarUnderlineStyle={{ backgroundColor: '#3e9ce9', height: 2 }}
                 tabBarActiveTextColor="#3e9ce9"
                 tabBarInactiveTextColor="#aaaaaa"
-            >
+                locked={true}>
                 {
                     this.state.branchFactoryList.map((item, index) => <CustomerSaleDetailPage key={index} itemId={item.orgId} tabLabel={item.orgName} {...this.props} />)
                 }

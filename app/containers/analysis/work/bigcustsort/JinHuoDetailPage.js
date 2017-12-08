@@ -150,6 +150,9 @@ class JinHuoDetailPage extends React.Component {
                     <Text style={{ color: '#f80000', marginRight: 4 }}>{`${this.state.isExistSaler}`}</Text>
                 </View>
             </View>
+            <View style={{ height: 24, backgroundColor: '#f8f9fa', paddingLeft: 12, marginBottom: 4, flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={{ color: '#999', }}>{`近5次进货记录`}</Text>
+            </View>
             <LoadingListView
                 loading={this.state.loading}
                 listData={ds.cloneWithRows(this.state.dataList)}
