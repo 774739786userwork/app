@@ -26,7 +26,7 @@ class S_ProductDetailPage extends React.Component {
     }
     componentDidMount() {
         const { params } = this.props.navigation.state;
-        let p = { orgId: params.factoryId, type: params.type, seriesId: params.seriesId,currTime:params.currTime };
+        let p = { orgId: params.factoryId, type: params.type, seriesId: params.seriesId,currTime:params.currTime,userId:params.userId };
         this.setState({ loading: true });
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getYearProductTotalDetail.page', p, 30 * 60).then((responseData) => {

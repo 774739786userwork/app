@@ -17,7 +17,6 @@ class JinHuoDetailPage extends React.Component {
 
     constructor(props) {
         super(props)
-        this._rowOnPress = this._rowOnPress.bind(this);
         this._renderGroup = this._renderGroup.bind(this);
         this.state = {
             dataList: [],
@@ -38,6 +37,7 @@ class JinHuoDetailPage extends React.Component {
         param.orgId = params.orgId;;
         param.type = params.type;;
         param.customerId = params.customerId;
+        param.userId = param.userId;
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getBigCustomerSupply.page', param, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
@@ -60,21 +60,21 @@ class JinHuoDetailPage extends React.Component {
             })
         });
     }
-    _rowOnPress(employeeId, employeeName, item) {
-        const { navigation } = this.props;
-        let param = navigation.state.params;
-        param.employeeId = employeeId;
-        param.employeeName = employeeName;
-        param.seriesName = item.seriesName;
-        param.seriesId = item.seriesId;
-        navigation.navigate('ProductSaleDetailPage', param)
-    }
-    _onCustomerSaleDetailPress(item) {
-        const { params } = this.props.navigation.state;
-        const { navigation } = this.props;
-        let param = { type: params.type, currTime: params.currTime, employeeId: item.employeeId, groupName: item.employeeName };
-        navigation.navigate('CustomerSaleDetailPage', param)
-    }
+    // _rowOnPress(employeeId, employeeName, item) {
+    //     const { navigation } = this.props;
+    //     let param = navigation.state.params;
+    //     param.employeeId = employeeId;
+    //     param.employeeName = employeeName;
+    //     param.seriesName = item.seriesName;
+    //     param.seriesId = item.seriesId;
+    //     navigation.navigate('ProductSaleDetailPage', param)
+    // }
+    // _onCustomerSaleDetailPress(item) {
+    //     const { params } = this.props.navigation.state;
+    //     const { navigation } = this.props;
+    //     let param = { type: params.type, currTime: params.currTime, employeeId: item.employeeId, groupName: item.employeeName };
+    //     navigation.navigate('CustomerSaleDetailPage', param)
+    // }
 
 
     _renderGroup(item, sectionID, index) {

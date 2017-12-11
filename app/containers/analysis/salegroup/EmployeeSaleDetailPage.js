@@ -63,10 +63,9 @@ class EmployeeSaleDetailPage extends React.Component {
     _onCustomerSaleDetailPress(item) {
         const { params } = this.props.navigation.state;
         const { navigation } = this.props;
-        let param = { type: params.type, currTime: params.currTime, employeeId: item.employeeId, groupName: item.employeeName };
+        let param = { type: params.type, currTime: params.currTime, employeeId: item.employeeId, groupName: item.employeeName,userId:params.userId };
         navigation.navigate('CustomerSaleDetailPage', param)
       }
-
 
     _renderGroup(item, sectionID, index) {
         let employeeId = item.employeeId;

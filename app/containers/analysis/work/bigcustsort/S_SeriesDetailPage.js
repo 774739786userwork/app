@@ -34,6 +34,7 @@ class S_SeriesDetailPage extends React.Component {
         param.orgId = params.orgId;;
         param.type = params.type;;
         param.customerId = params.customerId;
+        param.userId = params.userId;
         this.setState({ loading: true });
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getBigCustomerSeries.page', param, 30 * 60).then((responseData) => {

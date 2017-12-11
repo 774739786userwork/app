@@ -39,7 +39,6 @@ class S_SaleGroupPage extends React.Component {
     this._renderBranchRow = this._renderBranchRow.bind(this);
     this._rowOnBranchPress = this._rowOnBranchPress.bind(this);
     this.loadDetail = this.loadDetail.bind(this);
-
     this.state = {
       dataList: [],
       branchFactoryList: [],
@@ -47,13 +46,14 @@ class S_SaleGroupPage extends React.Component {
       loading: false,
       orgId:undefined,
       orgName:undefined,
+      userId:LoginInfo.getUserInfo().user_id,
       currentDate: DateUtils.yearMonth().year
     }
   }
 
   componentDidMount() {
     const { navigation, tabLabel } = this.props;
-    let userId = LoginInfo.getUserInfo().user_id;
+    let userId = this.state.userId;
     this.setState({ loading: true });
     InteractionManager.runAfterInteractions(() => {
       FetchManger.getUri('dataCenter/appHomePage/getMyFocusFactory.page', { userId }, 30 * 60).then((responseData) => {
@@ -64,7 +64,7 @@ class S_SaleGroupPage extends React.Component {
             data[0].selected = true;
             orgId = data[0].orgId;
             orgName = data[0].orgName;
-            this.loadDetail(currentDate, orgId);
+            this.loadDetail(currentDate, orgId,userId);
           }
           this.setState({ branchFactoryList: data, orgId,orgName, loading: false })
 
@@ -78,8 +78,8 @@ class S_SaleGroupPage extends React.Component {
   }
   //加载数据
   //orgId=108&type=0&currTime=2017
-  loadDetail(currTime, orgId) {
-    let p = { orgId, type: 0, currTime }
+  loadDetail(currTime, orgId,userId) {
+    let p = { orgId, type: 0, currTime,userId }
     this.setState({ loading: true });
     InteractionManager.runAfterInteractions(() => {
       FetchManger.getUri('dataCenter/appHomePage/getSimpleFactorySaleDetail.page', p, 30 * 60).then((responseData) => {
@@ -99,7 +99,8 @@ class S_SaleGroupPage extends React.Component {
   _rowOnPress(groupId, item) {
     const { navigation } = this.props;
     let currentDate = this.state.currentDate+'年';
-    let param = { type: 0, groupId,orgId:this.state.orgId,orgName:this.state.orgName, currTime: currentDate, seriesId: item.seriesId, seriesName: item.seriesName };
+    let userId = this.state.userId;
+    let param = { type: 0, groupId,orgId:this.state.orgId,orgName:this.state.orgName, currTime: currentDate, seriesId: item.seriesId, seriesName: item.seriesName,userId:userId };
     if(groupId === 0){
       
     }else{
@@ -109,7 +110,8 @@ class S_SaleGroupPage extends React.Component {
   _onEmployeeSaleDetailPress(item) {
     const { navigation } = this.props;
     let currentDate = this.state.currentDate+'年';
-    let param = { type: 0,orgId:this.state.orgId,currTime: currentDate, groupId: item.groupId, groupName: item.groupName };
+    let userId = this.state.userId;
+    let param = { type: 0,orgId:this.state.orgId,currTime: currentDate, groupId: item.groupId, groupName: item.groupName,userId:userId };
     //区分地市组与销售组
     if(item.groupId === 0){
       navigation.navigate('DiShiSaleDetailPage', param)
@@ -121,7 +123,8 @@ class S_SaleGroupPage extends React.Component {
   _onCustomerSaleDetailPress(item) {
     const { navigation } = this.props;
     let currentDate = this.state.currentDate+'年';
-    let param = { type: 0, currTime: currentDate, groupId: item.groupId, groupName: item.groupName };
+    let userId = this.state.userId;
+    let param = { type: 0, currTime: currentDate, groupId: item.groupId, groupName: item.groupName,userId:userId };
     navigation.navigate('CustomerSaleDetailPage', param)
   }
 
@@ -190,10 +193,10 @@ class S_SaleGroupPage extends React.Component {
         _item.selected = true;
       }
     })
-    const { currentDate } = this.state;
+    const { currentDate,userId } = this.state;
     let orgId = item.orgId;
     let orgName = item.orgName;
-    this.loadDetail(currentDate, orgId);
+    this.loadDetail(currentDate, orgId,userId);
 
     this.setState({ branchFactoryList, orgId,orgName })
   }
@@ -240,7 +243,7 @@ class S_SaleGroupPage extends React.Component {
           onDateChange={(selY, ymStr) => {
             this.setState({ selY });
             this.state.currentDate = selY;
-            this.loadDetail(this.state.currentDate,this.state.orgId);
+            this.loadDetail(this.state.currentDate,this.state.orgId,this.state.userId);
           }}
         />
         <TouchableOpacity style={{ marginLeft: 4 }} onPress={() => {
@@ -292,13 +295,14 @@ class S_SaleMonthGroupPage extends React.Component {
       orgId:undefined,
       orgName:undefined,
       loading: false,
+      userId:LoginInfo.getUserInfo().user_id
     }
   }
 
   componentDidMount() {
     const { navigation, tabLabel } = this.props;
     this.setState({ loading: true });
-    let userId = LoginInfo.getUserInfo().user_id;
+    let userId = this.state.userId;
 
     InteractionManager.runAfterInteractions(() => {
       FetchManger.getUri('dataCenter/appHomePage/getMyFocusFactory.page', { userId }, 30 * 60).then((responseData) => {
@@ -313,7 +317,7 @@ class S_SaleMonthGroupPage extends React.Component {
             data[0].selected = true;
             orgId = data[0].orgId;
             orgName = data[0].orgName;
-            this.loadDetail(currentDate, orgId);
+            this.loadDetail(currentDate, orgId,userId);
           }
           this.setState({ branchFactoryList: data, orgId,orgName, loading: false })
 
@@ -327,8 +331,8 @@ class S_SaleMonthGroupPage extends React.Component {
   }
   //加载数据
   //orgId=108&type=0&currTime=2017
-  loadDetail(currTime, orgId) {
-    let p = { orgId, type: 1, currTime }
+  loadDetail(currTime, orgId,userId) {
+    let p = { orgId, type: 1, currTime,userId }
     this.setState({ loading: true });
     InteractionManager.runAfterInteractions(() => {
       FetchManger.getUri('dataCenter/appHomePage/getSimpleFactorySaleDetail.page', p, 30 * 60).then((responseData) => {
@@ -353,7 +357,6 @@ class S_SaleMonthGroupPage extends React.Component {
       mlist.map((a) => {
         num = NumberUtils.FloatAdd(num, a.totalSum);
       });
-      alert(num)
       // for(var i = 0; i < mlist.length; i++){
       //   let listitem = mlist[i];
       //   listitem.seriesList.map((a) => {
@@ -369,9 +372,9 @@ class S_SaleMonthGroupPage extends React.Component {
     const { navigation } = this.props;
     let selY = this.state.selY;
     let selM = this.state.selM;
-
+    let userId = this.state.userId;
     let currentDate = selY + '-' + (selM < 10 ? '0' + selM : selM);
-    let param = { type: 1,groupId,orgId:this.state.orgId,orgName:this.state.orgName, currTime: currentDate, seriesId: item.seriesId, seriesName: item.seriesName };
+    let param = { type: 1,groupId,orgId:this.state.orgId,orgName:this.state.orgName, currTime: currentDate, seriesId: item.seriesId, seriesName: item.seriesName,userId };
     if(groupId === 0){
       
     }else{
@@ -383,7 +386,8 @@ class S_SaleMonthGroupPage extends React.Component {
     let selY = this.state.selY;
     let selM = this.state.selM;
     let currentDate = selY + '-' + (selM < 10 ? '0' + selM : selM);
-    let param = { type: 1,orgId:this.state.orgId, currTime: currentDate, groupId: item.groupId, groupName: item.groupName };
+    let userId = this.state.userId;
+    let param = { type: 1,orgId:this.state.orgId, currTime: currentDate, groupId: item.groupId, groupName: item.groupName,userId:userId };
     if(item.groupId === 0){
       navigation.navigate('DiShiSaleDetailPage', param)
     }else{
@@ -395,9 +399,9 @@ class S_SaleMonthGroupPage extends React.Component {
     const { navigation } = this.props;
     let selY = this.state.selY;
     let selM = this.state.selM;
-
+    let userId = this.state.userId;
     let currentDate = selY + '-' + (selM < 10 ? '0' + selM : selM);
-    let param = { type: 1, currTime: currentDate, groupId: item.groupId, groupName: item.groupName };
+    let param = { type: 1, currTime: currentDate, groupId: item.groupId, groupName: item.groupName,userId:userId };
     navigation.navigate('CustomerSaleDetailPage', param)
   }
 
@@ -472,7 +476,8 @@ class S_SaleMonthGroupPage extends React.Component {
     let currentDate = selY + '-' + (selM < 10 ? '0' + selM : selM)
     let orgId = item.orgId;
     let orgName = item.orgName;
-    this.loadDetail(currentDate, orgId);
+    let userId = this.state.userId;
+    this.loadDetail(currentDate, orgId,userId);
 
     this.setState({ branchFactoryList, orgId,orgName })
   }
@@ -519,7 +524,7 @@ class S_SaleMonthGroupPage extends React.Component {
           selM={this.state.selM}
           onDateChange={(selY, selM, ymStr) => {
             let month = selY + '-' + (selM < 10 ? '0' + selM : selM)
-            this.loadDetail(month,this.state.orgId)
+            this.loadDetail(month,this.state.orgId,this.state.userId)
             this.setState({ selY, selM })
           }}
         />
@@ -572,13 +577,14 @@ class S_SaleDayGroupPage extends React.Component {
       orgId:undefined,
       orgName:undefined,
       loading: false,
+      userId:LoginInfo.getUserInfo().user_id
     }
   }
 
   componentDidMount() {
     const { navigation, tabLabel } = this.props;
     this.setState({ loading: true });
-    let userId = LoginInfo.getUserInfo().user_id;
+    let userId = this.state.userId;
 
     InteractionManager.runAfterInteractions(() => {
       FetchManger.getUri('dataCenter/appHomePage/getMyFocusFactory.page', { userId }, 30 * 60).then((responseData) => {
@@ -591,7 +597,7 @@ class S_SaleDayGroupPage extends React.Component {
             data[0].selected = true;
             orgId = data[0].orgId;
             orgName = data[0].orgName;
-            this.loadDetail(currentDate, orgId);
+            this.loadDetail(currentDate, orgId,userId);
           }
           this.setState({ branchFactoryList: data, orgId,orgName, loading: false })
 
@@ -605,8 +611,8 @@ class S_SaleDayGroupPage extends React.Component {
   }
   //加载数据
   //orgId=108&type=0&currTime=2017
-  loadDetail(currTime, orgId) {
-    let p = { orgId, type: 2, currTime }
+  loadDetail(currTime, orgId,userId) {
+    let p = { orgId, type: 2, currTime,userId }
     this.setState({ loading: true });
     InteractionManager.runAfterInteractions(() => {
       FetchManger.getUri('dataCenter/appHomePage/getSimpleFactorySaleDetail.page', p, 30 * 60).then((responseData) => {
@@ -627,7 +633,8 @@ class S_SaleDayGroupPage extends React.Component {
     const { navigation } = this.props;
 
     let currentDate = this.state.day;
-    let param = { type: 2,groupId,orgId:this.state.orgId,orgName:this.state.orgName, currTime: currentDate, seriesId: item.seriesId, seriesName: item.seriesName };
+    let userId = this.state.userId;
+    let param = { type: 2,groupId,orgId:this.state.orgId,orgName:this.state.orgName, currTime: currentDate, seriesId: item.seriesId, seriesName: item.seriesName,userId:userId };
     if(groupId === 0){
       
     }else{
@@ -637,7 +644,8 @@ class S_SaleDayGroupPage extends React.Component {
   _onEmployeeSaleDetailPress(item) {
     const { navigation } = this.props;
     let currentDate = this.state.day;
-    let param = { type: 2,orgId:this.state.orgId, currTime: currentDate, groupId: item.groupId, groupName: item.groupName };
+    let userId = this.state.userId;
+    let param = { type: 2,orgId:this.state.orgId, currTime: currentDate, groupId: item.groupId, groupName: item.groupName,userId:userId };
     if(item.groupId === 0){
       navigation.navigate('DiShiSaleDetailPage', param)
     }else{
@@ -648,7 +656,8 @@ class S_SaleDayGroupPage extends React.Component {
   _onCustomerSaleDetailPress(item) {
     const { navigation } = this.props;
     let currentDate = this.state.day;
-    let param = { type: 2, currTime: currentDate, groupId: item.groupId, groupName: item.groupName };
+    let userId = this.state.userId;
+    let param = { type: 2, currTime: currentDate, groupId: item.groupId, groupName: item.groupName,userId:userId };
     navigation.navigate('CustomerSaleDetailPage', param)
   }
 
@@ -720,7 +729,8 @@ class S_SaleDayGroupPage extends React.Component {
     let currentDate = this.state.day;
     let orgId = item.orgId;
     let orgName = item.orgName;
-    this.loadDetail(currentDate, orgId);
+    let userId = this.state.userId;
+    this.loadDetail(currentDate, orgId, userId);
 
     this.setState({ branchFactoryList, orgId,orgName })
   }
@@ -769,7 +779,7 @@ class S_SaleDayGroupPage extends React.Component {
             cancelBtnText="取消"
             onDateChange={(date) => {
               this.state.day = date;
-              this.loadDetail(this.state.day,this.state.orgId)
+              this.loadDetail(this.state.day,this.state.orgId,this.state.userId)
             }}
           />
         <TouchableOpacity style={{ marginLeft: 4 }} onPress={() => {

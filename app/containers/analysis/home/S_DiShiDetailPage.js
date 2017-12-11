@@ -63,7 +63,7 @@ class S_DiShiDetailPage extends React.Component {
                     </View>
                     <View style={{ height: 30, flexDirection: 'row', alignItems: 'center' }}>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
-                            <Text style={{ color: '#666', }}>{'销售总额: '}</Text>
+                            <Text style={{ color: '#666', }}>{'总额: '}</Text>
                             <Text style={{ color: '#17c6c1' }}>{`${rowData.factoryTotalSum}万`}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row',justifyContent: 'center',}}>

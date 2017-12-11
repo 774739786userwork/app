@@ -146,8 +146,8 @@ import QRPage from '../pages/QRPage'
 
 const AnalysisTabContainer = TabNavigator(
   {
-    S_Work: { screen: S_WorkContainer },
     S_Home: { screen: S_HomeContainer },
+    S_Work: { screen: S_WorkContainer },
     S_Series: { screen: S_SeriesContainer },
     S_Product: { screen: S_SaleGroupContainer },
     Setting: { screen: SettingContainer }

@@ -98,6 +98,7 @@ class BigCustomerSortPage extends React.Component {
         item.orgId = orgId;
         item.currTime = currTime;
         item.type = activeTab;
+        item.userId = LoginInfo.getUserInfo().user_id;
         navigate('BigCustSortDetailPage', item);
     }
 

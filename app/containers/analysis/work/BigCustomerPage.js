@@ -92,7 +92,14 @@ class BigCustomerPage extends React.Component {
         });
     }
     onItemAction(item) {
-
+        const { navigate } = this.props.navigation;
+        const { orgId,selY, selM} = this.state;
+        let currTime = selY + '-' + (selM < 10 ? '0' + selM : selM)
+        item.orgId = orgId;
+        item.currTime = currTime;
+        item.type = 1;
+        item.userId = LoginInfo.getUserInfo().user_id;
+        navigate('BigCustSortDetailPage', item);
     }
 
     _renderRow(item, rowID) {

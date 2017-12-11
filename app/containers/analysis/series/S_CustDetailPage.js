@@ -26,7 +26,7 @@ class S_CustDetailPage extends React.Component {
     }
     componentDidMount() {
         const { params } = this.props.navigation.state;
-        let p = { orgId: params.factoryId, type: params.type, seriesId: params.seriesId };
+        let p = { orgId: params.factoryId, type: params.type, seriesId: params.seriesId,userId:params.userId };
         this.setState({ loading: true });
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getYearMonthCustomerSeriesDetails.page', p, 30 * 60).then((responseData) => {

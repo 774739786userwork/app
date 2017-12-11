@@ -79,19 +79,19 @@ class S_SeriesPage extends React.Component {
       branchFactoryList: [],
       selectItem: undefined,
       loading: false,
-      currentDate:DateUtils.yearMonth().year
+      currentDate:DateUtils.yearMonth().year,
+      userId:LoginInfo.getUserInfo().user_id
     }
   }
 
   componentDidMount() {
-    const { currentDate } = this.state;
-    this.loadDetail(currentDate);
+    const { currentDate,userId } = this.state;
+    this.loadDetail(currentDate,userId);
   }
 
-  loadDetail(currTime) {
+  loadDetail(currTime,userId) {
     const { navigation, tabLabel } = this.props;
-    const userId = LoginInfo.getUserInfo().user_id;
-    let param = { type: tabLabel, userId: userId,currTime };
+    let param = { type: tabLabel, userId,currTime };
     this.setState({ loading: true });
     InteractionManager.runAfterInteractions(() => {
       FetchManger.getUri('dataCenter/appHomePage/getYearMonthProductSeries.page', param, 30 * 60).then((responseData) => {
@@ -115,12 +115,8 @@ class S_SeriesPage extends React.Component {
     let selectItem = this.state.selectItem;
     
     let currTime = this.state.currentDate;
-    // if('0' === tabLabel){
-    //   currTime = DateUtils.yearMonth().year;
-    // }else{
-    //   currTime = DateUtils.getYearMonth();
-    // }
-    let param = { factoryId: selectItem.serieslId,currTime:currTime, orgName: selectItem.serieslName + item.orgName, seriesId: item.orgId, type: tabLabel };
+    let userId = this.state.userId;
+    let param = { factoryId: selectItem.serieslId,currTime:currTime,userId:userId, orgName: selectItem.serieslName + item.orgName, seriesId: item.orgId, type: tabLabel };
     navigation.navigate('S_SeriesDetail', param)
   }
 
@@ -198,7 +194,7 @@ class S_SeriesPage extends React.Component {
           onDateChange={(selY, ymStr) => {
             this.setState({ selY });
             this.state.currentDate = selY;
-            this.loadDetail(this.state.currentDate);
+            this.loadDetail(this.state.currentDate,this.state.userId);
           }}
         />
         <TouchableOpacity style={{ marginLeft: 4 }} onPress={() => {
@@ -278,22 +274,22 @@ class S_SeriesMonthPage extends React.Component {
       salerList: [],
       branchFactoryList: [],
       selectItem: undefined,
-      loading: false
+      loading: false,
+      userId:LoginInfo.getUserInfo().user_id
     }
   }
 
   componentDidMount() {
     let selY = this.state.selY;
     let selM = this.state.selM;
-
+    let userId = this.state.userId;
     let month = selY + '-' + (selM < 10 ? '0' + selM : selM)
-    this.loadDetail(month);
+    this.loadDetail(month,userId);
   }
 
-  loadDetail(currTime) {
+  loadDetail(currTime,userId) {
     const { navigation, tabLabel } = this.props;
-    const userId = LoginInfo.getUserInfo().user_id;
-    let param = { type: tabLabel, userId: userId,currTime };
+    let param = { type: tabLabel, userId,currTime };
     this.setState({ loading: true });
     InteractionManager.runAfterInteractions(() => {
       FetchManger.getUri('dataCenter/appHomePage/getYearMonthProductSeries.page', param, 30 * 60).then((responseData) => {
@@ -318,7 +314,8 @@ class S_SeriesMonthPage extends React.Component {
     let selY = this.state.selY;
     let selM = this.state.selM;
     let currTime = selY + '-' + (selM < 10 ? '0' + selM : selM);
-    let param = { factoryId: selectItem.serieslId,currTime:currTime, orgName: selectItem.serieslName + item.orgName, seriesId: item.orgId, type: tabLabel };
+    let userId = this.state.userId;
+    let param = { factoryId: selectItem.serieslId,currTime:currTime,userId:userId, orgName: selectItem.serieslName + item.orgName, seriesId: item.orgId, type: tabLabel };
     navigation.navigate('S_SeriesDetail', param)
   }
 
@@ -396,7 +393,7 @@ class S_SeriesMonthPage extends React.Component {
         selM={this.state.selM}
         onDateChange={(selY, selM, ymStr) => {
           let month = selY + '-' + (selM < 10 ? '0' + selM : selM)
-          this.loadDetail(month)
+          this.loadDetail(month,this.state.userId)
           this.setState({ selY, selM })
         }}
       />
