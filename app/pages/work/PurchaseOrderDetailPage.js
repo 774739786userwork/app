@@ -90,7 +90,7 @@ class PurchaseOrderDetailPage extends React.Component {
                             <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                                 <Text style={{ color: '#999' }}>{goodsItem.name}</Text>
                                 <Text style={{ color: '#999' }}>{': '}</Text>
-                                <Text style={{ color: '#999' }}>{goodsItem.salerQuantity}</Text>
+                                <Text style={{ color: '#999' }}>{goodsItem.quantity}</Text>
                                 <View style={{ width: 8 }} />
                                 <Text style={{ color: '#999' }}>{goodsItem.unit}</Text>
                             </View>))

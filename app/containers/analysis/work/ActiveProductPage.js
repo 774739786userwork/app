@@ -105,8 +105,8 @@ class CustomerSaleDetailPage extends React.Component {
             cycleId: 1,
             cycleName: '近一月',
             cycleTypeModelShow: false,
-            timesId: 1,
-            timmesName: '0',
+            timesId: 3,
+            timmesName: '5次以上',
             timesModelShow: false,
         }
     }
