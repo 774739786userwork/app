@@ -28,7 +28,7 @@ const HomeItem = [
     { name: '产品大客户', open: true, typeName: 'BigCustomerPage', image: require('../../imgs/work/s_canpingdakehu.png') },
     { name: '产品销量', open: false, typeName: 'ProductSalesPage', image: require('../../imgs/work/s_canpingxiaoliang.png') },
     { name: '产品趋势', open: false, typeName: 'NewReturnGood', image: require('../../imgs/work/s_canpingqushi.png') },
-    { name: '产品业务排名', open: false,typeName: 'PurchaseOrder', image: require('../../imgs/work/s_yewuyuanpaiming.png') },
+    { name: '产品业务员', open: false,typeName: 'PurchaseOrder', image: require('../../imgs/work/s_yewuyuanpaiming.png') },
     { name: '数据预测', open: false, typeName: 'AddBalanceAccouts', image: require('../../imgs/work/s_shujuyuce.png') },
 ];
 
