@@ -106,6 +106,7 @@ export default class AddPurchaseEditeModel extends React.Component {
                                     underlineColorAndroid={'transparent'}
                                     value={'' + this.state.price}
                                     keyboardType={'numeric'}
+                                    selectTextOnFocus={true}
                                     defaultValue={'' + this.state.price}
                                     onChangeText={(price) => {
                                         price = price ? price : '0'
@@ -139,10 +140,12 @@ export default class AddPurchaseEditeModel extends React.Component {
                                         underlineColorAndroid={'transparent'}
                                         value={'' + this.state.sale_quantity}
                                         defaultValue={'' + this.state.sale_quantity}
+                                        keyboardType={'numeric'}
+                                        selectTextOnFocus={true}
                                         onChangeText={(newCount) => {
                                             let num = parseInt(newCount);
                                             let sale_quantity = isNaN(num) ? 0 : num
-                                            if ((sale_quantity - this.state.gifts_quantity) >= 0) {
+                                            if (sale_quantity >= 0) {
                                                 this.updateSaleQuantity(sale_quantity);
                                             }
                                         }}
@@ -175,10 +178,12 @@ export default class AddPurchaseEditeModel extends React.Component {
                                         underlineColorAndroid={'transparent'}
                                         value={'' + this.state.gifts_quantity}
                                         defaultValue={'' + this.state.gifts_quantity}
+                                        keyboardType={'numeric'}
+                                        selectTextOnFocus={true}
                                         onChangeText={(newCount) => {
                                             let num = parseInt(newCount);
                                             let gifts_quantity = isNaN(num) ? 0 : num
-                                            if ((gifts_quantity - this.state.sale_quantity) >= 0) {
+                                            if (gifts_quantity >= 0) {
                                                 this.updateGiftsQuantity(gifts_quantity);
                                             }
                                         }}
