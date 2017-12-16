@@ -21,18 +21,17 @@ class GetDebtPayNoteListContainer extends React.Component {
   }
 }
 
-// const mapStateToProps = (state) => {
-//   const {  } = state;
-//   return {
-    
-//   };
-// };
+const mapStateToProps = (state) => {
+  const { getPayMentList } = state;
+  return {
+    getPayMentList
+  };
+};
 
-// const mapDispatchToProps = (dispatch) => {
-//   const action = bindActionCreators(actions, dispatch);
-//   return {
-//     action
-//   };
-// }; connect(mapStateToProps, mapDispatchToProps)(GetDebtPayNoteListContainer)
-
-export default GetDebtPayNoteListContainer;
+const mapDispatchToProps = (dispatch) => {
+  const action = bindActionCreators(actions, dispatch);
+  return {
+    action
+  };
+}; 
+export default connect(mapStateToProps, mapDispatchToProps)(GetDebtPayNoteListContainer);

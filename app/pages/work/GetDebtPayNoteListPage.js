@@ -35,60 +35,81 @@ let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 
 class GetDebtPayNoteListPage extends React.Component {
     constructor(props) {
         super(props);
+        this._renderItem = this._renderItem.bind(this);
+        this._rowOnPress = this._rowOnPress.bind(this);
+        this.onConfirmPress = this.onConfirmPress.bind(this);
+        this.onCancelPress = this.onCancelPress.bind(this);
+        this._selectByDate = this._selectByDate.bind(this);
 
-        this._selectByDate = this._selectByDate.bind(this)
-        this._renderItem = this._renderItem.bind(this)
-        this._rowOnPress = this._rowOnPress.bind(this)
-        this.onConfirmPress = this.onConfirmPress.bind(this)
-        this.onCancelPress = this.onCancelPress.bind(this)
         let today = GetDateStr(0);
         this.state = {
+            showSpinner: false,
             modalVisible: false,
-            deliverydate: today,
-            selectItem:{}
+            loadingdate: today,
+            selectItem: {},
+            data: []
         }
     }
 
-    //选日期
-    _selectByDate(dateValue) {
-        this.state.deliverydate = dateValue;
+    componentDidMount() {
+        const { action } = this.props;
+        InteractionManager.runAfterInteractions(() => {
+            // action.getPayMentList();
+            this.get_payment_list();
+        });
     }
 
-    _rowOnPress(selectItem){
-        this.setState({ modalVisible:true,selectItem });
+    componentWillReceiveProps(nextProps) {
+        const { getPayMentList } = nextProps;
+
+        if (getPayMentList.errMsg) {
+            Toast.show(getPayMentList.errMsg);
+        }
+        this.setState({ data: getPayMentList.result })
     }
 
-    onConfirmPress(id, newCount) {
-        let selectItem = this.state.selectItem;
-        selectItem.debt_sum = newCount;
-        this.setState({ modalVisible: false, selectItem });
+    _rowOnPress(selectItem) {
+        this.setState({ modalVisible: true, selectItem });
     }
-    onCancelPress() {
-        this.setState({ modalVisible: false });
+    //payment_sum 还款金额
+    //debt_sum 欠款金额
+
+    get_payment_list(){
+        let item = {
+            "customer_id": "805141257",
+            "delivery_date": "2017-09-21",
+            "promise_date": "2017-09-21",
+            "customer_name": "湘中陶瓷城圣卡陶瓷",
+            "debt_sum": 2145
+        }
+        let data = [];
+        for (let i = 0; i < 1; i++) {
+            data.push(item);
+        }
+
+        this.setState({data});
     }
 
     _renderItem = (item, index) => {
         let payment_sum = item.payment_sum ? item.payment_sum : 0
-      //  alert(item.debt_sum)
+        let debt_sum = item.debt_sum - payment_sum
         return (
             <TouchableHighlight
-                onPress={this._rowOnPress.bind(this,item)}
+                onPress={this._rowOnPress.bind(this, item)}
                 key={`row_${index}`}
             >
                 <View style={{ backgroundColor: '#fff' }} key={`row_${index}`}>
                     <View style={{ height: 34, paddingLeft: 12, marginBottom: 8, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
-                        <View style={{ flex:1, flexDirection:'row'}}>
-                            <Text style={{ color: '#333', fontSize: 16 }}>{`${item.customer_name}`}</Text>
-                        </View>
+                        <Text style={{ color: '#333', fontSize: 16 }}>{`${item.customer_name}`}</Text>
                     </View>
                     <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#666' }}>{'欠款：'}</Text>
-                            <Text style={{ color: '#f80000' }}>{`${item.debt_sum}`}</Text>
+                            <Text style={{ color: '#f80000' }}>{`${debt_sum}`}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#666' }}>{'还款：'}</Text>
-                            <Text style={{ color: '#f80000' }}>{`${ payment_sum }`}</Text>
+                            <Text style={{ color: '#f80000' }}>{`${payment_sum}`}</Text>
                         </View>
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, marginTop: 12, flex: 1, backgroundColor: '#c4c4c4' }} />
@@ -96,18 +117,39 @@ class GetDebtPayNoteListPage extends React.Component {
             </TouchableHighlight>);
     }
 
-    render(){
-        let list = [{"customer_name":"德高建材有限公司岳阳专卖店","debt_sum":"2145"}];
-        return(
+    onConfirmPress(id, newCount) {
+        const { action } = this.props;
+        let selectItem = this.state.selectItem;
+        selectItem.disburden_quantity = newCount;
+        this.setState({ modalVisible: false, selectItem });
+    }
+    onCancelPress() {
+        this.setState({ modalVisible: false });
+    }
+
+    //选日期
+    _selectByDate(dateValue) {
+        this.state.loadingdate = dateValue;
+        const { action } = this.props;
+        // action.getPayMentList(dateValue);
+        this.get_payment_list();
+    }
+
+    render() {
+        const { getPayMentList } = this.props;
+        let list = this.state.data ? this.state.data : 0;//getPayMentList.result ? this.state.data : [];
+        // list = list ? list : []
+        return (
             <View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
                 <View style={{ height: 10, backgroundColor: '#f2f2f2' }} ></View>
-                <DebtPayEditModel modalVisible={this.state.modalVisible} onCancelPress={this.onCancelPress} item={this.state.selectItem} onConfirmPress={this.onConfirmPress}/>
+                <DebtPayEditModel modalVisible={this.state.modalVisible} onCancelPress={this.onCancelPress} item={this.state.selectItem} onConfirmPress={this.onConfirmPress} />
+                <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#e6e6e6' }} />
                 <View style={{ backgroundColor: '#fff', flexDirection: 'row', paddingLeft: 10, paddingRight: 12, height: 50, justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ color: '#333', fontSize: 18 }}>{'送货日期'}</Text>
+                    <Text style={{ color: '#333', fontSize: 18 }}>{'提货日期'}</Text>
                     <View style={{ flex: 1 }} />
                     <DatePicker
                         style={{ width: 100, }}
-                        date={this.state.deliverydate}
+                        date={this.state.loadingdate}
                         customStyles={{
                             dateInput: { borderWidth: 0 },
                             dateText: { color: '#999', textAlign: 'left' }
@@ -140,9 +182,10 @@ class GetDebtPayNoteListPage extends React.Component {
                     <Text style={{ color: '#999' }}>{'欠款明细如下：'}</Text>
                 </View>
                 <LoadingListView
+                    loading={getPayMentList.loading}
+                    loadMore={getPayMentList.loadMore}
                     listData={dataSource.cloneWithRows(list)}
                     renderRowView={this._renderItem} />
-                
                 {
                     list.length > 0 ?
                         <View>
@@ -152,9 +195,11 @@ class GetDebtPayNoteListPage extends React.Component {
                                 <Text style={{ fontSize: 20, color: '#0081d4', }}>欠款对冲</Text>
                             </TouchableOpacity >
                         </View>
-                        :null
+                        : null
                 }
-            </View>
+                <View><Spinner visible={this.state.showSpinner} textContent={'提交中,请稍后...'} /></View>
+
+            </View >
         );
     }
 }

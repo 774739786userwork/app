@@ -45,14 +45,14 @@ export default class DebtPayEditeModel extends React.Component {
         if (newCount < 0) {
             newCount = 0;
         }
-        // if (newCount > this.state.maxCount) {
-        //     newCount = this.state.maxCount;
-        // }
+        if (newCount > this.state.maxCount) {
+            newCount = this.state.maxCount;
+        }
         this.setState({ count: newCount });
     }
     onConfirmPress() {
         let item = this.props.item;
-        // alert(this.state.count)
+        
         this.props.onConfirmPress && this.props.onConfirmPress(item.id,this.state.count)
         this.setState({ modalVisible: false });
     }

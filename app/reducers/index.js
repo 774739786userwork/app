@@ -16,7 +16,7 @@ import sendMsg from './sendMsgReducer'
 import listCustomers from './listCustomersReducer'
 import addDeliveryOrder from './addDeliveryOrderReducer'
 import saveLadingbillsProduct from './saveLadingbillsProductReducer'
-
+import getPayMentList from './getPayMentListReducer'
 import unLoadBillDetailList from './unLoadBillDetailListReducer'
 
 const rootReducer = combineReducers({
@@ -27,6 +27,7 @@ const rootReducer = combineReducers({
   selectDeliveryOrder,
   deliveryOrderDetail,
   getCarstockProductList,
+  getPayMentList,
   selectCar,
   queryReturnLists,
   queryReturnDetail,
