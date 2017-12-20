@@ -339,7 +339,6 @@ class S_SaleMonthGroupPage extends React.Component {
         if (responseData.status === '0' || responseData.status === 0) {
           let data = responseData.data;
           this.setState({ dataList: data, loading: false })
-          this.initMonthData(data)
         } else {
           this.setState({ loading: false });
         }

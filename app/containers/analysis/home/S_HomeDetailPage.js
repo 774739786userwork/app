@@ -79,7 +79,9 @@ class S_HomeDetailPage extends React.Component {
         }else if(param.type === 1){
             param.currTime = param.month;
         }
-        navigation.navigate('S_DiShiDetailPage',{param})
+        if(param.orgId === 109 || param.orgId === 108){
+            navigation.navigate('S_DiShiDetailPage',{param})
+        }
     }
 
     _renderRow_old(rowData, rowID) {

@@ -113,7 +113,7 @@ class BigCustomerPage extends React.Component {
                         <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
                         <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.totalSum}`}</Text>
                         <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.customerPrecent}`}</Text>
+                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.totalCount}`}</Text>
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
                 </View>
@@ -211,7 +211,7 @@ class BigCustomerPage extends React.Component {
                                     <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
                                     <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'金额(元)'}</Text>
                                     <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'占比%'}</Text>
+                                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'销量'}</Text>
                                 </View>
                                 <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
                                 <LoadingListView
