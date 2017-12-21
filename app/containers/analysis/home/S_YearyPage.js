@@ -22,6 +22,7 @@ export default class S_YearyPage extends React.Component {
         this.onMoreAction = this.onMoreAction.bind(this);
         this.onNuShowAction = this.onNuShowAction.bind(this);
         this.onTotalAction = this.onTotalAction.bind(this);
+        this.onItemDiShiAction = this.onItemDiShiAction.bind(this);
         let { year } = DateUtils.yearMonth();
         this.state = {
             selY: year,
@@ -84,13 +85,21 @@ export default class S_YearyPage extends React.Component {
     onTotalAction(item) {
         const { navigation } = this.props;
         const userId = LoginInfo.getUserInfo().user_id;
-        let param = { type: 0, orgId: item.orgId ,orgName:item.orgName, year: this.state.selY,userId:userId};
+        let param = { type: 0, orgId: item.orgId ,orgName:item.orgName, currTime: this.state.selY,userId:userId};
         navigation.navigate('S_SelasTotalDetailPage', { param })
     }
     onNuShowAction(item) {
         const { navigation } = this.props;
         let param = { type: 0, orgId: item.orgId,currTime:this.state.selY };
         navigation.navigate('UnReceivePage', { param })
+    }
+
+    onItemDiShiAction(item){
+        const { navigation } = this.props;
+        let param = { type: 0, orgId: item.orgId,orgName:item.orgName,currTime:this.state.selY };
+        if(item.orgId === 109 || item.orgId === 108){
+            navigation.navigate('S_DiShiDetailPage',{param})
+        }
     }
     render() {
         let yearData = [];
@@ -238,7 +247,9 @@ export default class S_YearyPage extends React.Component {
                                         flexDirection: 'row',
                                         padding: 10
                                     }} key={`row_${item}`}>
-                                        <Text style={{ color: '#333', flex: 1 }}>{item.orgName}</Text>
+                                        <TouchableOpacity onPress={this.onItemDiShiAction.bind(this,item)}>
+                                            <Text style={{ color: '#333', flex: 1 }}>{item.orgName}</Text>
+                                        </TouchableOpacity>
                                         <Text style={{ color: '#666' }}>{'总'}</Text>
                                         <TouchableOpacity onPress={this.onTotalAction.bind(this, item)}>
                                             <Text style={{ width: 68, color: '#17c6c1' }}>{`${item.factoryTotalSum}万`}</Text>

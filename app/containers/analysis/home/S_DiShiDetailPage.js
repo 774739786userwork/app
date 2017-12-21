@@ -18,9 +18,9 @@ class S_DiShiDetailPage extends React.Component {
         let type = state.params.param.type;
         let title;
         if(type === 0){
-            title = state.params.param.year+'年'+state.params.param.orgName;
+            title = state.params.param.currTime+'年'+state.params.param.orgName;
         }else{
-            title = state.params.param.month+'月'+state.params.param.orgName;
+            title = state.params.param.currTime+'月'+state.params.param.orgName;
         }
         return {
             headerTitleStyle: {fontSize: 16},

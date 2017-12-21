@@ -401,7 +401,7 @@ export default AddDeliveryOrderPage;
 
 {/* <TouchableOpacity onPress={this.selectUserAction}>
                 <View style={{ backgroundColor: '#fff', flexDirection: 'row', paddingLeft: 10, paddingRight: 12, height: 40, justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ color: '#333', fontSize: 16 }}>{'搬运工'}</Text>
+                    <Text style={{ color: '#333', fontSize: 16 }}>{'卸货搬运工'}</Text>
                     <View style={{ flex: 1 }} />
                     <Text style={{ color: '#999', fontSize: 14 }}>{this.state.downEmployeeNames ? this.state.downEmployeeNames : '请选择搬运工'}</Text>
                     <View>

@@ -21,9 +21,9 @@ class S_SelasTotalDetail extends React.Component {
         let type = state.params.param.type;
         let currentTime;
         if(type === 0){
-            currentTime = state.params.param.year+'年';
+            currentTime = state.params.param.currTime+'年';
         }else{
-            currentTime = state.params.param.month+'月';
+            currentTime = state.params.param.currTime+'月';
         }
         return {
             headerTitleStyle: {fontSize: 16},

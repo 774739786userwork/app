@@ -87,7 +87,6 @@ class NewCustomerPage extends React.Component {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
                     this.setState({ listData: data, totalCustomerBase: responseData.totalCustomerBase, loading: false })
-
                 } else {
                     this.setState({ loading: false });
                 }
