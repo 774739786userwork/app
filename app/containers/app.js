@@ -128,6 +128,8 @@ import ActiveProductPage from './analysis/work/ActiveProductPage'
 import NewCustomerPage from './analysis/work/NewCustomerPage'
 //新发展客户详情
 import NewCustomerDetailPage from './analysis/work/NewCustomerDetailPage'
+//各分厂核心系列
+import CoreSeriesPage from './analysis/work/CoreSeriesPage'
 //产品销量
 import ProductSalesPage from './analysis/work/ProductSalesPage';
 //销售组 销售情况
@@ -400,6 +402,10 @@ const App = StackNavigator(
     },
     NewCustomerDetailPage:{
       screen:NewCustomerDetailPage
+    },
+    //各分厂核心系列
+    CoreSeriesPage:{
+      screen:CoreSeriesPage
     },
     //活跃客户
     ActiveProductPage:{

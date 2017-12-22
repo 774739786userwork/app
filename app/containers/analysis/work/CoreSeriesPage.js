@@ -1,4 +1,3 @@
-
 import React, { Component, } from 'react';
 import {
     StyleSheet,
@@ -12,13 +11,13 @@ import { FetchManger, Iconfont } from 'react-native-go';
 import ScrollableTabView, {
     DefaultTabBar
 } from 'react-native-scrollable-tab-view';
-import NewCustomerYearPage from './NewCustomerYearPage';
-import NewCustomerMonthPage from './NewCustomerMonthPage';
+import CoreSeriesYearPage from './CoreSeriesYearPage';
+import CoreSeriesMonthPage from './CoreSeriesMonthPage';
 
-//新发展客户
-class NewCustomerPage extends React.Component {
+//核心系列
+class CoreSeriesPage extends React.Component {
     static navigationOptions = ({ navigation }) => ({
-        title: `新发展客户`,
+        title: `各分厂核心系列`,
     });
     renderTabBar(tab) {
         let activeTab = tab.activeTab;
@@ -56,15 +55,15 @@ class NewCustomerPage extends React.Component {
     render() {
         return (<View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
             <ScrollableTabView locked={true} initialPage={0} renderTabBar={this.renderTabBar} >
-                <NewCustomerYearPage key={'0'} activeTab ={0} {...this.props} tabLabel={'year'}/>
-                <NewCustomerMonthPage key={'1'}  activeTab ={1} {...this.props} tabLabel={'month'}/>
+                <CoreSeriesYearPage key={'0'} activeTab ={0} {...this.props} tabLabel={'year'}/>
+                <CoreSeriesMonthPage key={'1'}  activeTab ={1} {...this.props} tabLabel={'month'}/>
               </ScrollableTabView>
         </View>);
     }
 }
 
 
-export default NewCustomerPage;
+export default CoreSeriesPage;
 
 
 const styles = StyleSheet.create({

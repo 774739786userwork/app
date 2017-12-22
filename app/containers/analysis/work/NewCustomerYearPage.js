@@ -1,5 +1,4 @@
-//产品销量
-//
+
 import React, { Component, } from 'react';
 import {
     StyleSheet,
@@ -229,7 +228,6 @@ class NewCustomerPage extends React.Component {
                         }
                     </View>
                 </View>
-
             </View>
         </View>;
     }
