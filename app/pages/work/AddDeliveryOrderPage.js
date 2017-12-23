@@ -52,6 +52,7 @@ class AddDeliveryOrderPage extends React.Component {
             modalPopVisible: false,
             selectCar: {},
             ladingdate: GetDateStr(0),
+            deliverydate:GetDateStr(0),
             selectItem: {},
             chooseList: [],
             good_list: [],
@@ -92,6 +93,11 @@ class AddDeliveryOrderPage extends React.Component {
         const { params } = navigation.state;
         action.addDeliveryOrder(this.carbaseinfo_id, ladingdate, params.customersId,params.purchaseId)
         this.setState({ ladingdate: ladingdate })
+    }
+
+    _selectDeliveryDate(deliverydate){
+        
+        this.setState({deliverydate:deliverydate})
     }
     selectCarAction() {
         const { action, navigation, addDeliveryOrder } = this.props;
@@ -287,9 +293,9 @@ class AddDeliveryOrderPage extends React.Component {
         let selectCar = this.state.selectCar;
         params.selectCar = selectCar;
         params.downEmployeeIds = this.state.downEmployeeIds;
-        params.num = this.state.num
-        params.numberCarsh = this.state.numberCarsh
-        
+        params.num = this.state.num;
+        params.numberCarsh = this.state.numberCarsh;
+        params.deliverydate = this.state.deliverydate;
         // if(!this.state.downEmployeeNames){
         //     Toast.show('请选择搬运工！');
         //     return;
@@ -331,6 +337,38 @@ class AddDeliveryOrderPage extends React.Component {
                     cancelBtnText="取消"
                     onDateChange={(date) => {
                         this._selectByDate(date)
+                    }}
+                />
+                <View>
+                    <Iconfont
+                        icon={'e66e'} // 图标
+                        iconColor={'#999'}
+                        iconSize={22}
+                    />
+                </View>
+            </View>
+            <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#e6e6e6' }} />
+            <View style={{ backgroundColor: '#fff', flexDirection: 'row', paddingLeft: 10, paddingRight: 12, height: 40, justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ color: '#333', fontSize: 16 }}>{'送货日期'}</Text>
+                <View style={{ flex: 1 }} />
+                <DatePicker
+                    style={{ width: 100, }}
+                    date={this.state.deliverydate}
+                    customStyles={{
+                        dateInput: { borderWidth: 0 },
+                        dateText: { color: '#999', textAlign: 'left' }
+                    }}
+                    mode="date"
+                    showIcon={false}
+                    format="YYYY-MM-DD"
+                    confirmBtnText="确定"
+                    cancelBtnText="取消"
+                    onDateChange={(date) => {
+                        if(date < this.state.ladingdate){
+                            Toast.show('送货日期不能小于提货日期！');
+                            return;
+                        }
+                        this._selectDeliveryDate(date)
                     }}
                 />
                 <View>

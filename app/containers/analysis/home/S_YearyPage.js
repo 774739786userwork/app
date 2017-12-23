@@ -14,6 +14,7 @@ import * as DateUtils from '../../../utils/DateUtils'
 import Echarts from 'native-echarts';
 import { FetchManger, LoginInfo, LoadingView, Toast, Iconfont } from 'react-native-go'
 import TableRow from './TableRow'
+import * as NumberUtils from '../../../utils/NumberUtils'
 
 export default class S_YearyPage extends React.Component {
     constructor(props) {
@@ -169,6 +170,14 @@ export default class S_YearyPage extends React.Component {
             // 如果不是确定有多少折线  建议吧整个serise数据替换掉   例如：series:[{...}{...}{...},...]配置项和下面一样
             series: seriesData
         };
+
+        let yearSum = '';
+        if(this.state.yearTotalSum > 10000){
+            yearSum = NumberUtils.fc(this.state.yearTotalSum/10000) + '亿'
+        }else{
+            yearSum = this.state.yearTotalSum + '万'
+        }
+
         return (
             <ScrollView>
                 <View style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -222,7 +231,7 @@ export default class S_YearyPage extends React.Component {
                     }}>
                         <View style={{ flex: 1, justifyContent: 'center', flexDirection: 'row' }}>
                             <Text style={{ lineHeight: 24, color: '#666', fontSize: 12 }}>{'总额'}</Text>
-                            <Text style={{ lineHeight: 24, marginLeft: 2, color: '#17c6c1', fontSize: 20 }}>{`${this.state.yearTotalSum}万`}</Text>
+                            <Text style={{ lineHeight: 24, marginLeft: 2, color: '#17c6c1', fontSize: 20 }}>{yearSum}</Text>
                         </View>
                         <View style={{ flex: 1, justifyContent: 'center', flexDirection: 'row' }}>
                             <Text style={{ lineHeight: 24, color: '#666', fontSize: 12 }}>{'退货'}</Text>
@@ -240,7 +249,8 @@ export default class S_YearyPage extends React.Component {
                     }}>
                         <View style={{ borderWidth: StyleSheet.hairlineWidth, borderColor: '#dedede' }}>
                             {
-                                yearData.map((item) => <View key={`row_${item.orgName}`}>
+                                yearData.map((item) =>
+                                    <View key={`row_${item.orgName}`}>
                                     <View style={{
                                         alignContent: 'center',
                                         justifyContent: 'center',

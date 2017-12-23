@@ -29,9 +29,8 @@ import AddLadingbillPopModel from './AddLadingbillPopModel'
 import AddLadingbillsEditeModel from './components/AddLadingbillsEditeModel'
 const WINDOW_WIDTH = Dimensions.get('window').width;
 import ImageView from '../../components/ImageView'
-
 import * as NumberUtils from '../../utils/NumberUtils'
-
+const ic_empty = require('../../imgs/ic_empty.png');
 
 const dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 let carWeight = '';
@@ -126,6 +125,7 @@ class AddLadingbillsProductPage extends React.Component {
             editeModalVisible: false,
             selectItem: {},
             listData: [],
+            error: false
         }
 
     }
@@ -232,12 +232,7 @@ class AddLadingbillsProductPage extends React.Component {
                 <View style={{ backgroundColor: '#fff' }}>
                     <View style={{ flexDirection: 'row', marginLeft: 5, }}>
                         <View style={{ alignItems: 'center', justifyContent: 'center', height: 110 }}>
-                            {
-                                url ?
-                            <Image source={{ uri: url }} style={{ width: 70, height: 70, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} /> 
-                            :
-                            <Image source={require('../../imgs/ic_product.png')} style={{ width: 70, height: 70, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }} />
-                            }
+                            <Image source={{ uri: url }} style={{ width: 70, height: 70, margin: 2, borderWidth: 1, borderColor: '#c4c4c4', padding: 4 }}/>
                         </View>
                         <View style={{ flex: 1 }}>
                             <View style={{ height: 24, paddingLeft: 12, marginBottom: 4, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>

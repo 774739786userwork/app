@@ -6,6 +6,7 @@ import { watchPurchaseOrderInfo } from './purchaseOrderInfo'
 import { watchSelectDeliveryOrder } from './selectDeliveryOrder'
 import { watchDeliveryOrderDetail } from './deliveryOrderDetail'
 import { watchGetCarstockProductList } from './getCarstockProductList'
+import { watchGetPaymentList } from './getPayMentList'
 import { watchRequestSelectCar } from './selectCar'
 import { watchRequestSelectName } from './selectName'
 import { watchQueryReturnLists } from './queryReturnLists'
@@ -28,6 +29,7 @@ export default function* rootSaga() {
         fork(watchSelectDeliveryOrder),
         fork(watchDeliveryOrderDetail),
         fork(watchGetCarstockProductList),
+        fork(watchGetPaymentList),
         fork(watchRequestSelectCar),
         fork(watchQueryReturnLists),
         fork(watchQueryReturnDetail),

@@ -245,18 +245,17 @@ export function selectDeliveryOrder(begin_date, end_date, start = 0, rows = 10) 
 
 }
 
-/**delivery_date
+/**
  * 欠款对冲 列表
  */
-export function getPayMentList() {
+export function getPayMentList(delivery_date) {
     const user_id = LoginInfo.getUserInfo().user_id;
-    const org_id = LoginInfo.getUserInfo().organization_id;
+    const orgId = LoginInfo.getUserInfo().organization_id;
     const token = LoginInfo.getUserInfo().token;
     return {
         type: types.QueryPayMentList_ACTION,
         api: types.QueryPayMentList_API,
-        param: { token, user_id, org_id}
-        
+        param: { token, user_id, orgId,delivery_date}
     };
 
 }

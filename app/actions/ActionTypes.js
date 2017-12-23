@@ -121,8 +121,7 @@ export const AddDeliveryOrdering4Car_ACTION = 'AddDeliveryOrdering4Car_ACTION';/
 export const AddDeliveryOrder4CarSucceed_ACTION = 'AddDeliveryOrder4CarSucceed_ACTION';//获取车牌
 
 //欠款对冲接口
-export const QueryPayMentList_API = "mobileServiceManager/mobile_info/selectPayMentList.page";
+export const QueryPayMentList_API = "mobileServiceManager/advancesReceived/selectPayMentList.page";
 export const QueryPayMentList_ACTION = 'QueryPayMentList_ACTION';  
-export const QueryPayMentList_More_ACTION = 'QueryPayMentList_More_ACTION';  
 export const QueryPayMentListError_ACTION = 'QueryPayMentListError_ACTION'; //收到结果
 export const QueryPayMentListSucceed_ACTION = 'QueryPayMentListSucceed_ACTION'; //收到结果

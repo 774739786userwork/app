@@ -697,7 +697,7 @@ username:"zhangshijun"
             ESC.printAndNewLine();
             ESC.init();
             //商品开始
-            ESC.text('开单时间：' + DateUtils.show());
+            ESC.text('开单时间：' + param.deliverydate);
             ESC.printAndNewLine();
             ESC.text('店名：' + param.customersName);
             ESC.printAndNewLine();

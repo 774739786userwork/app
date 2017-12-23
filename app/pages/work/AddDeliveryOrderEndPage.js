@@ -156,6 +156,7 @@ class AddDeliveryOrderEndPage extends React.Component {
         saveParams.lat = params.lat
         saveParams.lng = params.lng
         saveParams.ladingdate = params.ladingdate
+        saveParams.deliverydate = params.deliverydate
         saveParams.ladingbill_id = params.ladingbill_id
         saveParams.ladingbill_serialnumber = params.ladingbill_serialnumber
         saveParams.downEmployeeIds = params.downEmployeeIds;
@@ -263,6 +264,7 @@ class AddDeliveryOrderEndPage extends React.Component {
         saveParams.lat = params.lat
         saveParams.lng = params.lng
         saveParams.ladingdate = params.ladingdate
+        saveParams.deliverydate = params.deliverydate
         saveParams.ladingbill_id = params.ladingbill_id
         saveParams.ladingbill_serialnumber = params.ladingbill_serialnumber
         saveParams.downEmployeeIds = params.downEmployeeIds;
@@ -313,10 +315,11 @@ class AddDeliveryOrderEndPage extends React.Component {
         params.total_foregift = saveParams.foregift_sum
         params.paid_total_sum = saveParams.paid_total_sum
         params.unpaid_total_sum = saveParams.unpaid_sum
-
+        params.deliverydate = saveParams.deliverydate
         params.num = this.num
         params.creator = true
         params.print = true
+        // alert(saveParams.deliverydate)
         FetchManger.postUri('/mobileServiceManager/deliveryNotes/addDeliveryNotes.page', saveParams).then((responseData) => {
             this.setState({ showSpinner: false })
             if (responseData.status === '0' || responseData.status === 0) {

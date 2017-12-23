@@ -4,58 +4,35 @@ import React, {
 
 import * as types from '../actions/ActionTypes';
 
-var dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-
 const initialState = {
     loading: false,
-    loadMore: false,
-    count: 0,
-    listData: dataSource.cloneWithRows([]),//数据源
+    listData: [],//数据源
     errMsg: undefined,
-    result:[]
-
+    totalSum: 0
 }
 
 export default function getPayMentListReducer(state = initialState, action) {
     switch (action.type) {
-        case types.PurchaseOrderInfoing_ACTION:
+        case types.QueryPayMentList_ACTION:
             return Object.assign({}, state, {
                 loading: true,
                 errMsg: undefined,
-                count: 0,
-                listData: dataSource.cloneWithRows([]),//数据源
+                totalSum: 0,
+                listData: [],//数据源
             });
-        case types.PurchaseOrderInfoError_ACTION:
+        case types.QueryPayMentListError_ACTION:
             return Object.assign({}, state, {
                 loading: false,
-                count: 0,
-                listData: dataSource.cloneWithRows([]),//数据源
+                listData: [],//数据源
+                totalSum: 0,
                 errMsg: action.errMsg,
             });
-        case types.PurchaseOrderInfoSucceed_ACTION:
-            if (state.loadMore) {
-                let list = state.result.concat(action.result.data);
-                return Object.assign({}, state, {
-                    loading: false,
-                    loadMore:false,
-                    count: action.result.total_record,
-                    result:list,
-                    listData: dataSource.cloneWithRows(list),//数据源
-                    errMsg: undefined,
-                });
-            } else {
-                return Object.assign({}, state, {
-                    loading: false,
-                    count: action.result.total_record,
-                    result:action.result.data,
-                    listData: dataSource.cloneWithRows(action.result.data),//数据源
-                    errMsg: undefined,
-                });
-            }
-
-        case types.PurchaseOrderInfoing_More_ACTION:
+        case types.QueryPayMentListSucceed_ACTION:
             return Object.assign({}, state, {
-                loadMore: true,
+                loading: false,
+                listData: action.result,
+                errMsg: undefined,
+                totalSum: action.totalSum
             });
         default:
             return state;
