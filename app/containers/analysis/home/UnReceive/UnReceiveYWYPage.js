@@ -18,12 +18,14 @@ class UnReceiveCustomerPage extends React.Component {
         super(props)
         this._rowOnPress = this._rowOnPress.bind(this);
         this._renderRow = this._renderRow.bind(this);
+        // this._renderGroup = this._renderGroup.bind(this);
         this.state = {
             dataList: [],
             loading: false
         }
     }
     componentDidMount() {
+        // this._onNativeData();
         const { params } = this.props.navigation.state;
         let p = params.param;
         this.setState({ loading: true });
@@ -41,7 +43,8 @@ class UnReceiveCustomerPage extends React.Component {
         });
     }
     _rowOnPress(item) {
-
+        const { navigation } = this.props;
+        // navigation.navigate('DebtCustomerDetailPage', {  })
     }
     _renderRow(item, sectionID, index) {
         return (
@@ -73,6 +76,65 @@ class UnReceiveCustomerPage extends React.Component {
             </TouchableOpacity>
         );
     }
+
+    /**
+     * 需求变更改动
+     */
+    // _onNativeData(){
+    //     let list = [];
+    //     let item = {
+    //         "groupId": "10630",
+    //         "groupName": "善多邦开拓组",
+    //         "groupUnPaidSum": "15352元",
+    //         "empList": []
+    //     };
+    //     let emp = {
+    //         "empId": "100230",
+    //         "empName": "张勇",
+    //         "empUnPaidSum": "13407元",
+    //         "debtCustomerCount": "4家"
+    //     };
+    //     for (let i = 0; i < 5; i++) {
+    //         item.empList.push(emp);
+    //         list.push(item);
+    //     }
+    //     this.setState({dataList: list})
+    // }
+
+    // _renderGroup(item, sectionID, index) {
+    //     return (
+    //         <View key={`row_${index}`} style={{ backgroundColor: '#f9f9f9' }}>
+    //             <View style={{ height: StyleSheet.hairlineWidth, marginTop: 8, flex: 1, backgroundColor: '#c4c4c4' }} />
+    //             <View style={{ padding: 8, flexDirection: 'row' }}>
+    //                 <Text style={{ color: '#333', flex: 1, fontSize: 15 }}>{item.groupName}</Text>
+    //                 <Text style={{ color: '#f80000', fontSize: 15, marginRight: 4, }}>{`未收总额:${item.groupUnPaidSum}`}</Text>
+    //             </View>
+    //             {
+    //                 item.empList.map((item, index) => {
+    //                     return this._renderRow(item, index)
+    //                 })
+    //             }
+    //         </View>
+    //     );
+    // }
+
+    // _renderRow(item, index){
+    //     return (
+    //         <TouchableOpacity
+    //         onPress={this._rowOnPress.bind(this, item)}
+    //         key={`row_${index}`} >
+    //             <View style={{ backgroundColor: '#ffffff',marginLeft:10,marginRight:10 }}>
+    //                 <View style={{ height: StyleSheet.hairlineWidth, marginTop: 8, flex: 1, backgroundColor: '#c4c4c4' }} />
+                    
+    //                     <View style={{ padding: 8, flexDirection: 'row' }}>
+    //                         <Text style={{ color: '#666', fontSize: 13,flex: 1 }}>{`${item.empName}`}</Text>
+    //                         <Text style={{ color: '#666', fontSize: 13, flex: 1 }}>{`未收金额:${item.empUnPaidSum}`}</Text>
+    //                         <Text style={{ color: '#666', fontSize: 13, flex: 1 }}>{`欠款客户数:${item.debtCustomerCount}`}</Text>
+    //                     </View>
+    //             </View>
+    //         </TouchableOpacity>
+    //     );
+    // }
 
     render() {
         return <View style={{ flex: 1, backgroundColor: '#f9f9f9' }}>

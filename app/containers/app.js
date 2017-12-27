@@ -140,6 +140,7 @@ import DiShiSaleDetailPage from './analysis/salegroup/DiShiSaleDetailPage'
 
 //未收 详情
 import UnReceivePage from './analysis/home/UnReceive/UnReceivePage'
+import DebtCustomerDetailPage from './analysis/home/UnReceive/DebtCustomerDetailPage'
 import PriceDetailPage from './analysis/home/PriceDetail/PriceDetailPage'
 
 import S_ProductlPage from './analysis/home/detail/S_ProductlPage'
@@ -431,6 +432,9 @@ const App = StackNavigator(
     },
     UnReceivePage: {
       screen: UnReceivePage
+    },
+    DebtCustomerDetailPage:{
+      screen: DebtCustomerDetailPage
     },
     PriceDetailPage: {
       screen: PriceDetailPage
