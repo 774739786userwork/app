@@ -12,7 +12,7 @@ import {
     FlatList
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
-import { Iconfont, LoadingView, Toast } from 'react-native-go';
+import { Iconfont, LoadingView, Toast, FetchManger, LoginInfo } from 'react-native-go';
 import * as DateUtils from '../../utils/DateUtils'
 import LoadingListView from '../../components/LoadingListView'
 const ic_peisong = require('../../imgs/ic_paisong.png');
@@ -31,6 +31,7 @@ class QueryDebtPayNoteListPage extends React.Component {
         this._selectByDate = this._selectByDate.bind(this);
         this._renderItem = this._renderItem.bind(this);
         this.state = {
+            loading:false,
             startDate: DateUtils.getYearMonthDayKD(),
             endDate: DateUtils.getYearMonthDayKD(),
             dataList:[]
@@ -38,28 +39,37 @@ class QueryDebtPayNoteListPage extends React.Component {
     }
 
     componentDidMount() {
-        const { action } = this.props;
+        const { startDate, endDate } = this.state;
         InteractionManager.runAfterInteractions(() => {
-            this._onLoadData();
+            this._onLoadData(startDate, endDate);
         });
     }
 
-    _onLoadData(){
-        let item = {
-            "delivery_date": "2017-05-02",
-            "payback_date": "2017-08-02",
-            "customer_name": "诚信建材",
-            "debt_totalSum": "4280",
-            "debt_sum": 3680,
-            "payment_sum": "500",
-            "operate_person": "李小平",
-            "debt_status": "已审核"
-        };
-        let data = [];
-        for (let i = 0; i < 5; i++) {
-            data.push(item);
-        }
-        this.setState({dataList:data})
+    _onLoadData(startDate,endDate){
+        const token = LoginInfo.getUserInfo().token;
+        const user_id = LoginInfo.getUserInfo().user_id;
+        const organization_id = LoginInfo.getUserInfo().organization_id;
+        let reqParams = { token, user_id, organization_id };
+        reqParams.startDate = startDate;
+        reqParams.endDate = endDate;
+        
+        this.setState({ loading: true });
+        InteractionManager.runAfterInteractions(() => {
+            FetchManger.getUri('mobileServiceManager/advancesReceived/queryPayMentList.page', reqParams).then((responseData) => {
+                if (responseData.status === '0' || responseData.status === 0) {
+                    let data = responseData.data;
+                    this.setState({dataList:data,loading: false})
+
+                } else {
+                    this.setState({ loading: false });
+                    Toast.show(responseData.msg);
+                }
+            }).catch((error) => {
+                console.log(error)
+                Toast.show("网络错误");
+                this.setState({ loading: false });
+            })
+        });
     }
 
     _selectByDate(_startDate, _endDate) {
@@ -67,13 +77,13 @@ class QueryDebtPayNoteListPage extends React.Component {
 
         if (_startDate) {
             InteractionManager.runAfterInteractions(() => {
-                this._onLoadData();
+                this._onLoadData(_startDate, endDate);
             });
             this.setState({ startDate: _startDate });
         }
         if (_endDate) {
             InteractionManager.runAfterInteractions(() => {
-                this._onLoadData();
+                this._onLoadData(startDate, _endDate);
             });
             this.setState({ endDate: _endDate });
         }
@@ -129,11 +139,10 @@ class QueryDebtPayNoteListPage extends React.Component {
     }
 
     charatState(state) {
-        let str = state.indexOf('未') > 0 ? '未审核' : '已审核'
         let target = new String();
-        let lenght = str.length;
+        let lenght = state.length;
         for (i = 0; i < lenght; i++) {
-            target = target.concat(str.charAt(i))
+            target = target.concat(state.charAt(i))
             if (i != lenght - 1)
                 target = target.concat('\n');
         }
@@ -186,6 +195,7 @@ class QueryDebtPayNoteListPage extends React.Component {
                 </View>
                 <View style={{ flex: 1 }}>
                 <LoadingListView
+                    loading={this.state.loading}
                     listData={dataSource.cloneWithRows(this.state.dataList)}
                     renderRowView={this._renderItem}
                     onEndReached={this.onEndReached} />

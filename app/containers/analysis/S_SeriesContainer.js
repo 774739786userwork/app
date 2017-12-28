@@ -72,8 +72,8 @@ class LeftTabComponet extends React.Component {
 class S_SeriesPage extends React.Component {
   constructor(props) {
     super(props);
-    this._renderRow = this._renderRow.bind(this);
     this._renderRow_Detail = this._renderRow_Detail.bind(this);
+    this.onFactoryAction = this.onFactoryAction.bind(this);
     this.state = {
       salerList: [],
       branchFactoryList: [],
@@ -121,22 +121,16 @@ class S_SeriesPage extends React.Component {
   }
 
   onItemUpAction(){
+    
     Toast.show('改功能暂未开放！')
   }
 
-  onFactoryAction(item) {
+  onFactoryAction() {
     const { navigation, tabLabel } = this.props;
-
-    let param = { type: tabLabel, factoryId: item.factoryId, factoryName: item.factoryName };
+    let selectItem = this.state.selectItem;
+    let currTime = this.state.currentDate;
+    let param = { type: tabLabel, factoryId: selectItem.serieslId,currTime:currTime, factoryName: selectItem.serieslName };
     navigation.navigate('S_SeriesDetailChart', param)
-  }
-  _renderRow(item, rowID) {
-    return (
-      <TouchableOpacity onPress={this.onFactoryAction.bind(this, item)} key={`index_${rowID}`}>
-        <View style={{ padding: 12 }}>
-          <Text style={{ color: '#333' }}>{`${item.factoryName}`}</Text>
-        </View>
-      </TouchableOpacity>);
   }
   /**
    * 
@@ -218,7 +212,7 @@ class S_SeriesPage extends React.Component {
         </View>
         <View style={{ flex: 1, backgroundColor: '#f9f9f9', flexDirection: 'column' }}>
           <View style={{ backgroundColor: '#fff', marginTop: 12, marginRight: 12, marginLeft: 12, flexDirection: 'row' }}>
-            <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onItemUpAction}>
+            <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onFactoryAction}>
               <View style={{ borderWidth: 1,justifyContent:'center', borderColor: '#61aee0', flex: 1, backgroundColor: '#61aee0', borderRadius: 4, flexDirection: 'row' }}>
                 <Text style={{ fontSize: 12, padding: 8, color: '#fff'}}>{`系列趋势分析`}</Text>
               </View>
@@ -246,7 +240,6 @@ class S_SeriesPage extends React.Component {
               listData={detail_ds.cloneWithRows(listData)}
               renderRowView={this._renderRow_Detail} />
           </View>
-          
         </View>
       </View >
     </View >
@@ -257,8 +250,8 @@ class S_SeriesPage extends React.Component {
 class S_SeriesMonthPage extends React.Component {
   constructor(props) {
     super(props);
-    this._renderRow = this._renderRow.bind(this);
     this._renderRow_Detail = this._renderRow_Detail.bind(this);
+    this.onFactoryAction = this.onFactoryAction.bind(this);
     let { year, month } = DateUtils.yearMonth();
     this.state = {
       selY: year, selM: month,
@@ -314,20 +307,16 @@ class S_SeriesMonthPage extends React.Component {
     Toast.show('改功能暂未开放！')
   }
 
-  onFactoryAction(item) {
+  onFactoryAction() {
     const { navigation, tabLabel } = this.props;
-
-    let param = { type: tabLabel, factoryId: item.factoryId, factoryName: item.factoryName };
+    let selectItem = this.state.selectItem;
+    let selY = this.state.selY;
+    let selM = this.state.selM;
+    let currTime = selY + '-' + (selM < 10 ? '0' + selM : selM);
+    let param = { type: tabLabel, factoryId: selectItem.serieslId,currTime:currTime, factoryName: selectItem.serieslName };
     navigation.navigate('S_SeriesDetailChart', param)
   }
-  _renderRow(item, rowID) {
-    return (
-      <TouchableOpacity onPress={this.onFactoryAction.bind(this, item)} key={`index_${rowID}`}>
-        <View style={{ padding: 12 }}>
-          <Text style={{ color: '#333' }}>{`${item.factoryName}`}</Text>
-        </View>
-      </TouchableOpacity>);
-  }
+  
   /**
    * 
 
@@ -409,7 +398,7 @@ class S_SeriesMonthPage extends React.Component {
         </View>
         <View style={{ flex: 1, backgroundColor: '#f9f9f9', flexDirection: 'column' }}>
           <View style={{ backgroundColor: '#fff', marginTop: 12, marginRight: 12, marginLeft: 12, flexDirection: 'row' }}>
-            <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onItemUpAction}>
+            <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onFactoryAction}>
               <View style={{ borderWidth: 1,justifyContent:'center', borderColor: '#61aee0', flex: 1, backgroundColor: '#61aee0', borderRadius: 4, flexDirection: 'row' }}>
                 <Text style={{ fontSize: 12, padding: 8, color: '#fff'}}>{`系列趋势分析`}</Text>
               </View>
@@ -436,16 +425,6 @@ class S_SeriesMonthPage extends React.Component {
               loading={this.state.loading}
               listData={detail_ds.cloneWithRows(listData)}
               renderRowView={this._renderRow_Detail} />
-          </View>
-          <View style={{ height: 40, backgroundColor: '#fff' }}>
-            <ListView
-              enableEmptySections={true}
-              dataSource={hl_ds.cloneWithRows(this.state.branchFactoryList)}
-              renderRow={this._renderRow}
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-              showsVerticalScrollIndicator={false}
-            />
           </View>
         </View>
       </View >

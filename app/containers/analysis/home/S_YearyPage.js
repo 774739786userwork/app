@@ -106,11 +106,13 @@ export default class S_YearyPage extends React.Component {
         let yearData = [];
         let yearFactory = this.state.yearFactory
         for (var i = 0; i < yearFactory.length; i++) {
-            if (i < 3) {
-                let item = yearFactory[i];
-                yearData.push(item)
+            let item = yearFactory[i];
+            if(item.factoryTotalSum > 10000){
+                item.factoryTotalSum = NumberUtils.fc(item.factoryTotalSum/10000) + '亿'
             }
+            yearData.push(item)
         }
+
         let charList = [];
         let old_charList = this.state.charList
         for (var i = 0; i < old_charList.length; i++) {
