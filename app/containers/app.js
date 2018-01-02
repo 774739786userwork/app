@@ -119,6 +119,9 @@ import S_SaleGroupContainer from './analysis/S_SaleGroupContainer'
 //大客户
 import BigCustomerPage from './analysis/work/BigCustomerPage'
 import BigCustSortDetailPage from './analysis/work/bigcustsort/BigCustSortDetailPage'
+import ProductCustomerDetailPage from './analysis/work/ProductCustomerDetailPage'
+//产品业务员
+import ProductCustomerPage from './analysis/work/ProductCustomerPage'
 //大客户排名
 import BigCustomerSortPage from './analysis/work/BigCustomerSortPage'
 //客户产品系列
@@ -132,6 +135,8 @@ import NewCustomerDetailPage from './analysis/work/NewCustomerDetailPage'
 import CoreSeriesPage from './analysis/work/CoreSeriesPage'
 //产品销量
 import ProductSalesPage from './analysis/work/ProductSalesPage';
+import SumPartCustomerPage from './analysis/work/SumPartCustomerPage'
+import SumPartDetailPage from './analysis/work/sumpartcustomer/DetailPage'
 //销售组 销售情况
 import EmployeeSaleDetailPage from './analysis/salegroup/EmployeeSaleDetailPage'
 import CustomerSaleDetailPage from './analysis/salegroup/CustomerSaleDetailPage'
@@ -441,8 +446,19 @@ const App = StackNavigator(
     },
     S_ProductlPage: {
       screen: S_ProductlPage
+    },
+    ProductCustomerPage:{
+      screen:ProductCustomerPage
+    },
+    ProductCustomerDetailPage:{
+      screen:ProductCustomerDetailPage
+    },
+    SumPartCustomer:{
+      screen:SumPartCustomerPage
+    },
+    SumPartDetailPage:{
+      screen:SumPartDetailPage
     }
-
   },
   {
     headerMode: 'screen',

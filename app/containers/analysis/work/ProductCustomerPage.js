@@ -1,4 +1,3 @@
-//产品销量
 //
 import React, { Component, } from 'react';
 import {
@@ -8,7 +7,6 @@ import {
     Text,
     TouchableOpacity,
     InteractionManager,
-    TouchableWithoutFeedback,
     ScrollView
 } from 'react-native';
 
@@ -16,16 +14,16 @@ import DatePicker from 'react-native-datepicker'
 import { FetchManger, LoginInfo, LoadingView, Toast, Iconfont } from 'react-native-go';
 import LoadingListView from '../../../components/LoadingListView';
 import ImageView from '../../../components/ImageView';
-import * as DateUtils from '../../../utils/DateUtils'
-
+import * as DateUtils from '../../../utils/DateUtils';
+import MonthPicker from '../../../components/MonthPicker';
 var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 var hl_ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
-//产品销量主页面
-class ProductSalesPage extends React.Component {
+//产品业务员
+class ProductCustomerPage extends React.Component {
 
     static navigationOptions = ({ navigation }) => ({
-        title: `产品销量`,
+        title: `产品业务员`,
     });
 
     constructor(props) {
@@ -34,19 +32,15 @@ class ProductSalesPage extends React.Component {
         this._renderBranchRow = this._renderBranchRow.bind(this);
         this._rowOnBranchPress = this._rowOnBranchPress.bind(this);
         this.loadDetail = this.loadDetail.bind(this);
-        this.renderTabBar = this.renderTabBar.bind(this)
-        this.ontabSelect = this.ontabSelect.bind(this)
-        this._selectByDate = this._selectByDate.bind(this);
+        let { year, month } = DateUtils.yearMonth();
         this.state = {
-            startDate: DateUtils.getYearMonthDay(1),
-            endDate: DateUtils.getYearMonthDay(),
+            selY: year, selM: month,
             listData: [],
             itemListData: [],
             branchFactoryList: [],
             loading: false,
             orgId: undefined,
             groupLoading: false,
-            activeTab: 0,
         }
     }
     componentDidMount() {
@@ -57,12 +51,11 @@ class ProductSalesPage extends React.Component {
             FetchManger.getUri('dataCenter/appHomePage/getMyFocusFactory.page?userId=' + userId, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
-                    const { startDate, endDate } = this.state;
-                    let orgId = undefined;
+                    const { selY, selM, orgId } = this.state;
                     if (data.length > 0) {
                         data[0].selected = true;
                         orgId = data[0].orgId;
-                        this.loadDetail(startDate, endDate, orgId);
+                        this.loadDetail(selY, selM, orgId);
                     }
                     this.setState({ branchFactoryList: data, orgId, groupLoading: false, loading: false })
 
@@ -76,19 +69,23 @@ class ProductSalesPage extends React.Component {
 
 
     }
-    loadDetail(startDate, endDate, orgId) {
+    loadDetail(_year, _month, orgId) {
+        let currTime = _year + '-' + (_month < 10 ? '0' + _month : _month)
         const userId = LoginInfo.getUserInfo().user_id;
-        let p = { startDate, endDate, orgId, userId };
+        let p = { currTime, type: 1, orgId, userId };
         this.setState({ groupLoading: true })
         InteractionManager.runAfterInteractions(() => {
-            FetchManger.getUri('dataCenter/appHomePage/getProductBigCustomer.page', p, 30 * 60).then((responseData) => {
+            FetchManger.getUri('dataCenter/appHomePage/getProductEmployee.page', p, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
                     let itemListData = [];
+                    let productId = '';
                     if (data && data.length > 0) {
-                        itemListData = data[0].customerList;
+                        itemListData = data[0].empList;
+                        productId = data[0].productId;
                     }
-                    this.setState({ listData: data, itemListData, loading: false, groupLoading: false })
+                   
+                    this.setState({ listData: data, itemListData,productId, loading: false, groupLoading: false })
                 } else {
                     this.setState({ loading: false, groupLoading: false });
                 }
@@ -98,7 +95,15 @@ class ProductSalesPage extends React.Component {
         });
     }
     onItemAction(item) {
-
+        const { navigate } = this.props.navigation;
+        const { orgId,selY, selM,productId} = this.state;
+        let currTime = selY + '-' + (selM < 10 ? '0' + selM : selM)
+        item.orgId = orgId;
+        item.currTime = currTime;
+        item.type = 1;
+        item.productId = productId;
+        item.userId = LoginInfo.getUserInfo().user_id;
+        navigate('ProductCustomerDetailPage', item);
     }
 
     _renderRow(item, rowID) {
@@ -106,13 +111,15 @@ class ProductSalesPage extends React.Component {
             <TouchableOpacity onPress={this.onItemAction.bind(this, item)} key={`index_${rowID}`}>
                 <View>
                     <View style={{ flexDirection: 'row', backgroundColor: '#fff' }}>
-                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.customerName}`}</Text>
+                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.empName}`}</Text>
                         <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.customerPhone}`}</Text>
+                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.empSalerGroup}`}</Text>
+                        <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.totalSales}`}</Text>
                         <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
                         <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.totalSum}`}</Text>
                         <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.customerPrecent}`}</Text>
+                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.ranking}`}</Text>
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
                 </View>
@@ -126,9 +133,9 @@ class ProductSalesPage extends React.Component {
                 _item.selected = true;
             }
         })
-        const { startDate, endDate } = this.state;
+        const { selY, selM } = this.state;
         let orgId = item.orgId;
-        this.loadDetail(startDate, endDate, orgId);
+        this.loadDetail(selY, selM, orgId);
 
         this.setState({ branchFactoryList, orgId })
     }
@@ -145,77 +152,8 @@ class ProductSalesPage extends React.Component {
         </TouchableOpacity>
     }
 
-    _selectByDate(_startDate, _endDate) {
-        let orgId = this.state.orgId;
-        const { startDate, endDate } = this.state;
-
-        if (_startDate) {
-            this.loadDetail(_startDate, endDate, orgId);
-            this.setState({ startDate: _startDate });
-        }
-        if (_endDate) {
-            this.loadDetail(startDate, _endDate, orgId);
-            this.setState({ endDate: _endDate });
-        }
-    }
-    ontabSelect(index) {
-        this.setState({ activeTab: index });
-    }
-    renderTabBar() {
-        let activeTab = this.state.activeTab;
-
-        let color0 = activeTab === 0 ? "#0081d4" : "#fff";
-        let tColor0 = activeTab === 0 ? "#fff" : "#0081d4";
-        let color1 = activeTab === 1 ? "#0081d4" : "#fff"; // 判断i是否是当前选中的tab，设置不同的颜色
-        let tColor1 = activeTab === 1 ? "#fff" : "#0081d4";
-        let color2 = activeTab === 2 ? "#0081d4" : "#fff"; // 判断i是否是当前选中的tab，设置不同的颜色
-        let tColor2 = activeTab === 2 ? "#fff" : "#0081d4";
-        return (
-            <View style={{
-                height: 48, backgroundColor: '#f9f9f9', flexDirection: 'row', justifyContent: 'center',
-                alignItems: 'center', elevation: 5,
-            }}>
-                <View style={{ flex: 1 }} />
-                <View style={styles.tabs}>
-                    <TouchableWithoutFeedback onPress={() => this.ontabSelect(0)} style={styles.tab}>
-                        <View style={[styles.tabItem0, { backgroundColor: color0 }]} >
-                            <Text style={{ color: tColor0 }}>
-                                日
-							</Text>
-                        </View>
-                    </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback onPress={() => this.ontabSelect(0)} style={styles.tab}>
-                        <View style={[styles.tabItem1, { backgroundColor: color1 }]} >
-                            <Text style={{ color: tColor1 }}>
-                                周
-							</Text>
-                        </View>
-                    </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback onPress={() => this.ontabSelect(1)} style={styles.tab}>
-                        <View style={[styles.tabItem1, { backgroundColor: color1 }]} >
-                            <Text style={{ color: tColor1 }}>
-                                月
-							</Text>
-                        </View>
-                    </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback onPress={() => this.ontabSelect(2)} style={styles.tab}>
-                        <View style={[styles.tabItem2, { backgroundColor: color2 }]} >
-                            <Text style={{ color: tColor2 }}>
-                                季
-							</Text>
-                        </View>
-                    </TouchableWithoutFeedback>
-                </View>
-                <View style={{ flex: 1 }} />
-            </View>
-        );
-
-    }
     render() {
         return <View style={{ flex: 1, backgroundColor: '#f9f9f9' }}>
-            {
-                this.renderTabBar()
-            }
             <View style={{ height: 40, backgroundColor: '#fff' }}>
                 <ListView
                     enableEmptySections={true}
@@ -226,6 +164,33 @@ class ProductSalesPage extends React.Component {
                     showsVerticalScrollIndicator={false}
                 />
             </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4, marginBottom: 4 }}>
+                <View style={{ flex: 1 }} />
+                <Iconfont
+                    icon={'e688'} // 图标
+                    iconColor={'#aaa'}
+                    iconSize={24} />
+                <MonthPicker
+                    style={{ width: 120 }}
+                    customStyles={{
+                        dateText: {
+                            fontSize: 18,
+                            color: '#000',
+                        }
+                    }}
+                    selY={this.state.selY}
+                    selM={this.state.selM}
+                    onDateChange={(selY, selM, ymStr) => {
+                        this.loadDetail(selY, selM, this.state.orgId)
+                        this.setState({ selY, selM })
+                    }}
+                />
+                <Iconfont
+                    icon={'e657'} // 图标
+                    iconColor={'#aaa'}
+                    iconSize={24} />
+                <View style={{ flex: 1 }} />
+            </View>
             <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#c4c4c4' }} />
             {
                 this.state.groupLoading ? <LoadingView />
@@ -235,21 +200,24 @@ class ProductSalesPage extends React.Component {
                             <LeftTabComponet
                                 data={this.state.listData}
                                 sectionAction={(item) => {
-                                    let itemListData = item.customerList;
-                                    this.setState({ itemListData })
+                                    let itemListData = item.empList;
+                                    let productId = item.productId;
+                                    this.setState({ itemListData,productId })
                                 }}
                             />
                         </View>
                         <View style={{ flex: 1, padding: 10, backgroundColor: '#f2f2f2' }}>
                             <View style={{ backgroundColor: '#fff', borderColor: '#f2f2f2', borderWidth: 1, flex: 1 }}>
                                 <View style={{ flexDirection: 'row', backgroundColor: '#66b3e5' }}>
-                                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'客户'}</Text>
+                                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'业务员'}</Text>
                                     <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'电话'}</Text>
+                                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'组'}</Text>
                                     <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
                                     <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'金额(元)'}</Text>
                                     <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'占比%'}</Text>
+                                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'销量'}</Text>
+                                    <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                                    <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'排名'}</Text>
                                 </View>
                                 <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
                                 <LoadingListView
@@ -265,7 +233,7 @@ class ProductSalesPage extends React.Component {
 }
 
 
-export default ProductSalesPage;
+export default ProductCustomerPage;
 
 class LeftTabComponet extends React.Component {
     constructor(props) {
@@ -306,64 +274,3 @@ class LeftTabComponet extends React.Component {
         </ScrollView>
     }
 }
-
-
-const styles = StyleSheet.create({
-    iconStyle: {
-        width: 26,
-        height: 26,
-    },
-    textStyle: {
-        color: '#666',
-        marginBottom: 6,
-    },
-    selectedTextStyle: {
-        color: '#42beff',
-        marginBottom: 6,
-    }, tabs: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: 32,
-        width: 180,
-        flexDirection: 'row',
-    },
-    tab: {
-        height: 30,
-        width: 90,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    tabItem0: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: 80,
-        height: 34,
-        borderColor: '#0081d4',
-        borderWidth: StyleSheet.hairlineWidth,
-        borderTopLeftRadius: 4,
-        borderBottomLeftRadius: 4,
-
-    },
-    tabItem1: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: 80,
-        height: 34,
-        borderColor: '#0081d4',
-        borderWidth: StyleSheet.hairlineWidth,
-    },
-    tabItem2: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: 80,
-        height: 34,
-        borderColor: '#0081d4',
-        borderWidth: StyleSheet.hairlineWidth,
-        borderTopRightRadius: 4,
-        borderBottomRightRadius: 4,
-    },
-
-});
