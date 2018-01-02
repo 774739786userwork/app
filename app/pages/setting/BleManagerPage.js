@@ -499,7 +499,7 @@ export default class BleManagerPage extends React.Component {
             ESC.printAndNewLine();
             ESC.init();
             //商品开始
-            ESC.text('开单时间：' + DateUtils.show());
+            ESC.text('开单时间：' + param.delivery_date);
             ESC.printAndNewLine();
             ESC.text('店名：' + param.customer_name);
             ESC.printAndNewLine();

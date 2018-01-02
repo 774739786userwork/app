@@ -39,7 +39,7 @@ export default class SelectEARModel extends React.Component {
     }
     componentDidMount() {
         const token = LoginInfo.getUserInfo().token;
-        const orgId = 107// LoginInfo.getUserInfo().organization_id;
+        const orgId = LoginInfo.getUserInfo().organization_id;
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('mobileServiceManager/customers/getRegionalTreeInfo.page', { token, orgId }).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
@@ -51,7 +51,7 @@ export default class SelectEARModel extends React.Component {
                     });
                 }
             }).catch((error) => {
-
+                this.setState({loading:false})
             })
         });
     }

@@ -28,7 +28,7 @@ export default class BuildingMaterialModel extends React.Component {
             modalVisible: false,
             title: '',
             dataList: [],
-            loading: true,
+            loading: false,
         };
         this.rowIndex0 = 0;
     }
@@ -37,7 +37,7 @@ export default class BuildingMaterialModel extends React.Component {
     }
     componentWillReceiveProps(nextProps) {
         this.rowIndex0 = 0;
-        this.setState({ modalVisible: nextProps.modalVisible });
+        this.setState({ modalVisible: nextProps.modalVisible,loading:true });
         const token = LoginInfo.getUserInfo().token;
         const regionalid = nextProps.regionalid
         InteractionManager.runAfterInteractions(() => {
@@ -51,11 +51,12 @@ export default class BuildingMaterialModel extends React.Component {
                         });
                     }else{
                         Toast.show('此区域无建材市场')
+                        this.setState({dataList:[],loading:false})
                     }
                     
                 }
             }).catch((error) => {
-
+                this.setState({loading:false})
             })
         });
 

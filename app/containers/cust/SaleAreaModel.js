@@ -36,8 +36,9 @@ export default class SaleAreaModel extends React.Component {
     componentDidMount() {
         const token = LoginInfo.getUserInfo().token;
         const user_id = LoginInfo.getUserInfo().user_id;
+        const orgId = LoginInfo.getUserInfo().organization_id;
         InteractionManager.runAfterInteractions(() => {
-            FetchManger.getUri('mobileServiceManager/customers/getSaleAreaTreeInfo.page', { token, user_id }).then((responseData) => {
+            FetchManger.getUri('mobileServiceManager/customers/getSaleAreaTreeInfo.page', { token, user_id,orgId }).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data.saleAreaList;
                     this.setState({
@@ -47,7 +48,7 @@ export default class SaleAreaModel extends React.Component {
                     });
                 }
             }).catch((error) => {
-
+                this.setState({loading:false})
             })
         });
     }

@@ -376,16 +376,18 @@ class AddDeliveryOrderEndPage extends React.Component {
                         </View>
                     </View>
                 </View>
-                
-                <View style={{ height: 40, paddingRight: 12, backgroundColor: '#f9f9f9', flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{ flex: 1 }} />
-                    <Text style={{ color: '#999', marginRight: 12 }}>{`计量人`}</Text>
-                    <TouchableHighlight style={{ borderColor: '#0081d4', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} onPress={this._onSelectUser.bind(this, item)}>
-                        <View style={{ flexDirection: 'row', width: 70, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff', borderColor: '#0081d4', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
-                            <Text style={{ color: '#0081d4' }}>{item.delivery_remember_person_name ? item.delivery_remember_person_name : `请选择`}</Text>
-                        </View>
-                    </TouchableHighlight>
-                </View>
+                {
+                    global.userStyle ? null :
+                    <View style={{ height: 40, paddingRight: 12, backgroundColor: '#f9f9f9', flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{ flex: 1 }} />
+                        <Text style={{ color: '#999', marginRight: 12 }}>{`计量人`}</Text>
+                        <TouchableHighlight style={{ borderColor: '#0081d4', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }} onPress={this._onSelectUser.bind(this, item)}>
+                            <View style={{ flexDirection: 'row', width: 70, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff', borderColor: '#0081d4', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8 }}>
+                                <Text style={{ color: '#0081d4' }}>{item.delivery_remember_person_name ? item.delivery_remember_person_name : `请选择`}</Text>
+                            </View>
+                        </TouchableHighlight>
+                    </View>
+                }
                 <View style={{ height: StyleSheet.hairlineWidth, flex: 1, backgroundColor: '#c4c4c4' }} />
             </View>)
     }

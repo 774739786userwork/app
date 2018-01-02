@@ -90,8 +90,8 @@ class DeliveryCustomersContainer extends React.Component {
     requestData(selectIndex) {
         const token = LoginInfo.getUserInfo().token;
         const user_id = LoginInfo.getUserInfo().user_id;
-        const organization_id = LoginInfo.getUserInfo().organization_id;
-        let params = { token, user_id, organization_id };
+        const orgId = LoginInfo.getUserInfo().organization_id;
+        let params = { token, user_id, orgId };
         if (selectIndex) {
             if (selectIndex === 1) {
                 params.mycustomer_type = 'monthbillingcustomer';
