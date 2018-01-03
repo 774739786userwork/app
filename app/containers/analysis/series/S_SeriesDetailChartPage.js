@@ -11,9 +11,10 @@ import {
 import Echarts from 'native-echarts';
 import { FetchManger, LoginInfo, LoadingView, Toast } from 'react-native-go'
 import Orientation from 'react-native-orientation';
-const WINDOW_WIDTH = Dimensions.get('window').width;
+
+const WINDOW_HEIGHT = Dimensions.get('window').height;
 /**
- * 分厂系列趋势图 */
+ * 产品详情 客户 */
 class S_SeriesDetailChartPage extends React.Component {
 
     static navigationOptions = ({ navigation }) => ({
@@ -28,10 +29,11 @@ class S_SeriesDetailChartPage extends React.Component {
         }
     }
     componentDidMount() {
-        // Orientation.lockToLandscape();
+        Orientation.lockToLandscape();
 
         const { params } = this.props.navigation.state;
         this.setState({ loading: true });
+        
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getProductSeries.page', params, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
@@ -47,7 +49,7 @@ class S_SeriesDetailChartPage extends React.Component {
         });
     }
     componentWillUnmount() {
-        // Orientation.lockToPortrait();
+        Orientation.lockToPortrait();
     }
     render() {
         let dataList = this.state.dataList;
@@ -72,9 +74,6 @@ class S_SeriesDetailChartPage extends React.Component {
             seriesData.push(chartItem)
         });
         const option = {
-            tooltip: {    //点击弹框
-                trigger: 'axis'
-            },
             legend: {
                 data: legend
             },
@@ -92,7 +91,12 @@ class S_SeriesDetailChartPage extends React.Component {
                 //x轴数据
                 data: xData
             },
-            yAxis: {},
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            },
             //自定义线条颜色，你可以设置多个颜色，使用时默认从第一个开始   如果不设置color则有它默认颜色
             // series里面的数据  如果是固定的线条 你只需要改变data数据就ok  
             // 如果不是确定有多少折线  建议吧整个serise数据替换掉   例如：series:[{...}{...}{...},...]配置项和下面一样
@@ -102,10 +106,7 @@ class S_SeriesDetailChartPage extends React.Component {
         };
         return <View style={{ flex: 1, backgroundColor: '#fff' }}>
             {
-                this.state.loading ? <LoadingView /> : 
-                <ScrollView>
-                    <Echarts option={option} height={500}/>
-                </ScrollView>
+                this.state.loading ? <LoadingView /> : <ScrollView><Echarts option={option} height={350} /></ScrollView>
             }
         </View>
     }

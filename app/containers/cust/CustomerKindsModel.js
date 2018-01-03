@@ -39,10 +39,14 @@ export default class CustomerKindsModel extends React.Component {
             FetchManger.getUri('mobileServiceManager/customers/getCustomerKindsTreeInfo.page', { token, user_id }).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data.parentPosition;
-                    this.setState({
-                        dataList: data,
-                        loading: false,
-                    });
+                    // if(data.length > 0){
+                        this.setState({
+                            dataList: data,
+                            loading: false,
+                        });
+                    // }else{
+                    //     this.setState({loading:false})
+                    // }
                 }
             }).catch((error) => {
 

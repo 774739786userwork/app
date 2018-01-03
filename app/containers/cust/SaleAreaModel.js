@@ -41,11 +41,15 @@ export default class SaleAreaModel extends React.Component {
             FetchManger.getUri('mobileServiceManager/customers/getSaleAreaTreeInfo.page', { token, user_id,orgId }).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data.saleAreaList;
-                    this.setState({
-                        dataList: data,
-                        loading: false,
-                        type: 1,
-                    });
+                    // if(data.length > 0){
+                        this.setState({
+                            dataList: data,
+                            loading: false,
+                            type: 1,
+                        });
+                    // }else{
+                    //     this.setState({loading:false})
+                    // }
                 }
             }).catch((error) => {
                 this.setState({loading:false})

@@ -30,7 +30,11 @@ function GetDateStr(AddDayCount) {
     var y = dd.getFullYear();
     var m = dd.getMonth() + 1;//获取当前月份的日期 
     var d = dd.getDate();
-    return y + "-" + m + "-" + d;
+    if(m >= 10 && d >= 10){
+        return y + "-" + m + "-" + d;
+    }else{
+        return y + "-" + "0" + m + "-" + "0" + d;
+    }
 }
 class AddDeliveryOrderPage extends React.Component {
     constructor(props) {
@@ -96,8 +100,11 @@ class AddDeliveryOrderPage extends React.Component {
     }
 
     _selectDeliveryDate(deliverydate){
-        
-        this.setState({deliverydate:deliverydate})
+         if(deliverydate < this.state.ladingdate){
+             Toast.show('送货日期不能小于提货日期！')
+         }else{
+             this.setState({deliverydate})
+        }
     }
     selectCarAction() {
         const { action, navigation, addDeliveryOrder } = this.props;
@@ -364,10 +371,6 @@ class AddDeliveryOrderPage extends React.Component {
                     confirmBtnText="确定"
                     cancelBtnText="取消"
                     onDateChange={(date) => {
-                        if(date < this.state.ladingdate){
-                            Toast.show('送货日期不能小于提货日期！');
-                            return;
-                        }
                         this._selectDeliveryDate(date)
                     }}
                 />

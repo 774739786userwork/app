@@ -44,11 +44,15 @@ export default class SelectEARModel extends React.Component {
             FetchManger.getUri('mobileServiceManager/customers/getRegionalTreeInfo.page', { token, orgId }).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
-                    this.setState({
-                        dataList: data,
-                        loading: false,
-                        type: 3,
-                    });
+                    if(data.length > 0){
+                        this.setState({
+                            dataList: data,
+                            loading: false,
+                            type: 3,
+                        });
+                    }else{
+                        this.setState({loading:false})
+                    }
                 }
             }).catch((error) => {
                 this.setState({loading:false})
