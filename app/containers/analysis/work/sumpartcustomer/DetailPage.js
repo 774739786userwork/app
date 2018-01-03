@@ -59,12 +59,12 @@ class DetailPage extends React.Component {
                 </View>
                 <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
-                        <Text style={{ color: '#999', fontSize: 13 }}>{`销量:`}</Text>
-                        <Text style={{ color: '#999', fontSize: 13 }}>{`${item.totalSum}`}</Text>
+                        <Text style={{ color: '#999', fontSize: 13 }}>{`销售额:`}</Text>
+                        <Text style={{ color: '#f80000', fontSize: 13 }}>{`${item.totalSum}万元`}</Text>
                     </View>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
                         <Text style={{ color: '#999', fontSize: 13 }}>{`未收:`}</Text>
-                        <Text style={{ color: '#999', fontSize: 13 }}>{`${item.unpaidSum}元`}</Text>
+                        <Text style={{ color: '#f80000', fontSize: 13 }}>{`${item.unpaidSum}万元`}</Text>
                     </View>
                 </View>
                 <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>

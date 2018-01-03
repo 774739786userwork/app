@@ -22,7 +22,7 @@ import YearPicker from '../../../../components/YearPicker'
 var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 var hl_ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
-//大客户排名
+//分段客户
 class BigCustomerSortPage extends React.Component {
     constructor(props) {
         super(props)
@@ -107,7 +107,7 @@ class BigCustomerSortPage extends React.Component {
                         <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
                         <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.customerBase}`}</Text>
                         <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.precent}`}</Text>
+                        <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.precent ? item.precent : 0}`}</Text>
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
                 </View>
@@ -173,11 +173,11 @@ class BigCustomerSortPage extends React.Component {
                         </View>
                         <View style={{ flex: 1, padding: 10, backgroundColor: '#f2f2f2' }}>
                             <View style={{ flexDirection: 'row', backgroundColor: '#66b3e5' }}>
-                                <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'销售额分段'}</Text>
+                                <Text style={{ fontSize: 12, paddingLeft: 1, paddingTop: 10, paddingBottom: 10,textAlign: 'center', flex: 1, color: '#fff' }}>{'分段金额（万）'}</Text>
                                 <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                                <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'客户数'}</Text>
+                                <Text style={{ fontSize: 12, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center',color: '#fff' }}>{'客户数'}</Text>
                                 <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                                <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'占比'}</Text>
+                                <Text style={{ fontSize: 12, paddingTop: 10, paddingBottom: 10, textAlign: 'center', flex: 1, color: '#fff' }}>{'占比（%）'}</Text>
                             </View>
                             <View style={{ backgroundColor: '#fff', borderColor: '#f2f2f2', borderWidth: 1, flex: 1 }}>
                                 <LoadingListView
