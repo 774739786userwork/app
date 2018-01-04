@@ -18,8 +18,9 @@ import {
 var ImagePicker = require('react-native-image-picker');
 import SelectEARModel from './SelectEARModel'
 import SaleAreaModel from './SaleAreaModel'
-import CustomerKindsModel from './CustomerKindsModel'
+import ShopPositionsModel from './ShopPositionsModel'
 import BuildingMaterialModel from './BuildingMaterialModel'
+import ShopKindsModel from './ShopKindsModel'
 import Spinner from 'react-native-loading-spinner-overlay';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { Iconfont, LoadingView, Toast, FetchManger, LoginInfo } from 'react-native-go';
@@ -60,10 +61,12 @@ class AddCustContainer extends React.Component {
             cityId: undefined,
             saleArea: undefined,
             saleAreaShow: false,
-            customerKinds: undefined,
-            customerKindsShow: false,
+            shopPosition: undefined,
+            shopPositionShow: false,
             buildingMaterial: undefined,
             buildingMaterialShow: false,
+            shopKinds:undefined,
+            shopKindsShow:false,
             showSpinner: false,
             viewImageIndex: -1,
         }
@@ -139,6 +142,8 @@ class AddCustContainer extends React.Component {
          Latitude	flot	纬度
          Image[{}]	JsonArray	图片数组
          */
+        let cusKinds = this.state.shopKinds ? this.state.shopKinds.childrentPositionId : undefined;
+        let cusPositions = this.state.shopPosition ? this.state.shopPosition.childrentPositionId : undefined
         let saveParams = {};
         //coords.latitude, coords.longitude
         saveParams.Longitude = this.coords.longitude;
@@ -155,32 +160,32 @@ class AddCustContainer extends React.Component {
             return;
         }
         saveParams.customerDetailAddress = this.customerDetailAddress;
-        
-        if (!this.customerName) {
-            Toast.show('客户名称不能为空')
-            return;
-        }
         saveParams.customerPhone = this.customerPhone;
         saveParams.secondaryContact = this.secondaryContact;
         saveParams.secondaryMobile = this.secondaryMobile;
 
         saveParams.user_id = user_id;
         saveParams.organization_id = organization_id;
-        saveParams.customerKindsId = this.state.customerKinds ? this.state.customerKinds.childrentPositionId : undefined
+        saveParams.customerKindsId = cusKinds + "," + cusPositions;
+        alert(saveParams.customerKindsId)
         saveParams.salerAreaId = this.state.saleArea ? this.state.saleArea.salerId : undefined
         if (!this.state.regional) {
             Toast.show('请选择行政区域')
             return;
         }
-        if (!saveParams.customerKindsId) {
-            Toast.show('请选择客户类型')
+        if (!cusPositions) {
+            Toast.show('请选择店面位置')
+            return;
+        }
+        if(!cusKinds){
+            Toast.show('请选择店面类型')
             return;
         }
         if (!this.state.saleArea) {
             Toast.show('请选择销售区域')
             return;
         }
-        if ("20004" === (saveParams.customerKindsId + "") && !this.state.buildingMaterial) {
+        if ("20004" === (cusPositions + "") && !this.state.buildingMaterial) {
             Toast.show('请选择建材市场')
             return;
         }
@@ -428,13 +433,30 @@ class AddCustContainer extends React.Component {
                     <View style={{ height: StyleSheet.hairlineWidth, width: WINDOW_WIDTH, backgroundColor: '#d9d9d9' }} />
                     <TouchableOpacity onPress={() => {
                         this.setState({
-                            customerKindsShow: true,
+                            shopPositionShow: true,
                         })
                     }} style={{ height: 42, width: WINDOW_WIDTH, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }} >
 
                         <View style={{ height: 42, width: WINDOW_WIDTH, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                             <Text style={{ color: '#333', fontSize: 16, marginLeft: 12, width: 100 }}>{'客户类型'}</Text>
-                            <Text style={{ flex: 1, fontSize: 14, color: '#aaa' }}>{this.state.customerKinds ? this.state.customerKinds.childrentPositionName : '请选择客户类型'}</Text>
+                            <Text style={{ flex: 1, fontSize: 14, color: '#aaa' }}>{this.state.shopPosition ? this.state.shopPosition.childrentPositionName : '请选择店面位置'}</Text>
+                            <View>
+                                <Iconfont fontFamily={'OAIndexIcon'}
+                                    icon={'e68c'} // 图标
+                                    iconColor={'#d9d9d9'}
+                                    iconSize={24}
+                                />
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+                    <View style={{ height: StyleSheet.hairlineWidth, width: WINDOW_WIDTH, backgroundColor: '#d9d9d9' }} />
+                    <TouchableOpacity onPress={() => {
+                        this.setState({shopKindsShow:true})
+                    }} style={{ height: 42, width: WINDOW_WIDTH, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }} >
+
+                        <View style={{ height: 42, width: WINDOW_WIDTH, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                            <Text style={{ color: '#333', fontSize: 16, marginLeft: 12, width: 100 }}></Text>
+                            <Text style={{ flex: 1, fontSize: 14, color: '#aaa' }}>{this.state.shopKinds ? this.state.shopKinds.childrentPositionName : '请选择店面类型'}</Text>
                             <View>
                                 <Iconfont fontFamily={'OAIndexIcon'}
                                     icon={'e68c'} // 图标
@@ -588,16 +610,30 @@ class AddCustContainer extends React.Component {
                             })
                         }
                     } />
-                <CustomerKindsModel modalVisible={this.state.customerKindsShow} onCancelPress={() => {
+                <ShopPositionsModel modalVisible={this.state.shopPositionShow} onCancelPress={() => {
                     this.setState({
-                        customerKindsShow: false,
+                        shopPositionShow: false,
                     })
                 }}
                     onConfirmPress={
-                        (customerKinds) => {
+                        (shopPosition) => {
                             this.setState({
-                                customerKinds,
-                                customerKindsShow: false,
+                                shopPosition,
+                                shopPositionShow: false,
+                            })
+                        }
+                    } />
+
+                <ShopKindsModel modalVisible={this.state.shopKindsShow} onCancelPress={() => {
+                    this.setState({
+                        shopKindsShow: false,
+                    })
+                }}
+                    onConfirmPress={
+                        (shopKinds) => {
+                            this.setState({
+                                shopKinds,
+                                shopKindsShow: false,
                             })
                         }
                     } />

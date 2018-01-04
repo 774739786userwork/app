@@ -18,7 +18,7 @@ import { Iconfont, Toast, FetchManger, LoginInfo, Spinner } from 'react-native-g
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
 const HomeItem = [
-    { name: '各系列分厂比较', open: false, typeName: 'SelectLadingbills', image: require('../../imgs/work/s_gexiliefengchangbijiao.png') },
+    { name: '各系列分厂比较', open: true, typeName: 'CompareSeriesPage', image: require('../../imgs/work/s_gexiliefengchangbijiao.png') },
     { name: '核心系列', open: true, typeName: 'CoreSeriesPage', image: require('../../imgs/work/s_kexinxilie.png') },
     { name: '客户产品系列', open: true, typeName: 'CustormerProductPage', image: require('../../imgs/work/s_kehucanpingxilie.png') },
     { name: '大客户', open: true, typeName: 'BigCustomerSortPage', image: require('../../imgs/work/s_dakehu.png') },

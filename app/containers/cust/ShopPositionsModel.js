@@ -17,12 +17,14 @@ import Picker from '../../components/Picker/Picker'
 import { FetchManger, LoginInfo, LoadingView } from 'react-native-go'
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
-export default class CustomerKindsModel extends React.Component {
+//店面位置
+export default class ShopKindsModel extends React.Component {
     constructor(props) {
         super(props)
         this.onConfirmPress = this.onConfirmPress.bind(this)
         this.onCancelPress = this.onCancelPress.bind(this)
-        this.renderType2 = this.renderType2.bind(this)
+        this.renderType1 = this.renderType1.bind(this)
+
         this.state = {
             modalVisible: false,
             title: '',
@@ -30,32 +32,26 @@ export default class CustomerKindsModel extends React.Component {
             loading: true,
         };
         this.rowIndex0 = 0;
-        this.rowIndex1 = 0;
     }
     componentDidMount() {
         const token = LoginInfo.getUserInfo().token;
         const user_id = LoginInfo.getUserInfo().user_id;
         InteractionManager.runAfterInteractions(() => {
-            FetchManger.getUri('mobileServiceManager/customers/getCustomerKindsTreeInfo.page', { token, user_id }).then((responseData) => {
+            FetchManger.getUri('mobileServiceManager/customers/getCustomerKindsTreeInfo.page', { token, user_id}).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data.parentPosition;
-                    // if(data.length > 0){
-                        this.setState({
-                            dataList: data,
-                            loading: false,
-                        });
-                    // }else{
-                    //     this.setState({loading:false})
-                    // }
+                    this.setState({
+                        dataList: data,
+                        loading: false,
+                    });
                 }
             }).catch((error) => {
-
+                this.setState({loading:false})
             })
         });
     }
     componentWillReceiveProps(nextProps) {
         this.rowIndex0 = 0;
-        this.rowIndex1 = 0;
         this.setState({
             modalVisible: nextProps.modalVisible
         });
@@ -63,8 +59,7 @@ export default class CustomerKindsModel extends React.Component {
 
     onConfirmPress() {
         if (this.state.dataList && this.state.dataList.length > 0) {
-            let item = this.state.dataList[this.rowIndex0].childrentPosition[this.rowIndex1]
-            alert(JSON.stringify(item))
+            let item = this.state.dataList[0].childrentPosition[this.rowIndex0]
             this.props.onConfirmPress && this.props.onConfirmPress(item)
             this.setState({ modalVisible: false });
         }else{
@@ -76,37 +71,23 @@ export default class CustomerKindsModel extends React.Component {
         this.props.onCancelPress && this.props.onCancelPress()
         this.setState({ modalVisible: false });
     }
-
-    renderType2() {
-        return (<View style={{ height: 230, flexDirection: 'row' }}>
-            <View style={{ flex: 1 }}>
-                <Picker
-                    data={this.state.dataList}
-                    ref='_Picker0'
-                    name='parentPositionName'
-                    onRowChange={index => {
-                        this.rowIndex0 = index;
-                        this.rowIndex1 = 0;
-                        this.refs._Picker2.setDataSource(this.state.dataList[this.rowIndex0].childrentPosition)
-                    }}
-                />
-            </View>
-            <View style={{ flex: 1 }}>
-                <Picker
-                    data={this.state.dataList[0].childrentPosition}
-                    ref='_Picker2'
-                    name='childrentPositionName'
-                    onRowChange={index => this.rowIndex1 = index}
-                />
-            </View>
-        </View>)
-    }
     renderLoading() {
         return (<View style={{ height: 230, flexDirection: 'row' }}>
             <LoadingView />
         </View>)
     }
-
+    renderType1() {
+        return (<View style={{ height: 230, flexDirection: 'row' }}>
+            <Picker
+                data={this.state.dataList[0].childrentPosition}
+                ref='_Picker0'
+                name='childrentPositionName'
+                onRowChange={index => {
+                    this.rowIndex0 = index;
+                }}
+            />
+        </View>)
+    }
     render() {
         return (<Modal
             animationType={'slide'}
@@ -126,7 +107,7 @@ export default class CustomerKindsModel extends React.Component {
                 </View>
                 <View style={{ height: StyleSheet.hairlineWidth, width: WINDOW_WIDTH, backgroundColor: '#d9d9d9' }} />
                 {
-                    this.state.loading ? this.renderLoading() : this.renderType2()
+                    this.state.loading ? this.renderLoading() : this.renderType1()
                 }
             </View>
         </Modal>)

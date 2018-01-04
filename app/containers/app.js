@@ -131,6 +131,8 @@ import ActiveProductPage from './analysis/work/ActiveProductPage'
 import NewCustomerPage from './analysis/work/NewCustomerPage'
 //新发展客户详情
 import NewCustomerDetailPage from './analysis/work/NewCustomerDetailPage'
+//各系列分厂比较
+import CompareSeriesPage from './analysis/work/CompareSeriesPage'
 //各分厂核心系列
 import CoreSeriesPage from './analysis/work/CoreSeriesPage'
 //产品销量
@@ -408,6 +410,10 @@ const App = StackNavigator(
     },
     NewCustomerDetailPage:{
       screen:NewCustomerDetailPage
+    },
+    //各系列分厂比较
+    CompareSeriesPage:{
+      screen:CompareSeriesPage
     },
     //各分厂核心系列
     CoreSeriesPage:{
