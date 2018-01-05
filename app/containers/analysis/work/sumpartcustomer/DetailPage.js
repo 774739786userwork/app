@@ -16,6 +16,20 @@ class DetailPage extends React.Component {
     static navigationOptions = ({ navigation }) => ({
         title: `客户明细列表`,
     });
+    static navigationOptions = ({ navigation }) => {
+        const { state, setParams } = navigation;
+        let type = state.params.type;
+        let title = "";
+        if(type === 0){
+           title = state.params.currTime+"年" + state.params.sumPart
+        }else{
+            title = state.params.currTime+"月" + state.params.sumPart
+        }
+        return {
+            headerTitleStyle: {fontSize: 16},
+            title: title+`万客户销售额分段明细`
+        };
+    };
     constructor(props) {
         super(props)
         this._renderGroup = this._renderGroup.bind(this);

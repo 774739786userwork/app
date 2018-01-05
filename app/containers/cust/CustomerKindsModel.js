@@ -64,7 +64,6 @@ export default class CustomerKindsModel extends React.Component {
     onConfirmPress() {
         if (this.state.dataList && this.state.dataList.length > 0) {
             let item = this.state.dataList[this.rowIndex0].childrentPosition[this.rowIndex1]
-            alert(JSON.stringify(item))
             this.props.onConfirmPress && this.props.onConfirmPress(item)
             this.setState({ modalVisible: false });
         }else{

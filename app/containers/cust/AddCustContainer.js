@@ -167,7 +167,6 @@ class AddCustContainer extends React.Component {
         saveParams.user_id = user_id;
         saveParams.organization_id = organization_id;
         saveParams.customerKindsId = cusKinds + "," + cusPositions;
-        alert(saveParams.customerKindsId)
         saveParams.salerAreaId = this.state.saleArea ? this.state.saleArea.salerId : undefined
         if (!this.state.regional) {
             Toast.show('请选择行政区域')
