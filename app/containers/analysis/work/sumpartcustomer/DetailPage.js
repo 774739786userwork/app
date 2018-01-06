@@ -65,11 +65,11 @@ class DetailPage extends React.Component {
     _renderGroup(item, sectionID, index) {
         return (
             <View key={`row_${index}`} style={{ backgroundColor: '#ffff' }}>
-                <View style={{ height: StyleSheet.hairlineWidth, marginBottom: 8, flex: 1, backgroundColor: '#f2f2f2' }} />
+                <View style={{ height: StyleSheet.hairlineWidth, marginBottom: 8, flex: 1, backgroundColor: '#c4c4c4' }} />
                 <View style={{ padding: 8, flexDirection: 'row'  }}>
                     <Text style={{ color: '#333', flex: 1 }}>{item.customerName}</Text>
                     <View style={{ flex: 1 }} />
-                    <Text style={{ color: '#999', marginRight: 4, }}>{item.customerPhone}</Text>
+                    <Text style={{ color: '#FF33FF', marginRight: 4, }}>{item.customerPhone}</Text>
                 </View>
                 <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
@@ -96,7 +96,6 @@ class DetailPage extends React.Component {
         );
     }
     render() {
-        const { empName,productName,customerCount } = this.state.data;
         return <View style={{ flex: 1, backgroundColor: '#f9f9f9' }}>
             <LoadingListView
                 loading={this.state.loading}

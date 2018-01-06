@@ -19,6 +19,7 @@ import LoadingListView from '../../../components/LoadingListView'
 import * as DateUtils from '../../../utils/DateUtils'
 import YearPicker from '../../../components/YearPicker'
 
+var detail_ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 class LeftTabComponet extends React.Component {
     constructor(props) {
       super(props)
@@ -64,16 +65,61 @@ class LeftTabComponet extends React.Component {
 class CompareSeriesYearPage extends React.Component {
     constructor(props) {
       super(props);
+      this._renderRow_Detail = this._renderRow_Detail.bind(this);
       this.state = {
         salerList: [],
+        selectItem: undefined,
+        loading: false,
+        activeTab: props.activeTab,
+        currentDate:DateUtils.yearMonth().year,
+        userId:LoginInfo.getUserInfo().user_id
       }
     }
 
     componentDidMount() {
+      const { currentDate,activeTab,userId } = this.state;
+      this.loadDetail(currentDate,activeTab,userId);
+    }
 
+    loadDetail(currTime,activeTab,userId) {
+      let param = { type: activeTab, userId,currTime };
+      this.setState({ loading: true });
+      InteractionManager.runAfterInteractions(() => {
+        FetchManger.getUri('dataCenter/appHomePage/getYearMonthFactorySeriesCompare.page', param, 30 * 60).then((responseData) => {
+          if (responseData.status === '0' || responseData.status === 0) {
+            let salerList = responseData.data;
+            let selectItem = salerList[0];
+            this.setState({ selectItem, salerList, loading: false })
+          } else {
+            this.setState({ loading: false });
+          }
+  
+        }).catch((error) => {
+          this.setState({ loading: false });
+        })
+      });
+    }
+    _renderRow_Detail(item, rowID) {
+      return (
+          <View>
+            <View style={{ flexDirection: 'row', backgroundColor: '#fff' }}>
+              <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.orgName}`}</Text>
+              <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+              <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.salerQuantity}`}</Text>
+              <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+              <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.totalSum}`}</Text>
+              <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+              <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', color: '#666' }}>{`${item.proportion}`}</Text>
+            </View>
+            <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+          </View>);
     }
 
     render() {
+        let listData = [];
+        if (this.state.selectItem) {
+          listData = this.state.selectItem.factoryList;
+        }
         return (<View style={{ flex: 1 }}>
           <View style={{
             paddingTop: 6,
@@ -100,7 +146,11 @@ class CompareSeriesYearPage extends React.Component {
                   color: '#000',
                 }
               }}
+              selY={this.state.selY}
               onDateChange={(selY, ymStr) => {
+                this.setState({ selY });
+                const { activeTab,userId} = this.state;
+                this.loadDetail(selY,activeTab,userId);
               }}
             />
             <TouchableOpacity style={{ marginLeft: 4 }} onPress={() => {
@@ -115,7 +165,12 @@ class CompareSeriesYearPage extends React.Component {
           </View>
           <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#fff' }}>
             <View style={{ width: 90, justifyContent: 'center', alignItems: 'center' }}>
-              
+                <LeftTabComponet
+                  data={this.state.salerList}
+                  sectionAction={(item) => {
+                    this.setState({ selectItem: item })
+                  }}
+                />
             </View>
             <View style={{ flex: 1, backgroundColor: '#f9f9f9', flexDirection: 'column' }}>
               <View style={{ margin: 10, backgroundColor: '#fff', flex: 1 }}>
@@ -129,6 +184,10 @@ class CompareSeriesYearPage extends React.Component {
                   <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'占比%'}</Text>
                 </View>
                 <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                <LoadingListView
+                  loading={this.state.loading}
+                  listData={detail_ds.cloneWithRows(listData)}
+                  renderRowView={this._renderRow_Detail} />
               </View>
             </View>
           </View >
