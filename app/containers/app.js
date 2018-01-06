@@ -120,6 +120,8 @@ import S_SaleGroupContainer from './analysis/S_SaleGroupContainer'
 import BigCustomerPage from './analysis/work/BigCustomerPage'
 import BigCustSortDetailPage from './analysis/work/bigcustsort/BigCustSortDetailPage'
 import ProductCustomerDetailPage from './analysis/work/ProductCustomerDetailPage'
+// 数据预测
+import DataCalculatePage from './analysis/work/DataCalculatePage'
 //产品业务员
 import ProductCustomerPage from './analysis/work/ProductCustomerPage'
 //大客户排名
@@ -464,6 +466,10 @@ const App = StackNavigator(
     },
     SumPartDetailPage:{
       screen:SumPartDetailPage
+    },
+    //数据预测
+    DataCalculatePage:{
+      screen:DataCalculatePage
     }
   },
   {
