@@ -29,7 +29,7 @@ const HomeItem = [
     { name: '产品销量', open: true, typeName: 'ProductSalesPage', image: require('../../imgs/work/s_canpingxiaoliang.png') },
     { name: '产品趋势', open: true, typeName: 'ProductChartPage', image: require('../../imgs/work/s_canpingqushi.png') },
     { name: '产品业务员', open: true,typeName: 'ProductCustomerPage', image: require('../../imgs/work/s_yewuyuanpaiming.png') },
-    { name: '数据预测', open: false, typeName: 'AddBalanceAccouts', image: require('../../imgs/work/s_shujuyuce.png') },
+    { name: '数据预测', open: true, typeName: 'DataCalculatePage', image: require('../../imgs/work/s_shujuyuce.png') },
 ];
 
 const styles = {

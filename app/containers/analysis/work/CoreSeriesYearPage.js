@@ -60,11 +60,15 @@ class CoreSeriesYearPage extends React.Component {
 
     _renderGroup(item, sectionID, index) {
         return (
-            <View key={`row_${index}`} style={{ backgroundColor: '#f9f9f9',margin:10 }}>
-                <View style={{ height: StyleSheet.hairlineWidth, marginTop: 8, flex: 1, backgroundColor: '#c4c4c4' }} />
-                <View style={{ padding: 8, flexDirection: 'row' }}>
-                    <Text style={{ color: '#FF33FF', flex: 1 , fontSize: 15}}>{item.serieslName}</Text>
-                    <Text style={{ color: '#f80000', fontSize: 15, marginRight: 4, }}>{`销售:${item.totalSum}元`}</Text>
+            <View key={`row_${index}`} style={{ borderColor: '#d9d9d9', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8,backgroundColor: '#f9f9f9',
+                marginTop: 10, marginLeft: 10, marginRight: 10 }}>
+                <View style={{ paddingLeft: 10, paddingRight: 10,  }}>
+                    <View style={{ height: 30, paddingLeft: 10, flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{ flex: 1, flexDirection: 'row'}}>
+                            <Text style={{ color: '#333', width: 150, fontSize: 15}}>{item.serieslName}</Text>
+                            <Text style={{ color: '#333', fontSize: 15, marginRight: 4, }}>{`销售:${item.totalSum}元`}</Text>
+                        </View>
+                    </View>
                 </View>
                 {
                     item.orgList.map((item, index) => {
@@ -76,15 +80,18 @@ class CoreSeriesYearPage extends React.Component {
     }
 
     _renderRow(rowData, rowID) {
-        return (
-            <View style={{ flexDirection:'column',backgroundColor: '#fff'}} key={`index_${rowID}`}>
-                <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#c4c4c4' }} />
-                <View style={{ flexDirection: 'row',padding:8}}>
-                    <Text style={{ color: '#666', flex: 1 , fontSize: 13}}>{`${rowData.orgName}`}</Text>
-                    <Text style={{ color: '#f80000', fontSize: 13, marginRight: 4, }}>{`销售:${rowData.orgSum}元`}</Text>
+        return (<View key={`index_${rowID}`}>
+            <View style={{ borderColor: '#d9d9d9', borderWidth: StyleSheet.hairlineWidth, borderRadius: 8, backgroundColor: '#fff', marginTop: 10, marginLeft: 10, marginRight: 10,marginBottom:10 }}>
+                <View style={{ paddingLeft: 10, paddingRight: 10, paddingBottom: 10, }}>
+                    <View style={{ height: 30, paddingLeft: 10, flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{ flex: 1, flexDirection: 'row' }}>
+                            <Text style={{ color: '#333', width: 150 }}>{`${rowData.orgName}`}</Text>
+                            <Text style={{ color: '#333' }}>{`销售:${rowData.orgSum}元`}</Text>
+                        </View>
+                    </View>
                 </View>
             </View>
-        )
+        </View>)
     }
 
     render() {
