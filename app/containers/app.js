@@ -136,7 +136,16 @@ import CompareSeriesPage from './analysis/work/CompareSeriesPage'
 //各分厂核心系列
 import CoreSeriesPage from './analysis/work/CoreSeriesPage'
 //产品销量
-import ProductSalesPage from './analysis/work/ProductSalesPage';
+import ProductSalesPage from './analysis/work/ProductSalesPage'
+import ProductChartPage from './analysis/work/ProductChartPage'
+//交易客户明细
+import DeliveryEmpDetails from './analysis/work/productseries/DeliveryEmpDetails'
+//业务员送货明细
+import ProductDetailPage from './analysis/work/productseries/ProductDetailPage'
+//业务员带货明细
+import TakeGoodsEmpDetails from './analysis/work/productseries/TakeGoodsEmpDetails'
+import DeliveryCustomerDetails from './analysis/work/productseries/DeliveryCustomerDetails'
+
 import SumPartCustomerPage from './analysis/work/SumPartCustomerPage'
 import SumPartDetailPage from './analysis/work/sumpartcustomer/DetailPage'
 //销售组 销售情况
@@ -464,6 +473,21 @@ const App = StackNavigator(
     },
     SumPartDetailPage:{
       screen:SumPartDetailPage
+    },
+    ProductChartPage:{
+      screen:ProductChartPage
+    },
+    DeliveryEmpDetails:{
+      screen:DeliveryEmpDetails
+    },
+    ProductDetailPage:{
+      screen:ProductDetailPage
+    },
+    TakeGoodsEmpDetails:{
+      screen:TakeGoodsEmpDetails
+    },
+    DeliveryCustomerDetails:{
+      screen:DeliveryCustomerDetails
     }
   },
   {
