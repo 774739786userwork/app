@@ -70,6 +70,7 @@ class WeekPage extends React.Component {
         do {
             weekList.push(getTime(7*i)+'~'+getTime(7*i-6));
         } while (++i < 30);
+        let weekStr = weekList[0];
         this.state = {
             weekList,
             selectedValue:weekList[0],
@@ -81,9 +82,9 @@ class WeekPage extends React.Component {
             groupLoading: false,
             WeekModelShow: false,
             selected: 0,
-            startDate: DateUtils.getYearMonthDay(),
-            endDate: DateUtils.getYearMonthDay(),
-            salerSort: 'fall',
+            startDate: weekStr.split('~')[0],
+            endDate: weekStr.split('~')[1],
+            salerSort: 'rise',
             seriesId
         }
     }
@@ -123,7 +124,7 @@ class WeekPage extends React.Component {
     }
     loadDetail(orgId, seriesId, startDate, endDate, salerSort) {
         const userId = LoginInfo.getUserInfo().user_id;
-        let p = { orgId: 109, userId, seriesId, startDate, endDate, salerSort };
+        let p = { orgId: orgId, userId, seriesId, startDate, endDate, salerSort };
         this.setState({ groupLoading: true })
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getYearMonthProductSaler.page', p, 30 * 60).then((responseData) => {
@@ -169,7 +170,7 @@ class WeekPage extends React.Component {
         </TouchableOpacity>
     }
     onItemAction(index) {
-        let salerSort = index == 0 ? 'fall' : 'rise';
+        let salerSort = index == 0 ? 'rise' : 'fall';
         this.setState({ selected: index, salerSort })
         const { orgId, seriesId, startDate, endDate } = this.state;
         this.loadDetail(orgId, seriesId, startDate, endDate, salerSort);
@@ -252,6 +253,7 @@ class WeekPage extends React.Component {
                         console.log(selectedValue)
                         let startDate = selectedValue.split('~')[0]
                         let endDate =  selectedValue.split('~')[1]
+                        
                         this.setState({ startDate, endDate, selectedValue });
                         const { seriesId, salerSort, orgId } = this.state;
                         this.loadDetail(orgId, seriesId, startDate, endDate, salerSort);

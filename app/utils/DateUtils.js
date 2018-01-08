@@ -38,13 +38,26 @@ export function getYearMonthDayKD(i = 0) {
 export function getYearPreMonthDay() {
     let date = new Date();
     let year = date.getFullYear()
-    let month = date.getMonth();
+    let month = date.getMonth()+1;
     let day = date.getDate();
     month = (month < 10 ? "0" + month : month)
     day = (day < 10 ? "0" + day : day)
     let yearMonth = year.toString() + '-' + month.toString() + '-' + day.toString()
     return yearMonth
 }
+
+//当前月的区间
+export function getMonth() {  
+      // 获取当前月的第一天  
+      let date = new Date();
+      let year = date.getFullYear()
+      let month = date.getMonth()+1;
+      let day = date.getDate(); 
+      month = (month < 10 ? "0" + month : month)
+      let startDate = year.toString() + '-' + month.toString() + '-' + "01"
+      let endDate = year+'-'+month+'-'+new Date(year,month,0).getDate();
+      return {startDate,endDate}  
+  }  
 
 export function show() {
     var myDate = new Date();

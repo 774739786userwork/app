@@ -154,14 +154,14 @@ export default class AllSeriesModel extends React.Component {
             visible={this.state.modalVisible}>
             <View style={{ flex: 1, justifyContent: 'center', flexDirection: 'row', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
                 <View style={{ flex: 1 }} />
-                <View style={{ flex: 8, paddingTop: 30, backgroundColor: '#fff' }}>
+                <View style={{ flex: 8, paddingTop: 15, backgroundColor: '#fff' }}>
                     <View style={{ flex: 1 }} >
                         <LoadingListView
                             loading={this.state.loading}
                             listData={ds.cloneWithRows(this.state.dataList)}
                             renderRowView={this._renderGroup} />
                     </View>
-                    <View style={{ backgroundColor: '#fff', flexDirection: 'row', height: 40, marginBottom: 20, paddingTop: 12, justifyContent: 'center', alignItems: 'center', }}>
+                    <View style={{ backgroundColor: '#fff', flexDirection: 'row', height: 40, marginBottom: 10, paddingTop: 12, justifyContent: 'center', alignItems: 'center', }}>
                         <View style={{ flex: 1 }} />
                         <TouchableOpacity onPress={this.onCancelPress}>
                             <View style={{ height: 40, borderRadius: 8, backgroundColor: '#eeeeee', paddingLeft: 24, paddingRight: 24, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: '#666' }}>{'取消'}</Text></View>

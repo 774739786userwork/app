@@ -100,7 +100,7 @@ class ProductSalesPage extends React.Component {
 
     render() {
         return (<View style={{ flex: 1, backgroundColor: '#f2f2f2' }}>
-            <ScrollableTabView locked={true} initialPage={0} renderTabBar={this.renderTabBar} >
+            <ScrollableTabView locked={true} initialPage={1} renderTabBar={this.renderTabBar} >
                 <DayPage key={'0'} activeTab={0} {...this.props} selectedIds={this.state.selectedIds} tabLabel={'year'} />
                 <WeekPage key={'1'} activeTab={1} {...this.props} selectedIds={this.state.selectedIds} tabLabel={'month'} />
                 <MonthPage key={'2'} activeTab={0} {...this.props} selectedIds={this.state.selectedIds} tabLabel={'year'} />

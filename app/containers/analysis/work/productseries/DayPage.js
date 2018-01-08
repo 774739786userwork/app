@@ -80,7 +80,7 @@ class DayPage extends React.Component {
     }
     loadDetail(orgId, seriesId, startDate, endDate, salerSort) {
         const userId = LoginInfo.getUserInfo().user_id;
-        let p = { orgId: 109, userId, seriesId, startDate, endDate, salerSort };
+        let p = { orgId: orgId, userId, seriesId, startDate, endDate, salerSort };
         this.setState({ groupLoading: true })
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getYearMonthProductSaler.page', p, 30 * 60).then((responseData) => {
@@ -126,7 +126,7 @@ class DayPage extends React.Component {
         </TouchableOpacity>
     }
     onItemAction(index) {
-        let salerSort = index == 0 ? 'fall' : 'rise';
+        let salerSort = index == 0 ? 'rise' : 'fall';
         this.setState({ selected: index, salerSort })
         const { orgId, seriesId, startDate, endDate } = this.state;
         this.loadDetail(orgId, seriesId, startDate, endDate, salerSort);
@@ -251,13 +251,13 @@ class DayPage extends React.Component {
                                     <View style={{ flex: 1 }} />
                                     <TouchableOpacity style={{ flexDirection: 'row' }} onPress={this.onItemAction.bind(this, 0)}>
                                         <View style={{ borderWidth: 1, borderColor: this.state.selected ? '#61aee0' : '#f9f9f9', backgroundColor: this.state.selected ? '#61aee0' : '#f9f9f9', borderRadius: 4, flexDirection: 'row' }}>
-                                            <Text style={{ padding: 8, color: this.state.selected ? '#fff' : '#61aee0' }}>{'销量下降'}</Text>
+                                            <Text style={{ padding: 8, color: this.state.selected ? '#fff' : '#61aee0' }}>{'销量上升'}</Text>
                                         </View>
                                     </TouchableOpacity>
                                     <View style={{ width: 24 }} />
                                     <TouchableOpacity style={{ flexDirection: 'row' }} onPress={this.onItemAction.bind(this, 1)}>
                                         <View style={{ borderWidth: 1, borderColor: !this.state.selected ? '#61aee0' : '#f9f9f9', backgroundColor: !this.state.selected ? '#61aee0' : '#f9f9f9', borderRadius: 4, flexDirection: 'row' }}>
-                                            <Text style={{ padding: 8, color: this.state.selected ? '#61aee0' : '#fff' }}>{'销量上升'}</Text>
+                                            <Text style={{ padding: 8, color: this.state.selected ? '#61aee0' : '#fff' }}>{'销量下降'}</Text>
                                         </View>
                                     </TouchableOpacity>
                                     <View style={{ flex: 1, }} />

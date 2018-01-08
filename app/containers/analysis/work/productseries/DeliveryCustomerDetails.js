@@ -24,7 +24,7 @@ class DeliveryCustomerDetails extends React.Component {
             totalSalerSum: '',
             totalSalerQuantity:'',
             totalGiftQuantity:'',
-            empList:[],
+            cusList:[],
             loading: false
         }
     }
@@ -35,17 +35,17 @@ class DeliveryCustomerDetails extends React.Component {
             FetchManger.getUri('dataCenter/appHomePage/getDeliveryCustomerDetails.page', params, 30 * 60).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
-                    let empList = [];
+                    let cusList = [];
                     let totalSalerSum =  '';
                     let totalSalerQuantity  = '';
                     let totalGiftQuantity = '';
                     if(data){
-                        empList = data[0].empList;
-                        totalSalerSum  = data[0].totalSalerSum; 
-                        totalSalerQuantity  = data[0].totalSalerQuantity;
-                        totalGiftQuantity = data[0].totalGiftQuantity;;
+                        cusList = data.cusList;
+                        totalSalerSum  = data.totalSalerSum ? data.totalSalerSum : 0; 
+                        totalSalerQuantity  = data.totalSalerQuantity ? data.totalSalerQuantity : 0;
+                        totalGiftQuantity = data.totalGiftQuantity ? data.totalGiftQuantity : 0;
                     }
-                    this.setState({ empList,totalSalerSum,totalSalerQuantity,totalGiftQuantity, loading: false })
+                    this.setState({ cusList,totalSalerSum,totalSalerQuantity,totalGiftQuantity, loading: false })
                 } else {
                     this.setState({ loading: false });
                 }
@@ -68,7 +68,7 @@ class DeliveryCustomerDetails extends React.Component {
                     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#666', }}>{'单价:'}</Text>
-                            <Text style={{ color: '#666', }}>{`${item.price}元`}</Text>
+                            <Text style={{ color: '#666', }}>{`${item.price}`}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#666' }}>{'销量：'}</Text>
@@ -82,7 +82,7 @@ class DeliveryCustomerDetails extends React.Component {
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#666' }}>{'赠送：'}</Text>
-                            <Text style={{ color: '#666', marginRight: 4 }}>{`${item.giftQuantity}元`}</Text>
+                            <Text style={{ color: '#666', marginRight: 4 }}>{`${item.giftQuantity}`}</Text>
                         </View>
                     </View>
                 </View>
@@ -93,7 +93,7 @@ class DeliveryCustomerDetails extends React.Component {
 
     render() {
         return <View style={{ flex: 1, backgroundColor: '#f9f9f9' }}>
-            <View style={{ height: 24, backgroundColor: '#f8f9fa', paddingLeft: 12, paddingTop: 10, flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ height: 26, backgroundColor: '#f8f9fa', paddingLeft: 12, paddingTop: 10, flexDirection: 'row', alignItems: 'center' }}>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                     <Text style={{ color: '#333', }}>{'总销量：'}</Text>
                     <Text style={{ color: '#333', }}>{`${this.state.totalSalerQuantity}`}</Text>
@@ -110,7 +110,7 @@ class DeliveryCustomerDetails extends React.Component {
             <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f2f2f2' }}></View>
             <LoadingListView
                 loading={this.state.loading}
-                listData={ds.cloneWithRows(this.state.empList ? this.state.empList : [])}
+                listData={ds.cloneWithRows(this.state.cusList ? this.state.cusList : [])}
                 renderRowView={this._renderRow} />
         </View>;
     }

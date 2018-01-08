@@ -144,7 +144,7 @@ class QueryReturnDetailPage extends React.Component {
         const { params } = this.props.navigation.state;
         const { listData } = this.state;
         let count = 0;
-
+        
         listData.forEach((e) => {
             count += parseFloat(e.returnQuantity);
         });

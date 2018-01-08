@@ -30,6 +30,7 @@ class MonthPage extends React.Component {
         props.selectedIds.map((id)=>{
             seriesId += id+','
         });
+        let {startDate,endDate} = DateUtils.getMonth();
         this.state = {
             listData: [],
             itemListData: [],
@@ -39,8 +40,8 @@ class MonthPage extends React.Component {
             groupLoading: false,
             WeekModelShow: false,
             selected: 0,
-            startDate: DateUtils.getYearMonthDay(),
-            endDate: DateUtils.getYearMonthDay(),
+            startDate: startDate,
+            endDate: endDate,
             salerSort: 'fall',
             seriesId
         }
@@ -81,7 +82,7 @@ class MonthPage extends React.Component {
     }
     loadDetail(orgId, seriesId, startDate, endDate, salerSort) {
         const userId = LoginInfo.getUserInfo().user_id;
-        let p = { orgId: 109, userId, seriesId, startDate, endDate, salerSort };
+        let p = { orgId: orgId, userId, seriesId, startDate, endDate, salerSort };
         this.setState({ groupLoading: true })
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getYearMonthProductSaler.page', p, 30 * 60).then((responseData) => {
