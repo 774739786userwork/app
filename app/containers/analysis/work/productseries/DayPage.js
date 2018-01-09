@@ -26,8 +26,8 @@ class DayPage extends React.Component {
         this.loadDetail = this.loadDetail.bind(this);
         this._renderBranchRow = this._renderBranchRow.bind(this);
         let seriesId = '';
-        props.selectedIds.map((id)=>{
-            seriesId += id+','
+        props.selectedIds.map((id) => {
+            seriesId += id + ','
         });
         this.state = {
             listData: [],
@@ -71,12 +71,12 @@ class DayPage extends React.Component {
     }
     componentWillReceiveProps(nextProps) {
         let seriesId = '';
-        nextProps.selectedIds.map((id)=>{
-            seriesId += id+','
+        nextProps.selectedIds.map((id) => {
+            seriesId += id + ','
         });
         const { orgId, startDate, endDate, salerSort } = this.state;
         this.loadDetail(orgId, seriesId, startDate, endDate, salerSort);
-        this.setState({seriesId});
+        this.setState({ seriesId });
     }
     loadDetail(orgId, seriesId, startDate, endDate, salerSort) {
         const userId = LoginInfo.getUserInfo().user_id;
@@ -127,14 +127,16 @@ class DayPage extends React.Component {
     }
     onItemAction(index) {
         let salerSort = index == 0 ? 'rise' : 'fall';
-        this.setState({ selected: index, salerSort })
-        const { orgId, seriesId, startDate, endDate } = this.state;
-        this.loadDetail(orgId, seriesId, startDate, endDate, salerSort);
+        if(this.state.selected != index){
+            this.setState({ selected: index, salerSort })
+            const { orgId, seriesId, startDate, endDate } = this.state;
+            this.loadDetail(orgId, seriesId, startDate, endDate, salerSort);
+        }
     }
-    onDetailAction(index,productId) {
+    onDetailAction(index, productId) {
         console.log(index);
         const userId = LoginInfo.getUserInfo().user_id;
-       // let productId = 102385;
+        // let productId = 102385;
         // let orgId = 109;
         // let startDate = '2017-12-01';
         // let endDate = '2017-12-07';
@@ -233,6 +235,21 @@ class DayPage extends React.Component {
                 />
             </View>
             <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#c4c4c4' }} />
+            <View style={{ padding: 12, flexDirection: 'row' }}>
+                <View style={{ flex: 1 }} />
+                <TouchableOpacity style={{ flexDirection: 'row' }} onPress={this.onItemAction.bind(this, 0)}>
+                    <View style={{ borderWidth: 1, borderColor: this.state.selected ? '#61aee0' : '#f9f9f9', backgroundColor: this.state.selected ? '#61aee0' : '#f9f9f9', borderRadius: 4, flexDirection: 'row' }}>
+                        <Text style={{ padding: 8, color: this.state.selected ? '#fff' : '#61aee0' }}>{'销量上升'}</Text>
+                    </View>
+                </TouchableOpacity>
+                <View style={{ width: 24 }} />
+                <TouchableOpacity style={{ flexDirection: 'row' }} onPress={this.onItemAction.bind(this, 1)}>
+                    <View style={{ borderWidth: 1, borderColor: !this.state.selected ? '#61aee0' : '#f9f9f9', backgroundColor: !this.state.selected ? '#61aee0' : '#f9f9f9', borderRadius: 4, flexDirection: 'row' }}>
+                        <Text style={{ padding: 8, color: this.state.selected ? '#61aee0' : '#fff' }}>{'销量下降'}</Text>
+                    </View>
+                </TouchableOpacity>
+                <View style={{ flex: 1, }} />
+            </View>
             {
                 this.state.groupLoading ? <LoadingView />
                     :
@@ -247,28 +264,14 @@ class DayPage extends React.Component {
                         </View>
                         {
                             productdata ? <ScrollView style={{ flex: 1, backgroundColor: '#fff', flexDirection: 'column' }}>
-                                <View style={{ marginTop: 24, flexDirection: 'row' }}>
-                                    <View style={{ flex: 1 }} />
-                                    <TouchableOpacity style={{ flexDirection: 'row' }} onPress={this.onItemAction.bind(this, 0)}>
-                                        <View style={{ borderWidth: 1, borderColor: this.state.selected ? '#61aee0' : '#f9f9f9', backgroundColor: this.state.selected ? '#61aee0' : '#f9f9f9', borderRadius: 4, flexDirection: 'row' }}>
-                                            <Text style={{ padding: 8, color: this.state.selected ? '#fff' : '#61aee0' }}>{'销量上升'}</Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                    <View style={{ width: 24 }} />
-                                    <TouchableOpacity style={{ flexDirection: 'row' }} onPress={this.onItemAction.bind(this, 1)}>
-                                        <View style={{ borderWidth: 1, borderColor: !this.state.selected ? '#61aee0' : '#f9f9f9', backgroundColor: !this.state.selected ? '#61aee0' : '#f9f9f9', borderRadius: 4, flexDirection: 'row' }}>
-                                            <Text style={{ padding: 8, color: this.state.selected ? '#61aee0' : '#fff' }}>{'销量下降'}</Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                    <View style={{ flex: 1, }} />
-                                </View>
+
                                 <View style={{ borderColor: '#e9e9e9', borderWidth: StyleSheet.hairlineWidth, borderRadius: 6, backgroundColor: '#fff', marginTop: 10, marginLeft: 10, marginRight: 10 }}>
                                     <View style={{ height: 44, backgroundColor: '#f9f9f9', paddingLeft: 10, borderTopLeftRadius: 6, borderTopRightRadius: 6, paddingTop: 5, flexDirection: 'row', alignItems: 'center' }}>
                                         <Text style={{ color: '#333' }}>{`${productdata ? productdata.productName : ''}`}</Text>
                                     </View>
                                     {
                                         itemConfig.map((item, index) =>
-                                            <TouchableOpacity key={`index_${index}`} onPress={this.onDetailAction.bind(this, index,productdata.productId)}>
+                                            <TouchableOpacity key={`index_${index}`} onPress={this.onDetailAction.bind(this, index, productdata.productId)}>
                                                 <View style={{ padding: 8, height: 60 }}>
                                                     <View style={{ flexDirection: 'row' }}>
                                                         <Text style={{ color: '#666', flex: 1 }}>{`${item[0]}`}</Text>
@@ -284,9 +287,9 @@ class DayPage extends React.Component {
                                     }
                                 </View>
                             </ScrollView>
+
                                 : null
                         }
-
                     </View>
             }
         </View>;

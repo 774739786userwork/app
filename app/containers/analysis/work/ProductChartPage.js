@@ -155,7 +155,7 @@ class ProductChartPage extends React.Component {
 
     render() {
         const itemListData = this.state.itemListData;
-        const xdataList = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
+        const xdataList = ['01月', '02月', '03月', '04月', '05月', '06月', '07月', '08月', '09月', '10月', '11月', '12月'];
         const ydataList = [];
         for (var i = 0; i < xdataList.length; i++) {
             let month = xdataList[i];
@@ -190,7 +190,6 @@ class ProductChartPage extends React.Component {
             yAxis: {},
             color: ['#ee5f8f'],
             series: [{
-                name: 'NLU',
                 type: 'line',
                 data: ydataList,
             }]
