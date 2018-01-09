@@ -157,8 +157,9 @@ class WeekPage extends React.Component {
         })
         const { seriesId, startDate, endDate, salerSort } = this.state;
         let orgId = item.orgId;
+        let orgName = item.orgName;
         this.loadDetail(orgId, seriesId, startDate, endDate, salerSort);
-        this.setState({ branchFactoryList, orgId })
+        this.setState({ branchFactoryList, orgId,orgName })
     }
     _renderBranchRow(item, sectionID, index) {
         let selected = item.selected;
