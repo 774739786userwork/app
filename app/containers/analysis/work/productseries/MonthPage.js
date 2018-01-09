@@ -43,7 +43,7 @@ class MonthPage extends React.Component {
             selected: 0,
             startDate: startDate,
             endDate: endDate,
-            salerSort: 'fall',
+            salerSort: 'rise',
             seriesId
         }
     }
@@ -131,7 +131,7 @@ class MonthPage extends React.Component {
         </TouchableOpacity>
     }
     onItemAction(index) {
-        let salerSort = index == 0 ? 'fall' : 'rise';
+        let salerSort = index == 0 ? 'rise' : 'fall';
         if(this.state.selected != index){
             this.setState({ selected: index, salerSort })
             const { orgId, seriesId, startDate, endDate } = this.state;

@@ -74,7 +74,7 @@ class QuarterPage extends React.Component {
             selected: 0,
             startDate: quarterStr.split('~')[0],
             endDate: quarterStr.split('~')[1],
-            salerSort: 'fall',
+            salerSort: 'rise',
             seriesId
         }
     }
@@ -162,7 +162,7 @@ class QuarterPage extends React.Component {
         </TouchableOpacity>
     }
     onItemAction(index) {
-        let salerSort = index == 0 ? 'fall' : 'rise';
+        let salerSort = index == 0 ? 'rise' : 'fall';
         if(this.state.selected != index){
             this.setState({ selected: index, salerSort })
             const { orgId, seriesId, startDate, endDate } = this.state;

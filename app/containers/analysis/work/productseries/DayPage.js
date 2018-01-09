@@ -41,7 +41,7 @@ class DayPage extends React.Component {
             selected: 0,
             startDate: DateUtils.getYearMonthDay(),
             endDate: DateUtils.getYearMonthDay(),
-            salerSort: 'fall',
+            salerSort: 'rise',
             seriesId
         }
     }
