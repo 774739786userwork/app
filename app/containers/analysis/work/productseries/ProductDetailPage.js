@@ -14,9 +14,22 @@ import ImageView from '../../../../components/ImageView'
 var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 //交易客户明细
 class ProductDetailPage extends React.Component {
-    static navigationOptions = ({ navigation }) => ({
-        title: `交易客户明细`,
-    });
+    static navigationOptions = ({ navigation }) => {
+        const { state, setParams } = navigation;
+        let custype = state.params.custype;
+        let title = "";
+        if(custype === 0){
+           title = "交易客户明细"
+        }else if(custype === 1){
+            title = "新增交易客户明细"
+        }else{
+            title = "新增并返单客户明细"
+        }
+        return {
+            headerTitleStyle: {fontSize: 16},
+            title: title
+        };
+    };
     constructor(props) {
         super(props)
         this._renderRow = this._renderRow.bind(this);
@@ -103,7 +116,14 @@ class ProductDetailPage extends React.Component {
     }
 
     render() {
+        const { params } = this.props.navigation.state;
+        let title = params.startDate + "~" +params.endDate + params.orgName
         return <View style={{ flex: 1, backgroundColor: '#f9f9f9' }}>
+            <View style={{ height: 42, backgroundColor: '#f9f9f9', paddingLeft: 12, flexDirection: 'column'}}>
+                <Text style={{ color: '#FF33FF',fontSize: 16 }}>{title}</Text>
+                <Text style={{ color: '#FF33FF',fontSize: 16 }}>{`${params.productName}`}</Text>
+            </View>    
+            <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f2f2f2' }}></View>
             <LoadingListView
                 loading={this.state.loading}
                 listData={ds.cloneWithRows(this.state.dataList)}

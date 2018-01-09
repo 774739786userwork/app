@@ -34,6 +34,7 @@ class BigCustomerSortPage extends React.Component {
             branchFactoryList: [],
             loading: false,
             orgId: undefined,
+            orgName:undefined,
             groupLoading: false,
             activeTab: props.activeTab,
             rankModelShow: false,
@@ -49,13 +50,15 @@ class BigCustomerSortPage extends React.Component {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
                     let orgId = undefined;
+                    let orgName = undefined;
                     if (data.length > 0) {
                         data[0].selected = true;
                         orgId = data[0].orgId;
-                        const { activeTab, currTime } = this.state;
+                        orgName = data[0].orgName;
+                        const {activeTab, currTime } = this.state;
                         this.loadDetail(orgId, activeTab, currTime);
                     }
-                    this.setState({ branchFactoryList: data, orgId, groupLoading: false, loading: false })
+                    this.setState({ branchFactoryList: data, orgId,orgName, groupLoading: false, loading: false })
 
                 } else {
                     this.setState({ loading: false, groupLoading: false });
@@ -88,8 +91,9 @@ class BigCustomerSortPage extends React.Component {
     }
     onItemAction(item) {
         const { navigate } = this.props.navigation;
-        const { activeTab, orgId, currTime } = this.state;
+        const { activeTab, orgId,orgName, currTime } = this.state;
         item.orgId = orgId;
+        item.orgName = orgName;
         item.currTime = currTime;
         item.type = activeTab;
         item.userId = LoginInfo.getUserInfo().user_id;
@@ -163,9 +167,9 @@ class BigCustomerSortPage extends React.Component {
                                 data={this.state.branchFactoryList}
                                 orgId={this.state.orgId}
                                 sectionAction={(item) => {
-                                    this.setState({ orgId: item.orgId })
+                                    this.setState({ orgId: item.orgId,orgName:item.orgName })
                                     const { activeTab, currTime } = this.state;
-                                    this.loadDetail(item.orgId, activeTab,  currTime);
+                                    this.loadDetail(item.orgId, activeTab, currTime);
                                 }}
                             />
                         </View>

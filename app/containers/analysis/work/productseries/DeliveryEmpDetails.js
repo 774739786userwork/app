@@ -14,9 +14,12 @@ import ImageView from '../../../../components/ImageView'
 var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 //送货业务员明细
 class DeliveryEmpDetails extends React.Component {
-    static navigationOptions = ({ navigation }) => ({
-        title: `业务员送货明细`,
-    });
+    static navigationOptions = ({ navigation }) => {
+        return {
+            headerTitleStyle: {fontSize: 16},
+            title: `业务员送货明细`,
+        };
+    };
     constructor(props) {
         super(props)
         this._renderRow = this._renderRow.bind(this);
@@ -46,6 +49,7 @@ class DeliveryEmpDetails extends React.Component {
         const { navigation } = this.props;
         const { params } = navigation.state;
         params.empId = item.empId;
+        params.empName = item.empName;
         navigation.navigate('DeliveryCustomerDetails', params);
     }
     _renderGroup(item, sectionID, index) {
@@ -101,7 +105,13 @@ class DeliveryEmpDetails extends React.Component {
     }
 
     render() {
+        const { params } = this.props.navigation.state;
+        let title = params.startDate + "~" +params.endDate + params.orgName
         return <View style={{ flex: 1, backgroundColor: '#f9f9f9' }}>
+            <View style={{ height: 42, backgroundColor: '#f9f9f9', paddingLeft: 12, flexDirection: 'column'}}>
+                <Text style={{ color: '#FF33FF',fontSize: 16 }}>{title}</Text>
+                <Text style={{ color: '#FF33FF',fontSize: 16 }}>{`${params.productName}`}</Text>
+            </View>    
             <LoadingListView
                 loading={this.state.loading}
                 listData={ds.cloneWithRows(this.state.dataList)}

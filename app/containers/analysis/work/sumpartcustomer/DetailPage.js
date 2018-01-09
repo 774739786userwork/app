@@ -13,21 +13,18 @@ import LoadingListView from '../../../../components/LoadingListView'
 var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 //客户明细列表
 class DetailPage extends React.Component {
-    static navigationOptions = ({ navigation }) => ({
-        title: `客户明细列表`,
-    });
     static navigationOptions = ({ navigation }) => {
         const { state, setParams } = navigation;
         let type = state.params.type;
         let title = "";
         if(type === 0){
-           title = state.params.currTime+"年" + state.params.sumPart
+           title = state.params.currTime+"年" +state.params.orgName +state.params.sumPart
         }else{
-            title = state.params.currTime+"月" + state.params.sumPart
+            title = state.params.currTime+"月" +state.params.orgName + state.params.sumPart
         }
         return {
             headerTitleStyle: {fontSize: 16},
-            title: title+`万客户销售额分段明细`
+            title: title+`万客户销售额明细`
         };
     };
     constructor(props) {

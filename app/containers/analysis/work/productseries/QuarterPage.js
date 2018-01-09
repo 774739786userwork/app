@@ -68,6 +68,7 @@ class QuarterPage extends React.Component {
             branchFactoryList: [],
             loading: false,
             orgId: undefined,
+            orgName:undefined,
             groupLoading: false,
             WeekModelShow: false,
             selected: 0,
@@ -86,13 +87,15 @@ class QuarterPage extends React.Component {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
                     let orgId = undefined;
+                    let orgName = undefined;
                     if (data.length > 0) {
                         data[0].selected = true;
                         orgId = data[0].orgId;
+                        orgName = data[0].orgName;
                         const { seriesId, startDate, endDate, salerSort } = this.state;
                         this.loadDetail(orgId, seriesId, startDate, endDate, salerSort);
                     }
-                    this.setState({ branchFactoryList: data, orgId, groupLoading: false, loading: false })
+                    this.setState({ branchFactoryList: data, orgId,orgName, groupLoading: false, loading: false })
 
                 } else {
                     this.setState({ loading: false, groupLoading: false });
@@ -120,7 +123,7 @@ class QuarterPage extends React.Component {
                 if (responseData.status == '0') {
                     let data = responseData.data;
                     let productdata = null;
-                    if (data) {
+                    if (data.length > 0) {
                         productdata = data[0].productdata
                     }
                     this.setState({ listData: data, productdata, loading: false, groupLoading: false })
@@ -166,7 +169,7 @@ class QuarterPage extends React.Component {
             this.loadDetail(orgId, seriesId, startDate, endDate, salerSort);
         }
     }
-    onDetailAction(index, productId) {
+    onDetailAction(index, productId,productName) {
         console.log(index);
         const userId = LoginInfo.getUserInfo().user_id;
         // let productId = 102385;
@@ -176,27 +179,27 @@ class QuarterPage extends React.Component {
         // let userId = 100130;
         if (index == 2) {
             const { navigation } = this.props;
-            const { orgId, startDate, endDate } = this.state;
+            const { orgId,orgName, startDate, endDate } = this.state;
             let custype = 0;
-            navigation.navigate('ProductDetailPage', { orgId, startDate, endDate, custype, userId, productId });
+            navigation.navigate('ProductDetailPage', { orgId,orgName, startDate, endDate, custype, userId, productId,productName });
         } else if (index == 3) {
             const { navigation } = this.props;
-            const { orgId, startDate, endDate } = this.state;
+            const { orgId,orgName, startDate, endDate } = this.state;
             let custype = 1;
-            navigation.navigate('ProductDetailPage', { orgId, startDate, endDate, custype, userId, productId });
+            navigation.navigate('ProductDetailPage', { orgId,orgName, startDate, endDate, custype, userId, productId,productName });
         } else if (index == 4) {
             const { navigation } = this.props;
-            const { orgId, startDate, endDate } = this.state;
+            const { orgId,orgName, startDate, endDate } = this.state;
             let custype = 2;
-            navigation.navigate('ProductDetailPage', { orgId, startDate, endDate, custype, userId, productId });
+            navigation.navigate('ProductDetailPage', { orgId,orgName, startDate, endDate, custype, userId, productId,productName });
         } else if (index == 5) {
             const { navigation } = this.props;
-            const { orgId, startDate, endDate } = this.state;
-            navigation.navigate('DeliveryEmpDetails', { orgId, startDate, endDate, userId, productId });
+            const { orgId,orgName, startDate, endDate } = this.state;
+            navigation.navigate('DeliveryEmpDetails', { orgId,orgName, startDate, endDate, userId, productId,productName });
         } else if (index == 6) {
             const { navigation } = this.props;
-            const { orgId, startDate, endDate } = this.state;
-            navigation.navigate('TakeGoodsEmpDetails', { orgId, startDate, endDate, userId, productId });
+            const { orgId,orgName, startDate, endDate } = this.state;
+            navigation.navigate('TakeGoodsEmpDetails', { orgId,orgName, startDate, endDate, userId, productId,productName });
         }
     }
     render() {
@@ -304,7 +307,7 @@ class QuarterPage extends React.Component {
                                     </View>
                                     {
                                         itemConfig.map((item, index) =>
-                                            <TouchableOpacity key={`index_${index}`} onPress={this.onDetailAction.bind(this, index, productdata.productId)}>
+                                            <TouchableOpacity key={`index_${index}`} onPress={this.onDetailAction.bind(this, index, productdata.productId,productdata.productName)}>
                                                 <View style={{ padding: 8, height: 60 }}>
                                                     <View style={{ flexDirection: 'row' }}>
                                                         <Text style={{ color: '#666', flex: 1 }}>{`${item[0]}`}</Text>
@@ -320,7 +323,10 @@ class QuarterPage extends React.Component {
                                     }
                                 </View>
                             </ScrollView>
-                                : null
+                                : 
+                            <View style={{ alignItems: 'center', flex: 1, backgroundColor: '#fff', justifyContent: 'center' }}>
+                                <Text>无相关数据</Text>
+                            </View>
                         }
 
                     </View>
