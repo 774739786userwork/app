@@ -13,6 +13,7 @@ import {
     TouchableHighlight
 } from 'react-native';
 import * as utils from './utils'
+import * as DateUtils from '../../utils/DateUtils'
 import DatePicker from 'react-native-datepicker'
 import { Iconfont, LoadingView, Toast, LoginInfo } from 'react-native-go';
 import LoadingListView from '../../components/LoadingListView'
@@ -24,18 +25,7 @@ import AddDeliveryPopModel from './AddDeliveryPopModel'
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
 let dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-function GetDateStr(AddDayCount) {
-    var dd = new Date();
-    dd.setDate(dd.getDate() + AddDayCount);//获取AddDayCount天后的日期 
-    var y = dd.getFullYear();
-    var m = dd.getMonth() + 1;//获取当前月份的日期 
-    var d = dd.getDate();
-    if(m >= 10 && d >= 10){
-        return y + "-" + m + "-" + d;
-    }else{
-        return y + "-" + "0" + m + "-" + "0" + d;
-    }
-}
+
 class AddDeliveryOrderPage extends React.Component {
     constructor(props) {
         super(props);
@@ -55,8 +45,8 @@ class AddDeliveryOrderPage extends React.Component {
             modalVisible: false,
             modalPopVisible: false,
             selectCar: {},
-            ladingdate: GetDateStr(0),
-            deliverydate:GetDateStr(0),
+            ladingdate: DateUtils.getYearPreMonthDay(),
+            deliverydate:DateUtils.getYearPreMonthDay(),
             selectItem: {},
             chooseList: [],
             good_list: [],

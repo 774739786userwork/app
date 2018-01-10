@@ -216,8 +216,6 @@ class WeekPage extends React.Component {
     }
     render() {
         let productdata = this.state.productdata;
-        
-        // alert(JSON.stringify(productdata))
         let selected = this.state.selected;
         let itemConfig = [];
         if (productdata) {
