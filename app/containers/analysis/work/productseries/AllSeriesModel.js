@@ -161,7 +161,7 @@ export default class AllSeriesModel extends React.Component {
                             listData={ds.cloneWithRows(this.state.dataList)}
                             renderRowView={this._renderGroup} />
                     </View>
-                    <View style={{ backgroundColor: '#fff', flexDirection: 'row', height: 40, marginBottom: 10, paddingTop: 12, justifyContent: 'center', alignItems: 'center', }}>
+                    <View style={{ backgroundColor: '#fff', flexDirection: 'row', height: 45, paddingTop: 12, justifyContent: 'center', alignItems: 'center', }}>
                         <View style={{ flex: 1 }} />
                         <TouchableOpacity onPress={this.onCancelPress}>
                             <View style={{ height: 40, borderRadius: 8, backgroundColor: '#eeeeee', paddingLeft: 24, paddingRight: 24, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: '#666' }}>{'取消'}</Text></View>
