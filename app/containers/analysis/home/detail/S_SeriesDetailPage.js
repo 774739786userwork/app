@@ -52,6 +52,7 @@ class S_SeriesDetailPage extends React.Component {
         let param = navigation.state.params.param
         param.seriesId = item.seriesId;
         param.seriesName = item.seriesName;
+        param.xlLevel = 1;//区分系列和产品传参
         navigation.navigate('PriceDetailPage',{param});
     }
     _rowSalesPress(item) {
@@ -59,6 +60,7 @@ class S_SeriesDetailPage extends React.Component {
         let param = navigation.state.params.param
         param.seriesId = item.seriesId;
         param.seriesName = item.seriesName;
+        param.xlLevel = 2;//区分系列和产品传参
         navigation.navigate('S_ProductlPage', { param });
     }
     getColor(index) {

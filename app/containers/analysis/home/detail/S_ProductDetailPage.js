@@ -21,12 +21,17 @@ class S_ProductDetailPage extends React.Component {
         this._renderRow = this._renderRow.bind(this);
         this.state = {
             dataList: [],
-            loading: false
+            loading: false,
+            cplevel: props.cplevel,
         }
     }
     componentDidMount() {
+        const {cplevel} = this.state
         const { params } = this.props.navigation.state;
         let param = params.param;
+        if(cplevel === 1){
+            param.seriesId = "";
+        }
         if(param.year){
             param.currTime = param.year;
         }
@@ -52,6 +57,7 @@ class S_ProductDetailPage extends React.Component {
         let param = navigation.state.params.param
         param.seriesName = item.productName
         param.productId = item.productId;
+        param.xlLevel = 2;//区分系列和产品传参
         navigation.navigate('PriceDetailPage',{param})
     }
     _renderRow(item, sectionID, index) {

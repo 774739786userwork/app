@@ -20,12 +20,20 @@ class PriceDetailYWYPage extends React.Component {
         this._renderRow = this._renderRow.bind(this);
         this.state = {
             dataList: [],
-            loading: false
+            loading: false,
+            xlLevel:props.xlLevel,
         }
     }
     componentDidMount() {
+        const {xlLevel} = this.state
         const { params } = this.props.navigation.state;
         let param = params.param;
+        if(param.xlLevel === 1){
+            param.productId = "";
+        }else if (param.xlLevel === 2 || xlLevel === 2){
+            param.seriesId = "";
+            param.productId = param.productId;
+        }
         if(param.year){
             param.currTime = param.year;
         }

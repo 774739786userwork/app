@@ -42,10 +42,11 @@ class S_SelasTotalDetail extends React.Component {
                 tabBarInactiveTextColor="#aaaaaa"
             >
                 <S_SeriesDetailPage key={'0'} tabLabel={'系列'} {...this.props} />
-                <S_ProductDetailPage key={'1'} tabLabel={'产品'} {...this.props} />
+                <S_ProductDetailPage key={'1'} cplevel ={1} xlLevel={2} tabLabel={'产品'} {...this.props} />
                 <S_GroupDetailPage key={'2'} tabLabel={'销售组'} {...this.props}/>
             </ScrollableTabView>
         </View>);
     }
 }
 export default S_SelasTotalDetail;
+//cplevel ={1} 区分系列下的产品和所有产品
