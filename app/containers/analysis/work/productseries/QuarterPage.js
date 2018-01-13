@@ -276,14 +276,14 @@ class QuarterPage extends React.Component {
             <View style={{ padding: 12, flexDirection: 'row' }}>
                 <View style={{ flex: 1 }} />
                 <TouchableOpacity style={{ flexDirection: 'row' }} onPress={this.onItemAction.bind(this, 0)}>
-                    <View style={{ borderWidth: 1, borderColor: this.state.selected ? '#61aee0' : '#f9f9f9', backgroundColor: this.state.selected ? '#61aee0' : '#f9f9f9', borderRadius: 4, flexDirection: 'row' }}>
-                        <Text style={{ padding: 8, color: this.state.selected ? '#fff' : '#61aee0' }}>{'销量上升'}</Text>
+                    <View style={{ borderWidth: 1, borderColor: !this.state.selected ? '#61aee0' : '#f9f9f9', backgroundColor: !this.state.selected ? '#61aee0' : '#f9f9f9', borderRadius: 4, flexDirection: 'row' }}>
+                        <Text style={{ padding: 8, color: this.state.selected ? '#61aee0' : '#fff' }}>{'销量上升'}</Text>
                     </View>
                 </TouchableOpacity>
                 <View style={{ width: 24 }} />
                 <TouchableOpacity style={{ flexDirection: 'row' }} onPress={this.onItemAction.bind(this, 1)}>
-                    <View style={{ borderWidth: 1, borderColor: !this.state.selected ? '#61aee0' : '#f9f9f9', backgroundColor: !this.state.selected ? '#61aee0' : '#f9f9f9', borderRadius: 4, flexDirection: 'row' }}>
-                        <Text style={{ padding: 8, color: this.state.selected ? '#61aee0' : '#fff' }}>{'销量下降'}</Text>
+                    <View style={{ borderWidth: 1, borderColor: this.state.selected ? '#61aee0' : '#f9f9f9', backgroundColor: this.state.selected ? '#61aee0' : '#f9f9f9', borderRadius: 4, flexDirection: 'row' }}>
+                        <Text style={{ padding: 8, color: this.state.selected ?  '#fff' : '#61aee0'}}>{'销量下降'}</Text>
                     </View>
                 </TouchableOpacity>
                 <View style={{ flex: 1, }} />

@@ -49,7 +49,8 @@ class S_ProductDetailPage extends React.Component {
     }
     _rowOnPress(item) {
         const { navigation } = this.props;
-        let param = navigation.state.params.param//{seriesId:item.seriesId}
+        let param = navigation.state.params.param
+        param.seriesName = item.productName
         param.productId = item.productId;
         navigation.navigate('PriceDetailPage',{param})
     }
