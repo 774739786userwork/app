@@ -66,12 +66,12 @@ class S_ProductDetailPage extends React.Component {
                             </View>
                             <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                                    <Text style={{ color: '#999', fontSize: 12 }}>{'销量：'}</Text>
-                                    <Text style={{ color: '#999', fontSize: 12 }}>{`${item.salesSum}`}</Text>
+                                    <Text style={{ color: '#f80000', fontSize: 12 }}>{'销量：'}</Text>
+                                    <Text style={{ color: '#f80000', fontSize: 12 }}>{`${item.salesSum}`}</Text>
                                 </View>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                                    <Text style={{ color: '#999', fontSize: 12 }}>{'销售额：'}</Text>
-                                    <Text style={{ color: '#999', fontSize: 12, marginRight: 4 }}>{`${item.salesVolume}元`}</Text>
+                                    <Text style={{ color: '#f80000', fontSize: 12 }}>{'销售额：'}</Text>
+                                    <Text style={{ color: '#f80000', fontSize: 12, marginRight: 4 }}>{`${item.salesVolume}元`}</Text>
                                 </View>
                             </View>
                             <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
@@ -86,8 +86,8 @@ class S_ProductDetailPage extends React.Component {
                             </View>
                             <View style={{ height: 24, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                                    <Text style={{ color: '#f80000', fontSize: 12 }}>{'总销售额:'}</Text>
-                                    <Text style={{ color: '#f80000', fontSize: 12 }}>{`${item.totalSalesVolume ? item.totalSalesVolume : 0}元`}</Text>
+                                    <Text style={{ color: '#999', fontSize: 12 }}>{'总销售额:'}</Text>
+                                    <Text style={{ color: '#999', fontSize: 12 }}>{`${item.totalSalesVolume ? item.totalSalesVolume : 0}元`}</Text>
                                 </View>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
                                     <Text style={{ color: '#f80000', fontSize: 12 }}>{'总额占比:'}</Text>

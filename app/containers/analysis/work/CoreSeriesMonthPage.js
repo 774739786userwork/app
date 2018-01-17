@@ -66,8 +66,8 @@ class CoreSeriesMonthPage extends React.Component {
                 <View style={{ paddingLeft: 10, paddingRight: 10,  }}>
                     <View style={{ height: 30, paddingLeft: 10, flexDirection: 'row', alignItems: 'center' }}>
                         <View style={{ flex: 1, flexDirection: 'row'}}>
-                            <Text style={{ color: '#999', width: 150, fontSize: 15}}>{item.serieslName}</Text>
-                            <Text style={{ color: '#999', fontSize: 15, marginRight: 4, }}>{`销售:${item.totalSum}元`}</Text>
+                            <Text style={{ color: '#118cd7', width: 150, fontSize: 16}}>{item.serieslName}</Text>
+                            <Text style={{ color: '#118cd7', fontSize: 16, marginRight: 4, }}>{`销售:${item.totalSum}万`}</Text>
                         </View>
                     </View>
                 </View>
@@ -87,7 +87,7 @@ class CoreSeriesMonthPage extends React.Component {
                     <View style={{ height: 30, paddingLeft: 10, flexDirection: 'row', alignItems: 'center' }}>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ color: '#333', width: 150 }}>{`${rowData.orgName}`}</Text>
-                            <Text style={{ color: '#333' }}>{`销售:${rowData.orgSum}元`}</Text>
+                            <Text style={{ color: '#333' }}>{`销售:${rowData.orgSum}`}</Text>
                         </View>
                     </View>
                 </View>

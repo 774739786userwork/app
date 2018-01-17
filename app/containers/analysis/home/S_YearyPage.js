@@ -7,6 +7,8 @@ import {
     Platform,
     TouchableOpacity,
     ScrollView,
+    WebView,
+    Dimensions,
     InteractionManager
 } from 'react-native';
 import YearPicker from '../../../components/YearPicker'
@@ -15,7 +17,10 @@ import Echarts from 'native-echarts';
 import { FetchManger, LoginInfo, LoadingView, Toast, Iconfont } from 'react-native-go'
 import TableRow from './TableRow'
 import * as NumberUtils from '../../../utils/NumberUtils'
-
+var {
+    height: deviceHeight,
+    width: deviceWidth
+} = Dimensions.get('window');
 export default class S_YearyPage extends React.Component {
     constructor(props) {
         super(props);
@@ -180,6 +185,8 @@ export default class S_YearyPage extends React.Component {
             yearSum = this.state.yearTotalSum + '万'
         }
 
+        let userId = LoginInfo.getUserInfo().user_id;
+        let year = this.state.selY;
         return (
             <ScrollView>
                 <View style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -292,6 +299,13 @@ export default class S_YearyPage extends React.Component {
                         </TouchableOpacity>
                         <View style={{ flex: 1 }} />
                     </View>
+                    {/* <View style={{ flex: 1}}>
+                        <WebView style={{width:deviceWidth,height:300}}
+                            source={{ uri: 'http://app.duobangjc.com:11009/csbboss/db/dataCenterJsp/getYearChart.html?year='+year+'&userId='+userId }}  
+                            domStorageEnabled={true}
+                            javaScriptEnabled={true}
+                            startInLoadingState={true}/>
+                    </View> */}
                     <Echarts option={option} />
                 </View >
             </ScrollView>

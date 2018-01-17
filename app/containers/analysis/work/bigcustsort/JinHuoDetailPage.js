@@ -104,7 +104,7 @@ class JinHuoDetailPage extends React.Component {
                 </View>
                 <View style={{ height: 30, paddingLeft: 12, flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
-                        <Text style={{ color: '#f80000', fontSize: 13 }}>{`总价:`}</Text>
+                        <Text style={{ color: '#f80000', fontSize: 13 }}>{`总额:`}</Text>
                         <Text style={{ color: '#f80000', fontSize: 13 }}>{`${item.totalSum}元`}</Text>
                     </View>
                     <View style={{ flex: 1, flexDirection: 'row' }}>

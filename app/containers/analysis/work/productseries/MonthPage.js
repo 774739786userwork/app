@@ -184,7 +184,7 @@ class MonthPage extends React.Component {
                 ['新增交易客户数 ', productdata.addTradeCustomer + '家', '占总交易客户数 ', productdata.addTradeCusPrecent + ''],
                 ['新增并返单客户数 ', productdata.addReorderCustomer + '家', '占新增单客户数 ', productdata.addCusPrecent + ''],
                 ['送货业务员 ', productdata.deliveryEmp + '人', '占带货业务员 ', productdata.takeGoodsPrecent + ''],
-                ['带业务员 ', productdata.takeGoodsEmp + '人', '占总开单业务员 ', productdata.totalBillingEmpPrecent + '']];
+                ['带货业务员 ', productdata.takeGoodsEmp + '人', '占总开单业务员 ', productdata.totalBillingEmpPrecent + '']];
         }
 
         return <View style={{ flex: 1, backgroundColor: '#f9f9f9' }}>
