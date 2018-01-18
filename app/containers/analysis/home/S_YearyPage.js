@@ -299,14 +299,14 @@ export default class S_YearyPage extends React.Component {
                         </TouchableOpacity>
                         <View style={{ flex: 1 }} />
                     </View>
-                    {/* <View style={{ flex: 1}}>
+                    <View style={{ flex: 1}}>
                         <WebView style={{width:deviceWidth,height:300}}
-                            source={{ uri: 'http://app.duobangjc.com:11009/csbboss/db/dataCenterJsp/getYearChart.html?year='+year+'&userId='+userId }}  
+                            source={{ uri: 'http://app.duobangjc.com:11009/csbboss/db/dataCenterJsp/getYearChart.jsp?year='+year+'&userId='+userId }}  
                             domStorageEnabled={true}
                             javaScriptEnabled={true}
                             startInLoadingState={true}/>
-                    </View> */}
-                    <Echarts option={option} />
+                    </View>
+                    {/* <Echarts option={option} /> */}
                 </View >
             </ScrollView>
         );

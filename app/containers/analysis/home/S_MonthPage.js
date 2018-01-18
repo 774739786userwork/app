@@ -7,6 +7,8 @@ import {
   Platform,
   TouchableOpacity,
   ScrollView,
+  WebView,
+  Dimensions,
   InteractionManager
 } from 'react-native';
 import MonthPicker from '../../../components/MonthPicker'
@@ -14,6 +16,10 @@ import * as DateUtils from '../../../utils/DateUtils'
 import Echarts from 'native-echarts';
 import { FetchManger, LoginInfo, LoadingView, Toast, Iconfont } from 'react-native-go'
 import TableRow from './TableRow'
+var {
+  height: deviceHeight,
+  width: deviceWidth
+} = Dimensions.get('window');
 
 export default class S_MonthPage extends React.Component {
   constructor(props) {
@@ -190,6 +196,10 @@ export default class S_MonthPage extends React.Component {
         data: [220, 182, 191, 500, 400, 220, 182, 191, 200, 290, 500],
       }]*/
     };
+
+    let _month = this.state.selM;
+    let month = this.state.selY + '-' + (_month < 10 ? '0' + _month : _month)
+    const userId = LoginInfo.getUserInfo().user_id;
     return (
       <ScrollView>
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -302,7 +312,14 @@ export default class S_MonthPage extends React.Component {
             </TouchableOpacity>
             <View style={{ flex: 1 }} />
           </View>
-          <Echarts option={option} height={300} />
+          <View style={{ flex: 1}}>
+              <WebView style={{width:deviceWidth,height:300}}
+                  source={{ uri: 'http://app.duobangjc.com:11009/csbboss/db/dataCenterJsp/getMonthFactoryChart.jsp?month='+month+'&userId='+userId }}  
+                  domStorageEnabled={true}
+                  javaScriptEnabled={true}
+                  startInLoadingState={true}/>
+          </View>
+          {/* <Echarts option={option} height={300} /> */}
         </View >
       </ScrollView>
     );
