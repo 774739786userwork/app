@@ -123,14 +123,12 @@ class UnReceiveCustomerPage extends React.Component {
     //         <TouchableOpacity
     //         onPress={this._rowOnPress.bind(this, item)}
     //         key={`row_${index}`} >
-    //             <View style={{ backgroundColor: '#ffffff',marginLeft:10,marginRight:10 }}>
-    //                 <View style={{ height: StyleSheet.hairlineWidth, marginTop: 8, flex: 1, backgroundColor: '#c4c4c4' }} />
-                    
-    //                     <View style={{ padding: 8, flexDirection: 'row' }}>
-    //                         <Text style={{ color: '#666', fontSize: 13,flex: 1 }}>{`${item.empName}`}</Text>
-    //                         <Text style={{ color: '#666', fontSize: 13, flex: 1 }}>{`未收金额:${item.empUnPaidSum}`}</Text>
-    //                         <Text style={{ color: '#666', fontSize: 13, flex: 1 }}>{`欠款客户数:${item.debtCustomerCount}`}</Text>
-    //                     </View>
+    //             <View style={{ backgroundColor: '#ffffff',marginLeft:10,marginRight:10,borderRadius: 5 }}>
+    //                 <View style={{ padding: 8, flexDirection: 'row' }}>
+    //                     <Text style={{ color: '#666', fontSize: 13,flex: 1 }}>{`${item.empName}`}</Text>
+    //                     <Text style={{ color: '#666', fontSize: 13, flex: 1 }}>{`未收金额:${item.empUnPaidSum}`}</Text>
+    //                     <Text style={{ color: '#666', fontSize: 13, flex: 1 }}>{`欠款客户数:${item.debtCustomerCount}`}</Text>
+    //                 </View>
     //             </View>
     //         </TouchableOpacity>
     //     );

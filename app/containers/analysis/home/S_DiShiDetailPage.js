@@ -58,7 +58,7 @@ class S_DiShiDetailPage extends React.Component {
         let param = navigation.state.params.param;
         param.orgId = item.orgId;
         param.orgName = item.orgName;
-        navigation.navigate('S_SelasTotalDetailPage', { param })
+        // navigation.navigate('S_SelasTotalDetailPage', { param })
     }
 
     _renderRow(rowData, rowID) {

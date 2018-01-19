@@ -48,7 +48,6 @@ class AddCustContainer extends React.Component {
         };
     };
 
-
     constructor(props) {
         super(props)
         this.pickerImage = this.pickerImage.bind(this);

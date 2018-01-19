@@ -201,47 +201,51 @@ class S_SeriesPage extends React.Component {
         </TouchableOpacity>
         <View style={{ flex: 1 }} />
       </View>
-      <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#fff' }}>
-        <View style={{ width: 90, justifyContent: 'center', alignItems: 'center' }}>
-          <LeftTabComponet
-            data={this.state.salerList}
-            sectionAction={(item) => {
-              this.setState({ selectItem: item })
-            }}
-          />
-        </View>
-        <View style={{ flex: 1, backgroundColor: '#f9f9f9', flexDirection: 'column' }}>
-          <View style={{ backgroundColor: '#fff', marginTop: 12, marginRight: 12, marginLeft: 12, flexDirection: 'row' }}>
-            <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onFactoryAction}>
-              <View style={{ borderWidth: 1,justifyContent:'center', borderColor: '#61aee0', flex: 1, backgroundColor: '#61aee0', borderRadius: 4, flexDirection: 'row' }}>
-                <Text style={{ fontSize: 12, padding: 8, color: '#fff'}}>{`系列趋势分析`}</Text>
-              </View>
-            </TouchableOpacity>
-            <View style={{ width: 12, backgroundColor: '#f9f9f9', }} />
-            <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onItemUpAction}>
-              <View style={{ borderWidth: 1,justifyContent:'center', borderColor: '#61aee0', flex: 1, backgroundColor: '#61aee0', borderRadius: 4, flexDirection: 'row' }}>
-                <Text style={{ fontSize: 12, padding: 8, color: '#fff' }}>{`系列交叉分析`}</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View style={{ margin: 10, backgroundColor: '#fff', flex: 1 }}>
-            <View style={{ flexDirection: 'row', backgroundColor: '#66b3e5' }}>
-              <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'系列'}</Text>
-              <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-              <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'销量'}</Text>
-              <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-              <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'金额(万)'}</Text>
-              <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-              <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'占比%'}</Text>
+      {
+        this.state.loading ? <LoadingView/>
+        :
+          <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#fff' }}>
+            <View style={{ width: 90, justifyContent: 'center', alignItems: 'center' }}>
+              <LeftTabComponet
+                data={this.state.salerList}
+                sectionAction={(item) => {
+                  this.setState({ selectItem: item })
+                }}
+              />
             </View>
-            <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-            <LoadingListView
-              loading={this.state.loading}
-              listData={detail_ds.cloneWithRows(listData)}
-              renderRowView={this._renderRow_Detail} />
-          </View>
-        </View>
-      </View >
+            <View style={{ flex: 1, backgroundColor: '#f9f9f9', flexDirection: 'column' }}>
+              <View style={{ backgroundColor: '#fff', marginTop: 12, marginRight: 12, marginLeft: 12, flexDirection: 'row' }}>
+                <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onFactoryAction}>
+                  <View style={{ borderWidth: 1,justifyContent:'center', borderColor: '#61aee0', flex: 1, backgroundColor: '#61aee0', borderRadius: 4, flexDirection: 'row' }}>
+                    <Text style={{ fontSize: 12, padding: 8, color: '#fff'}}>{`系列趋势分析`}</Text>
+                  </View>
+                </TouchableOpacity>
+                <View style={{ width: 12, backgroundColor: '#f9f9f9', }} />
+                <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onItemUpAction}>
+                  <View style={{ borderWidth: 1,justifyContent:'center', borderColor: '#61aee0', flex: 1, backgroundColor: '#61aee0', borderRadius: 4, flexDirection: 'row' }}>
+                    <Text style={{ fontSize: 12, padding: 8, color: '#fff' }}>{`系列交叉分析`}</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <View style={{ margin: 10, backgroundColor: '#fff', flex: 1 }}>
+                <View style={{ flexDirection: 'row', backgroundColor: '#66b3e5' }}>
+                  <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'系列'}</Text>
+                  <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                  <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'销量'}</Text>
+                  <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                  <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'金额(万)'}</Text>
+                  <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                  <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'占比%'}</Text>
+                </View>
+                <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                <LoadingListView
+                  loading={this.state.loading}
+                  listData={detail_ds.cloneWithRows(listData)}
+                  renderRowView={this._renderRow_Detail} />
+              </View>
+            </View>
+          </View >
+      }
     </View >
     );
   }
@@ -274,20 +278,20 @@ class S_SeriesMonthPage extends React.Component {
   loadDetail(currTime,userId) {
     const { navigation, tabLabel } = this.props;
     let param = { type: tabLabel, userId,currTime };
-    this.setState({ loading: true });
+    this.setState({ loading: true});
     InteractionManager.runAfterInteractions(() => {
       FetchManger.getUri('dataCenter/appHomePage/getYearMonthProductSeries.page', param, 30 * 60).then((responseData) => {
         if (responseData.status === '0' || responseData.status === 0) {
           let salerList = responseData.salerList;
           let branchFactoryList = responseData.branchFactoryList;
           let selectItem = salerList[0];
-          this.setState({ selectItem, salerList, branchFactoryList, loading: false })
+          this.setState({ selectItem, salerList, branchFactoryList, loading: false,groupLoading:true })
         } else {
-          this.setState({ loading: false });
+          this.setState({ loading: false});
         }
 
       }).catch((error) => {
-        this.setState({ loading: false });
+        this.setState({ loading: false});
       })
     });
   }
@@ -387,47 +391,51 @@ class S_SeriesMonthPage extends React.Component {
         </TouchableOpacity>
         <View style={{ flex: 1 }} />
       </View>
-      <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#fff' }}>
-        <View style={{ width: 90, justifyContent: 'center', alignItems: 'center' }}>
-          <LeftTabComponet
-            data={this.state.salerList}
-            sectionAction={(item) => {
-              this.setState({ selectItem: item })
-            }}
-          />
-        </View>
-        <View style={{ flex: 1, backgroundColor: '#f9f9f9', flexDirection: 'column' }}>
-          <View style={{ backgroundColor: '#fff', marginTop: 12, marginRight: 12, marginLeft: 12, flexDirection: 'row' }}>
-            <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onFactoryAction}>
-              <View style={{ borderWidth: 1,justifyContent:'center', borderColor: '#61aee0', flex: 1, backgroundColor: '#61aee0', borderRadius: 4, flexDirection: 'row' }}>
-                <Text style={{ fontSize: 12, padding: 8, color: '#fff'}}>{`系列趋势分析`}</Text>
-              </View>
-            </TouchableOpacity>
-            <View style={{ width: 12, backgroundColor: '#f9f9f9', }} />
-            <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onItemUpAction}>
-              <View style={{ borderWidth: 1,justifyContent:'center', borderColor: '#61aee0', flex: 1, backgroundColor: '#61aee0', borderRadius: 4, flexDirection: 'row' }}>
-                <Text style={{ fontSize: 12, padding: 8, color: '#fff' }}>{`系列交叉分析`}</Text>
-              </View>
-            </TouchableOpacity>
+      {
+          this.state.loading ? <LoadingView />
+        :
+        <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#fff' }}>
+          <View style={{ width: 90, justifyContent: 'center', alignItems: 'center' }}>
+            <LeftTabComponet
+              data={this.state.salerList}
+              sectionAction={(item) => {
+                this.setState({ selectItem: item })
+              }}
+            />
           </View>
-          <View style={{ margin: 10, backgroundColor: '#fff', flex: 1 }}>
-            <View style={{ flexDirection: 'row', backgroundColor: '#66b3e5' }}>
-              <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'系列'}</Text>
-              <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-              <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'销量'}</Text>
-              <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-              <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'金额(万)'}</Text>
-              <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-              <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'占比%'}</Text>
+          <View style={{ flex: 1, backgroundColor: '#f9f9f9', flexDirection: 'column' }}>
+            <View style={{ backgroundColor: '#fff', marginTop: 12, marginRight: 12, marginLeft: 12, flexDirection: 'row' }}>
+              <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onFactoryAction}>
+                <View style={{ borderWidth: 1,justifyContent:'center', borderColor: '#61aee0', flex: 1, backgroundColor: '#61aee0', borderRadius: 4, flexDirection: 'row' }}>
+                  <Text style={{ fontSize: 12, padding: 8, color: '#fff'}}>{`系列趋势分析`}</Text>
+                </View>
+              </TouchableOpacity>
+              <View style={{ width: 12, backgroundColor: '#f9f9f9', }} />
+              <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onItemUpAction}>
+                <View style={{ borderWidth: 1,justifyContent:'center', borderColor: '#61aee0', flex: 1, backgroundColor: '#61aee0', borderRadius: 4, flexDirection: 'row' }}>
+                  <Text style={{ fontSize: 12, padding: 8, color: '#fff' }}>{`系列交叉分析`}</Text>
+                </View>
+              </TouchableOpacity>
             </View>
-            <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-            <LoadingListView
-              loading={this.state.loading}
-              listData={detail_ds.cloneWithRows(listData)}
-              renderRowView={this._renderRow_Detail} />
+            <View style={{ margin: 10, backgroundColor: '#fff', flex: 1 }}>
+              <View style={{ flexDirection: 'row', backgroundColor: '#66b3e5' }}>
+                <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'系列'}</Text>
+                <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'销量'}</Text>
+                <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'金额(万)'}</Text>
+                <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'占比%'}</Text>
+              </View>
+              <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+              <LoadingListView
+                loading={this.state.loading}
+                listData={detail_ds.cloneWithRows(listData)}
+                renderRowView={this._renderRow_Detail} />
+            </View>
           </View>
-        </View>
-      </View >
+        </View >
+      }
     </View >
     );
   }

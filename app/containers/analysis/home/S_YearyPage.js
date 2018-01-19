@@ -16,6 +16,7 @@ import * as DateUtils from '../../../utils/DateUtils'
 import Echarts from 'native-echarts';
 import { FetchManger, LoginInfo, LoadingView, Toast, Iconfont } from 'react-native-go'
 import TableRow from './TableRow'
+import Spinner from 'react-native-loading-spinner-overlay';
 import * as NumberUtils from '../../../utils/NumberUtils'
 var {
     height: deviceHeight,
@@ -28,13 +29,13 @@ export default class S_YearyPage extends React.Component {
         this.onMoreAction = this.onMoreAction.bind(this);
         this.onNuShowAction = this.onNuShowAction.bind(this);
         this.onTotalAction = this.onTotalAction.bind(this);
-        this.onItemDiShiAction = this.onItemDiShiAction.bind(this);
         let { year } = DateUtils.yearMonth();
         this.state = {
             selY: year,
             yearTotalSum: 0.00,
             yearUnReceiveSum: 0.00,
             yearReturnTotalSum:0.00,
+            showSpinner: false,
             yearFactory: [],
             charList: []
         }
@@ -45,6 +46,7 @@ export default class S_YearyPage extends React.Component {
     loadData(year) {
         const userId = LoginInfo.getUserInfo().user_id;
         let param = { year: year, userId: userId };
+        this.setState({showSpinner:true})
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getYearAll.page', param).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
@@ -62,10 +64,12 @@ export default class S_YearyPage extends React.Component {
             FetchManger.getUri('dataCenter/appHomePage/getYearFactory.page', param).then((responseData) => {
                 if (responseData.status === '0' || responseData.status === 0) {
                     let data = responseData.data;
-                    this.setState({ yearFactory: data })
+                    this.setState({ yearFactory: data,showSpinner:false })
+                }else{
+                    this.setState({showSpinner:false})
                 }
             }).catch((error) => {
-
+                this.setState({showSpinner:false})
             })
         });
         InteractionManager.runAfterInteractions(() => {
@@ -100,13 +104,6 @@ export default class S_YearyPage extends React.Component {
         navigation.navigate('UnReceivePage', { param })
     }
 
-    onItemDiShiAction(item){
-        const { navigation } = this.props;
-        let param = { type: 0, orgId: item.orgId,orgName:item.orgName,currTime:this.state.selY };
-        if(item.orgId === 109 || item.orgId === 108){
-            navigation.navigate('S_DiShiDetailPage',{param})
-        }
-    }
     render() {
         let yearData = [];
         let yearFactory = this.state.yearFactory
@@ -187,6 +184,7 @@ export default class S_YearyPage extends React.Component {
 
         let userId = LoginInfo.getUserInfo().user_id;
         let year = this.state.selY;
+        let html = 'http://app.duobangjc.com:11009/csbboss/db/dataCenterJsp/getYearChart.jsp?year='+year+'&userId='+userId;
         return (
             <ScrollView>
                 <View style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -266,9 +264,7 @@ export default class S_YearyPage extends React.Component {
                                         flexDirection: 'row',
                                         padding: 10
                                     }} key={`row_${item}`}>
-                                        <TouchableOpacity onPress={this.onItemDiShiAction.bind(this,item)}>
-                                            <Text style={{ color: '#333', flex: 1 }}>{item.orgName}</Text>
-                                        </TouchableOpacity>
+                                        <Text style={{ color: '#333', width:80 }}>{item.orgName}</Text>
                                         <Text style={{ color: '#666' }}>{'总'}</Text>
                                         <TouchableOpacity onPress={this.onTotalAction.bind(this, item)}>
                                             <Text style={{ width: 68, color: '#17c6c1' }}>{`${item.factoryTotalSum}万`}</Text>
@@ -301,14 +297,16 @@ export default class S_YearyPage extends React.Component {
                     </View>
                     <View style={{ flex: 1}}>
                         <WebView style={{width:deviceWidth,height:300}}
-                            source={{ uri: 'http://app.duobangjc.com:11009/csbboss/db/dataCenterJsp/getYearChart.jsp?year='+year+'&userId='+userId }}  
+                            source={{ uri: html }}  
                             domStorageEnabled={true}
                             javaScriptEnabled={true}
                             startInLoadingState={true}/>
                     </View>
-                    {/* <Echarts option={option} /> */}
                 </View >
+                <View><Spinner visible={this.state.showSpinner} textContent={'正在加载,请稍后...'} /></View>
             </ScrollView>
         );
     }
 }
+
+/* <Echarts option={option} /> */

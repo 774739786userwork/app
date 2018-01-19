@@ -170,34 +170,37 @@ class CompareSeriesMonthPage extends React.Component {
             </TouchableOpacity>
             <View style={{ flex: 1 }} />
           </View>
-          <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#fff' }}>
-            <View style={{ width: 90, justifyContent: 'center', alignItems: 'center' }}>
-              <LeftTabComponet
-                data={this.state.salerList}
-                sectionAction={(item) => {
-                  this.setState({ selectItem: item })
-                }}
-              />
-            </View>
-            <View style={{ flex: 1, backgroundColor: '#f9f9f9', flexDirection: 'column' }}>
-              <View style={{ margin: 10, backgroundColor: '#fff', flex: 1 }}>
-                <View style={{ flexDirection: 'row', backgroundColor: '#66b3e5' }}>
-                  <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'工厂'}</Text>
-                  <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                  <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'销量'}</Text>
-                  <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                  <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'金额(万)'}</Text>
-                  <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                  <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'占比%'}</Text>
+          {this.state.loading ? <LoadingView/>
+            :
+              <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#fff' }}>
+                <View style={{ width: 90, justifyContent: 'center', alignItems: 'center' }}>
+                  <LeftTabComponet
+                    data={this.state.salerList}
+                    sectionAction={(item) => {
+                      this.setState({ selectItem: item })
+                    }}
+                  />
                 </View>
-                <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
-                <LoadingListView
-                  loading={this.state.loading}
-                  listData={detail_ds.cloneWithRows(listData)}
-                  renderRowView={this._renderRow_Detail} />
-              </View>
-            </View>
-          </View >
+                <View style={{ flex: 1, backgroundColor: '#f9f9f9', flexDirection: 'column' }}>
+                  <View style={{ margin: 10, backgroundColor: '#fff', flex: 1 }}>
+                    <View style={{ flexDirection: 'row', backgroundColor: '#66b3e5' }}>
+                      <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'工厂'}</Text>
+                      <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                      <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'销量'}</Text>
+                      <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                      <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'金额(万)'}</Text>
+                      <View style={{ width: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                      <Text style={{ fontSize: 12, paddingLeft: 2, paddingRight: 2, paddingTop: 10, paddingBottom: 10, flex: 1, textAlign: 'center', flex: 1, color: '#fff' }}>{'占比%'}</Text>
+                    </View>
+                    <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#f9f9f9' }} />
+                    <LoadingListView
+                      loading={this.state.loading}
+                      listData={detail_ds.cloneWithRows(listData)}
+                      renderRowView={this._renderRow_Detail} />
+                  </View>
+                </View>
+              </View >
+        }
         </View >
         );
       }

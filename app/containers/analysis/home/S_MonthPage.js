@@ -16,6 +16,7 @@ import * as DateUtils from '../../../utils/DateUtils'
 import Echarts from 'native-echarts';
 import { FetchManger, LoginInfo, LoadingView, Toast, Iconfont } from 'react-native-go'
 import TableRow from './TableRow'
+import Spinner from 'react-native-loading-spinner-overlay';
 var {
   height: deviceHeight,
   width: deviceWidth
@@ -28,7 +29,6 @@ export default class S_MonthPage extends React.Component {
     this.onMoreAction = this.onMoreAction.bind(this);
     this.onNuShowAction = this.onNuShowAction.bind(this);
     this.onTotalAction = this.onTotalAction.bind(this);
-    this.onItemDiShiAction = this.onItemDiShiAction.bind(this);
     let { year, month } = DateUtils.yearMonth();
 
     this.state = {
@@ -36,6 +36,7 @@ export default class S_MonthPage extends React.Component {
       monthTotalSum: 0.00,
       monthUnReceiveSum: 0.00,
       monthReturnTotalSum:0.00,
+      showSpinner:false,
       yearFactory: [],
       charList: []
     }
@@ -48,6 +49,7 @@ export default class S_MonthPage extends React.Component {
 
     const userId = LoginInfo.getUserInfo().user_id;
     let param = { month: month, userId: userId };
+    this.setState({showSpinner:true})
     InteractionManager.runAfterInteractions(() => {
       FetchManger.getUri('dataCenter/appHomePage/getMonthAll.page', param).then((responseData) => {
         if (responseData.status === '0' || responseData.status === 0) {
@@ -55,20 +57,25 @@ export default class S_MonthPage extends React.Component {
           let monthTotalSum = data.monthTotalSum ? data.monthTotalSum : 0;
           let monthUnReceiveSum = data.monthUnReceiveSum ? data.monthUnReceiveSum : 0;
           let monthReturnTotalSum = data.returnTotalSum ?  data.returnTotalSum : 0;
-          this.setState({ monthTotalSum, monthUnReceiveSum, monthReturnTotalSum})
+          this.setState({ monthTotalSum, monthUnReceiveSum, monthReturnTotalSum,showSpinner:false})
+        }else{
+          this.setState({showSpinner:false})
         }
       }).catch((error) => {
-
+        this.setState({showSpinner:false})
       })
     });
+    
     InteractionManager.runAfterInteractions(() => {
       FetchManger.getUri('dataCenter/appHomePage/getMonthFactory.page', param).then((responseData) => {
         if (responseData.status === '0' || responseData.status === 0) {
           let data = responseData.data;
-          this.setState({ yearFactory: data })
+          this.setState({ yearFactory: data,showSpinner:false })
+        }else{
+          this.setState({showSpinner:false})
         }
       }).catch((error) => {
-
+        this.setState({showSpinner:false})
       })
     });
     InteractionManager.runAfterInteractions(() => {
@@ -107,16 +114,6 @@ export default class S_MonthPage extends React.Component {
     let month = this.state.selY + '-' + (_month < 10 ? '0' + _month : _month)
     let param = { type: 1, orgId: item.orgId,currTime:month };
     navigation.navigate('UnReceivePage', { param })
-  }
-
-  onItemDiShiAction(item){
-    const { navigation } = this.props;
-    let _month = this.state.selM;
-    let month = this.state.selY + '-' + (_month < 10 ? '0' + _month : _month)
-    let param = { type: 1, orgId: item.orgId,orgName:item.orgName,currTime:month };
-    if(item.orgId === 109 || item.orgId === 108){
-        navigation.navigate('S_DiShiDetailPage',{param})
-    }
   }
 
   render() {
@@ -200,6 +197,7 @@ export default class S_MonthPage extends React.Component {
     let _month = this.state.selM;
     let month = this.state.selY + '-' + (_month < 10 ? '0' + _month : _month)
     const userId = LoginInfo.getUserInfo().user_id;
+    let html = 'http://app.duobangjc.com:11009/csbboss/db/dataCenterJsp/getMonthFactoryChart.jsp?month='+month+'&userId='+userId;
     return (
       <ScrollView>
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -244,6 +242,7 @@ export default class S_MonthPage extends React.Component {
             </TouchableOpacity>
             <View style={{ flex: 1 }} />
           </View>
+
           <View style={{
             alignContent: 'center',
             justifyContent: 'center',
@@ -252,51 +251,51 @@ export default class S_MonthPage extends React.Component {
             paddingTop: 12,
             paddingBottom: 12
           }}>
-            <View style={{ flex: 1, justifyContent: 'center', flexDirection: 'row' }}>
-              <Text style={{ lineHeight: 24, color: '#666', fontSize: 12 }}>{'总额'}</Text>
-              <Text style={{ lineHeight: 24, marginLeft: 4, color: '#17c6c1', fontSize: 20 }}>{`${this.state.monthTotalSum}万`}</Text>
-            </View>
-            <View style={{ flex: 1, justifyContent: 'center', flexDirection: 'row' }}>
-              <Text style={{ lineHeight: 24, color: '#666', fontSize: 12 }}>{'退货'}</Text>
-              <Text style={{ lineHeight: 24, marginLeft: 4, color: '#17c6c1', fontSize: 20 }}>{`${this.state.monthReturnTotalSum}万`}</Text>
-            </View>
-            <View style={{ flex: 1, justifyContent: 'center', flexDirection: 'row' }}>
-              <Text style={{ lineHeight: 24, color: '#666', fontSize: 12 }}>{'未收'}</Text>
-              <Text style={{ lineHeight: 24, marginLeft: 4, color: '#f80000', fontSize: 20 }}>{`${this.state.monthUnReceiveSum}万`}</Text>
-            </View>
+            
+              <View style={{ flex: 1, justifyContent: 'center', flexDirection: 'row' }}>
+                <Text style={{ lineHeight: 24, color: '#666', fontSize: 12 }}>{'总额'}</Text>
+                <Text style={{ lineHeight: 24, marginLeft: 4, color: '#17c6c1', fontSize: 20 }}>{`${this.state.monthTotalSum}万`}</Text>
+              </View>
+              <View style={{ flex: 1, justifyContent: 'center', flexDirection: 'row' }}>
+                <Text style={{ lineHeight: 24, color: '#666', fontSize: 12 }}>{'退货'}</Text>
+                <Text style={{ lineHeight: 24, marginLeft: 4, color: '#17c6c1', fontSize: 20 }}>{`${this.state.monthReturnTotalSum}万`}</Text>
+              </View>
+              <View style={{ flex: 1, justifyContent: 'center', flexDirection: 'row' }}>
+                <Text style={{ lineHeight: 24, color: '#666', fontSize: 12 }}>{'未收'}</Text>
+                <Text style={{ lineHeight: 24, marginLeft: 4, color: '#f80000', fontSize: 20 }}>{`${this.state.monthUnReceiveSum}万`}</Text>
+              </View>
           </View>
+          
           <View style={{
             paddingTop: 12,
             paddingLeft: 12,
             paddingRight: 12,
           }}>
-            <View style={{ borderWidth: StyleSheet.hairlineWidth, borderColor: '#dedede' }}>
-              {
-                yearData.map((item) => <View key={`row_${item.orgName}`}>
-                  <View style={{
-                    alignContent: 'center',
-                    justifyContent: 'center',
-                    flexDirection: 'row',
-                    padding: 12
-                  }} >
-                    <TouchableOpacity onPress={this.onItemDiShiAction.bind(this,item)}>
-                        <Text style={{ color: '#333', flex: 1 }}>{item.orgName}</Text>
-                    </TouchableOpacity>
-                    <Text style={{ color: '#666' }}>{'总'}</Text>
-                    <TouchableOpacity onPress={this.onTotalAction.bind(this, item)}>
-                      <Text style={{ width: 68, color: '#17c6c1' }}>{`${item.factoryTotalSum}万`}</Text>
-                    </TouchableOpacity>
-                    <Text style={{ color: '#666' }}>{'退'}</Text>
-                    <Text style={{ width: 68, color: '#17c6c1' }}>{`${item.returnTotalSum}万`}</Text>
-                    <Text style={{ color: '#666' }}>{'未'}</Text>
-                    <TouchableOpacity onPress={this.onNuShowAction.bind(this, item)}>
-                      <Text style={{ width: 68, color: '#f80000' }}>{`${item.factoryUnReceiveSum}万`}</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#dedede' }}></View>
-                </View>)
-              }
-            </View>
+              <View style={{ borderWidth: StyleSheet.hairlineWidth, borderColor: '#dedede' }}>
+                {
+                  yearData.map((item) => <View key={`row_${item.orgName}`}>
+                    <View style={{
+                      alignContent: 'center',
+                      justifyContent: 'center',
+                      flexDirection: 'row',
+                      padding: 12
+                    }} >
+                      <Text style={{ color: '#333', width:80 }}>{item.orgName}</Text>
+                      <Text style={{ color: '#666' }}>{'总'}</Text>
+                      <TouchableOpacity onPress={this.onTotalAction.bind(this, item)}>
+                        <Text style={{ width: 68, color: '#17c6c1' }}>{`${item.factoryTotalSum}万`}</Text>
+                      </TouchableOpacity>
+                      <Text style={{ color: '#666' }}>{'退'}</Text>
+                      <Text style={{ width: 68, color: '#17c6c1' }}>{`${item.returnTotalSum}万`}</Text>
+                      <Text style={{ color: '#666' }}>{'未'}</Text>
+                      <TouchableOpacity onPress={this.onNuShowAction.bind(this, item)}>
+                        <Text style={{ width: 68, color: '#f80000' }}>{`${item.factoryUnReceiveSum}万`}</Text>
+                      </TouchableOpacity>
+                    </View>
+                    <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#dedede' }}></View>
+                  </View>)
+                }
+              </View>
           </View>
           <View style={{
             marginLeft: 12,
@@ -314,14 +313,15 @@ export default class S_MonthPage extends React.Component {
           </View>
           <View style={{ flex: 1}}>
               <WebView style={{width:deviceWidth,height:300}}
-                  source={{ uri: 'http://app.duobangjc.com:11009/csbboss/db/dataCenterJsp/getMonthFactoryChart.jsp?month='+month+'&userId='+userId }}  
+                  source={{ uri: html}}  
                   domStorageEnabled={true}
                   javaScriptEnabled={true}
                   startInLoadingState={true}/>
           </View>
-          {/* <Echarts option={option} height={300} /> */}
-        </View >
+        </View>
+        <View><Spinner visible={this.state.showSpinner} textContent={'正在加载,请稍后...'} /></View>
       </ScrollView>
     );
   }
 }
+/* <Echarts option={option} height={300} /> */

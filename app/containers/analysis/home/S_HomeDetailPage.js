@@ -59,6 +59,11 @@ class S_HomeDetailPage extends React.Component {
         let param = navigation.state.params.param;
         param.orgId = item.orgId;
         param.orgName = item.orgName;
+        if(param.type === 0){
+            param.currTime = param.year;
+        }else if(param.type === 1){
+            param.currTime = param.month;
+        }
         navigation.navigate('S_SelasTotalDetailPage', { param })
     }
     onNuShowAction(item) {
@@ -79,7 +84,7 @@ class S_HomeDetailPage extends React.Component {
         }else if(param.type === 1){
             param.currTime = param.month;
         }
-        if(param.orgId === 109 || param.orgId === 108){
+        if(param.orgId === 100075){
             navigation.navigate('S_DiShiDetailPage',{param})
         }
     }
