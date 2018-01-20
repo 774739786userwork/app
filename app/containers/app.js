@@ -100,7 +100,6 @@ import S_HomeDetailPage from './analysis/home/S_HomeDetailPage'
 import S_DiShiDetailPage from './analysis/home/S_DiShiDetailPage'
 import S_SelasTotalDetailPage from './analysis/home/detail/S_SelasTotalDetailPage'
 import S_Person4GroupDetailPage from './analysis/home/detail/S_Person4GroupDetailPage'
-import S_DiShiPersonDetailPage from './analysis/home/detail/S_DiShiPersonDetailPage'
 //系列
 import S_SeriesContainer from './analysis/S_SeriesContainer'
 //系列详情
@@ -397,11 +396,6 @@ const App = StackNavigator(
     //销售组 人员明细
     S_Person4GroupDetailPage: {
       screen: S_Person4GroupDetailPage
-    },
-
-    //地市组 人员明细
-    S_DiShiPersonDetailPage:{
-      screen:S_DiShiPersonDetailPage
     },
     //产品大客户
     BigCustomerPage: {

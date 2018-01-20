@@ -112,7 +112,7 @@ export default class S_MonthPage extends React.Component {
     const { navigation } = this.props;
     let _month = this.state.selM;
     let month = this.state.selY + '-' + (_month < 10 ? '0' + _month : _month)
-    let param = { type: 1, orgId: item.orgId,currTime:month };
+    let param = { type: 1, orgId: item.orgId,orgName:item.orgName,currTime:month };
     navigation.navigate('UnReceivePage', { param })
   }
 

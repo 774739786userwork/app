@@ -17,8 +17,18 @@ import UnReceiveYWYPage from './UnReceiveYWYPage'
 class UnReceivePage extends React.Component {
     static navigationOptions = ({ navigation }) => {
         const { state, setParams } = navigation;
+        let param = state.params.param;
+        if (param.year) {
+            param.currTime = param.year;
+        }
+        if (param.month) {
+            param.currTime = param.month;
+        }
+        let title = param.currTime+param.orgName;
+
         return {
-            title: `未收明细`
+            headerTitleStyle: {fontSize: 16},
+            title: title+`未收明细`
         };
     };
     render() {

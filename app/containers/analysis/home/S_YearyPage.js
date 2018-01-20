@@ -95,12 +95,12 @@ export default class S_YearyPage extends React.Component {
     onTotalAction(item) {
         const { navigation } = this.props;
         const userId = LoginInfo.getUserInfo().user_id;
-        let param = { type: 0, orgId: item.orgId ,orgName:item.orgName, currTime: this.state.selY,userId:userId};
+        let param = { type: 0, orgId: item.orgId,orgName:item.orgName, currTime: this.state.selY,userId:userId};
         navigation.navigate('S_SelasTotalDetailPage', { param })
     }
     onNuShowAction(item) {
         const { navigation } = this.props;
-        let param = { type: 0, orgId: item.orgId,currTime:this.state.selY };
+        let param = { type: 0, orgId: item.orgId,orgName:item.orgName,currTime:this.state.selY };
         navigation.navigate('UnReceivePage', { param })
     }
 

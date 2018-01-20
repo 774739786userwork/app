@@ -69,8 +69,13 @@ class S_HomeDetailPage extends React.Component {
     onNuShowAction(item) {
         const { navigation } = this.props;
         let param = navigation.state.params.param;
-        
         param.orgId = item.orgId;
+        param.orgName = item.orgName;
+        if(param.type === 0){
+            param.currTime = param.year;
+        }else if(param.type === 1){
+            param.currTime = param.month;
+        }
         navigation.navigate('UnReceivePage', { param })
     }
 

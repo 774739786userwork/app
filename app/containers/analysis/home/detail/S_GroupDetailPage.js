@@ -56,11 +56,7 @@ class S_GroupDetailPage extends React.Component {
         const { navigation } = this.props;
         let param = navigation.state.params.param;
         param.groupId = item.groupId;
-        if(param.groupId === 0){
-            navigation.navigate('S_DiShiPersonDetailPage', { param,groupName:item.groupName}) 
-        }else{
-            navigation.navigate('S_Person4GroupDetailPage', { param,groupName:item.groupName })
-        }
+        navigation.navigate('S_Person4GroupDetailPage', { param,groupName:item.groupName })
     }
 
     _renderGroup(item, sectionID, index) {
