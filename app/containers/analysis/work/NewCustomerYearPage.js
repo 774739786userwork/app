@@ -42,7 +42,6 @@ class NewCustomerPage extends React.Component {
             groupLoading: false,
             activeTab: props.activeTab,
             selectNew: true,
-            loading: false,
             totalCustomerBase: 0,
             currTime:DateUtils.yearMonth().year
         }
@@ -218,14 +217,10 @@ class NewCustomerPage extends React.Component {
 
                     </View>
                     <View style={{ flex: 1, marginLeft: 10, marginRight: 10, marginBottom: 8, justifyContent: 'center', alignContent: 'center' }}>
-                        {
-                            this.state.loading ? <LoadingView />
-                                : <ListView
-                                    enableEmptySections={true}
-                                    dataSource={ds.cloneWithRows(this.state.listData)}
-                                    renderRow={this._renderRow}
-                                />
-                        }
+                        <LoadingListView
+                            loading={this.state.loading}
+                            listData={ds.cloneWithRows(this.state.listData)}
+                            renderRowView={this._renderRow} />
                     </View>
                 </View>
             </View>

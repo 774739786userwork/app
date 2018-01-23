@@ -29,8 +29,8 @@ class QiTaPage extends React.Component {
         this.setState({ loading: true });
         let param = {};
         param.currTime = params.currTime;
-        param.orgId = params.orgId;;
-        param.type = params.type;;
+        param.orgId = params.orgId;
+        param.type = params.type;
         param.customerId = params.customerId;
         InteractionManager.runAfterInteractions(() => {
             FetchManger.getUri('dataCenter/appHomePage/getBigCustomerOther.page', param, 30 * 60).then((responseData) => {

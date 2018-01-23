@@ -99,6 +99,7 @@ export default class EditeReturnNumModel extends React.Component {
                                 <Text style={{ width: 80, textAlign: 'right', }}>实际价格:</Text>
                                 <TextInput style={{ width: 100, height: 30, textAlign: 'center', color: '#666', borderRadius: 8, padding: 0, borderWidth: 1, borderColor: '#c4c4c4' }}
                                     underlineColorAndroid={'transparent'}
+                                    selectTextOnFocus={true}
                                     value={'' + this.state.realPrice}
                                     keyboardType={'numeric'}
                                     defaultValue={'' + this.state.realPrice}
@@ -131,6 +132,7 @@ export default class EditeReturnNumModel extends React.Component {
                                     <TextInput style={{ width: 40, height: 26, fontSize: 14, textAlign: 'center', color: '#666', borderRadius: 8, padding: 0, borderWidth: 1, borderColor: '#c4c4c4' }}
                                         underlineColorAndroid={'transparent'}
                                         keyboardType={'numeric'}
+                                        selectTextOnFocus={true}
                                         value={'' + this.state.returnQuantity}
                                         defaultValue={'' + this.state.returnQuantity}
                                         onChangeText={(newCount) => {

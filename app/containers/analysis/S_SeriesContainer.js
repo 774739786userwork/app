@@ -122,7 +122,7 @@ class S_SeriesPage extends React.Component {
 
   onItemUpAction(){
     
-    Toast.show('改功能暂未开放！')
+    Toast.show('该功能暂未开放！')
   }
 
   onFactoryAction() {
@@ -308,7 +308,7 @@ class S_SeriesMonthPage extends React.Component {
   }
 
   onItemUpAction(){
-    Toast.show('改功能暂未开放！')
+    Toast.show('该功能暂未开放！')
   }
 
   onFactoryAction() {

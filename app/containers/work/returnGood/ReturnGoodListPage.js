@@ -322,7 +322,7 @@ class ReturnGoodListPage extends React.Component {
                     <Text style={{ color: '#f80000' }}>￥{numberCarsh + '元'}</Text>
                     <View style={{ flex: 1 }} />
                     {
-                        num > 0 ?
+                        num > 0 && numberCarsh > 0?
                             <TouchableHighlight onPress={this._onItemPress.bind(this)}>
                                 <View style={{ width: 100, height: 50, backgroundColor: '#fe6732', justifyContent: 'center', alignItems: 'center' }}>
                                     <Text style={{ color: '#fff' }}>{'退货'}</Text>
