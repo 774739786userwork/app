@@ -153,7 +153,6 @@ import SumPartDetailPage from './analysis/work/sumpartcustomer/DetailPage'
 import EmployeeSaleDetailPage from './analysis/salegroup/EmployeeSaleDetailPage'
 import CustomerSaleDetailPage from './analysis/salegroup/CustomerSaleDetailPage'
 import ProductSaleDetailPage from './analysis/salegroup/ProductSaleDetailPage'
-import DiShiSaleDetailPage from './analysis/salegroup/DiShiSaleDetailPage'
 
 //未收 详情
 import UnReceivePage from './analysis/home/UnReceive/UnReceivePage'
@@ -442,9 +441,6 @@ const App = StackNavigator(
     },
     ProductSaleDetailPage: {
       screen: ProductSaleDetailPage
-    },
-    DiShiSaleDetailPage:{
-      screen: DiShiSaleDetailPage
     },
     UnReceivePage: {
       screen: UnReceivePage

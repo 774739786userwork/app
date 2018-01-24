@@ -101,24 +101,17 @@ class S_SaleGroupPage extends React.Component {
     let currentDate = this.state.currentDate+'年';
     let userId = this.state.userId;
     let param = { type: 0, groupId,orgId:this.state.orgId,orgName:this.state.orgName, currTime: currentDate, seriesId: item.seriesId, seriesName: item.seriesName,userId:userId };
-    if(groupId === 0){
-      
-    }else{
-      navigation.navigate('ProductSaleDetailPage', param)
-    }
+    navigation.navigate('ProductSaleDetailPage', param)
   }
+  
   _onEmployeeSaleDetailPress(item) {
     const { navigation } = this.props;
     let currentDate = this.state.currentDate+'年';
     let userId = this.state.userId;
     let param = { type: 0,orgId:this.state.orgId,currTime: currentDate, groupId: item.groupId, groupName: item.groupName,userId:userId };
-    //区分地市组与销售组
-    if(item.groupId === 0){
-      navigation.navigate('DiShiSaleDetailPage', param)
-    }else{
-      navigation.navigate('EmployeeSaleDetailPage', param)
-    }
+    navigation.navigate('EmployeeSaleDetailPage', param)
   }
+  
 
   _onCustomerSaleDetailPress(item) {
     const { navigation } = this.props;
@@ -348,25 +341,6 @@ class S_SaleMonthGroupPage extends React.Component {
     });
   }
 
-  initMonthData(mlist){
-    
-    let xlList = [];
-    let num = 0;
-    if(mlist){
-      mlist.map((a) => {
-        num = NumberUtils.FloatAdd(num, a.totalSum);
-      });
-      // for(var i = 0; i < mlist.length; i++){
-      //   let listitem = mlist[i];
-      //   listitem.seriesList.map((a) => {
-      //       xlList.push(a);
-      //       let seriesSalerSum = a.seriesSalerSum;
-      //     });
-       
-      // }
-    }
-  }
-
   _rowOnPress(groupId, item) {
     const { navigation } = this.props;
     let selY = this.state.selY;
@@ -374,11 +348,7 @@ class S_SaleMonthGroupPage extends React.Component {
     let userId = this.state.userId;
     let currentDate = selY + '-' + (selM < 10 ? '0' + selM : selM);
     let param = { type: 1,groupId,orgId:this.state.orgId,orgName:this.state.orgName, currTime: currentDate, seriesId: item.seriesId, seriesName: item.seriesName,userId };
-    if(groupId === 0){
-      
-    }else{
-      navigation.navigate('ProductSaleDetailPage', param)
-    }
+    navigation.navigate('ProductSaleDetailPage', param)
   }
   _onEmployeeSaleDetailPress(item) {
     const { navigation } = this.props;
@@ -387,11 +357,7 @@ class S_SaleMonthGroupPage extends React.Component {
     let currentDate = selY + '-' + (selM < 10 ? '0' + selM : selM);
     let userId = this.state.userId;
     let param = { type: 1,orgId:this.state.orgId, currTime: currentDate, groupId: item.groupId, groupName: item.groupName,userId:userId };
-    if(item.groupId === 0){
-      navigation.navigate('DiShiSaleDetailPage', param)
-    }else{
       navigation.navigate('EmployeeSaleDetailPage', param)
-    }
   }
 
   _onCustomerSaleDetailPress(item) {
@@ -634,23 +600,16 @@ class S_SaleDayGroupPage extends React.Component {
     let currentDate = this.state.day;
     let userId = this.state.userId;
     let param = { type: 2,groupId,orgId:this.state.orgId,orgName:this.state.orgName, currTime: currentDate, seriesId: item.seriesId, seriesName: item.seriesName,userId:userId };
-    if(groupId === 0){
-      
-    }else{
-      navigation.navigate('ProductSaleDetailPage', param)
-    }
+    navigation.navigate('ProductSaleDetailPage', param)
   }
   _onEmployeeSaleDetailPress(item) {
     const { navigation } = this.props;
     let currentDate = this.state.day;
     let userId = this.state.userId;
     let param = { type: 2,orgId:this.state.orgId, currTime: currentDate, groupId: item.groupId, groupName: item.groupName,userId:userId };
-    if(item.groupId === 0){
-      navigation.navigate('DiShiSaleDetailPage', param)
-    }else{
-      navigation.navigate('EmployeeSaleDetailPage', param)
+    navigation.navigate('EmployeeSaleDetailPage', param)
     }
-  }
+  
 
   _onCustomerSaleDetailPress(item) {
     const { navigation } = this.props;
