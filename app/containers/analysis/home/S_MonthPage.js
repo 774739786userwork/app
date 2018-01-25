@@ -197,7 +197,7 @@ export default class S_MonthPage extends React.Component {
     let _month = this.state.selM;
     let month = this.state.selY + '-' + (_month < 10 ? '0' + _month : _month)
     const userId = LoginInfo.getUserInfo().user_id;
-    let html = 'http://app.duobangjc.com:11009/csbboss/db/dataCenterJsp/getMonthFactoryChart.jsp?month='+month+'&userId='+userId;
+    let html = global.baseUrl + 'db/dataCenterJsp/getMonthFactoryChart.jsp?month='+month+'&userId='+userId;
     return (
       <ScrollView>
         <View style={{ flex: 1, backgroundColor: '#fff' }}>

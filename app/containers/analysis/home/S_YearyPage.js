@@ -184,7 +184,7 @@ export default class S_YearyPage extends React.Component {
 
         let userId = LoginInfo.getUserInfo().user_id;
         let year = this.state.selY;
-        let html = 'http://app.duobangjc.com:11009/csbboss/db/dataCenterJsp/getYearChart.jsp?year='+year+'&userId='+userId;
+        let html = global.baseUrl + 'db/dataCenterJsp/getYearChart.jsp?year='+year+'&userId='+userId;
         return (
             <ScrollView>
                 <View style={{ flex: 1, backgroundColor: '#fff' }}>
