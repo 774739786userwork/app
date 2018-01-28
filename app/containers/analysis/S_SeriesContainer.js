@@ -53,7 +53,7 @@ class LeftTabComponet extends React.Component {
 
     return <TouchableOpacity onPress={this.sectionAction.bind(this, item)} key={`index_${serieslId}`}>
       <View>
-        <View style={{ width: 100, height: 40, padding: 12, backgroundColor: preSelect != serieslId ? '#fff' : '#f9f9f9' }}>
+        <View style={{ width: 100, height: 45, padding: 12, backgroundColor: preSelect != serieslId ? '#fff' : '#f9f9f9' }}>
           <Text style={{ color: preSelect != serieslId ? '#333' : '#0081d4' }}>{item.serieslName}</Text>
         </View>
         <View style={{ height: StyleSheet.hairlineWidth, width: 100, backgroundColor: '#f9f9f9' }} />
