@@ -107,19 +107,19 @@ class S_HomeDetailPage extends React.Component {
                         <TouchableOpacity style={{ flex: 1, flexDirection: 'row',marginLeft:5 }} onPress={this.onTotalAction.bind(this,rowData)}>
                             <View style={{ flexDirection: 'row' }}>
                                 <Text style={{ color: '#666', }}>{'总额: '}</Text>
-                                <Text style={{ color: '#17c6c1' }}>{`${rowData.factoryTotalSum}万`}</Text>
+                                <Text style={{ color: '#17c6c1' }}>{`${rowData.factoryTotalSum}`}</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }}>
                             <View style={{flex: 1, flexDirection: 'row'}}>
                                 <Text style={{ color: '#666', }}>{'退货: '}</Text>
-                                <Text style={{ color: '#17c6c1' }}>{`${rowData.returnTotalSum}万`}</Text>
+                                <Text style={{ color: '#17c6c1' }}>{`${rowData.returnTotalSum}`}</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={{ flex: 1, flexDirection: 'row' }} onPress={this.onNuShowAction.bind(this,rowData)}>
                             <View style={{ flexDirection: 'row' }}>
                                 <Text style={{ color: '#666', }}>{'未收: '}</Text>
-                                <Text style={{ color: '#f80000' }}>{`${rowData.factoryUnReceiveSum}万`}</Text>
+                                <Text style={{ color: '#f80000' }}>{`${rowData.factoryUnReceiveSum}`}</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
