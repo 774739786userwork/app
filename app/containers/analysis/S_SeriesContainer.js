@@ -23,7 +23,7 @@ import LoadingListView from '../../components/LoadingListView'
 import * as DateUtils from '../../utils/DateUtils'
 import YearPicker from '../../components/YearPicker'
 import MonthPicker from '../../components/MonthPicker'
-
+import AllSeriesModel from './work/productseries/AllSeriesModel'
 var detail_ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 var hl_ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -74,24 +74,29 @@ class S_SeriesPage extends React.Component {
     super(props);
     this._renderRow_Detail = this._renderRow_Detail.bind(this);
     this.onFactoryAction = this.onFactoryAction.bind(this);
+    this.onItemUpAction = this.onItemUpAction.bind(this);
+    this.onConfirmPress = this.onConfirmPress.bind(this);
     this.state = {
       salerList: [],
       branchFactoryList: [],
       selectItem: undefined,
       loading: false,
       currentDate:DateUtils.yearMonth().year,
-      userId:LoginInfo.getUserInfo().user_id
+      userId:LoginInfo.getUserInfo().user_id,
+      modelShow:false,
+      selectedIds:[],
+      seriesId:''
     }
   }
 
   componentDidMount() {
-    const { currentDate,userId } = this.state;
-    this.loadDetail(currentDate,userId);
+    const { currentDate,userId,seriesId } = this.state;
+    this.loadDetail(currentDate,userId,seriesId);
   }
 
-  loadDetail(currTime,userId) {
+  loadDetail(currTime,userId,seriesId) {
     const { navigation, tabLabel } = this.props;
-    let param = { type: tabLabel, userId,currTime };
+    let param = { type: tabLabel, userId,currTime,seriesId };
     this.setState({ loading: true });
     InteractionManager.runAfterInteractions(() => {
       FetchManger.getUri('dataCenter/appHomePage/getYearMonthProductSeries.page', param, 30 * 60).then((responseData) => {
@@ -110,6 +115,7 @@ class S_SeriesPage extends React.Component {
     });
   }
 
+  //
   onItemAction(item) {
     const { navigation, tabLabel } = this.props;
     let selectItem = this.state.selectItem;
@@ -121,8 +127,18 @@ class S_SeriesPage extends React.Component {
   }
 
   onItemUpAction(){
-    
-    Toast.show('该功能暂未开放！')
+    this.setState({ modelShow : true})
+  }
+
+  onConfirmPress(selectedIds){
+    this.setState({modelShow:false})
+    const { currentDate,userId} = this.state;
+    let a = selectedIds;
+    let seriesId = this.state.seriesId;
+    a.map((id) => {
+      seriesId += id + ',';
+    });
+    this.loadDetail(currentDate,userId,seriesId);
   }
 
   onFactoryAction() {
@@ -188,7 +204,7 @@ class S_SeriesPage extends React.Component {
           onDateChange={(selY, ymStr) => {
             this.setState({ selY });
             this.state.currentDate = selY;
-            this.loadDetail(this.state.currentDate,this.state.userId);
+            this.loadDetail(this.state.currentDate,this.state.userId,this.state.seriesId);
           }}
         />
         <TouchableOpacity style={{ marginLeft: 4 }} onPress={() => {
@@ -244,6 +260,9 @@ class S_SeriesPage extends React.Component {
                   renderRowView={this._renderRow_Detail} />
               </View>
             </View>
+            <AllSeriesModel modalVisible={this.state.modelShow} selectedIds={this.state.selectedIds}
+                onCancelPress={() => { this.setState({ modelShow: false }) }}
+                onConfirmPress={this.onConfirmPress}/>
           </View >
       }
     </View >
@@ -256,6 +275,8 @@ class S_SeriesMonthPage extends React.Component {
     super(props);
     this._renderRow_Detail = this._renderRow_Detail.bind(this);
     this.onFactoryAction = this.onFactoryAction.bind(this);
+    this.onItemUpAction = this.onItemUpAction.bind(this);
+    this.onConfirmPress = this.onConfirmPress.bind(this);
     let { year, month } = DateUtils.yearMonth();
     this.state = {
       selY: year, selM: month,
@@ -263,7 +284,10 @@ class S_SeriesMonthPage extends React.Component {
       branchFactoryList: [],
       selectItem: undefined,
       loading: false,
-      userId:LoginInfo.getUserInfo().user_id
+      userId:LoginInfo.getUserInfo().user_id,
+      modelShow:false,
+      selectedIds:[],
+      seriesId:''
     }
   }
 
@@ -271,13 +295,14 @@ class S_SeriesMonthPage extends React.Component {
     let selY = this.state.selY;
     let selM = this.state.selM;
     let userId = this.state.userId;
-    let month = selY + '-' + (selM < 10 ? '0' + selM : selM)
-    this.loadDetail(month,userId);
+    let month = selY + '-' + (selM < 10 ? '0' + selM : selM);
+    let seriesId = this.state.seriesId;
+    this.loadDetail(month,userId,seriesId);
   }
 
-  loadDetail(currTime,userId) {
+  loadDetail(currTime,userId,seriesId) {
     const { navigation, tabLabel } = this.props;
-    let param = { type: tabLabel, userId,currTime };
+    let param = { type: tabLabel, userId,currTime,seriesId };
     this.setState({ loading: true});
     InteractionManager.runAfterInteractions(() => {
       FetchManger.getUri('dataCenter/appHomePage/getYearMonthProductSeries.page', param, 30 * 60).then((responseData) => {
@@ -308,7 +333,22 @@ class S_SeriesMonthPage extends React.Component {
   }
 
   onItemUpAction(){
-    Toast.show('该功能暂未开放！')
+    this.setState({ modelShow : true})
+  }
+
+  onConfirmPress(selectedIds){
+    
+    let seriesStr = selectedIds;
+    let seriesId = this.state.seriesId;
+    seriesStr.map((id) => {
+      seriesId += id + ',';
+    });
+    let selY = this.state.selY;
+    let selM = this.state.selM;
+    let userId = this.state.userId;
+    let month = selY + '-' + (selM < 10 ? '0' + selM : selM);
+    this.loadDetail(month,userId,seriesId);
+    this.setState({modelShow:false})
   }
 
   onFactoryAction() {
@@ -377,7 +417,7 @@ class S_SeriesMonthPage extends React.Component {
         selM={this.state.selM}
         onDateChange={(selY, selM, ymStr) => {
           let month = selY + '-' + (selM < 10 ? '0' + selM : selM)
-          this.loadDetail(month,this.state.userId)
+          this.loadDetail(month,this.state.userId,this.state.seriesId)
           this.setState({ selY, selM })
         }}
       />
@@ -434,6 +474,9 @@ class S_SeriesMonthPage extends React.Component {
                 renderRowView={this._renderRow_Detail} />
             </View>
           </View>
+          <AllSeriesModel modalVisible={this.state.modelShow} selectedIds={this.state.selectedIds}
+                onCancelPress={() => { this.setState({ modelShow: false }) }}
+                onConfirmPress={this.onConfirmPress}/>
         </View >
       }
     </View >
