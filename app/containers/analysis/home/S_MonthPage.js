@@ -283,13 +283,13 @@ export default class S_MonthPage extends React.Component {
                       <Text style={{ color: '#333', width:80 }}>{item.orgName}</Text>
                       <Text style={{ color: '#666' }}>{'总'}</Text>
                       <TouchableOpacity onPress={this.onTotalAction.bind(this, item)}>
-                        <Text style={{ width: 68, color: '#17c6c1' }}>{`${item.factoryTotalSum}万`}</Text>
+                        <Text style={{ width: 68, color: '#17c6c1' }}>{`${item.factoryTotalSum}`}</Text>
                       </TouchableOpacity>
                       <Text style={{ color: '#666' }}>{'退'}</Text>
-                      <Text style={{ width: 68, color: '#17c6c1' }}>{`${item.returnTotalSum}万`}</Text>
+                      <Text style={{ width: 68, color: '#17c6c1' }}>{`${item.returnTotalSum}`}</Text>
                       <Text style={{ color: '#666' }}>{'未'}</Text>
                       <TouchableOpacity onPress={this.onNuShowAction.bind(this, item)}>
-                        <Text style={{ width: 68, color: '#f80000' }}>{`${item.factoryUnReceiveSum}万`}</Text>
+                        <Text style={{ width: 68, color: '#f80000' }}>{`${item.factoryUnReceiveSum}`}</Text>
                       </TouchableOpacity>
                     </View>
                     <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#dedede' }}></View>
