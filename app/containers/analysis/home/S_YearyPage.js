@@ -109,9 +109,6 @@ export default class S_YearyPage extends React.Component {
         let yearFactory = this.state.yearFactory
         for (var i = 0; i < yearFactory.length; i++) {
             let item = yearFactory[i];
-            if(item.factoryTotalSum > 10000){
-                item.factoryTotalSum = NumberUtils.fc(item.factoryTotalSum/10000) + '亿'
-            }
             yearData.push(item)
         }
 
@@ -267,7 +264,7 @@ export default class S_YearyPage extends React.Component {
                                         <Text style={{ color: '#333', width:80 }}>{item.orgName}</Text>
                                         <Text style={{ color: '#666' }}>{'总'}</Text>
                                         <TouchableOpacity onPress={this.onTotalAction.bind(this, item)}>
-                                            <Text style={{ width: 68, color: '#17c6c1' }}>{`${item.factoryTotalSum}万`}</Text>
+                                            <Text style={{ width: 68, color: '#17c6c1' }}>{`${item.factoryTotalSum}`}</Text>
                                         </TouchableOpacity>
                                         <Text style={{ color: '#666' }}>{'退'}</Text>
                                         <Text style={{ width: 68, color: '#17c6c1' }}>{`${item.returnTotalSum}万`}</Text>
