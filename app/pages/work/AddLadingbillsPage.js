@@ -39,7 +39,6 @@ class AddLadingbillsPage extends React.Component {
         let today = GetDateStr(0);
         valeMap.loadingbill_date = [today];
         listViewData = [
-            {},
             { title: '车牌号', key: 'car_id', value: '请选择车牌号', target: 'SelectCar' },
             { title: '提货日期', key: 'loadingbill_date', value: today },
             { title:'搬运工', key:'upEmployeeIds',value:'',target:'SelectMuUser'},
@@ -54,10 +53,12 @@ class AddLadingbillsPage extends React.Component {
     componentDidMount(){
         InteractionManager.runAfterInteractions(() => {
             this.loadCar();
+            this.loadPoter();
             this.loadStore();
         });
     }
 
+    //默认获取车牌号
     loadCar() {
         const token = LoginInfo.getUserInfo().token;
         const user_id = LoginInfo.getUserInfo().user_id;
@@ -77,6 +78,40 @@ class AddLadingbillsPage extends React.Component {
                         item.value = data[0].platenumber;
                         valeMap['car_id'] = [data[0].platenumber, data[0].carbaseinfo_id, data[0].carweight];
                         this.setState({ listData: dataSource.cloneWithRows(listViewData) });
+                    }
+                }
+            }).catch((error) => {
+                console.log(error)
+            })
+        });
+    }
+
+    //默认获取搬运工
+    loadPoter(){
+        const token = LoginInfo.getUserInfo().token;
+        const user_id = LoginInfo.getUserInfo().user_id;
+        InteractionManager.runAfterInteractions(() => {
+            FetchManger.getUri('mobileServiceManager/ladingbills/appGetPoters.page',{token,user_id}).then((responseData) => {
+                if(responseData.status === '0' || responseData.status === 0){
+                    let data = responseData.data;
+                    
+                    if(data && data.length > 0){
+                        let item = {};
+                        let id  = '';
+                        let name = '';
+                        for(let index = 0; index < listViewData.length; index++){
+                            if('upEmployeeIds' == listViewData[index].key){
+                                item = listViewData[index];
+                                break;
+                            }
+                        }
+                        for(var i = 0; i<data.length;i++){
+                            item.value += data[i].name + ',';
+                            id += data[i].id + ',';
+                            name += data[i].name + ',';
+                        }
+                        valeMap['upEmployeeIds'] = [id,name]
+                        this.setState({listData: dataSource.cloneWithRows(listViewData)});
                     }
                 }
             }).catch((error) => {
@@ -130,10 +165,10 @@ class AddLadingbillsPage extends React.Component {
                     item.value = data.platenumber;
                     valeMap[item.key] = [data.platenumber, data.carbaseinfo_id,data.carweight];
                 }
-                if (data.name) {
-                    item.value = data.name;
-                    valeMap[item.key] = [data.name, data.id];
-                }
+                // if (data.name) {
+                //     item.value = data.name;
+                //     valeMap[item.key] = [data.name, data.id];
+                // }
                 if(data.names){
                     item.value = data.names;
                     valeMap[item.key] = [data.ids,data.names];

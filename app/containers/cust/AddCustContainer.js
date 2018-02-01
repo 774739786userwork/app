@@ -388,6 +388,7 @@ class AddCustContainer extends React.Component {
                     <View style={{ height: StyleSheet.hairlineWidth, width: WINDOW_WIDTH, backgroundColor: '#d9d9d9' }} />
                     <View style={{ height: 42, width: WINDOW_WIDTH, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                         <Text style={{ color: '#333', fontSize: 16, marginLeft: 12, width: 100 }}>{'客户名称'}</Text>
+                        <Text style={{ color: '#f80000', fontSize: 14}}>{'*'}</Text>
                         <TextInput style={{ flex: 1, fontSize: 14 }} placeholder={'请输入客户名称'}
                             placeholderTextColor={'#aaa'}
                             underlineColorAndroid={'transparent'}
@@ -418,6 +419,7 @@ class AddCustContainer extends React.Component {
                     }} style={{ height: 42, width: WINDOW_WIDTH, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }} >
                         <View style={{ height: 42, width: WINDOW_WIDTH, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                             <Text style={{ color: '#333', fontSize: 16, marginLeft: 12, width: 100, }}>{'行政区域'}</Text>
+                            <Text style={{ color: '#f80000', fontSize: 14}}>{'*'}</Text>
                             <Text style={{ flex: 1, fontSize: 14, color: '#aaa' }}>{this.state.regional ? this.state.regional.districtsName : '请选择行政区域'}</Text>
                             <View>
                                 <Iconfont fontFamily={'OAIndexIcon'}
@@ -437,6 +439,7 @@ class AddCustContainer extends React.Component {
 
                         <View style={{ height: 42, width: WINDOW_WIDTH, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                             <Text style={{ color: '#333', fontSize: 16, marginLeft: 12, width: 100 }}>{'客户类型'}</Text>
+                            <Text style={{ color: '#f80000', fontSize: 14}}>{'*'}</Text>
                             <Text style={{ flex: 1, fontSize: 14, color: '#aaa' }}>{this.state.shopPosition ? this.state.shopPosition.childrentPositionName : '请选择店面位置'}</Text>
                             <View>
                                 <Iconfont fontFamily={'OAIndexIcon'}
@@ -454,6 +457,7 @@ class AddCustContainer extends React.Component {
 
                         <View style={{ height: 42, width: WINDOW_WIDTH, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                             <Text style={{ color: '#333', fontSize: 16, marginLeft: 12, width: 100 }}></Text>
+                            <Text style={{ color: '#f80000', fontSize: 14}}>{'*'}</Text>
                             <Text style={{ flex: 1, fontSize: 14, color: '#aaa' }}>{this.state.shopKinds ? this.state.shopKinds.childrentPositionName : '请选择店面类型'}</Text>
                             <View>
                                 <Iconfont fontFamily={'OAIndexIcon'}
@@ -473,6 +477,7 @@ class AddCustContainer extends React.Component {
 
                         <View style={{ height: 42, width: WINDOW_WIDTH, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                             <Text style={{ color: '#333', fontSize: 16, marginLeft: 12, width: 100 }}>{'销售区域'}</Text>
+                            <Text style={{ color: '#f80000', fontSize: 14}}>{'*'}</Text>
                             <Text style={{ flex: 1, fontSize: 14, color: '#aaa' }}>{this.state.saleArea ? this.state.saleArea.salerName : '请选择销售区域'}</Text>
                             <View>
                                 <Iconfont fontFamily={'OAIndexIcon'}
@@ -510,6 +515,7 @@ class AddCustContainer extends React.Component {
                     <View style={{ height: StyleSheet.hairlineWidth, width: WINDOW_WIDTH, backgroundColor: '#d9d9d9' }} />
                     <View style={{ height: 42, width: WINDOW_WIDTH, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                         <Text style={{ color: '#333', fontSize: 16, marginLeft: 12, width: 100 }}>{'详细地址'}</Text>
+                        <Text style={{ color: '#f80000', fontSize: 14}}>{'*'}</Text>
                         <TextInput style={{ flex: 1, fontSize: 14 }} placeholder={'请输入详细地址'}
                             placeholderTextColor={'#aaa'}
                             underlineColorAndroid={'transparent'}
@@ -524,6 +530,7 @@ class AddCustContainer extends React.Component {
                     <View style={{ height: StyleSheet.hairlineWidth, width: WINDOW_WIDTH, backgroundColor: '#d9d9d9' }} />
                     <View style={{ height: 42, width: WINDOW_WIDTH, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                         <Text style={{ color: '#333', fontSize: 16, marginLeft: 12, width: 100 }}>{'首要联系人'}</Text>
+                        <Text style={{ color: '#f80000', fontSize: 14}}>{'*'}</Text>
                         <TextInput style={{ flex: 1, fontSize: 14 }} placeholder={'请输入首要联系人'}
                             placeholderTextColor={'#aaa'}
                             underlineColorAndroid={'transparent'}
@@ -537,6 +544,7 @@ class AddCustContainer extends React.Component {
 
                     <View style={{ height: 42, width: WINDOW_WIDTH, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                         <Text style={{ color: '#333', fontSize: 16, marginLeft: 12, width: 100 }}>{'手机号码'}</Text>
+                        <Text style={{ color: '#f80000', fontSize: 14}}>{'*'}</Text>
                         <TextInput style={{ flex: 1, fontSize: 14 }} placeholder={'请输入手机号码'}
                             placeholderTextColor={'#aaa'}
                             underlineColorAndroid={'transparent'}
