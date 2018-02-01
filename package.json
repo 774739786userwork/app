@@ -29,7 +29,7 @@
     "react-native-smart-button": "^2.0.0",
     "react-native-smart-timer-enhance": "^1.0.3",
     "react-native-swiper": "^1.5.4",
-    "react-navigation": "^1.0.0-beta.11",
+    "react-navigation": "^1.0.0-beta.26",
     "react-redux": "^5.0.4",
     "redux": "^3.6.0",
     "redux-logger": "^3.0.3",

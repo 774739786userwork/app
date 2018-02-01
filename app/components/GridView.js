@@ -69,6 +69,7 @@ const GridView = ({
       renderRow={renderGroup}
       renderSeparator={renderSeperator}
       style={style}
+      removeClippedSubviews={false}
       onEndReached={onEndReached}
       scrollEnabled={scrollEnabled}
       pageSize={pageSize || 1}
