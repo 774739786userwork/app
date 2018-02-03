@@ -7,14 +7,14 @@ import App from './containers/app';
 const store = configureStore();
 
 //是否显示计量人
-global.userStyle = true;
+global.userStyle = false;
 /**
  * 南北厂正式测试环境地址
  */
 //测试环境
-// global.baseUrl = "http://app.duobangjc.com:11009/csbboss/";
+global.baseUrl = "http://app.duobangjc.com:11009/csbboss/";
 //正式环境
-global.baseUrl = "http://app.duobangjc.com:8080/bboss/";
+// global.baseUrl = "http://app.duobangjc.com:8080/bboss/";
 
 /**
  * 常德、喜乐家正式环境地址

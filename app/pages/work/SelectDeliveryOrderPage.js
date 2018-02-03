@@ -82,7 +82,7 @@ class SelectDeliveryOrderPage extends React.Component {
                         <Text style={{ color: '#118cd7' }}>{item.delivery_date}</Text>
                         <View style={{ flex: 1 }} />
                         <Text style={{ color: '#666', fontSize: 12 }}>送货单编号：</Text>
-                        <Text style={{ color: '#f80000', fontSize: 16, marginRight: 8 }}>{item.serial_number}</Text>
+                        <Text style={{ color: '#f80000', fontSize: 16, marginRight: 8 }}>{item.deliveryNotesNumber}</Text>
                     </View>
                     <View style={{ height: 34, paddingLeft: 12, paddingRight: 12, marginTop: 8, flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={{ flex: 2, color: '#333', textAlign: 'left', fontSize: 16 }}>{item.customer_name}</Text>
